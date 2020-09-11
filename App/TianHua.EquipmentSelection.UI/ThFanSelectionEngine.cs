@@ -38,6 +38,7 @@ namespace TianHua.FanSelection.UI
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
                     model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i], dataModel.VentStyle);
                     model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i]);
+                    model.SetModelTextHeight();
                     UpdateModelName(model, dataModel);
                 }
 

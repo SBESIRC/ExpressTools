@@ -20,6 +20,19 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        public static void SetModelTextHeight(this ObjectId obj)
+        {
+            var dynamicProperties = obj.GetDynProperties();
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT, 375);
+            }
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT, 375);
+            }
+        }
+
         public static string GetModelName(this ObjectId obj)
         {
             var dynamicProperties = obj.GetDynProperties();
@@ -76,6 +89,20 @@ namespace TianHua.FanSelection.UI
             {
                 dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y,
                     properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_POSITION1_Y));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT));
             }
         }
     }
