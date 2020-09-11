@@ -14,7 +14,14 @@ namespace TianHua.FanSelection.Function
         /// <returns></returns>
         public static string Symbol(string scenario, string installSpace)
         {
-            return string.Format("{0}-{1}", ScenarioPrefix(scenario), installSpace);
+            if (string.IsNullOrEmpty(installSpace) || installSpace == "未指定子项")
+            {
+                return ScenarioPrefix(scenario);
+            }
+            else
+            {
+                return string.Format("{0}-{1}", ScenarioPrefix(scenario), installSpace);
+            }
         }
 
         /// <summary>
