@@ -46,65 +46,45 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.TreeList = new DevExpress.XtraTreeList.TreeList();
-            this.treeListBand15 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColFanNum = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.treeListBand1 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ColAddAuxiliary = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.PicAddAuxiliary = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
-            this.treeListBand2 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColInstallSpace = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtInstallSpace = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.BandUse = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColUse = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxUse = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand3 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColInstallFloor = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtInstallFloor = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand4 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVentNum = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtVentNum = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand5 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVentQuan = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtVentQuan = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand6 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColRemark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.PicRemark = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
-            this.treeListBand7 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColAirVolume = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtAirVolume = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand8 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColWindResis = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtWindResis = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand9 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVentStyle = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxVentStyle = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand17 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColIntakeForm = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxIntakeForm = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand10 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVentConnect = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxVentConnect = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand11 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVentLev = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxVentLev = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand12 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColEleLev = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxEleLev = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand13 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColMotorTempo = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxMotorTempo = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand14 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColFanModelName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TxtFanModelName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.treeListBand19 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColMountType = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxMountType = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand18 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColVibrationMode = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.ComBoxVibrationMode = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
-            this.treeListBand16 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColInsertMap = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.PicInsertMap = new DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit();
             this.ColSortID = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -126,6 +106,26 @@
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.ToolTip = new DevExpress.Utils.ToolTipController(this.components);
+            this.treeListBand15 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand1 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand2 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.BandUse = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand3 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand4 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand5 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand6 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand7 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand8 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand9 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand17 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand10 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand11 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand12 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand13 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand14 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand19 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand18 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.treeListBand16 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             ((System.ComponentModel.ISupportInitialize)(this.BarManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -463,15 +463,6 @@
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
             // 
-            // treeListBand15
-            // 
-            this.treeListBand15.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand15.Caption = "风机编号";
-            this.treeListBand15.Columns.Add(this.ColFanNum);
-            this.treeListBand15.Name = "treeListBand15";
-            this.treeListBand15.Width = 131;
-            // 
             // ColFanNum
             // 
             this.ColFanNum.AppearanceCell.Options.UseTextOptions = true;
@@ -483,17 +474,6 @@
             this.ColFanNum.Visible = true;
             this.ColFanNum.VisibleIndex = 0;
             this.ColFanNum.Width = 131;
-            // 
-            // treeListBand1
-            // 
-            this.treeListBand1.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand1.Caption = "服务区域";
-            this.treeListBand1.Columns.Add(this.ColName);
-            this.treeListBand1.Columns.Add(this.ColAddAuxiliary);
-            this.treeListBand1.Name = "treeListBand1";
-            this.treeListBand1.RowCount = 2;
-            this.treeListBand1.Width = 109;
             // 
             // ColName
             // 
@@ -531,15 +511,6 @@
             this.PicAddAuxiliary.NullText = " ";
             this.PicAddAuxiliary.Click += new System.EventHandler(this.PictAddAuxiliary_Click);
             // 
-            // treeListBand2
-            // 
-            this.treeListBand2.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand2.Caption = "子项";
-            this.treeListBand2.Columns.Add(this.ColInstallSpace);
-            this.treeListBand2.Name = "treeListBand2";
-            this.treeListBand2.Width = 100;
-            // 
             // ColInstallSpace
             // 
             this.ColInstallSpace.AppearanceCell.Options.UseTextOptions = true;
@@ -556,15 +527,6 @@
             // 
             this.TxtInstallSpace.AutoHeight = false;
             this.TxtInstallSpace.Name = "TxtInstallSpace";
-            // 
-            // BandUse
-            // 
-            this.BandUse.AppearanceHeader.Options.UseTextOptions = true;
-            this.BandUse.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.BandUse.Caption = "细分用途";
-            this.BandUse.Columns.Add(this.ColUse);
-            this.BandUse.Name = "BandUse";
-            this.BandUse.Width = 77;
             // 
             // ColUse
             // 
@@ -598,15 +560,6 @@
             this.ComBoxUse.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.ComBoxUse.EditValueChanged += new System.EventHandler(this.ComBoxUse_EditValueChanged);
             // 
-            // treeListBand3
-            // 
-            this.treeListBand3.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand3.Caption = "风机楼层编号";
-            this.treeListBand3.Columns.Add(this.ColInstallFloor);
-            this.treeListBand3.Name = "treeListBand3";
-            this.treeListBand3.Width = 90;
-            // 
             // ColInstallFloor
             // 
             this.ColInstallFloor.AppearanceCell.Options.UseTextOptions = true;
@@ -623,15 +576,6 @@
             // 
             this.TxtInstallFloor.AutoHeight = false;
             this.TxtInstallFloor.Name = "TxtInstallFloor";
-            // 
-            // treeListBand4
-            // 
-            this.treeListBand4.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand4.Caption = "风机序号";
-            this.treeListBand4.Columns.Add(this.ColVentNum);
-            this.treeListBand4.Name = "treeListBand4";
-            this.treeListBand4.Width = 76;
             // 
             // ColVentNum
             // 
@@ -652,15 +596,6 @@
             this.TxtVentNum.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtVentNum.Name = "TxtVentNum";
             // 
-            // treeListBand5
-            // 
-            this.treeListBand5.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand5.Caption = "数量";
-            this.treeListBand5.Columns.Add(this.ColVentQuan);
-            this.treeListBand5.Name = "treeListBand5";
-            this.treeListBand5.Width = 51;
-            // 
             // ColVentQuan
             // 
             this.ColVentQuan.AppearanceCell.Options.UseTextOptions = true;
@@ -678,15 +613,6 @@
             // 
             this.TxtVentQuan.AutoHeight = false;
             this.TxtVentQuan.Name = "TxtVentQuan";
-            // 
-            // treeListBand6
-            // 
-            this.treeListBand6.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand6.Caption = "备注";
-            this.treeListBand6.Columns.Add(this.ColRemark);
-            this.treeListBand6.Name = "treeListBand6";
-            this.treeListBand6.Width = 45;
             // 
             // ColRemark
             // 
@@ -706,15 +632,6 @@
             this.PicRemark.Name = "PicRemark";
             this.PicRemark.NullText = " ";
             this.PicRemark.Click += new System.EventHandler(this.PicRemark_Click);
-            // 
-            // treeListBand7
-            // 
-            this.treeListBand7.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand7.Caption = "风量\r\n（m³/h）";
-            this.treeListBand7.Columns.Add(this.ColAirVolume);
-            this.treeListBand7.Name = "treeListBand7";
-            this.treeListBand7.Width = 74;
             // 
             // ColAirVolume
             // 
@@ -739,15 +656,6 @@
             this.TxtAirVolume.ReadOnly = true;
             this.TxtAirVolume.Click += new System.EventHandler(this.TxtAirVolume_Click);
             // 
-            // treeListBand8
-            // 
-            this.treeListBand8.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand8.Caption = "总阻力\r\n（Pa）";
-            this.treeListBand8.Columns.Add(this.ColWindResis);
-            this.treeListBand8.Name = "treeListBand8";
-            this.treeListBand8.Width = 60;
-            // 
             // ColWindResis
             // 
             this.ColWindResis.AppearanceCell.Options.UseTextOptions = true;
@@ -768,15 +676,6 @@
             this.TxtWindResis.Name = "TxtWindResis";
             this.TxtWindResis.ReadOnly = true;
             this.TxtWindResis.Click += new System.EventHandler(this.TxtWindResis_Click);
-            // 
-            // treeListBand9
-            // 
-            this.treeListBand9.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand9.Caption = "风机形式";
-            this.treeListBand9.Columns.Add(this.ColVentStyle);
-            this.treeListBand9.Name = "treeListBand9";
-            this.treeListBand9.Width = 106;
             // 
             // ColVentStyle
             // 
@@ -806,15 +705,6 @@
             this.ComBoxVentStyle.Name = "ComBoxVentStyle";
             this.ComBoxVentStyle.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.ComBoxVentStyle.EditValueChanged += new System.EventHandler(this.ComBoxVentStyle_EditValueChanged);
-            // 
-            // treeListBand17
-            // 
-            this.treeListBand17.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand17.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand17.Caption = "气流方向";
-            this.treeListBand17.Columns.Add(this.ColIntakeForm);
-            this.treeListBand17.Name = "treeListBand17";
-            this.treeListBand17.Width = 85;
             // 
             // ColIntakeForm
             // 
@@ -854,15 +744,6 @@
             this.ComBoxIntakeForm.NullText = " ";
             this.ComBoxIntakeForm.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
-            // treeListBand10
-            // 
-            this.treeListBand10.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand10.Caption = "驱动方式";
-            this.treeListBand10.Columns.Add(this.ColVentConnect);
-            this.treeListBand10.Name = "treeListBand10";
-            this.treeListBand10.Width = 93;
-            // 
             // ColVentConnect
             // 
             this.ColVentConnect.AppearanceCell.Options.UseTextOptions = true;
@@ -890,15 +771,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ComBoxVentConnect.Name = "ComBoxVentConnect";
             this.ComBoxVentConnect.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            // 
-            // treeListBand11
-            // 
-            this.treeListBand11.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand11.Caption = "风机能效";
-            this.treeListBand11.Columns.Add(this.ColVentLev);
-            this.treeListBand11.Name = "treeListBand11";
-            this.treeListBand11.Width = 71;
             // 
             // ColVentLev
             // 
@@ -928,15 +800,6 @@
             this.ComBoxVentLev.Name = "ComBoxVentLev";
             this.ComBoxVentLev.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
-            // treeListBand12
-            // 
-            this.treeListBand12.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand12.Caption = "电机能效";
-            this.treeListBand12.Columns.Add(this.ColEleLev);
-            this.treeListBand12.Name = "treeListBand12";
-            this.treeListBand12.Width = 71;
-            // 
             // ColEleLev
             // 
             this.ColEleLev.AppearanceCell.Options.UseTextOptions = true;
@@ -964,15 +827,6 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ComBoxEleLev.Name = "ComBoxEleLev";
             this.ComBoxEleLev.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            // 
-            // treeListBand13
-            // 
-            this.treeListBand13.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand13.Caption = "电机转速";
-            this.treeListBand13.Columns.Add(this.ColMotorTempo);
-            this.treeListBand13.Name = "treeListBand13";
-            this.treeListBand13.Width = 70;
             // 
             // ColMotorTempo
             // 
@@ -1002,15 +856,6 @@
             this.ComBoxMotorTempo.Name = "ComBoxMotorTempo";
             this.ComBoxMotorTempo.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
-            // treeListBand14
-            // 
-            this.treeListBand14.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand14.Caption = "风机型号";
-            this.treeListBand14.Columns.Add(this.ColFanModelName);
-            this.treeListBand14.Name = "treeListBand14";
-            this.treeListBand14.Width = 107;
-            // 
             // ColFanModelName
             // 
             this.ColFanModelName.AppearanceCell.Options.UseTextOptions = true;
@@ -1020,7 +865,7 @@
             this.ColFanModelName.FieldName = "FanModelName";
             this.ColFanModelName.Name = "ColFanModelName";
             this.ColFanModelName.Visible = true;
-            this.ColFanModelName.VisibleIndex = 17;
+            this.ColFanModelName.VisibleIndex = 16;
             this.ColFanModelName.Width = 107;
             // 
             // TxtFanModelName
@@ -1029,15 +874,6 @@
             this.TxtFanModelName.ContextImageOptions.SvgImage = global::TianHua.FanSelection.UI.Properties.Resources.风机;
             this.TxtFanModelName.Name = "TxtFanModelName";
             this.TxtFanModelName.Click += new System.EventHandler(this.TxtModelName_Click);
-            // 
-            // treeListBand19
-            // 
-            this.treeListBand19.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand19.Caption = "安装方式";
-            this.treeListBand19.Columns.Add(this.ColMountType);
-            this.treeListBand19.Name = "treeListBand19";
-            this.treeListBand19.Width = 79;
             // 
             // ColMountType
             // 
@@ -1048,7 +884,7 @@
             this.ColMountType.FieldName = "MountType";
             this.ColMountType.Name = "ColMountType";
             this.ColMountType.Visible = true;
-            this.ColMountType.VisibleIndex = 18;
+            this.ColMountType.VisibleIndex = 17;
             this.ColMountType.Width = 79;
             // 
             // ComBoxMountType
@@ -1067,15 +903,6 @@
             this.ComBoxMountType.Name = "ComBoxMountType";
             this.ComBoxMountType.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
-            // treeListBand18
-            // 
-            this.treeListBand18.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand18.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand18.Caption = "减振方式";
-            this.treeListBand18.Columns.Add(this.ColVibrationMode);
-            this.treeListBand18.Name = "treeListBand18";
-            this.treeListBand18.Width = 73;
-            // 
             // ColVibrationMode
             // 
             this.ColVibrationMode.AppearanceCell.Options.UseTextOptions = true;
@@ -1087,7 +914,7 @@
             this.ColVibrationMode.FieldName = "VibrationMode";
             this.ColVibrationMode.Name = "ColVibrationMode";
             this.ColVibrationMode.Visible = true;
-            this.ColVibrationMode.VisibleIndex = 19;
+            this.ColVibrationMode.VisibleIndex = 18;
             this.ColVibrationMode.Width = 73;
             // 
             // ComBoxVibrationMode
@@ -1112,15 +939,6 @@
             this.ComBoxVibrationMode.Name = "ComBoxVibrationMode";
             this.ComBoxVibrationMode.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
-            // treeListBand16
-            // 
-            this.treeListBand16.AppearanceHeader.Options.UseTextOptions = true;
-            this.treeListBand16.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.treeListBand16.Caption = "插入\r\n图块";
-            this.treeListBand16.Columns.Add(this.ColInsertMap);
-            this.treeListBand16.Name = "treeListBand16";
-            this.treeListBand16.Width = 60;
-            // 
             // ColInsertMap
             // 
             this.ColInsertMap.AppearanceCell.Options.UseTextOptions = true;
@@ -1130,7 +948,7 @@
             this.ColInsertMap.FieldName = "InsertMap";
             this.ColInsertMap.Name = "ColInsertMap";
             this.ColInsertMap.Visible = true;
-            this.ColInsertMap.VisibleIndex = 20;
+            this.ColInsertMap.VisibleIndex = 19;
             this.ColInsertMap.Width = 60;
             // 
             // PicInsertMap
@@ -1314,6 +1132,189 @@
             this.emptySpaceItem4.Size = new System.Drawing.Size(505, 26);
             this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // treeListBand15
+            // 
+            this.treeListBand15.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand15.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand15.Caption = "风机编号";
+            this.treeListBand15.Columns.Add(this.ColFanNum);
+            this.treeListBand15.Name = "treeListBand15";
+            this.treeListBand15.Width = 131;
+            // 
+            // treeListBand1
+            // 
+            this.treeListBand1.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand1.Caption = "服务区域";
+            this.treeListBand1.Columns.Add(this.ColName);
+            this.treeListBand1.Columns.Add(this.ColAddAuxiliary);
+            this.treeListBand1.Name = "treeListBand1";
+            this.treeListBand1.RowCount = 2;
+            this.treeListBand1.Width = 109;
+            // 
+            // treeListBand2
+            // 
+            this.treeListBand2.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand2.Caption = "子项";
+            this.treeListBand2.Columns.Add(this.ColInstallSpace);
+            this.treeListBand2.Name = "treeListBand2";
+            this.treeListBand2.Width = 100;
+            // 
+            // BandUse
+            // 
+            this.BandUse.AppearanceHeader.Options.UseTextOptions = true;
+            this.BandUse.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.BandUse.Caption = "细分用途";
+            this.BandUse.Columns.Add(this.ColUse);
+            this.BandUse.Name = "BandUse";
+            this.BandUse.Width = 77;
+            // 
+            // treeListBand3
+            // 
+            this.treeListBand3.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand3.Caption = "风机楼层编号";
+            this.treeListBand3.Columns.Add(this.ColInstallFloor);
+            this.treeListBand3.Name = "treeListBand3";
+            this.treeListBand3.Width = 90;
+            // 
+            // treeListBand4
+            // 
+            this.treeListBand4.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand4.Caption = "风机序号";
+            this.treeListBand4.Columns.Add(this.ColVentNum);
+            this.treeListBand4.Name = "treeListBand4";
+            this.treeListBand4.Width = 76;
+            // 
+            // treeListBand5
+            // 
+            this.treeListBand5.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand5.Caption = "数量";
+            this.treeListBand5.Columns.Add(this.ColVentQuan);
+            this.treeListBand5.Name = "treeListBand5";
+            this.treeListBand5.Width = 51;
+            // 
+            // treeListBand6
+            // 
+            this.treeListBand6.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand6.Caption = "备注";
+            this.treeListBand6.Columns.Add(this.ColRemark);
+            this.treeListBand6.Name = "treeListBand6";
+            this.treeListBand6.Width = 45;
+            // 
+            // treeListBand7
+            // 
+            this.treeListBand7.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand7.Caption = "风量\r\n（m³/h）";
+            this.treeListBand7.Columns.Add(this.ColAirVolume);
+            this.treeListBand7.Name = "treeListBand7";
+            this.treeListBand7.Width = 74;
+            // 
+            // treeListBand8
+            // 
+            this.treeListBand8.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand8.Caption = "总阻力\r\n（Pa）";
+            this.treeListBand8.Columns.Add(this.ColWindResis);
+            this.treeListBand8.Name = "treeListBand8";
+            this.treeListBand8.Width = 60;
+            // 
+            // treeListBand9
+            // 
+            this.treeListBand9.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand9.Caption = "风机形式";
+            this.treeListBand9.Columns.Add(this.ColVentStyle);
+            this.treeListBand9.Name = "treeListBand9";
+            this.treeListBand9.Width = 106;
+            // 
+            // treeListBand17
+            // 
+            this.treeListBand17.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand17.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand17.Caption = "气流方向";
+            this.treeListBand17.Columns.Add(this.ColIntakeForm);
+            this.treeListBand17.Name = "treeListBand17";
+            this.treeListBand17.Width = 85;
+            // 
+            // treeListBand10
+            // 
+            this.treeListBand10.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand10.Caption = "驱动方式";
+            this.treeListBand10.Columns.Add(this.ColVentConnect);
+            this.treeListBand10.Name = "treeListBand10";
+            this.treeListBand10.Width = 93;
+            // 
+            // treeListBand11
+            // 
+            this.treeListBand11.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand11.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand11.Caption = "风机能效";
+            this.treeListBand11.Columns.Add(this.ColVentLev);
+            this.treeListBand11.Name = "treeListBand11";
+            this.treeListBand11.Width = 71;
+            // 
+            // treeListBand12
+            // 
+            this.treeListBand12.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand12.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand12.Caption = "电机能效";
+            this.treeListBand12.Columns.Add(this.ColEleLev);
+            this.treeListBand12.Name = "treeListBand12";
+            this.treeListBand12.Width = 71;
+            // 
+            // treeListBand13
+            // 
+            this.treeListBand13.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand13.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand13.Caption = "电机转速";
+            this.treeListBand13.Columns.Add(this.ColMotorTempo);
+            this.treeListBand13.Name = "treeListBand13";
+            this.treeListBand13.Visible = false;
+            this.treeListBand13.Width = 70;
+            // 
+            // treeListBand14
+            // 
+            this.treeListBand14.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand14.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand14.Caption = "风机型号";
+            this.treeListBand14.Columns.Add(this.ColFanModelName);
+            this.treeListBand14.Name = "treeListBand14";
+            this.treeListBand14.Width = 107;
+            // 
+            // treeListBand19
+            // 
+            this.treeListBand19.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand19.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand19.Caption = "安装方式";
+            this.treeListBand19.Columns.Add(this.ColMountType);
+            this.treeListBand19.Name = "treeListBand19";
+            this.treeListBand19.Width = 79;
+            // 
+            // treeListBand18
+            // 
+            this.treeListBand18.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand18.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand18.Caption = "减振方式";
+            this.treeListBand18.Columns.Add(this.ColVibrationMode);
+            this.treeListBand18.Name = "treeListBand18";
+            this.treeListBand18.Width = 73;
+            // 
+            // treeListBand16
+            // 
+            this.treeListBand16.AppearanceHeader.Options.UseTextOptions = true;
+            this.treeListBand16.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.treeListBand16.Caption = "插入\r\n图块";
+            this.treeListBand16.Columns.Add(this.ColInsertMap);
+            this.treeListBand16.Name = "treeListBand16";
+            this.treeListBand16.Width = 60;
+            // 
             // fmFanSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -1450,6 +1451,7 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn ColFanNum;
         private DevExpress.XtraTreeList.Columns.TreeListColumn ColVibrationMode;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox ComBoxVibrationMode;
+        private DevExpress.Utils.ToolTipController ToolTip;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand15;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand1;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand2;
@@ -1470,6 +1472,5 @@
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand19;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand18;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand16;
-        private DevExpress.Utils.ToolTipController ToolTip;
     }
 }

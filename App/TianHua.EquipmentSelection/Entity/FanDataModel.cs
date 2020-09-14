@@ -292,5 +292,12 @@ namespace TianHua.FanSelection
         /// 风量计算
         /// </summary>
         public ThFanVolumeModel FanVolumeModel { get; set; }
+
+
+        /// <summary>
+        /// 末端预留风压
+        /// </summary>
+        public int EndReservedAirPressure { get; set; }
+
     }
 }

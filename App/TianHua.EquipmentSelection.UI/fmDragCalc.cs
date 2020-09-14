@@ -66,7 +66,17 @@ namespace TianHua.FanSelection.UI
                 }
             }
 
+            if (m_Fan.Scenario == "厨房排油烟")
+            {
+                m_Fan.EndReservedAirPressure = 100;
+                this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-200Pa";
 
+            }
+            else
+            {
+                m_Fan.EndReservedAirPressure = 0;
+                this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-100Pa";
+            }
 
             m_ListFan = new List<FanDataModel>();
             m_ListFan.Add(m_Fan);
@@ -77,8 +87,8 @@ namespace TianHua.FanSelection.UI
 
         private void Gdv_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
-            if (FuncStr.NullToDouble(e.Value) == 0)
-                e.DisplayText = string.Empty;
+            //if (FuncStr.NullToDouble(e.Value) == 0)
+            //    e.DisplayText = string.Empty;
             //if (e.Column.FieldName == "DuctResistance")
             //{
             //    if (m_ListFan == null || m_ListFan.Count == 0) { return; }
@@ -128,8 +138,8 @@ namespace TianHua.FanSelection.UI
             }
             if (_Fan.DuctResistance > 0 && _Fan.Damper >= 0 && _Fan.DynPress > 0)
             {
-                var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper + _Fan.DynPress) * _Fan.SelectionFactor);
-                _Fan.CalcResistance = _Fan.DuctResistance + _Fan.Damper + _Fan.DynPress;
+                var _Tmp = FuncStr.NullToInt((_Fan.DuctResistance + _Fan.Damper + _Fan.EndReservedAirPressure + _Fan.DynPress) * _Fan.SelectionFactor);
+                _Fan.CalcResistance = _Fan.DuctResistance + _Fan.Damper + _Fan.EndReservedAirPressure + _Fan.DynPress;
                 var _UnitsDigit = FindNum(_Tmp, 1);
                 if (_UnitsDigit != 0)
                 {

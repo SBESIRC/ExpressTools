@@ -32,34 +32,37 @@
             this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.Gdc = new DevExpress.XtraGrid.GridControl();
             this.Gdv = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridView();
-            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColDuctLength = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtDuctLength = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColFriction = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtFriction = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColLocRes = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtLocRes = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColDuctResistance = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColDamper = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtDamper = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColDynPress = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtDynPress = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColCalcResistance = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
-            this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColSelectionFactor = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtSelectionFactor = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.ColWindResis = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.ColEndReservedAirPressure = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.TxtEndReservedAirPressure = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand6 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.GdvBanEndReservedAirPressure = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand7 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand9 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand8 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Gdc)).BeginInit();
@@ -74,6 +77,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtEndReservedAirPressure)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -85,16 +89,16 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(486, 429, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(847, 146);
+            this.layoutControl1.Size = new System.Drawing.Size(982, 146);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(726, 112);
+            this.BtnOK.Location = new System.Drawing.Point(843, 112);
             this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(109, 22);
+            this.BtnOK.Size = new System.Drawing.Size(127, 22);
             this.BtnOK.StyleController = this.layoutControl1;
             this.BtnOK.TabIndex = 32;
             this.BtnOK.Text = "确定";
@@ -114,8 +118,9 @@
             this.TxtLocRes,
             this.TxtDamper,
             this.TxtDynPress,
-            this.TxtSelectionFactor});
-            this.Gdc.Size = new System.Drawing.Size(823, 96);
+            this.TxtSelectionFactor,
+            this.TxtEndReservedAirPressure});
+            this.Gdc.Size = new System.Drawing.Size(958, 96);
             this.Gdc.TabIndex = 31;
             this.Gdc.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.Gdv});
@@ -130,6 +135,7 @@
             this.gridBand4,
             this.gridBand5,
             this.gridBand6,
+            this.GdvBanEndReservedAirPressure,
             this.gridBand7,
             this.gridBand1,
             this.gridBand9,
@@ -143,7 +149,8 @@
             this.ColDynPress,
             this.ColCalcResistance,
             this.ColSelectionFactor,
-            this.ColWindResis});
+            this.ColWindResis,
+            this.ColEndReservedAirPressure});
             this.Gdv.GridControl = this.Gdc;
             this.Gdv.Name = "Gdv";
             this.Gdv.OptionsCustomization.AllowBandMoving = false;
@@ -171,16 +178,6 @@
             this.Gdv.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.Gdv_CellValueChanged);
             this.Gdv.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.Gdv_CustomColumnDisplayText);
             // 
-            // gridBand2
-            // 
-            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand2.Caption = "风管长\r\n（m）";
-            this.gridBand2.Columns.Add(this.ColDuctLength);
-            this.gridBand2.Name = "gridBand2";
-            this.gridBand2.VisibleIndex = 0;
-            this.gridBand2.Width = 72;
-            // 
             // ColDuctLength
             // 
             this.ColDuctLength.AppearanceCell.Options.UseTextOptions = true;
@@ -190,7 +187,7 @@
             this.ColDuctLength.FieldName = "DuctLength";
             this.ColDuctLength.Name = "ColDuctLength";
             this.ColDuctLength.Visible = true;
-            this.ColDuctLength.Width = 72;
+            this.ColDuctLength.Width = 76;
             // 
             // TxtDuctLength
             // 
@@ -198,16 +195,6 @@
             this.TxtDuctLength.Mask.EditMask = "([0-9]{1,})";
             this.TxtDuctLength.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtDuctLength.Name = "TxtDuctLength";
-            // 
-            // gridBand3
-            // 
-            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand3.Caption = "比摩阻1.0-3.0\r\n（Pa/m）";
-            this.gridBand3.Columns.Add(this.ColFriction);
-            this.gridBand3.Name = "gridBand3";
-            this.gridBand3.VisibleIndex = 1;
-            this.gridBand3.Width = 111;
             // 
             // ColFriction
             // 
@@ -218,7 +205,7 @@
             this.ColFriction.FieldName = "Friction";
             this.ColFriction.Name = "ColFriction";
             this.ColFriction.Visible = true;
-            this.ColFriction.Width = 111;
+            this.ColFriction.Width = 118;
             // 
             // TxtFriction
             // 
@@ -226,16 +213,6 @@
             this.TxtFriction.Mask.EditMask = "\\d*\\.{0,1}\\d{0,1}";
             this.TxtFriction.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtFriction.Name = "TxtFriction";
-            // 
-            // gridBand4
-            // 
-            this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand4.Caption = "局部阻力倍数\r\n1-5";
-            this.gridBand4.Columns.Add(this.ColLocRes);
-            this.gridBand4.Name = "gridBand4";
-            this.gridBand4.VisibleIndex = 2;
-            this.gridBand4.Width = 100;
             // 
             // ColLocRes
             // 
@@ -246,7 +223,7 @@
             this.ColLocRes.FieldName = "LocRes";
             this.ColLocRes.Name = "ColLocRes";
             this.ColLocRes.Visible = true;
-            this.ColLocRes.Width = 100;
+            this.ColLocRes.Width = 106;
             // 
             // TxtLocRes
             // 
@@ -254,16 +231,6 @@
             this.TxtLocRes.Mask.EditMask = "\\d*\\.{0,1}\\d{0,1}";
             this.TxtLocRes.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtLocRes.Name = "TxtLocRes";
-            // 
-            // gridBand5
-            // 
-            this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand5.Caption = "风管阻力\r\n（Pa）";
-            this.gridBand5.Columns.Add(this.ColDuctResistance);
-            this.gridBand5.Name = "gridBand5";
-            this.gridBand5.VisibleIndex = 3;
-            this.gridBand5.Width = 68;
             // 
             // ColDuctResistance
             // 
@@ -276,16 +243,6 @@
             this.ColDuctResistance.Visible = true;
             this.ColDuctResistance.Width = 68;
             // 
-            // gridBand6
-            // 
-            this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand6.Caption = "消声器阻力\r\n20-70Pa/只（Pa）";
-            this.gridBand6.Columns.Add(this.ColDamper);
-            this.gridBand6.Name = "gridBand6";
-            this.gridBand6.VisibleIndex = 4;
-            this.gridBand6.Width = 146;
-            // 
             // ColDamper
             // 
             this.ColDamper.AppearanceCell.Options.UseTextOptions = true;
@@ -295,7 +252,7 @@
             this.ColDamper.FieldName = "Damper";
             this.ColDamper.Name = "ColDamper";
             this.ColDamper.Visible = true;
-            this.ColDamper.Width = 146;
+            this.ColDamper.Width = 140;
             // 
             // TxtDamper
             // 
@@ -303,16 +260,6 @@
             this.TxtDamper.Mask.EditMask = "([0-9]{1,})";
             this.TxtDamper.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtDamper.Name = "TxtDamper";
-            // 
-            // gridBand7
-            // 
-            this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand7.Caption = "动压\r\n40-120Pa";
-            this.gridBand7.Columns.Add(this.ColDynPress);
-            this.gridBand7.Name = "gridBand7";
-            this.gridBand7.VisibleIndex = 5;
-            this.gridBand7.Width = 77;
             // 
             // ColDynPress
             // 
@@ -323,7 +270,7 @@
             this.ColDynPress.FieldName = "DynPress";
             this.ColDynPress.Name = "ColDynPress";
             this.ColDynPress.Visible = true;
-            this.ColDynPress.Width = 77;
+            this.ColDynPress.Width = 79;
             // 
             // TxtDynPress
             // 
@@ -331,16 +278,6 @@
             this.TxtDynPress.Mask.EditMask = "([0-9]{1,})";
             this.TxtDynPress.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtDynPress.Name = "TxtDynPress";
-            // 
-            // gridBand1
-            // 
-            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand1.Caption = "计算总阻力\r\n（Pa）";
-            this.gridBand1.Columns.Add(this.ColCalcResistance);
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.VisibleIndex = 6;
-            this.gridBand1.Width = 88;
             // 
             // ColCalcResistance
             // 
@@ -355,16 +292,6 @@
             this.ColCalcResistance.Visible = true;
             this.ColCalcResistance.Width = 88;
             // 
-            // gridBand9
-            // 
-            this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand9.Caption = "选择系数";
-            this.gridBand9.Columns.Add(this.ColSelectionFactor);
-            this.gridBand9.Name = "gridBand9";
-            this.gridBand9.VisibleIndex = 7;
-            this.gridBand9.Width = 66;
-            // 
             // ColSelectionFactor
             // 
             this.ColSelectionFactor.AppearanceCell.Options.UseTextOptions = true;
@@ -376,7 +303,7 @@
             this.ColSelectionFactor.FieldName = "SelectionFactor";
             this.ColSelectionFactor.Name = "ColSelectionFactor";
             this.ColSelectionFactor.Visible = true;
-            this.ColSelectionFactor.Width = 66;
+            this.ColSelectionFactor.Width = 67;
             // 
             // TxtSelectionFactor
             // 
@@ -384,17 +311,6 @@
             this.TxtSelectionFactor.Mask.EditMask = "\\d*\\.{0,1}\\d{0,2}";
             this.TxtSelectionFactor.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtSelectionFactor.Name = "TxtSelectionFactor";
-            // 
-            // gridBand8
-            // 
-            this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridBand8.Caption = "选型总阻力\r\n（Pa）";
-            this.gridBand8.Columns.Add(this.ColWindResis);
-            this.gridBand8.Name = "gridBand8";
-            this.gridBand8.RowCount = 2;
-            this.gridBand8.VisibleIndex = 8;
-            this.gridBand8.Width = 93;
             // 
             // ColWindResis
             // 
@@ -416,7 +332,7 @@
             this.layoutControlItem2,
             this.emptySpaceItem1});
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(847, 146);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(982, 146);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -424,16 +340,16 @@
             this.layoutControlItem1.Control = this.Gdc;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(827, 100);
+            this.layoutControlItem1.Size = new System.Drawing.Size(962, 100);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.BtnOK;
-            this.layoutControlItem2.Location = new System.Drawing.Point(714, 100);
+            this.layoutControlItem2.Location = new System.Drawing.Point(831, 100);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(113, 26);
+            this.layoutControlItem2.Size = new System.Drawing.Size(131, 26);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
@@ -445,11 +361,130 @@
             this.emptySpaceItem1.Size = new System.Drawing.Size(714, 26);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
             // 
+            // ColEndReservedAirPressure
+            // 
+            this.ColEndReservedAirPressure.AppearanceCell.Options.UseTextOptions = true;
+            this.ColEndReservedAirPressure.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.ColEndReservedAirPressure.Caption = "末端预留风压";
+            this.ColEndReservedAirPressure.ColumnEdit = this.TxtEndReservedAirPressure;
+            this.ColEndReservedAirPressure.FieldName = "EndReservedAirPressure";
+            this.ColEndReservedAirPressure.Name = "ColEndReservedAirPressure";
+            this.ColEndReservedAirPressure.Visible = true;
+            this.ColEndReservedAirPressure.Width = 103;
+            // 
+            // TxtEndReservedAirPressure
+            // 
+            this.TxtEndReservedAirPressure.AutoHeight = false;
+            this.TxtEndReservedAirPressure.Mask.EditMask = "([0-9]{1,})";
+            this.TxtEndReservedAirPressure.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.TxtEndReservedAirPressure.Name = "TxtEndReservedAirPressure";
+            // 
+            // gridBand2
+            // 
+            this.gridBand2.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand2.Caption = "风管长\r\n（m）";
+            this.gridBand2.Columns.Add(this.ColDuctLength);
+            this.gridBand2.Name = "gridBand2";
+            this.gridBand2.VisibleIndex = 0;
+            this.gridBand2.Width = 72;
+            // 
+            // gridBand3
+            // 
+            this.gridBand3.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand3.Caption = "比摩阻1.0-3.0\r\n（Pa/m）";
+            this.gridBand3.Columns.Add(this.ColFriction);
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.VisibleIndex = 1;
+            this.gridBand3.Width = 111;
+            // 
+            // gridBand4
+            // 
+            this.gridBand4.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand4.Caption = "局部阻力倍数\r\n1-5";
+            this.gridBand4.Columns.Add(this.ColLocRes);
+            this.gridBand4.Name = "gridBand4";
+            this.gridBand4.VisibleIndex = 2;
+            this.gridBand4.Width = 100;
+            // 
+            // gridBand5
+            // 
+            this.gridBand5.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand5.Caption = "风管阻力\r\n（Pa）";
+            this.gridBand5.Columns.Add(this.ColDuctResistance);
+            this.gridBand5.Name = "gridBand5";
+            this.gridBand5.VisibleIndex = 3;
+            this.gridBand5.Width = 68;
+            // 
+            // gridBand6
+            // 
+            this.gridBand6.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand6.Caption = "消声器阻力\r\n20-70Pa/只（Pa）";
+            this.gridBand6.Columns.Add(this.ColDamper);
+            this.gridBand6.Name = "gridBand6";
+            this.gridBand6.VisibleIndex = 4;
+            this.gridBand6.Width = 140;
+            // 
+            // gridBand10
+            // 
+            this.GdvBanEndReservedAirPressure.AppearanceHeader.Options.UseTextOptions = true;
+            this.GdvBanEndReservedAirPressure.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.GdvBanEndReservedAirPressure.Caption = "末端预留风压";
+            this.GdvBanEndReservedAirPressure.Columns.Add(this.ColEndReservedAirPressure);
+            this.GdvBanEndReservedAirPressure.Name = "gridBand10";
+            this.GdvBanEndReservedAirPressure.VisibleIndex = 5;
+            this.GdvBanEndReservedAirPressure.Width = 103;
+            // 
+            // gridBand7
+            // 
+            this.gridBand7.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand7.Caption = "动压\r\n40-120Pa";
+            this.gridBand7.Columns.Add(this.ColDynPress);
+            this.gridBand7.Name = "gridBand7";
+            this.gridBand7.VisibleIndex = 6;
+            this.gridBand7.Width = 77;
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand1.Caption = "计算总阻力\r\n（Pa）";
+            this.gridBand1.Columns.Add(this.ColCalcResistance);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.VisibleIndex = 7;
+            this.gridBand1.Width = 88;
+            // 
+            // gridBand9
+            // 
+            this.gridBand9.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand9.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand9.Caption = "选择系数";
+            this.gridBand9.Columns.Add(this.ColSelectionFactor);
+            this.gridBand9.Name = "gridBand9";
+            this.gridBand9.VisibleIndex = 8;
+            this.gridBand9.Width = 66;
+            // 
+            // gridBand8
+            // 
+            this.gridBand8.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridBand8.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridBand8.Caption = "选型总阻力\r\n（Pa）";
+            this.gridBand8.Columns.Add(this.ColWindResis);
+            this.gridBand8.Name = "gridBand8";
+            this.gridBand8.RowCount = 2;
+            this.gridBand8.VisibleIndex = 9;
+            this.gridBand8.Width = 93;
+            // 
             // fmDragCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(847, 146);
+            this.ClientSize = new System.Drawing.Size(982, 146);
             this.Controls.Add(this.layoutControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -472,6 +507,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TxtEndReservedAirPressure)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -506,6 +542,9 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand6;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand GdvBanEndReservedAirPressure;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColEndReservedAirPressure;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TxtEndReservedAirPressure;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand7;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand9;

@@ -282,7 +282,7 @@ namespace TianHua.FanSelection.UI
             {
                 _Fan.Remark = _fmRemark.m_Remark;
 
-                if(_fmRemark.m_ApplyAll)
+                if (_fmRemark.m_ApplyAll)
                 {
                     m_ListFan.ForEach(p => p.Remark = _fmRemark.m_Remark);
                 }
@@ -1169,6 +1169,7 @@ namespace TianHua.FanSelection.UI
                 _FanDataModel.ID = _Guid;
                 _FanDataModel.PID = "0";
                 _FanDataModel.Name = SetFanDataModelName(_FanDataModel);
+                _FanDataModel.InstallFloor = SetFanDataModelByFloor(_FanDataModel);
                 _ListTemp.Add(_FanDataModel);
 
                 var _SonFan = m_ListFan.Find(p => p.PID == _Fan.ID);
@@ -1230,6 +1231,27 @@ namespace TianHua.FanSelection.UI
                 {
                     var _ListTemp = m_ListFan.FindAll(p => p.Name == _FanDataModel.Name + " - 副本(" + i + ")" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
                     if (_ListTemp == null || _ListTemp.Count == 0) { return _FanDataModel.Name + " - 副本(" + i + ")"; }
+                }
+
+            }
+            return string.Empty;
+        }
+
+        public string SetFanDataModelByFloor(FanDataModel _FanDataModel)
+        {
+            var _List = m_ListFan.FindAll(p => p.InstallFloor.Contains(_FanDataModel.InstallFloor) && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+            if (_List == null || _List.Count == 0) { return _FanDataModel.InstallFloor + " - 副本"; }
+            for (int i = 1; i < 10000; i++)
+            {
+                if (i == 1)
+                {
+                    var _ListTemp1 = m_ListFan.FindAll(p => p.InstallFloor == _FanDataModel.InstallFloor + " - 副本" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return _FanDataModel.InstallFloor + " - 副本"; }
+                }
+                else
+                {
+                    var _ListTemp = m_ListFan.FindAll(p => p.InstallFloor == _FanDataModel.InstallFloor + " - 副本(" + i + ")" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp == null || _ListTemp.Count == 0) { return _FanDataModel.InstallFloor + " - 副本(" + i + ")"; }
                 }
 
             }
@@ -1364,7 +1386,7 @@ namespace TianHua.FanSelection.UI
 
             if (_List == null || _List.Count == 0) { return; }
 
-            if(m_ListSceneScreening != null && m_ListSceneScreening.Count > 0)
+            if (m_ListSceneScreening != null && m_ListSceneScreening.Count > 0)
             {
                 _List = _List.FindAll(p => m_ListSceneScreening.Contains(p.Scenario));
             }
@@ -1416,7 +1438,9 @@ namespace TianHua.FanSelection.UI
             _SaveFileDialog.Filter = "Xlsx Files(*.xlsx)|*.xlsx";
             _SaveFileDialog.RestoreDirectory = true;
             _SaveFileDialog.FileName = "风机参数表 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
+            _SaveFileDialog.InitialDirectory = Active.DocumentDirectory;
             var DialogResult = _SaveFileDialog.ShowDialog();
+
             if (DialogResult == DialogResult.OK)
             {
                 TreeList.PostEditor();
@@ -1597,12 +1621,12 @@ namespace TianHua.FanSelection.UI
                 _Sheet.Cells[i, 18] = p.DuctResistance;
 
                 _Sheet.Cells[i, 19] = p.Damper;
+                _Sheet.Cells[i, 20] = p.EndReservedAirPressure;
+                _Sheet.Cells[i, 21] = p.DynPress;
 
-                _Sheet.Cells[i, 20] = p.DynPress;
 
-
-                _Sheet.Cells[i, 21] = p.CalcResistance;
-                _Sheet.Cells[i, 22] = p.WindResis;
+                _Sheet.Cells[i, 22] = p.CalcResistance;
+                _Sheet.Cells[i, 23] = p.WindResis;
 
                 //if (FuncStr.NullToStr(p.VentStyle) == "轴流")
                 //{
@@ -1619,7 +1643,7 @@ namespace TianHua.FanSelection.UI
                 //    _Sheet.Cells[i, 22] = _FanParameters.Pa;
                 //}
 
-                _Sheet.Cells[i, 23] = p.FanModelPower;
+                _Sheet.Cells[i, 24] = p.FanModelPower;
 
                 var model = p.FanVolumeModel;
                 if (!model.IsNull())
@@ -1634,6 +1658,7 @@ namespace TianHua.FanSelection.UI
             SaveFileDialog _SaveFileDialog = new SaveFileDialog();
             _SaveFileDialog.Filter = "Xlsx Files(*.xlsx)|*.xlsx";
             _SaveFileDialog.RestoreDirectory = true;
+            _SaveFileDialog.InitialDirectory = Active.DocumentDirectory;    
             _SaveFileDialog.FileName = "风机计算书 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
             var DialogResult = _SaveFileDialog.ShowDialog();
 
@@ -1769,20 +1794,27 @@ namespace TianHua.FanSelection.UI
             if (_Fan == null) { return; }
             var _FocusedColumn = _TreeList.FocusedColumn;
             if (FuncStr.NullToStr(e.Value) == string.Empty) { return; }
+            List<int> _ListVentNum = new List<int>();
             List<FanDataModel> _List = new List<FanDataModel>();
             string _ErrorStr = string.Empty;
             if (_FocusedColumn.FieldName == "InstallSpace")
             {
-                _List = m_ListFan.FindAll(p => p.InstallSpace == FuncStr.NullToStr(e.Value) && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID);
+                _List = m_ListFan.FindAll(p => p.InstallSpace == FuncStr.NullToStr(e.Value) && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
             }
 
             if (_FocusedColumn.FieldName == "InstallFloor")
             {
-                _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == FuncStr.NullToStr(e.Value) && p.ID != _Fan.ID);
+                _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == FuncStr.NullToStr(e.Value) && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
             }
             if (_FocusedColumn.FieldName == "VentNum")
             {
-                _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID);
+                _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
+
+                var _Calculator = new VentSNCalculator(FuncStr.NullToStr(e.Value));
+                if (_Calculator.SerialNumbers.Count > 0)
+                {
+                    _ListVentNum = _Calculator.SerialNumbers;
+                }
             }
 
             if (_List != null && _List.Count > 0)
@@ -1793,14 +1825,31 @@ namespace TianHua.FanSelection.UI
                     {
                         for (int i = 0; i < p.ListVentQuan.Count; i++)
                         {
-                            if (_Fan.ListVentQuan.Contains(p.ListVentQuan[i]))
+                            if (_ListVentNum.Count > 0)
                             {
-                                if (_ErrorStr == string.Empty)
-                                    _ErrorStr = p.FanNum;
-                                else
-                                    _ErrorStr += "," + p.FanNum;
-                                break;
+                                if (_ListVentNum.Contains(p.ListVentQuan[i]))
+                                {
+                                    if (_ErrorStr == string.Empty)
+                                        _ErrorStr = p.FanNum;
+                                    else
+                                        _ErrorStr += "," + p.FanNum;
+                                    break;
+                                }
                             }
+                            else
+                            {
+                                if (_Fan.ListVentQuan.Contains(p.ListVentQuan[i]))
+                                {
+                                    if (_ErrorStr == string.Empty)
+                                        _ErrorStr = p.FanNum;
+                                    else
+                                        _ErrorStr += "," + p.FanNum;
+                                    break;
+                                }
+                            }
+
+
+
                         }
                     }
                 });
