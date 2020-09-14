@@ -1219,18 +1219,20 @@ namespace TianHua.FanSelection.UI
         public string SetFanDataModelName(FanDataModel _FanDataModel)
         {
             var _List = m_ListFan.FindAll(p => p.Name.Contains(_FanDataModel.Name) && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-            if (_List == null || _List.Count == 0) { return _FanDataModel.Name + "-副本"; }
+            if (_List == null || _List.Count == 0) { return string.Format("{0}-副本", _FanDataModel.Name); }
             for (int i = 1; i < 10000; i++)
             {
                 if (i == 1)
                 {
-                    var _ListTemp1 = m_ListFan.FindAll(p => p.Name == _FanDataModel.Name + "-副本" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return _FanDataModel.Name + "-副本"; }
+                    var name = string.Format("{0}-副本", _FanDataModel.Name);
+                    var _ListTemp1 = m_ListFan.FindAll(p => p.Name == name && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return name; }
                 }
                 else
                 {
-                    var _ListTemp = m_ListFan.FindAll(p => p.Name == _FanDataModel.Name + "-副本(" + i + ")" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-                    if (_ListTemp == null || _ListTemp.Count == 0) { return _FanDataModel.Name + " -副本(" + i + ")"; }
+                    var name = string.Format("{0}-副本({1})", _FanDataModel.Name, i);
+                    var _ListTemp = m_ListFan.FindAll(p => p.Name == name && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp == null || _ListTemp.Count == 0) { return name; }
                 }
 
             }
@@ -1240,18 +1242,20 @@ namespace TianHua.FanSelection.UI
         public string SetFanDataModelByFloor(FanDataModel _FanDataModel)
         {
             var _List = m_ListFan.FindAll(p => p.InstallFloor.Contains(_FanDataModel.InstallFloor) && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-            if (_List == null || _List.Count == 0) { return _FanDataModel.InstallFloor + "-副本"; }
+            if (_List == null || _List.Count == 0) { return string.Format("{0}-副本", _FanDataModel.InstallFloor); }
             for (int i = 1; i < 10000; i++)
             {
                 if (i == 1)
                 {
-                    var _ListTemp1 = m_ListFan.FindAll(p => p.InstallFloor == _FanDataModel.InstallFloor + "-副本" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return _FanDataModel.InstallFloor + " - 副本"; }
+                    var installFloor = string.Format("{0}-副本", _FanDataModel.InstallFloor);
+                    var _ListTemp1 = m_ListFan.FindAll(p => p.InstallFloor == installFloor && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return installFloor; }
                 }
                 else
                 {
-                    var _ListTemp = m_ListFan.FindAll(p => p.InstallFloor == _FanDataModel.InstallFloor + "-副本(" + i + ")" && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
-                    if (_ListTemp == null || _ListTemp.Count == 0) { return _FanDataModel.InstallFloor + "-副本(" + i + ")"; }
+                    var installFloor = string.Format("{0}-副本({1})", _FanDataModel.InstallFloor, i);
+                    var _ListTemp = m_ListFan.FindAll(p => p.InstallFloor == installFloor && p.PID == _FanDataModel.PID && p.ID != _FanDataModel.ID);
+                    if (_ListTemp == null || _ListTemp.Count == 0) { return installFloor; }
                 }
 
             }
