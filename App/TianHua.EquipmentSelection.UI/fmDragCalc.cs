@@ -69,13 +69,15 @@ namespace TianHua.FanSelection.UI
             if (m_Fan.Scenario == "厨房排油烟")
             {
                 m_Fan.EndReservedAirPressure = 100;
-                this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-200Pa";
+                if (this.GdvBanEndReservedAirPressure != null)
+                    this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-200Pa";
 
             }
             else
             {
                 m_Fan.EndReservedAirPressure = 0;
-                this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-100Pa";
+                if (this.GdvBanEndReservedAirPressure != null)
+                    this.GdvBanEndReservedAirPressure.Caption = "末端预留风压\r\n0-100Pa";
             }
 
             m_ListFan = new List<FanDataModel>();

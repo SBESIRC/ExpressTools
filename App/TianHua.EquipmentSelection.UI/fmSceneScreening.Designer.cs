@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.CheckPSSFJSGPF = new DevExpress.XtraEditors.CheckEdit();
             this.CheckPSPFJSGPF = new DevExpress.XtraEditors.CheckEdit();
             this.CheckSGBF = new DevExpress.XtraEditors.CheckEdit();
@@ -58,7 +59,6 @@
             this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem14 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem15 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
@@ -122,8 +122,20 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // BtnOK
+            // 
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.BtnOK.Location = new System.Drawing.Point(483, 131);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(105, 22);
+            this.BtnOK.StyleController = this.layoutControl1;
+            this.BtnOK.TabIndex = 18;
+            this.BtnOK.Text = "确定";
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            // 
             // CheckPSSFJSGPF
             // 
+            this.CheckPSSFJSGPF.EditValue = true;
             this.CheckPSSFJSGPF.Location = new System.Drawing.Point(346, 102);
             this.CheckPSSFJSGPF.Name = "CheckPSSFJSGPF";
             this.CheckPSSFJSGPF.Properties.Caption = "平时送风兼事故补风";
@@ -131,9 +143,11 @@
             this.CheckPSSFJSGPF.StyleController = this.layoutControl1;
             this.CheckPSSFJSGPF.TabIndex = 17;
             this.CheckPSSFJSGPF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckPSSFJSGPF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckPSPFJSGPF
             // 
+            this.CheckPSPFJSGPF.EditValue = true;
             this.CheckPSPFJSGPF.Location = new System.Drawing.Point(196, 102);
             this.CheckPSPFJSGPF.Name = "CheckPSPFJSGPF";
             this.CheckPSPFJSGPF.Properties.Caption = "平时排风兼事故排风";
@@ -141,9 +155,11 @@
             this.CheckPSPFJSGPF.StyleController = this.layoutControl1;
             this.CheckPSPFJSGPF.TabIndex = 16;
             this.CheckPSPFJSGPF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckPSPFJSGPF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckSGBF
             // 
+            this.CheckSGBF.EditValue = true;
             this.CheckSGBF.Location = new System.Drawing.Point(108, 102);
             this.CheckSGBF.Name = "CheckSGBF";
             this.CheckSGBF.Properties.Caption = "事故补风";
@@ -151,9 +167,11 @@
             this.CheckSGBF.StyleController = this.layoutControl1;
             this.CheckSGBF.TabIndex = 15;
             this.CheckSGBF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckSGBF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckSGPF
             // 
+            this.CheckSGPF.EditValue = true;
             this.CheckSGPF.Location = new System.Drawing.Point(15, 102);
             this.CheckSGPF.Name = "CheckSGPF";
             this.CheckSGPF.Properties.Caption = "事故排风";
@@ -161,9 +179,11 @@
             this.CheckSGPF.StyleController = this.layoutControl1;
             this.CheckSGPF.TabIndex = 14;
             this.CheckSGPF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckSGPF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckXFJYSF
             // 
+            this.CheckXFJYSF.EditValue = true;
             this.CheckXFJYSF.Location = new System.Drawing.Point(493, 73);
             this.CheckXFJYSF.Name = "CheckXFJYSF";
             this.CheckXFJYSF.Properties.Caption = "消防加压送风";
@@ -171,9 +191,11 @@
             this.CheckXFJYSF.StyleController = this.layoutControl1;
             this.CheckXFJYSF.TabIndex = 13;
             this.CheckXFJYSF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckXFJYSF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckXFBFJPSSF
             // 
+            this.CheckXFBFJPSSF.EditValue = true;
             this.CheckXFBFJPSSF.Location = new System.Drawing.Point(346, 73);
             this.CheckXFBFJPSSF.Name = "CheckXFBFJPSSF";
             this.CheckXFBFJPSSF.Properties.Caption = "消防补风兼平时送风";
@@ -181,9 +203,11 @@
             this.CheckXFBFJPSSF.StyleController = this.layoutControl1;
             this.CheckXFBFJPSSF.TabIndex = 12;
             this.CheckXFBFJPSSF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckXFBFJPSSF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckXFPYJPSPF
             // 
+            this.CheckXFPYJPSPF.EditValue = true;
             this.CheckXFPYJPSPF.Location = new System.Drawing.Point(196, 73);
             this.CheckXFPYJPSPF.Name = "CheckXFPYJPSPF";
             this.CheckXFPYJPSPF.Properties.Caption = "消防排烟兼平时排风";
@@ -194,6 +218,7 @@
             // 
             // CheckXFBF
             // 
+            this.CheckXFBF.EditValue = true;
             this.CheckXFBF.Location = new System.Drawing.Point(108, 73);
             this.CheckXFBF.Name = "CheckXFBF";
             this.CheckXFBF.Properties.Caption = "消防补风";
@@ -201,9 +226,11 @@
             this.CheckXFBF.StyleController = this.layoutControl1;
             this.CheckXFBF.TabIndex = 10;
             this.CheckXFBF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckXFBF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckXFPY
             // 
+            this.CheckXFPY.EditValue = true;
             this.CheckXFPY.Location = new System.Drawing.Point(15, 73);
             this.CheckXFPY.Name = "CheckXFPY";
             this.CheckXFPY.Properties.Caption = "消防排烟";
@@ -211,9 +238,11 @@
             this.CheckXFPY.StyleController = this.layoutControl1;
             this.CheckXFPY.TabIndex = 9;
             this.CheckXFPY.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckXFPY.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckCFBF
             // 
+            this.CheckCFBF.EditValue = true;
             this.CheckCFBF.Location = new System.Drawing.Point(346, 44);
             this.CheckCFBF.Name = "CheckCFBF";
             this.CheckCFBF.Properties.Caption = "厨房补风";
@@ -221,9 +250,11 @@
             this.CheckCFBF.StyleController = this.layoutControl1;
             this.CheckCFBF.TabIndex = 8;
             this.CheckCFBF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckCFBF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckCFPYY
             // 
+            this.CheckCFPYY.EditValue = true;
             this.CheckCFPYY.Location = new System.Drawing.Point(196, 44);
             this.CheckCFPYY.Name = "CheckCFPYY";
             this.CheckCFPYY.Properties.Caption = "厨房排油烟";
@@ -231,9 +262,11 @@
             this.CheckCFPYY.StyleController = this.layoutControl1;
             this.CheckCFPYY.TabIndex = 7;
             this.CheckCFPYY.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckCFPYY.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckPSSF
             // 
+            this.CheckPSSF.EditValue = true;
             this.CheckPSSF.Location = new System.Drawing.Point(108, 44);
             this.CheckPSSF.Name = "CheckPSSF";
             this.CheckPSSF.Properties.Caption = "平时送风";
@@ -241,9 +274,11 @@
             this.CheckPSSF.StyleController = this.layoutControl1;
             this.CheckPSSF.TabIndex = 6;
             this.CheckPSSF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckPSSF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckPSPF
             // 
+            this.CheckPSPF.EditValue = true;
             this.CheckPSPF.Location = new System.Drawing.Point(15, 44);
             this.CheckPSPF.Name = "CheckPSPF";
             this.CheckPSPF.Properties.Caption = "平时排风";
@@ -251,9 +286,11 @@
             this.CheckPSPF.StyleController = this.layoutControl1;
             this.CheckPSPF.TabIndex = 5;
             this.CheckPSPF.CheckedChanged += new System.EventHandler(this.Check_CheckedChanged);
+            this.CheckPSPF.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.Check_EditValueChanging);
             // 
             // CheckAll
             // 
+            this.CheckAll.EditValue = true;
             this.CheckAll.Location = new System.Drawing.Point(15, 15);
             this.CheckAll.Name = "CheckAll";
             this.CheckAll.Properties.Caption = "全选";
@@ -426,17 +463,6 @@
             this.layoutControlItem13.Size = new System.Drawing.Size(150, 29);
             this.layoutControlItem13.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem13.TextVisible = false;
-            // 
-            // BtnOK
-            // 
-            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(483, 131);
-            this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(105, 22);
-            this.BtnOK.StyleController = this.layoutControl1;
-            this.BtnOK.TabIndex = 18;
-            this.BtnOK.Text = "确定";
-            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
             // layoutControlItem15
             // 

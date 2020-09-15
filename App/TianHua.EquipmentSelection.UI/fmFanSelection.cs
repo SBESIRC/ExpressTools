@@ -423,7 +423,7 @@ namespace TianHua.FanSelection.UI
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
             if (_Fan.AirVolume == 0 || _Fan.WindResis == 0) { return; }
-            if (_Fan.PID != "0") { return; }
+            //if (_Fan.PID != "0") { return; }
             if (FuncStr.NullToStr(_Fan.AirVolume) == string.Empty || FuncStr.NullToStr(_Fan.VentStyle) == string.Empty || FuncStr.NullToStr(_Fan.WindResis) == string.Empty)
             {
                 ClearFanModel(_Fan);
@@ -940,7 +940,7 @@ namespace TianHua.FanSelection.UI
                 _FanDataModel.PowerType = "事故";
             }
             if (FuncStr.NullToStr(_FanDataModel.Scenario) == "消防加压送风" || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防排烟"
-                || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防加压补风")
+                || FuncStr.NullToStr(_FanDataModel.Scenario) == "消防补风")
             {
                 _FanDataModel.VibrationMode = "-";
             }
@@ -1370,9 +1370,18 @@ namespace TianHua.FanSelection.UI
 
             _fmSceneScreening.Init(m_ListSceneScreening);
 
-            _fmSceneScreening.ShowDialog();
+            var _Result = _fmSceneScreening.ShowDialog();
 
-            m_ListSceneScreening = _fmSceneScreening.m_List;
+            if (_Result == DialogResult.OK)
+            {
+                m_ListSceneScreening = _fmSceneScreening.m_List;
+            }
+            else
+            {
+                return;
+            }
+
+
 
             string _ImportExcelPath = Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanPara.xlsx");
 
@@ -1407,7 +1416,7 @@ namespace TianHua.FanSelection.UI
                 _Sheet.Cells[i, 4] = p.CalcAirVolume;
                 _Sheet.Cells[i, 5] = p.FanDelivery;
                 _Sheet.Cells[i, 6] = p.Pa;
-                _Sheet.Cells[i, 7] = p.StaticPa;
+                _Sheet.Cells[i, 7] = FuncStr.NullToInt(p.StaticPa);
                 _Sheet.Cells[i, 8] = p.FanEnergyLevel;
                 _Sheet.Cells[i, 9] = p.FanEfficiency;
                 _Sheet.Cells[i, 10] = p.FanRpm;
@@ -1443,9 +1452,9 @@ namespace TianHua.FanSelection.UI
             _SaveFileDialog.RestoreDirectory = true;
             _SaveFileDialog.FileName = "风机参数表 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
             _SaveFileDialog.InitialDirectory = Active.DocumentDirectory;
-            var DialogResult = _SaveFileDialog.ShowDialog();
+            var _DialogResult = _SaveFileDialog.ShowDialog();
 
-            if (DialogResult == DialogResult.OK)
+            if (_DialogResult == DialogResult.OK)
             {
                 TreeList.PostEditor();
                 var _FilePath = _SaveFileDialog.FileName.ToString();
@@ -1582,9 +1591,16 @@ namespace TianHua.FanSelection.UI
 
             _fmSceneScreening.Init(m_ListSceneScreening);
 
-            _fmSceneScreening.ShowDialog();
+            var _Result = _fmSceneScreening.ShowDialog();
 
-            m_ListSceneScreening = _fmSceneScreening.m_List;
+            if (_Result == System.Windows.Forms.DialogResult.OK)
+            {
+                m_ListSceneScreening = _fmSceneScreening.m_List;
+            }
+            else
+            {
+                return;
+            }
 
             ExcelFile excelfile = new ExcelFile();
             Workbook targetWorkbookb = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx"));
@@ -1662,7 +1678,7 @@ namespace TianHua.FanSelection.UI
             SaveFileDialog _SaveFileDialog = new SaveFileDialog();
             _SaveFileDialog.Filter = "Xlsx Files(*.xlsx)|*.xlsx";
             _SaveFileDialog.RestoreDirectory = true;
-            _SaveFileDialog.InitialDirectory = Active.DocumentDirectory;    
+            _SaveFileDialog.InitialDirectory = Active.DocumentDirectory;
             _SaveFileDialog.FileName = "风机计算书 - " + DateTime.Now.ToString("yyyy.MM.dd HH.mm");
             var DialogResult = _SaveFileDialog.ShowDialog();
 
