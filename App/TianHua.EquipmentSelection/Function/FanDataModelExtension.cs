@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection.Function
 {
@@ -42,6 +44,46 @@ namespace TianHua.FanSelection.Function
         public static bool IsValid(this FanDataModel model)
         {
             return !string.IsNullOrEmpty(model.FanModelName) && (model.FanModelName != "无此风机");
+        }
+
+        public static bool IsAXIALModel(this FanDataModel model)
+        {
+            return FuncStr.NullToStr(model.VentStyle) == "轴流";
+        }
+
+        public static bool IsHighSpeedModel(this FanDataModel model)
+        {
+            return model.PID == "0";
+        }
+
+        public static FanDataModel ParentModel(this List<FanDataModel> models, FanDataModel model)
+        {
+            if (model.IsHighSpeedModel())
+            {
+                return null;
+            }
+
+            return models.Find(p => p.ID == model.PID);
+        }
+
+        public static FanDataModel ChildModel(this List<FanDataModel> models, FanDataModel model)
+        {
+            if (!model.IsHighSpeedModel())
+            {
+                return null;
+            }
+
+            return models.Find(p => p.PID == model.ID);
+        }
+
+        public static bool HasChildModel(this List<FanDataModel> models, FanDataModel model)
+        {
+            if (!model.IsHighSpeedModel())
+            {
+                return false;
+            }
+
+            return models.Any(m=>m.PID == model.ID);
         }
 
         public static bool IsAttributeModified(this FanDataModel model, Dictionary<string, string> attributes)

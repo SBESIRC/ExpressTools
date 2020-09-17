@@ -8,7 +8,7 @@ namespace TianHua.FanSelection.Function
 {
     public static class FanParametersExtension
     {
-        public static List<IGeometry> ToGeometries(this List<FanParameters> models, IEqualityComparer<FanParameters> comparer)
+        public static List<IGeometry> ToGeometries(this List<FanParameters> models, IEqualityComparer<FanParameters> comparer, string geartypefilter)
         {
             var fanpoints = new Dictionary<string, List<Coordinate>>();
             foreach (var group in models.GroupBy(d => d, comparer))
@@ -17,7 +17,7 @@ namespace TianHua.FanSelection.Function
                 fanpoints.Add(key, new List<Coordinate>());
                 foreach (var item in group)
                 {
-                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == "低")
+                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == geartypefilter)
                     {
                         continue;
                     }
@@ -53,7 +53,7 @@ namespace TianHua.FanSelection.Function
                 ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(Convert.ToDouble(y)));
         }
 
-        public static List<IGeometry> ToGeometries(this List<AxialFanParameters> models, IEqualityComparer<AxialFanParameters> comparer)
+        public static List<IGeometry> ToGeometries(this List<AxialFanParameters> models, IEqualityComparer<AxialFanParameters> comparer, string geartypefilter)
         {
             var typepolylines = new List<IGeometry>();
             var fanpoints = new Dictionary<string, List<Coordinate>>();
@@ -63,7 +63,7 @@ namespace TianHua.FanSelection.Function
                 fanpoints.Add(key, new List<Coordinate>());
                 foreach (var item in group)
                 {
-                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == "低")
+                    if (!string.IsNullOrEmpty(item.Gears) && item.Gears == geartypefilter)
                     {
                         continue;
                     }

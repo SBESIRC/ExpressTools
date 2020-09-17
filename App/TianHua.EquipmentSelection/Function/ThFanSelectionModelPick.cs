@@ -14,12 +14,18 @@ namespace TianHua.FanSelection.Function
             return model.Envelope.Contains(point);
         }
 
-        public static List<IPoint> ReferenceModelPoint(this IGeometry model, IPoint point, IGeometry refModel)
+        public static List<IPoint> ReferenceModelPoint(this IGeometry model, List<double> point, IGeometry refModel)
         {
+            var coordinate = new Coordinate(
+                ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point[0]),
+                ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point[1])
+                );
+            IPoint Point = ThCADCoreNTSService.Instance.GeometryFactory.CreatePoint(coordinate);
+
             var refPoints = new List<IPoint>();
             var locator = new LocationIndexedLine(model);
             var refLocator = new LocationIndexedLine(refModel);
-            foreach (var modelPoint in model.IntersectionPoint(point))
+            foreach (var modelPoint in model.IntersectionPoint(Point))
             {
                 var location = locator.IndexOf(modelPoint.Coordinate);
                 var refModelPoint = refLocator.ExtractPoint(location);

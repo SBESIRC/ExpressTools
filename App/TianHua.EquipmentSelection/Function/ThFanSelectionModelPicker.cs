@@ -57,7 +57,16 @@ namespace TianHua.FanSelection.Function
                      ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point[1])
                 );
             Point = ThCADCoreNTSService.Instance.GeometryFactory.CreatePoint(coordinate);
-            Models = models.ToGeometries(comparer).ModelPick(Point);
+
+            //当前项为高速档，需过滤掉gear档位为低的元素，保留高档位元素，反之过滤掉gear档位为高的元素
+            if (fanmodel.IsHighSpeedModel())
+            {
+                Models = models.ToGeometries(comparer, "低").ModelPick(Point);
+            }
+            else
+            {
+                Models = models.ToGeometries(comparer, "高").ModelPick(Point);
+            }
         }
 
         public string Model()
@@ -106,13 +115,26 @@ namespace TianHua.FanSelection.Function
         {
             return Models.Count > 0;
         }
+
+        public IGeometry ModelGeometry()
+        {
+            if (Models.Count > 0)
+            {
+                return Models.First().Key;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 
     public class ThFanSelectionAxialModelPicker : IFanSelectionModelPicker
     {
         private IPoint Point { get; set; }
         private Dictionary<IGeometry, IPoint> Models { get; set; }
-        public ThFanSelectionAxialModelPicker(List<AxialFanParameters> models, List<double> point)
+        public ThFanSelectionAxialModelPicker(List<AxialFanParameters> models, FanDataModel fanmodel, List<double> point)
         {
             IEqualityComparer<AxialFanParameters> comparer = new AxialModelNumberComparer();
             var coordinate = new Coordinate(
@@ -120,7 +142,16 @@ namespace TianHua.FanSelection.Function
                      ThCADCoreNTSService.Instance.PrecisionModel.MakePrecise(point[1])
                 );
             Point = ThCADCoreNTSService.Instance.GeometryFactory.CreatePoint(coordinate);
-            Models = models.ToGeometries(comparer).ModelPick(Point);
+
+            //当前项为高速档，需过滤掉gear档位为低的元素，保留高档位元素，反之过滤掉gear档位为高的元素
+            if (fanmodel.IsHighSpeedModel())
+            {
+                Models = models.ToGeometries(comparer, "低").ModelPick(Point);
+            }
+            else
+            {
+                Models = models.ToGeometries(comparer, "高").ModelPick(Point);
+            }
         }
 
         public string Model()
@@ -167,6 +198,18 @@ namespace TianHua.FanSelection.Function
         public bool IsFound()
         {
             return Models.Count > 0;
+        }
+
+        public IGeometry ModelGeometry()
+        {
+            if (Models.Count > 0)
+            {
+                return Models.First().Key;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

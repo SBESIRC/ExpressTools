@@ -304,8 +304,20 @@ namespace TianHua.FanSelection.UI
                 if (_fmDragCalc.m_ListFan != null && _fmDragCalc.m_ListFan.Count > 0)
                     _Fan = _fmDragCalc.m_ListFan.First();
                 SetFanModel();
-                TreeList.Refresh();
+                FanSelectionInfoError(_Fan);
             }
+        }
+
+        private void FanSelectionInfoError(FanDataModel _Fan)
+        {
+            if (_Fan.FanSelectionStateInfo != null && _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound &&
+                 _Fan.FanSelectionStateInfo.RecommendPointInLow != null && _Fan.FanSelectionStateInfo.RecommendPointInLow.Count == 2)
+            {
+                XtraMessageBox.Show(string.Format(" 低速挡的工况点与高速挡差异过大,低速档风量的推荐值在{0}m³/h左右,总阻力的推荐值小于{1}Pa. ",
+                    _Fan.FanSelectionStateInfo.RecommendPointInLow[0], _Fan.FanSelectionStateInfo.RecommendPointInLow[1]
+                    ), "警告", MessageBoxButtons.OK);
+            }
+            TreeList.Refresh();
         }
 
         private void TxtAirVolume_Click(object sender, EventArgs e)
@@ -338,6 +350,7 @@ namespace TianHua.FanSelection.UI
                 }
 
                 SetFanModel();
+                FanSelectionInfoError(_Fan);
                 TreeList.Refresh();
             }
         }
@@ -419,160 +432,443 @@ namespace TianHua.FanSelection.UI
 
         public void SetFanModel()
         {
-            if (TreeList == null) { return; }
+            if (TreeList == null)
+            { return; }
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
-            if (_Fan == null) { return; }
-            if (_Fan.AirVolume == 0 || _Fan.WindResis == 0) { return; }
-            //if (_Fan.PID != "0") { return; }
+            if (_Fan == null)
+            { return; }
+            _Fan.FanSelectionStateInfo = new FanSelectionStateInfo();
+            //if (_Fan.AirVolume == 0 || _Fan.WindResis == 0)
+            //{
+            //    ClearFanModel(_Fan);
+            //    if (m_ListFan.HasChildModel(_Fan))
+            //    {
+            //        ClearFanModel(m_ListFan.ChildModel(_Fan));
+            //    }
+            //    return;
+            //}
             if (FuncStr.NullToStr(_Fan.AirVolume) == string.Empty || FuncStr.NullToStr(_Fan.VentStyle) == string.Empty || FuncStr.NullToStr(_Fan.WindResis) == string.Empty)
             {
                 ClearFanModel(_Fan);
                 return;
             }
-            if (FuncStr.NullToStr(_Fan.VentStyle) == "轴流")
+
+            if (_Fan.IsHighSpeedModel())
             {
-                List<AxialFanParameters> _ListAxialFanParameters = new List<AxialFanParameters>();
-                IFanSelectionModelPicker picker = null;
-                if (_Fan.Control == "双速")
+                // 高速轴流
+                if (_Fan.IsAXIALModel())
                 {
-                    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                    _ListAxialFanParameters = m_ListAxialFanParametersDouble;
-                    if (!picker.IsFound())
-                    {
-                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        if (!picker.IsFound())
-                        {
-                            _Fan.Control = "单速";
-                            _ListAxialFanParameters = m_ListAxialFanParameters;
-                        }
-
-                    }
-                }
-                else
-                {
-                    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                    _ListAxialFanParameters = m_ListAxialFanParameters;
-                }
-
-                if (picker != null && picker.IsFound())
-                {
-                    var _FanParameters = _ListAxialFanParameters.Find(p => p.ModelNum == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
-                    if (_FanParameters != null)
-                    {
-                        _Fan.FanModelID = _FanParameters.No;
-                        _Fan.FanModelName = _FanParameters.ModelNum;
-                        _Fan.FanModelNum = _FanParameters.No;
-                        _Fan.FanModelCCCF = _FanParameters.ModelNum;
-                        _Fan.FanModelAirVolume = _FanParameters.AirVolume;
-                        _Fan.FanModelPa = _FanParameters.Pa;
-                        _Fan.FanModelMotorPower = _FanParameters.Power;
-                        _Fan.FanModelNoise = _FanParameters.Noise;
-                        _Fan.FanModelFanSpeed = _FanParameters.Rpm;
-                        _Fan.FanModelPower = string.Empty;
-                        _Fan.FanModelLength = _FanParameters.Length;
-                        _Fan.FanModelDIA = _FanParameters.Diameter;
-                        _Fan.FanModelWeight = _FanParameters.Weight;
-                        _Fan.IsPointSafe = !picker.IsOptimalModel();
-
-
-
-                        m_fmFanModel.CalcFanEfficiency(_Fan);
-                    }
-
-                }
-                else
-                {
-                    ClearFanModel(_Fan);
-                }
-                TreeList.RefreshNode(TreeList.FocusedNode);
-            }
-
-            else
-            {
-                List<FanParameters> _ListFanParameters = new List<FanParameters>();
-                IFanSelectionModelPicker picker = null;
-                if (FuncStr.NullToStr(_Fan.VentStyle).Contains("前倾离心"))
-                {
+                    List<AxialFanParameters> _ListAxialFanParameters = new List<AxialFanParameters>();
+                    IFanSelectionModelPicker picker = null;
                     if (_Fan.Control == "双速")
                     {
-                        picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        _ListFanParameters = m_ListFanParametersDouble;
+                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        _ListAxialFanParameters = m_ListAxialFanParametersDouble;
                         //if (!picker.IsFound())
                         //{
-                        //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        //    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
                         //    if (!picker.IsFound())
                         //    {
                         //        _Fan.Control = "单速";
-                        //        _ListFanParameters = m_ListFanParameters;
+                        //        _ListAxialFanParameters = m_ListAxialFanParameters;
                         //    }
 
                         //}
                     }
                     else
                     {
-                        picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        _ListFanParameters = m_ListFanParameters;
+                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        _ListAxialFanParameters = m_ListAxialFanParameters;
                     }
 
-                }
-                else
-                {
-
-                    if (_Fan.Control == "双速")
+                    if (picker != null && picker.IsFound())
                     {
-                        ClearFanModel(_Fan);
+                        var _FanParameters = _ListAxialFanParameters.Find(p => p.ModelNum == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
+                        if (_FanParameters != null)
+                        {
+                            _Fan.FanModelID = _FanParameters.No;
+                            _Fan.FanModelName = _FanParameters.ModelNum;
+                            _Fan.FanModelNum = _FanParameters.No;
+                            _Fan.FanModelCCCF = _FanParameters.ModelNum;
+                            _Fan.FanModelAirVolume = _FanParameters.AirVolume;
+                            _Fan.FanModelPa = _FanParameters.Pa;
+                            _Fan.FanModelMotorPower = _FanParameters.Power;
+                            _Fan.FanModelNoise = _FanParameters.Noise;
+                            _Fan.FanModelFanSpeed = _FanParameters.Rpm;
+                            _Fan.FanModelPower = string.Empty;
+                            _Fan.FanModelLength = _FanParameters.Length;
+                            _Fan.FanModelDIA = _FanParameters.Diameter;
+                            _Fan.FanModelWeight = _FanParameters.Weight;
+                            _Fan.IsPointSafe = !picker.IsOptimalModel();
+
+                            m_fmFanModel.CalcFanEfficiency(_Fan);
+
+                            if (!_Fan.IsPointSafe)
+                            {
+                                _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                            }
+                            else
+                            {
+                                _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                            }
+                        }
                     }
                     else
                     {
-                        picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
-                        _ListFanParameters = m_ListFanParametersSingle;
+                        _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                        ClearFanModel(_Fan);
                     }
+                    TreeList.RefreshNode(TreeList.FocusedNode);
                 }
 
-                if (picker != null && picker.IsFound())
-                {
-                    var _FanParameters = _ListFanParameters.Find(p => p.CCCF_Spec == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
-                    if (_FanParameters != null)
-                    {
-                        _Fan.FanModelID = _FanParameters.Suffix;
-                        _Fan.FanModelName = _FanParameters.CCCF_Spec;
-                        _Fan.FanModelNum = _FanParameters.No;
-                        _Fan.FanModelCCCF = _FanParameters.CCCF_Spec;
-                        _Fan.FanModelAirVolume = _FanParameters.AirVolume;
-                        _Fan.FanModelPa = _FanParameters.Pa;
-                        _Fan.FanModelMotorPower = _FanParameters.Power;
-                        _Fan.FanModelNoise = _FanParameters.Noise;
-                        _Fan.FanModelFanSpeed = _FanParameters.Rpm;
-                        _Fan.FanModelPower = string.Empty;
-                        _Fan.FanModelLength = _FanParameters.Length;
-                        _Fan.FanModelWidth = _FanParameters.Width;
-                        _Fan.FanModelHeight = _FanParameters.Height;
-                        _Fan.FanModelWeight = _FanParameters.Weight;
-                        _Fan.IsPointSafe = !picker.IsOptimalModel();
-
-                        if (_Fan.VentStyle.Contains("电机内置"))
-                        {
-                            _Fan.FanModelLength = _FanParameters.Length2;
-                            _Fan.FanModelWidth = _FanParameters.Width1;
-                            _Fan.FanModelHeight = _FanParameters.Height2;
-                        }
-
-                        m_fmFanModel.CalcFanEfficiency(_Fan);
-                    }
-
-                }
+                // 高速离心
                 else
                 {
-                    ClearFanModel(_Fan);
+                    List<FanParameters> _ListFanParameters = new List<FanParameters>();
+                    IFanSelectionModelPicker picker = null;
+                    if (FuncStr.NullToStr(_Fan.VentStyle).Contains("前倾离心"))
+                    {
+                        if (_Fan.Control == "双速")
+                        {
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            _ListFanParameters = m_ListFanParametersDouble;
+                            //if (!picker.IsFound())
+                            //{
+                            //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            //    if (!picker.IsFound())
+                            //    {
+                            //        _Fan.Control = "单速";
+                            //        _ListFanParameters = m_ListFanParameters;
+                            //    }
+
+                            //}
+                        }
+                        else
+                        {
+                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            _ListFanParameters = m_ListFanParameters;
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (_Fan.Control == "双速")
+                        {
+                            ClearFanModel(_Fan);
+                        }
+                        else
+                        {
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            _ListFanParameters = m_ListFanParametersSingle;
+                        }
+                    }
+
+                    if (picker != null && picker.IsFound())
+                    {
+                        var _FanParameters = _ListFanParameters.Find(p => p.CCCF_Spec == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
+                        if (_FanParameters != null)
+                        {
+                            _Fan.FanModelID = _FanParameters.Suffix;
+                            _Fan.FanModelName = _FanParameters.CCCF_Spec;
+                            _Fan.FanModelNum = _FanParameters.No;
+                            _Fan.FanModelCCCF = _FanParameters.CCCF_Spec;
+                            _Fan.FanModelAirVolume = _FanParameters.AirVolume;
+                            _Fan.FanModelPa = _FanParameters.Pa;
+                            _Fan.FanModelMotorPower = _FanParameters.Power;
+                            _Fan.FanModelNoise = _FanParameters.Noise;
+                            _Fan.FanModelFanSpeed = _FanParameters.Rpm;
+                            _Fan.FanModelPower = string.Empty;
+                            _Fan.FanModelLength = _FanParameters.Length;
+                            _Fan.FanModelWidth = _FanParameters.Width;
+                            _Fan.FanModelHeight = _FanParameters.Height;
+                            _Fan.FanModelWeight = _FanParameters.Weight;
+                            _Fan.IsPointSafe = !picker.IsOptimalModel();
+
+                            if (_Fan.VentStyle.Contains("电机内置"))
+                            {
+                                _Fan.FanModelLength = _FanParameters.Length2;
+                                _Fan.FanModelWidth = _FanParameters.Width1;
+                                _Fan.FanModelHeight = _FanParameters.Height2;
+                            }
+
+                            if (!_Fan.IsPointSafe)
+                            {
+                                _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                            }
+                            else
+                            {
+                                _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                            }
+
+                            m_fmFanModel.CalcFanEfficiency(_Fan);
+                        }
+
+                    }
+                    else
+                    {
+                        _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                        ClearFanModel(_Fan);
+                    }
+
+                    TreeList.RefreshNode(TreeList.FocusedNode);
                 }
 
-                TreeList.RefreshNode(TreeList.FocusedNode);
+                if (m_ListFan.HasChildModel(_Fan))
+                {
+                    _Fan = m_ListFan.ChildModel(_Fan);
+                    _Fan.FanSelectionStateInfo = new FanSelectionStateInfo();
+                }
             }
+            if (!_Fan.IsHighSpeedModel())
+            {
+                var parent = m_ListFan.ParentModel(_Fan);
+                if (parent.Control == "单速")
+                {
+                    ClearFanModel(_Fan);
+                    TreeList.RefreshNode(TreeList.FocusedNode);
+                    return;
+                }
+                // 低速轴流风机
+                if (parent.IsAXIALModel())
+                {
+                    List<AxialFanParameters> _ListAxialFanParameters = new List<AxialFanParameters>();
+                    IFanSelectionModelPicker picker = null;
+                    //若当前节点为低速档
+                    //先找到他的高速档父节点，并获取高速档选出的风机CCCF
+                    //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
+                    _ListAxialFanParameters = m_ListAxialFanParametersDouble.Where(f => f.ModelNum == parent.FanModelCCCF).ToList();
+                    picker = new ThFanSelectionAxialModelPicker(_ListAxialFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    if (picker != null)
+                    {
+                        if (picker.IsFound())
+                        {
+                            var _FanParameters = _ListAxialFanParameters.Find(p => p.ModelNum == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
+                            if (_FanParameters != null)
+                            {
+                                _Fan.FanModelID = _FanParameters.No;
+                                _Fan.FanModelName = string.Empty;
+                                _Fan.FanModelNum = _FanParameters.No;
+                                _Fan.FanModelCCCF = _FanParameters.ModelNum;
+                                _Fan.FanModelAirVolume = _FanParameters.AirVolume;
+                                _Fan.FanModelPa = _FanParameters.Pa;
+                                _Fan.FanModelMotorPower = _FanParameters.Power;
+                                _Fan.FanModelNoise = _FanParameters.Noise;
+                                _Fan.FanModelFanSpeed = _FanParameters.Rpm;
+                                _Fan.FanModelPower = string.Empty;
+                                _Fan.FanModelLength = _FanParameters.Length;
+                                _Fan.FanModelDIA = _FanParameters.Diameter;
+                                _Fan.FanModelWeight = _FanParameters.Weight;
+                                _Fan.IsPointSafe = !picker.IsOptimalModel();
 
+                                m_fmFanModel.CalcFanEfficiency(_Fan);
+                            }
 
+                        }
+
+                        //该项为低速档，且没选到风机型号(不为null)
+                        //此时，当前项的高速档父节点一定为双速否则pick为null
+                        else if (parent != null)
+                        {
+                            var parentpick = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                            var lowgeometry = _ListAxialFanParameters.ToGeometries(new AxialModelNumberComparer(), "高");
+
+                            if (parentpick.IsFound())
+                            {
+                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.AirVolume, parent.WindResis }, lowgeometry.First());
+                                List<double> recommendPointInLow = new List<double> { 0, 0 };
+                                if (highreferencepoint.Count != 0)
+                                {
+                                    recommendPointInLow = new List<double> { Math.Round(highreferencepoint.First().X), Math.Round(highreferencepoint.First().Y) };
+                                }
+                                _Fan.FanSelectionStateInfo.RecommendPointInLow = recommendPointInLow;
+                                parent.FanSelectionStateInfo.RecommendPointInLow = recommendPointInLow;
+                            }
+                            ClearFanModel(_Fan);
+                        }
+                    }
+
+                    //当高速档正确选出风机,并高速档为双速（低速档picker != null）才考虑子节点情况
+                    if (!string.IsNullOrEmpty(parent.FanModelCCCF))
+                    {
+                        if (picker.IsFound())
+                        {
+                            //低速档风机选型点处于安全范围
+                            if (!_Fan.IsPointSafe)
+                            {
+                                //高速档风机选型点处于安全范围
+                                if (!parent.IsPointSafe)
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                                }
+                                //高速档风机选型点处于危险范围
+                                else
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                                }
+                            }
+                            //低速档风机选型点处于危险范围
+                            else
+                            {
+                                //高速档风机选型点处于安全范围
+                                if (!parent.IsPointSafe)
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowUnsafe;
+                                }
+                                //高速档风机选型点处于危险范围
+                                else
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothUnsafe;
+                                }
+                            }
+                        }
+
+                        //低速档风机未选到
+                        else
+                        {
+                            _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowNotFound;
+                            parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowNotFound;
+                        }
+                    }
+                    //高速档风机未选到
+                    else
+                    {
+                        _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                        parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                    }
+
+                    TreeList.RefreshNode(TreeList.FocusedNode);
+                }
+                // 低速离心
+                else
+                {
+                    List<FanParameters> _ListFanParameters = new List<FanParameters>();
+                    IFanSelectionModelPicker picker = null;
+                    //若当前节点为低速档
+                    //先找到他的高速档父节点，并获取父节点选出的风机CCCF
+                    //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
+                    //var parentfan = m_ListFan.Find(p => p.ID == _Fan.PID);
+                    _ListFanParameters = m_ListFanParametersDouble.Where(f => f.CCCF_Spec == parent.FanModelCCCF).ToList();
+                    picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    if (picker != null)
+                    {
+                        if (picker.IsFound())
+                        {
+                            var _FanParameters = _ListFanParameters.Find(p => p.CCCF_Spec == picker.Model() && Convert.ToDouble(p.AirVolume) == picker.AirVolume() && Convert.ToDouble(p.Pa) == picker.Pa());
+                            if (_FanParameters != null)
+                            {
+                                _Fan.FanModelID = _FanParameters.Suffix;
+                                _Fan.FanModelName = string.Empty;
+                                _Fan.FanModelNum = _FanParameters.No;
+                                _Fan.FanModelCCCF = _FanParameters.CCCF_Spec;
+                                _Fan.FanModelAirVolume = _FanParameters.AirVolume;
+                                _Fan.FanModelPa = _FanParameters.Pa;
+                                _Fan.FanModelMotorPower = _FanParameters.Power;
+                                _Fan.FanModelNoise = _FanParameters.Noise;
+                                _Fan.FanModelFanSpeed = _FanParameters.Rpm;
+                                _Fan.FanModelPower = string.Empty;
+                                _Fan.FanModelLength = _FanParameters.Length;
+                                _Fan.FanModelWidth = _FanParameters.Width;
+                                _Fan.FanModelHeight = _FanParameters.Height;
+                                _Fan.FanModelWeight = _FanParameters.Weight;
+                                _Fan.IsPointSafe = !picker.IsOptimalModel();
+
+                                if (_Fan.VentStyle.Contains("电机内置"))
+                                {
+                                    _Fan.FanModelLength = _FanParameters.Length2;
+                                    _Fan.FanModelWidth = _FanParameters.Width1;
+                                    _Fan.FanModelHeight = _FanParameters.Height2;
+                                }
+
+                                m_fmFanModel.CalcFanEfficiency(_Fan);
+                            }
+
+                        }
+
+                        //该项为低速风机，且没选到风机型号(不为null)
+                        //此时，当前项的父节点(高速档)一定为双速否则pick为null
+                        else if (parent != null)
+                        {
+                            var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                            //对于后倾离心单速风机才会用CCCFRpmComparer比较器进行分组，所以双速风机一定是用CCCFComparer比较器进行分组
+                            var lowgeometry = _ListFanParameters.ToGeometries(new CCCFComparer(), "高");
+
+                            if (parentpick.IsFound())
+                            {
+                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.AirVolume, parent.WindResis }, lowgeometry.First());
+                                List<double> recommendPointInLow = new List<double> { 0, 0 };
+                                if (highreferencepoint.Count != 0)
+                                {
+                                    recommendPointInLow = new List<double> { Math.Round(highreferencepoint.First().X), Math.Round(highreferencepoint.First().Y) };
+                                }
+                                _Fan.FanSelectionStateInfo.RecommendPointInLow = recommendPointInLow;
+                                parent.FanSelectionStateInfo.RecommendPointInLow = recommendPointInLow;
+                            }
+
+                            ClearFanModel(_Fan);
+                        }
+                    }
+
+                    //当高速档正确选出风机,并高速档为双速（低速档picker != null）才考虑子节点情况
+                    if (!string.IsNullOrEmpty(parent.FanModelCCCF) && picker != null)
+                    {
+                        if (!string.IsNullOrEmpty(_Fan.FanModelCCCF))
+                        {
+                            //低速档风机选型点处于安全范围
+                            if (!_Fan.IsPointSafe)
+                            {
+                                //高速档风机选型点处于安全范围
+                                if (!parent.IsPointSafe)
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothSafe;
+                                }
+                                //高速档风机选型点处于危险范围
+                                else
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
+                                }
+                            }
+                            //低速档风机选型点处于危险范围
+                            else
+                            {
+                                //高速档风机选型点处于安全范围
+                                if (!parent.IsPointSafe)
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowUnsafe;
+                                }
+                                //高速档风机选型点处于危险范围
+                                else
+                                {
+                                    _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothUnsafe;
+                                    parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighAndLowBothUnsafe;
+                                }
+                            }
+                        }
+
+                        //低速档风机未选到
+                        else
+                        {
+                            _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowNotFound;
+                            parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.LowNotFound;
+                        }
+                    }
+                    //高速档风机未选到
+                    else if (string.IsNullOrEmpty(parent.FanModelCCCF))
+                    {
+                        _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                        parent.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighNotFound;
+                    }
+                    TreeList.RefreshNode(TreeList.FocusedNode);
+                }
+            }
         }
-
-
 
         private static void ClearFanModel(FanDataModel _Fan)
         {
@@ -1019,6 +1315,7 @@ namespace TianHua.FanSelection.UI
                     if (XtraMessageBox.Show(" 是否确认删除低速工况？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         TreeList.DeleteSelectedNodes();
+                        SetFanModel();
                     }
                 }
 
@@ -1040,6 +1337,7 @@ namespace TianHua.FanSelection.UI
                             m_ListFan.Remove(_MainFan);
                             TreeList.RefreshDataSource();
                             this.TreeList.ExpandAll();
+                            //SetFanModel();
                         }
                     }
 
@@ -1791,16 +2089,30 @@ namespace TianHua.FanSelection.UI
             if (_Fan == null) return;
             if (e.Column.FieldName == "FanModelName")
             {
-                if (_Fan.IsPointSafe)
+                if (_Fan.FanSelectionStateInfo != null)
                 {
-                    e.Appearance.ForeColor = Color.Gold;
+                    if (_Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighUnsafe
+                        || _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowUnsafe
+                        || _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighAndLowBothUnsafe)
+                    {
+                        e.Appearance.ForeColor = Color.Gold;
+                        e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Italic);
+                    }
+    
+
+                }
+
+
+
+            }
+            
+            if(e.Column.FieldName == "AirVolume" || e.Column.FieldName == "WindResis")
+            {
+                if (_Fan.FanSelectionStateInfo != null && _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound)
+                {
+                    e.Appearance.ForeColor = Color.Red;
                     e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Italic);
                 }
-                //else
-                //{
-                //    e.Appearance.ForeColor = Color.Black;
-                //}
-
             }
 
 

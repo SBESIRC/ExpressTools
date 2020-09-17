@@ -142,15 +142,34 @@ namespace TianHua.FanSelection.UI
 
             //}
 
-
-            if (_FanDataModel.IsPointSafe)
+            if (_FanDataModel.FanSelectionStateInfo != null)
             {
+                this.TxtPrompt.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+                this.TxtPrompt.AppearanceItemCaption.Options.UseForeColor = true;
+                if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighUnsafe)
+                {
+                    TxtPrompt.Text = " 高速挡输入的总阻力偏小.";
+                }
+                else if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowUnsafe)
+                {
+                    TxtPrompt.Text = " 低速挡输入的总阻力偏小.";
+                }
+                else if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighAndLowBothUnsafe)
+                {
+                    TxtPrompt.Text = " 高、低速档输入的总阻力都偏小.";
+                }
+                else if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound && _FanDataModel.FanSelectionStateInfo.RecommendPointInLow.Count == 2)
+                {
+                    TxtPrompt.Text = string.Format(" 低速挡的工况点与高速挡差异过大,低速档风量的推荐值在{0}m³/h左右,总阻力的推荐值小于{1}Pa. ",
+                    _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[0], _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[1]);
+                    this.TxtPrompt.AppearanceItemCaption.ForeColor = Color.Red;
+                }
+                else
+                {
+                    TxtPrompt.Text = " ";
+                    this.TxtPrompt.AppearanceItemCaption.ForeColor = Color.Transparent;
+                }
 
-                TxtPrompt.Text = "输入的总阻力偏小!";
-            }
-            else
-            {
-                TxtPrompt.Text = " ";
             }
 
             CalcFanEfficiency(_FanDataModel);

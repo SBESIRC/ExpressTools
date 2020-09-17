@@ -295,6 +295,12 @@ namespace TianHua.FanSelection
 
 
         /// <summary>
+        /// 风机选择状态信息
+        /// </summary>
+        public FanSelectionStateInfo FanSelectionStateInfo { get; set; }
+
+
+        /// <summary>
         /// 末端预留风压
         /// </summary>
         public int EndReservedAirPressure { get; set; }
