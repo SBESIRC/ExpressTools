@@ -305,5 +305,21 @@ namespace TianHua.FanSelection
         /// </summary>
         public int EndReservedAirPressure { get; set; }
 
+
+        /// <summary>
+        /// 风量 描述
+        /// </summary>
+        public string AirVolumeDescribe { get; set; }
+
+        /// <summary>
+        /// 风阻：正整数 描述
+        /// </summary>
+        public string WindResisDescribe { get; set; }
+
+        /// <summary>
+        /// 单位功耗 描述
+        /// </summary>
+        public string FanModelPowerDescribe { get; set; }
+
     }
 }

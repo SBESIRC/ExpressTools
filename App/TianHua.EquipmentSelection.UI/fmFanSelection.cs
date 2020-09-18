@@ -52,6 +52,8 @@ namespace TianHua.FanSelection.UI
 
         public fmFanModel m_fmFanModel = new fmFanModel();
 
+        fmOverView m_fmOverView = new fmOverView();
+
         public List<string> m_ListSceneScreening { get; set; }
 
         /// <summary>
@@ -1348,6 +1350,7 @@ namespace TianHua.FanSelection.UI
                         dbManager.EraseModels(_Fan.ID);
                         Active.Editor.Regen();
                     }
+                    m_fmOverView.DataSourceChanged(m_ListFan);
                 }
             }
 
@@ -1418,7 +1421,7 @@ namespace TianHua.FanSelection.UI
             TreeList.FocusedNode = TreeList.Nodes.LastNode;
             TreeList.FocusedNode = TreeList.FindNodeByID(_FocusedNodeID - 1);
 
-
+            m_fmOverView.DataSourceChanged(m_ListFan);
 
 
         }
@@ -1452,6 +1455,7 @@ namespace TianHua.FanSelection.UI
             this.TreeList.ExpandAll();
             TreeList.FocusedNode = TreeList.FindNodeByID(_FocusedNodeID + 1);
 
+            m_fmOverView.DataSourceChanged(m_ListFan);
         }
 
         private void BtnCopy_Click(object sender, EventArgs e)
@@ -1512,6 +1516,7 @@ namespace TianHua.FanSelection.UI
             }
             TreeList.RefreshDataSource();
             this.TreeList.ExpandAll();
+            m_fmOverView.DataSourceChanged(m_ListFan);
         }
 
         public string SetFanDataModelName(FanDataModel _FanDataModel)
@@ -2215,6 +2220,22 @@ namespace TianHua.FanSelection.UI
             _P.Offset(this.Location.X + _Rect.Width, this.Location.Y + _Rect.Height + 45);
 
             this.ToolTip.ShowHint(e.ErrorText, _P);
+        }
+
+        private void BtnOverView_Click(object sender, EventArgs e)
+        {
+            m_fmOverView.Init(m_ListFan, m_ListFanParameters, m_ListFanParametersSingle, m_ListFanParametersDouble, m_ListAxialFanParameters, m_ListAxialFanParametersDouble);
+            m_fmOverView.Show();
+        }
+
+        private void TreeList_DataSourceChanged(object sender, EventArgs e)
+        {
+            m_fmOverView.DataSourceChanged(m_ListFan);
+        }
+
+        private void TreeList_HiddenEditor(object sender, EventArgs e)
+        {
+            m_fmOverView.DataSourceChanged(m_ListFan);
         }
     }
 }

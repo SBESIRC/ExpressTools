@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmFanSelection));
-            this.BarManager = new DevExpress.XtraBars.BarManager();
+            this.BarManager = new DevExpress.XtraBars.BarManager(this.components);
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.barBtnNew = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnOpen = new DevExpress.XtraBars.BarButtonItem();
@@ -44,6 +45,7 @@
             this.barSubItem1 = new DevExpress.XtraBars.BarSubItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.BtnOverView = new DevExpress.XtraEditors.SimpleButton();
             this.TreeList = new DevExpress.XtraTreeList.TreeList();
             this.treeListBand15 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.ColFanNum = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -124,7 +126,8 @@
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.ToolTip = new DevExpress.Utils.ToolTipController();
+            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.ToolTip = new DevExpress.Utils.ToolTipController(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.BarManager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -161,6 +164,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             this.SuspendLayout();
             // 
             // BarManager
@@ -317,6 +321,7 @@
             // layoutControl1
             // 
             this.layoutControl1.AllowCustomization = false;
+            this.layoutControl1.Controls.Add(this.BtnOverView);
             this.layoutControl1.Controls.Add(this.TreeList);
             this.layoutControl1.Controls.Add(this.BtnCopy);
             this.layoutControl1.Controls.Add(this.BtnDown);
@@ -332,6 +337,17 @@
             this.layoutControl1.Size = new System.Drawing.Size(1636, 271);
             this.layoutControl1.TabIndex = 4;
             this.layoutControl1.Text = "layoutControl1";
+            // 
+            // BtnOverView
+            // 
+            this.BtnOverView.AllowFocus = false;
+            this.BtnOverView.Location = new System.Drawing.Point(1534, 5);
+            this.BtnOverView.Name = "BtnOverView";
+            this.BtnOverView.Size = new System.Drawing.Size(97, 22);
+            this.BtnOverView.StyleController = this.layoutControl1;
+            this.BtnOverView.TabIndex = 12;
+            this.BtnOverView.Text = "总  览";
+            this.BtnOverView.Click += new System.EventHandler(this.BtnOverView_Click);
             // 
             // TreeList
             // 
@@ -426,7 +442,6 @@
             this.TreeList.OptionsView.ShowHierarchyIndentationLines = DevExpress.Utils.DefaultBoolean.True;
             this.TreeList.OptionsView.ShowIndentAsRowStyle = true;
             this.TreeList.OptionsView.ShowIndicator = false;
-            this.TreeList.OptionsView.ShowVertLines = false;
             this.TreeList.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.TxtName,
             this.TxtInstallSpace,
@@ -458,9 +473,11 @@
             this.TreeList.CustomColumnDisplayText += new DevExpress.XtraTreeList.CustomColumnDisplayTextEventHandler(this.TreeList_CustomColumnDisplayText);
             this.TreeList.ValidatingEditor += new DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventHandler(this.TreeList_ValidatingEditor);
             this.TreeList.InvalidValueException += new DevExpress.XtraEditors.Controls.InvalidValueExceptionEventHandler(this.TreeList_InvalidValueException);
+            this.TreeList.HiddenEditor += new System.EventHandler(this.TreeList_HiddenEditor);
             this.TreeList.CustomDrawNodeCell += new DevExpress.XtraTreeList.CustomDrawNodeCellEventHandler(this.TreeList_CustomDrawNodeCell);
             this.TreeList.CellValueChanged += new DevExpress.XtraTreeList.CellValueChangedEventHandler(this.TreeList_CellValueChanged);
             this.TreeList.ShowingEditor += new System.ComponentModel.CancelEventHandler(this.TreeList_ShowingEditor);
+            this.TreeList.DataSourceChanged += new System.EventHandler(this.TreeList_DataSourceChanged);
             // 
             // treeListBand15
             // 
@@ -1243,7 +1260,8 @@
             this.layoutControlItem6,
             this.layoutControlItem7,
             this.layoutControlItem2,
-            this.emptySpaceItem4});
+            this.emptySpaceItem4,
+            this.layoutControlItem8});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(3, 3, 3, 3);
             this.layoutControlGroup1.Size = new System.Drawing.Size(1636, 271);
@@ -1317,8 +1335,17 @@
             this.emptySpaceItem4.AllowHotTrack = false;
             this.emptySpaceItem4.Location = new System.Drawing.Point(1125, 0);
             this.emptySpaceItem4.Name = "emptySpaceItem4";
-            this.emptySpaceItem4.Size = new System.Drawing.Size(505, 26);
+            this.emptySpaceItem4.Size = new System.Drawing.Size(404, 26);
             this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // layoutControlItem8
+            // 
+            this.layoutControlItem8.Control = this.BtnOverView;
+            this.layoutControlItem8.Location = new System.Drawing.Point(1529, 0);
+            this.layoutControlItem8.Name = "layoutControlItem8";
+            this.layoutControlItem8.Size = new System.Drawing.Size(101, 26);
+            this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem8.TextVisible = false;
             // 
             // fmFanSelection
             // 
@@ -1374,6 +1401,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1477,5 +1505,7 @@
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand19;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand18;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand16;
+        private DevExpress.XtraEditors.SimpleButton BtnOverView;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
     }
 }

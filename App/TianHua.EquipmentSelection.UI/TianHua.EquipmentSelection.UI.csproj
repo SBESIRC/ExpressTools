@@ -133,6 +133,12 @@
     <Compile Include="fmFanSelection.Designer.cs">
       <DependentUpon>fmFanSelection.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmOverView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmOverView.Designer.cs">
+      <DependentUpon>fmOverView.cs</DependentUpon>
+    </Compile>
     <Compile Include="fmRemark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -249,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmFanSelection.resx">
       <DependentUpon>fmFanSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmOverView.resx">
+      <DependentUpon>fmOverView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="fmRemark.resx">
       <DependentUpon>fmRemark.cs</DependentUpon>
