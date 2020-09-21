@@ -63,6 +63,8 @@ namespace TianHua.FanSelection
         public const string BLOCK_DYNAMIC_PROPERTY_ROTATE2 = "翻转状态2";
         public const string BLOCK_DYNAMIC_PROPERTY_POSITION1_X = "位置1 X";
         public const string BLOCK_DYNAMIC_PROPERTY_POSITION1_Y = "位置1 Y";
+        public const string BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X = "设备基点 X";
+        public const string BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y = "设备基点 Y";
         public const string BLOCK_DYNAMIC_PROPERTY_SPECIFICATION_MODEL = "规格及型号";
         public const string BLOCK_DYNAMIC_PROPERTY_MODEL_TEXT_HEIGHT = "型号字高";
         public const string BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT = "标注字高";

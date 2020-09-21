@@ -1,6 +1,7 @@
 ﻿using System;
 using Linq2Acad;
 using DotNetARX;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace TianHua.FanSelection.UI
@@ -44,6 +45,21 @@ namespace TianHua.FanSelection.UI
             {
                 throw new NotSupportedException();
             }
+        }
+
+        public static Point3d GetModelBasePoint(this ObjectId obj)
+        {
+            double position_x = 0, position_y = 0;
+            var dynamicProperties = obj.GetDynProperties();
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X))
+            {
+                position_x = (double)dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X);
+            }
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y))
+            {
+                position_y = (double)dynamicProperties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y);
+            }
+            return new Point3d(position_x, position_y, 0);
         }
 
         public static void SetModelCustomPropertiesFrom(this ObjectId obj, DynamicBlockReferencePropertyCollection properties)
@@ -103,6 +119,20 @@ namespace TianHua.FanSelection.UI
             {
                 dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT,
                     properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANNOTATION_TEXT_HEIGHT));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X));
             }
         }
     }

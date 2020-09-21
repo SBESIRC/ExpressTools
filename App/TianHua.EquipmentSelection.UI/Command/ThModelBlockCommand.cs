@@ -32,7 +32,7 @@ namespace TianHua.FanSelection.UI.Command
 #endif
 
                 // 获取风机参数
-                var result = Active.Editor.GetString("\n输入风机参数：");
+                var result = Active.Editor.GetString("\n输入风机参数");
                 if (result.Status != PromptStatus.OK)
                 {
                     return;

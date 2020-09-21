@@ -20,7 +20,7 @@ namespace TianHua.FanSelection.UI
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 // 选取插入点
-                PromptPointResult pr = Active.Editor.GetPoint("\n请输入插入点: ");
+                PromptPointResult pr = Active.Editor.GetPoint("\n请输入插入点");
                 if (pr.Status != PromptStatus.OK)
                     return;
 
@@ -30,11 +30,12 @@ namespace TianHua.FanSelection.UI
                 Active.Database.ImportModel(blockName, layerName);
                 var objId = Active.Database.InsertModel(blockName, layerName, dataModel.Attributes());
                 var blockRef = acadDatabase.Element<BlockReference>(objId);
+                var position = pr.Value - objId.GetModelBasePoint();
                 for (int i = 0; i < dataModel.VentQuan; i++)
                 {
                     double deltaX = blockRef.GeometricExtents.Width() * 2 * i;
                     Vector3d delta = new Vector3d(deltaX, 0.0, 0.0);
-                    Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() + delta);
+                    Matrix3d displacement = Matrix3d.Displacement(position + delta);
                     var model = acadDatabase.ModelSpace.Add(blockRef.GetTransformedCopy(displacement));
                     model.SetModelIdentifier(dataModel.ID, dataModel.ListVentQuan[i], dataModel.VentStyle);
                     model.SetModelNumber(dataModel.InstallFloor, dataModel.ListVentQuan[i]);
