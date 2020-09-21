@@ -47,9 +47,9 @@ namespace TianHua.FanSelection.Function
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string AirVolume(double value)
+        public static string AirVolume(string description)
         {
-            return string.Format("风量：{0} cmh", Convert.ToString(value));
+            return string.Format("风量：{0} cmh", description);
         }
 
         /// <summary>
@@ -57,20 +57,19 @@ namespace TianHua.FanSelection.Function
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string WindResis(double value)
+        public static string WindResis(string description)
         {
-            return string.Format("全压：{0} Pa", Convert.ToString(value));
+            return string.Format("全压：{0} Pa", description);
         }
-
 
         /// <summary>
         /// 属性“电量”值
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string MotorPower(string value)
+        public static string MotorPower(string description)
         {
-            return string.Format("电量：{0} kW", value);
+            return string.Format("电量：{0} kW", description);
         }
 
         /// <summary>

@@ -18,13 +18,13 @@ namespace TianHua.FanSelection.Function
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_USAGE] = model.Name,
 
                 // 风量
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = ThFanSelectionUtils.AirVolume(model.AirVolume),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME] = ThFanSelectionUtils.AirVolume(model.AirVolumeDescribe),
 
                 // 全压
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = ThFanSelectionUtils.WindResis(model.WindResis),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE] = ThFanSelectionUtils.WindResis(model.WindResisDescribe),
 
                 // 电量
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = ThFanSelectionUtils.MotorPower(model.FanModelMotorPower),
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE] = ThFanSelectionUtils.MotorPower(model.FanModelPowerDescribe),
 
                 // 定频
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIXED_FREQUENCY] = ThFanSelectionUtils.FixedFrequency(model.Control, model.IsFre),
@@ -129,7 +129,7 @@ namespace TianHua.FanSelection.Function
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME))
             {
                 if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_VOLUME]
-                    != ThFanSelectionUtils.AirVolume(model.AirVolume))
+                    != ThFanSelectionUtils.AirVolume(model.AirVolumeDescribe))
                 {
                     return true;
                 }
@@ -143,7 +143,7 @@ namespace TianHua.FanSelection.Function
             if (attributes.ContainsKey(ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE))
             {
                 if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_PRESSURE]
-                    != ThFanSelectionUtils.WindResis(model.WindResis))
+                    != ThFanSelectionUtils.WindResis(model.WindResisDescribe))
                 {
                     return true;
                 }
@@ -158,7 +158,7 @@ namespace TianHua.FanSelection.Function
             {
 
                 if (attributes[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_CHARGE]
-                    != ThFanSelectionUtils.MotorPower(model.FanModelMotorPower))
+                    != ThFanSelectionUtils.MotorPower(model.FanModelPowerDescribe))
                 {
                     return true;
                 }
