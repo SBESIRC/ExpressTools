@@ -1,5 +1,7 @@
 ﻿using AcHelper;
 using DevExpress.XtraEditors;
+using DevExpress.XtraTreeList;
+using DevExpress.XtraTreeList.Nodes;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,7 @@ namespace TianHua.FanSelection.UI
 
         public List<FanDataModel> m_ListFanRoot = new List<FanDataModel>();
 
-        //public List<FanDataModel> m_ListMainFan { get; set; }
+        public List<FanDataModel> m_ListMainFan { get; set; }
 
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -78,12 +80,46 @@ namespace TianHua.FanSelection.UI
         }
 
 
+
+
+        /// <summary>
+        /// 单例
+        /// </summary>
+        private static fmOverView SingleOverViewDialog;
+        public static fmOverView GetInstance()
+        {
+            if (SingleOverViewDialog == null)
+            {
+                SingleOverViewDialog = new fmOverView();
+            }
+            return SingleOverViewDialog;
+        }
+
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Hide();
+            e.Cancel = true;
+        }
+
+
+
         public void Init(List<FanDataModel> _ListFan, List<FanParameters> _ListFanParameters, List<FanParameters> _ListFanParametersSingle,
            List<FanParameters> _ListFanParametersDouble, List<AxialFanParameters> _ListAxialFanParameters, List<AxialFanParameters> _ListAxialFanParametersDouble)
         {
-            //m_ListMainFan = _ListFan;
+            m_ListMainFan = _ListFan;
             var _Json = FuncJson.Serialize(_ListFan);
             m_ListFan = FuncJson.Deserialize<List<FanDataModel>>(_Json);
+
+            //if (m_ListFan != null && m_ListFan.Count > 0)
+            //{
+            //    m_ListFan.ForEach(p =>
+            //    {
+            //        var _List = m_ListFan.FindAll(s => p.InstallSpace == s.InstallSpace && p.InstallFloor == s.InstallFloor && p.ID != s.ID);
+            //        if (_List != null && _List.Count > 0) p.IsRepetitions = true;
+            //    });
+            //}
+
 
             m_ListFanParameters = _ListFanParameters;
             m_ListFanParametersSingle = _ListFanParametersSingle;
@@ -202,6 +238,18 @@ namespace TianHua.FanSelection.UI
             m_ListFan.AddRange(m_ListFanRoot);
 
 
+
+            if (m_ListFan != null && m_ListFan.Count > 0)
+            {
+                m_ListFan.ForEach(p =>
+                {
+                    var _List = m_ListFan.FindAll(s => p.InstallSpace == s.InstallSpace && p.InstallFloor == s.InstallFloor && p.ID != s.ID && p.FanPrefix == s.FanPrefix);
+                    if (_List != null && _List.Count > 0) p.IsRepetitions = true;
+                });
+            }
+
+
+
             this.TreeList.ParentFieldName = "PID";
             this.TreeList.KeyFieldName = "ID";
             if (m_ListFan != null && m_ListFan.Count > 0)
@@ -228,10 +276,10 @@ namespace TianHua.FanSelection.UI
             }
             if (e.Column.FieldName == "VentQuan" || e.Column.FieldName == "AirVolume" || e.Column.FieldName == "WindResis")
             {
-                var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
-                var _Fan = m_ListFan.Find(p => p.ID == _ID);
-                if (_Fan == null) { return; }
-                if (_Fan.PID == "0")
+                var _PID = FuncStr.NullToStr(e.Node.GetValue("PID"));
+                //var _Fan = m_ListFan.Find(p => p.ID == _ID);
+                //if (_Fan == null) { e.DisplayText = string.Empty;  return; }
+                if (_PID == "0")
                     e.DisplayText = string.Empty;
             }
         }
@@ -282,6 +330,15 @@ namespace TianHua.FanSelection.UI
                     e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Bold);
                 }
             }
+
+            if (e.Column.FieldName == "OverViewFanNum")
+            {
+                if (_Fan.IsRepetitions)
+                {
+                    e.Appearance.ForeColor = Color.FromArgb(208, 70, 38);
+                }
+            }
+
         }
 
         private void BarBtnExportFanPara_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -387,7 +444,7 @@ namespace TianHua.FanSelection.UI
         private List<ExportFanParaModel> GetListExportFanPara()
         {
             List<ExportFanParaModel> _List = new List<ExportFanParaModel>();
-            m_ListFan.ForEach(p =>
+            m_ListMainFan.ForEach(p =>
            {
                if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
                var _FanPrefixDict = PubVar.g_ListFanPrefixDict.Find(s => s.FanUse == p.Scenario);
@@ -399,7 +456,8 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.SortID = p.SortID;
                _ExportFanPara.No = p.FanNum;
                _ExportFanPara.Coverage = p.Name;
-               _ExportFanPara.FanForm = p.VentStyle.Replace("(电机内置)", "").Replace("(电机外置)", "");
+               if (p.VentStyle != null)
+                   _ExportFanPara.FanForm = p.VentStyle.Replace("(电机内置)", "").Replace("(电机外置)", "");
                //_ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirVolume);
                _ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirCalcValue);
                _ExportFanPara.FanEnergyLevel = p.VentLev;
@@ -511,7 +569,7 @@ namespace TianHua.FanSelection.UI
             Worksheet _Sheet = targetWorkbookb.Worksheets[1];
             var targetsheet = targetWorkbookb.GetSheetFromSheetName("防烟计算");
 
-            var _List = m_ListFan;
+            var _List = m_ListMainFan;
 
             if (_ListSceneScreening != null && _ListSceneScreening.Count > 0)
             {
@@ -585,9 +643,92 @@ namespace TianHua.FanSelection.UI
         public void DataSourceChanged(List<FanDataModel> _List)
         {
             if (_List == null || _List.Count == 0) { return; }
+            m_ListMainFan = _List;
             var _Json = FuncJson.Serialize(_List);
             m_ListFan = FuncJson.Deserialize<List<FanDataModel>>(_Json);
+
+
             InitListFan();
+        }
+
+        //private void TreeList_MouseDoubleClick(object sender, MouseEventArgs e)
+        //{
+
+
+        //}
+
+        private void TreeList_MouseDown(object sender, MouseEventArgs e)
+        {
+            TreeListHitInfo _HitInfo = (sender as TreeList).CalcHitInfo(new System.Drawing.Point(e.X, e.Y));
+
+            TreeListNode _Node = _HitInfo.Node;
+            if (e.Button == MouseButtons.Left)
+            {
+                if (_Node != null)
+                {
+                    TreeList.FocusedColumn = _HitInfo.Column;
+
+                    if (_HitInfo.Column.FieldName == "OverViewFanNum")
+                    {
+                        _Node.TreeList.FocusedNode = _Node;
+
+                        var _Fan = _Node.TreeList.GetFocusedRow() as FanDataModel;
+
+                        if (_Fan == null) { return; }
+
+                        string _ErrorStr = string.Empty;
+
+                        if (_Fan.IsRepetitions)
+                        {
+                            var _List = m_ListMainFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID && p.FanPrefix == _Fan.FanPrefix);
+
+                            if (_List != null && _List.Count > 0)
+                            {
+                                _List.ForEach(p =>
+                                {
+                                    if (p.ListVentQuan != null && p.ListVentQuan.Count > 0)
+                                    {
+                                        for (int i = 0; i < p.ListVentQuan.Count; i++)
+                                        {
+
+                                            if (_Fan.ListVentQuan.Contains(p.ListVentQuan[i]))
+                                            {
+                                                if (_ErrorStr == string.Empty)
+                                                    _ErrorStr = p.FanNum;
+                                                else
+                                                    _ErrorStr += " , " + p.FanNum;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        }
+
+                        if (_ErrorStr != string.Empty)
+                        {
+                            this.ToolTip.ShowHint("当前风机与[" + _ErrorStr + "]冲突！", MousePosition);
+                            return;
+                        }
+ 
+                    }
+
+
+                }
+            }
+        }
+
+        private void TreeList_MouseClick(object sender, MouseEventArgs e)
+        {
+            TreeListHitInfo _HitInfo = (sender as TreeList).CalcHitInfo(new System.Drawing.Point(e.X, e.Y));
+
+            TreeListNode _Node = _HitInfo.Node;
+
+            if (e.Button == MouseButtons.Left)
+            {
+            }
         }
     }
 }

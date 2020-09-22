@@ -176,6 +176,11 @@ namespace TianHua.FanSelection.UI
 
             InitSonFan();
 
+            _FanDataModel.AirVolumeDescribe = LabAir.Text;
+
+            _FanDataModel.WindResisDescribe = LabPa.Text;
+
+            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
         }
 
         private void InitSonFan()
@@ -188,11 +193,11 @@ namespace TianHua.FanSelection.UI
 
             LabAir.Text = LabAir.Text + "/" + _FanSon.AirVolume;
 
-            m_Fan.AirVolumeDescribe = LabAir.Text;
+     
 
             LabPa.Text = LabPa.Text + "/" + _FanSon.WindResis;
 
-            m_Fan.WindResisDescribe = LabPa.Text;
+  
 
             double _SafetyFactor = 0;
 
@@ -243,7 +248,7 @@ namespace TianHua.FanSelection.UI
             if (_MotorPower != null)
             {
                 LabMotorPower.Text = LabMotorPower.Text + "/" + _MotorPower.Power;
-                m_Fan.FanModelPowerDescribe = LabMotorPower.Text;
+
             }
         }
 

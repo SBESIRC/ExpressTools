@@ -190,6 +190,7 @@
             this.treeListBand38 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.treeListBand39 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.treeListBand40 = new DevExpress.XtraTreeList.Columns.TreeListBand();
+            this.ToolTip = new DevExpress.Utils.ToolTipController(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             this.sidePanel1.SuspendLayout();
@@ -465,6 +466,8 @@
             this.TreeList.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Solid;
             this.TreeList.CustomColumnDisplayText += new DevExpress.XtraTreeList.CustomColumnDisplayTextEventHandler(this.TreeList_CustomColumnDisplayText);
             this.TreeList.CustomDrawNodeCell += new DevExpress.XtraTreeList.CustomDrawNodeCellEventHandler(this.TreeList_CustomDrawNodeCell);
+            this.TreeList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TreeList_MouseClick);
+            this.TreeList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeList_MouseDown);
             // 
             // treeListBand61
             // 
@@ -2090,6 +2093,11 @@
             this.treeListBand40.Visible = false;
             this.treeListBand40.Width = 63;
             // 
+            // ToolTip
+            // 
+            this.ToolTip.ShowBeak = true;
+            this.ToolTip.ShowShadow = false;
+            // 
             // fmOverView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -2100,7 +2108,9 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "fmOverView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "风机总览";
@@ -2335,5 +2345,6 @@
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand58;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand59;
         private DevExpress.XtraTreeList.Columns.TreeListBand treeListBand60;
+        private DevExpress.Utils.ToolTipController ToolTip;
     }
 }

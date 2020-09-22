@@ -52,7 +52,7 @@ namespace TianHua.FanSelection.UI
 
         public fmFanModel m_fmFanModel = new fmFanModel();
 
-        fmOverView m_fmOverView = new fmOverView();
+        fmOverView m_fmOverView = fmOverView.GetInstance();
 
         public List<string> m_ListSceneScreening { get; set; }
 

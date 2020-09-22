@@ -321,5 +321,10 @@ namespace TianHua.FanSelection
         /// </summary>
         public string FanModelPowerDescribe { get; set; }
 
+        /// <summary>
+        /// 是否重复
+        /// </summary>
+        public bool IsRepetitions { get; set; }
+
     }
 }
