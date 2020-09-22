@@ -37,23 +37,35 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D18", GetLoadRange(fontroomNaturalModel.Load.ToString()));
             setsheet.SetCellValue("D19", fontroomNaturalModel.Length_Valve.ToString());
             setsheet.SetCellValue("D20", fontroomNaturalModel.Width_Valve.ToString());
+            int FrontRoomDoorCount = fontroomNaturalModel.FrontRoomDoors.Count;
+            int StairCaseDoorCount = fontroomNaturalModel.StairCaseDoors.Count;
             int rowNo = 21;
-            foreach (var frontRoomDoor in fontroomNaturalModel.FrontRoomDoors)
+            for (int i = 0; i < FrontRoomDoorCount + StairCaseDoorCount; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, frontRoomDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomDoor.Count_Door_Q.ToString());
+                if (i != 0)
+                {
+                    setsheet.CopyRangeToNext("A21", "D23", i * 3);
+                }
+            }
+            for (int i = 0; i < FrontRoomDoorCount; i++)
+            {
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "前室疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, fontroomNaturalModel.FrontRoomDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), fontroomNaturalModel.FrontRoomDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), fontroomNaturalModel.FrontRoomDoors[i].Count_Door_Q.ToString());
                 rowNo += 3;
             }
-            rowNo = 30;
-            foreach (var stairCaseDoor in fontroomNaturalModel.StairCaseDoors)
+            for (int i = 0; i < StairCaseDoorCount; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, stairCaseDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), stairCaseDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), stairCaseDoor.Count_Door_Q.ToString());
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "楼梯间疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, fontroomNaturalModel.StairCaseDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), fontroomNaturalModel.StairCaseDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), fontroomNaturalModel.StairCaseDoors[i].Count_Door_Q.ToString());
                 rowNo += 3;
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D38", targetsheet);
+            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
     }
 }

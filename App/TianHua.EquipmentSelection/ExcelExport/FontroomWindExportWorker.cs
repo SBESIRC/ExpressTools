@@ -30,14 +30,21 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D17", frontRoomWind.Length_Valve.ToString());
             setsheet.SetCellValue("D18", frontRoomWind.Width_Valve.ToString());
             int rowNo = 19;
-            foreach (var frontRoomDoor in frontRoomWind.FrontRoomDoors)
+            for (int i = 0; i < frontRoomWind.FrontRoomDoors.Count; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, frontRoomDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomDoor.Count_Door_Q.ToString());
+                if (i != 0)
+                {
+                    setsheet.CopyRangeToNext("A19", "D21", i * 3);
+                }
+
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "前室疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, frontRoomWind.FrontRoomDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomWind.FrontRoomDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomWind.FrontRoomDoors[i].Count_Door_Q.ToString());
                 rowNo += 3;
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D27", targetsheet);
+            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
     }
 }

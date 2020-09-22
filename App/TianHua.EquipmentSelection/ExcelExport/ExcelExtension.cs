@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using System;
 
 namespace TianHua.FanSelection.ExcelExport
 {
@@ -21,6 +22,13 @@ namespace TianHua.FanSelection.ExcelExport
                 return null;
             }
 
+        }
+
+        public static void CopyRangeToNext(this Worksheet sheet, string rangestartcell, string rangeendcell, int rowoffset)
+        {
+            Range copyedrange = sheet.Range[rangestartcell, rangeendcell];
+            var newrange = copyedrange.Offset[rowoffset, 0];
+            copyedrange.Copy(newrange);
         }
     }
 }

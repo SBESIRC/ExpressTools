@@ -31,16 +31,22 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D18", GetStairLocation(StaircaseNoAir.Stair.ToString()));
             setsheet.SetCellValue("D19", GetStairSpaceState(StaircaseNoAir.Type_Area.ToString()));
             int rowNo = 20;
-            foreach (var frontRoomDoor in StaircaseNoAir.FrontRoomDoors)
+            for (int i = 0; i < StaircaseNoAir.FrontRoomDoors.Count; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, frontRoomDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomDoor.Count_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 3), frontRoomDoor.Crack_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 4), frontRoomDoor.Type.ToString());
+                if (i != 0)
+                {
+                    setsheet.CopyRangeToNext("A20", "D24", i * 5);
+                }
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "前室疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, StaircaseNoAir.FrontRoomDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), StaircaseNoAir.FrontRoomDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), StaircaseNoAir.FrontRoomDoors[i].Count_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 3), StaircaseNoAir.FrontRoomDoors[i].Crack_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 4), StaircaseNoAir.FrontRoomDoors[i].Type.ToString());
                 rowNo += 5;
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D34", targetsheet);
+            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
 
         private double LeakArea(StaircaseNoAirModel StaircaseNoAir)

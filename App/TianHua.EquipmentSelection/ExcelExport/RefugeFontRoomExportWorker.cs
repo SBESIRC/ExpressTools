@@ -19,14 +19,21 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D5", GetAkValue(refugeFontRoomModel).ToString());
             setsheet.SetCellValue("D6", "1");
             int rowNo = 7;
-            foreach (var frontRoomDoor in refugeFontRoomModel.FrontRoomDoors)
+            for (int i = 0; i < refugeFontRoomModel.FrontRoomDoors.Count; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, frontRoomDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomDoor.Count_Door_Q.ToString());
+                if (i != 0)
+                {
+                    setsheet.CopyRangeToNext("A7", "D9", i * 3);
+                }
+
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "前室疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, refugeFontRoomModel.FrontRoomDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), refugeFontRoomModel.FrontRoomDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), refugeFontRoomModel.FrontRoomDoors[i].Count_Door_Q.ToString());
                 rowNo += 3;
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D15", targetsheet);
+            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
 
         public double GetAkValue(RefugeFontRoomModel model)

@@ -31,16 +31,23 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D18", GetStairLocation(StaircaseAir.Stair.ToString()));
             setsheet.SetCellValue("D19", GetStairSpaceState(StaircaseAir.Type_Area.ToString()));
             int rowNo = 20;
-            foreach (var frontRoomDoor in StaircaseAir.FrontRoomDoors)
+            for (int i = 0; i < StaircaseAir.FrontRoomDoors.Count; i++)
             {
-                setsheet.SetCellValue("D" + rowNo, frontRoomDoor.Height_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 1), frontRoomDoor.Width_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 2), frontRoomDoor.Count_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 3), frontRoomDoor.Crack_Door_Q.ToString());
-                setsheet.SetCellValue("D" + (rowNo + 4), frontRoomDoor.Type.ToString());
+                if (i != 0)
+                {
+                    setsheet.CopyRangeToNext("A20", "D24", i * 5);
+                }
+
+                setsheet.SetCellValue("A" + rowNo, "楼层一");
+                setsheet.SetCellValue("B" + rowNo, "前室疏散门" + (i + 1));
+                setsheet.SetCellValue("D" + rowNo, StaircaseAir.FrontRoomDoors[i].Height_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 1), StaircaseAir.FrontRoomDoors[i].Width_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 2), StaircaseAir.FrontRoomDoors[i].Count_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 3), StaircaseAir.FrontRoomDoors[i].Crack_Door_Q.ToString());
+                setsheet.SetCellValue("D" + (rowNo + 4), StaircaseAir.FrontRoomDoors[i].Type.ToString());
                 rowNo += 5;
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D34", targetsheet);
+            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
 
         private double LeakArea(StaircaseAirModel StaircaseAir)
