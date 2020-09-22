@@ -424,7 +424,7 @@ namespace TianHua.FanSelection.UI
                 SetFanModel();
             }
 
-            if (e.Column.FieldName == "VentLev" || e.Column.FieldName == "EleLev" || e.Column.FieldName == "MotorTempo")
+            if (e.Column.FieldName == "VentLev" || e.Column.FieldName == "EleLev" || e.Column.FieldName == "MotorTempo" || e.Column.FieldName == "VentNum")
             {
                 SetFanModel();
             }
@@ -464,7 +464,7 @@ namespace TianHua.FanSelection.UI
                     IFanSelectionModelPicker picker = null;
                     if (_Fan.Control == "双速")
                     {
-                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                         _ListAxialFanParameters = m_ListAxialFanParametersDouble;
                         //if (!picker.IsFound())
                         //{
@@ -479,7 +479,7 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                         _ListAxialFanParameters = m_ListAxialFanParameters;
                     }
 
@@ -532,7 +532,7 @@ namespace TianHua.FanSelection.UI
                     {
                         if (_Fan.Control == "双速")
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParametersDouble;
                             //if (!picker.IsFound())
                             //{
@@ -547,7 +547,7 @@ namespace TianHua.FanSelection.UI
                         }
                         else
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParameters;
                         }
 
@@ -561,7 +561,7 @@ namespace TianHua.FanSelection.UI
                         }
                         else
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParametersSingle;
                         }
                     }
@@ -640,7 +640,7 @@ namespace TianHua.FanSelection.UI
                     //先找到他的高速档父节点，并获取高速档选出的风机CCCF
                     //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
                     _ListAxialFanParameters = m_ListAxialFanParametersDouble.Where(f => f.ModelNum == parent.FanModelCCCF).ToList();
-                    picker = new ThFanSelectionAxialModelPicker(_ListAxialFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionAxialModelPicker(_ListAxialFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                     if (picker != null)
                     {
                         if (picker.IsFound())
@@ -672,12 +672,12 @@ namespace TianHua.FanSelection.UI
                         //此时，当前项的高速档父节点一定为双速否则pick为null
                         else if (parent != null)
                         {
-                            var parentpick = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                            var parentpick = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, parent, new List<double>() { parent.SplitAirVolume, parent.WindResis, 0 });
                             var lowgeometry = _ListAxialFanParameters.ToGeometries(new AxialModelNumberComparer(), "高");
 
                             if (parentpick.IsFound())
                             {
-                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.AirVolume, parent.WindResis }, lowgeometry.First());
+                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.SplitAirVolume, parent.WindResis }, lowgeometry.First());
                                 List<double> recommendPointInLow = new List<double> { 0, 0 };
                                 if (highreferencepoint.Count != 0)
                                 {
@@ -755,7 +755,7 @@ namespace TianHua.FanSelection.UI
                     //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
                     //var parentfan = m_ListFan.Find(p => p.ID == _Fan.PID);
                     _ListFanParameters = m_ListFanParametersDouble.Where(f => f.CCCF_Spec == parent.FanModelCCCF).ToList();
-                    picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
                     if (picker != null)
                     {
                         if (picker.IsFound())
@@ -795,13 +795,13 @@ namespace TianHua.FanSelection.UI
                         //此时，当前项的父节点(高速档)一定为双速否则pick为null
                         else if (parent != null)
                         {
-                            var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                            var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.SplitAirVolume, parent.WindResis, 0 });
                             //对于后倾离心单速风机才会用CCCFRpmComparer比较器进行分组，所以双速风机一定是用CCCFComparer比较器进行分组
                             var lowgeometry = _ListFanParameters.ToGeometries(new CCCFComparer(), "高");
 
                             if (parentpick.IsFound())
                             {
-                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.AirVolume, parent.WindResis }, lowgeometry.First());
+                                var highreferencepoint = parentpick.ModelGeometry().ReferenceModelPoint(new List<double>() { parent.SplitAirVolume, parent.WindResis }, lowgeometry.First());
                                 List<double> recommendPointInLow = new List<double> { 0, 0 };
                                 if (highreferencepoint.Count != 0)
                                 {
