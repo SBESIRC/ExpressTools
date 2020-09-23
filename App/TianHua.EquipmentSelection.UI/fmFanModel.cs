@@ -180,13 +180,7 @@ namespace TianHua.FanSelection.UI
 
             CalcFanEfficiency(_FanDataModel);
 
-            InitSonFan();
 
-            _FanDataModel.AirVolumeDescribe = LabAir.Text;
-
-            _FanDataModel.WindResisDescribe = LabPa.Text;
-
-            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
         }
 
         private void InitSonFan()
@@ -380,6 +374,14 @@ namespace TianHua.FanSelection.UI
                 GetPower(_FanDataModel, _FanEfficiency);
 
             }
+
+            InitSonFan();
+
+            _FanDataModel.AirVolumeDescribe = LabAir.Text;
+
+            _FanDataModel.WindResisDescribe = LabPa.Text;
+
+            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
         }
 
         private List<MotorPower> GetListMotorPower(FanDataModel _FanDataModel)
