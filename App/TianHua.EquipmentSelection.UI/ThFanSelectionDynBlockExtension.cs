@@ -65,20 +65,6 @@ namespace TianHua.FanSelection.UI
         public static void SetModelCustomPropertiesFrom(this ObjectId obj, DynamicBlockReferencePropertyCollection properties)
         {
             var dynamicProperties = obj.GetDynProperties();
-            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1) &&
-                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1))
-            {
-                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1,
-                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1));
-            }
-
-            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2) &&
-                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2))
-            {
-                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2,
-                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2));
-            }
-
             if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE1) &&
                 properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ROTATE1))
             {
@@ -128,11 +114,25 @@ namespace TianHua.FanSelection.UI
                     properties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X));
             }
 
-            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X) &&
-                properties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X))
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y))
             {
-                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X,
-                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_X));
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNMAIC_PROPERTY_BASE_POINT_Y));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE1));
+            }
+
+            if (dynamicProperties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2) &&
+                properties.Contains(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2))
+            {
+                dynamicProperties.SetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2,
+                    properties.GetValue(ThFanSelectionCommon.BLOCK_DYNAMIC_PROPERTY_ANGLE2));
             }
         }
     }
