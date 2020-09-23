@@ -52,7 +52,7 @@ namespace TianHua.FanSelection.UI
 
         public fmFanModel m_fmFanModel = new fmFanModel();
 
-        fmOverView m_fmOverView = fmOverView.GetInstance();
+        public fmOverView m_fmOverView = fmOverView.GetInstance();
 
         public List<string> m_ListSceneScreening { get; set; }
 
@@ -307,6 +307,7 @@ namespace TianHua.FanSelection.UI
                     _Fan = _fmDragCalc.m_ListFan.First();
                 SetFanModel();
                 FanSelectionInfoError(_Fan);
+                m_fmOverView.DataSourceChanged(m_ListFan);
             }
         }
 
@@ -353,6 +354,7 @@ namespace TianHua.FanSelection.UI
 
                 SetFanModel();
                 FanSelectionInfoError(_Fan);
+                m_fmOverView.DataSourceChanged(m_ListFan);
                 TreeList.Refresh();
             }
         }
@@ -2103,15 +2105,15 @@ namespace TianHua.FanSelection.UI
                         e.Appearance.ForeColor = Color.Gold;
                         e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Italic);
                     }
-    
+
 
                 }
 
 
 
             }
-            
-            if(e.Column.FieldName == "AirVolume" || e.Column.FieldName == "WindResis")
+
+            if (e.Column.FieldName == "AirVolume" || e.Column.FieldName == "WindResis")
             {
                 if (_Fan.FanSelectionStateInfo != null && _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound)
                 {

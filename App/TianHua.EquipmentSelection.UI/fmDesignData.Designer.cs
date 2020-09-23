@@ -45,20 +45,13 @@
             this.ColLastOperationDate = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.ColLastOperationName = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
-            this.PicAll = new DevExpress.XtraEditors.PictureEdit();
-            this.PicSeven = new DevExpress.XtraEditors.PictureEdit();
-            this.PicThree = new DevExpress.XtraEditors.PictureEdit();
             this.PicSearch = new DevExpress.XtraEditors.PictureEdit();
             this.TxtSearch = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
-            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.emptySpaceItem4 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.emptySpaceItem2 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
@@ -68,20 +61,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.Gdv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtName)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAll.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicSeven.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicThree.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicSearch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtSearch.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
@@ -92,9 +78,6 @@
             this.layoutControl1.Controls.Add(this.BtnCancel);
             this.layoutControl1.Controls.Add(this.BtnOK);
             this.layoutControl1.Controls.Add(this.Gdc);
-            this.layoutControl1.Controls.Add(this.PicAll);
-            this.layoutControl1.Controls.Add(this.PicSeven);
-            this.layoutControl1.Controls.Add(this.PicThree);
             this.layoutControl1.Controls.Add(this.PicSearch);
             this.layoutControl1.Controls.Add(this.TxtSearch);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -257,54 +240,6 @@
             this.TxtName.AutoHeight = false;
             this.TxtName.Name = "TxtName";
             // 
-            // PicAll
-            // 
-            this.PicAll.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PicAll.EditValue = global::TianHua.FanSelection.UI.Properties.Resources.全部_未选中;
-            this.PicAll.Location = new System.Drawing.Point(360, 12);
-            this.PicAll.MaximumSize = new System.Drawing.Size(30, 20);
-            this.PicAll.MinimumSize = new System.Drawing.Size(30, 20);
-            this.PicAll.Name = "PicAll";
-            this.PicAll.Properties.AllowFocused = false;
-            this.PicAll.Properties.NullText = " ";
-            this.PicAll.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.PicAll.Size = new System.Drawing.Size(30, 20);
-            this.PicAll.StyleController = this.layoutControl1;
-            this.PicAll.TabIndex = 9;
-            this.PicAll.Click += new System.EventHandler(this.PicAll_Click);
-            // 
-            // PicSeven
-            // 
-            this.PicSeven.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PicSeven.EditValue = global::TianHua.FanSelection.UI.Properties.Resources._7天_未选中;
-            this.PicSeven.Location = new System.Drawing.Point(333, 12);
-            this.PicSeven.MaximumSize = new System.Drawing.Size(27, 20);
-            this.PicSeven.MinimumSize = new System.Drawing.Size(27, 20);
-            this.PicSeven.Name = "PicSeven";
-            this.PicSeven.Properties.AllowFocused = false;
-            this.PicSeven.Properties.NullText = " ";
-            this.PicSeven.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.PicSeven.Size = new System.Drawing.Size(27, 20);
-            this.PicSeven.StyleController = this.layoutControl1;
-            this.PicSeven.TabIndex = 8;
-            this.PicSeven.Click += new System.EventHandler(this.PicSeven_Click);
-            // 
-            // PicThree
-            // 
-            this.PicThree.Cursor = System.Windows.Forms.Cursors.Default;
-            this.PicThree.EditValue = global::TianHua.FanSelection.UI.Properties.Resources._3天_未选中;
-            this.PicThree.Location = new System.Drawing.Point(306, 12);
-            this.PicThree.MaximumSize = new System.Drawing.Size(27, 20);
-            this.PicThree.MinimumSize = new System.Drawing.Size(27, 20);
-            this.PicThree.Name = "PicThree";
-            this.PicThree.Properties.AllowFocused = false;
-            this.PicThree.Properties.NullText = " ";
-            this.PicThree.Properties.ShowCameraMenuItem = DevExpress.XtraEditors.Controls.CameraMenuItemVisibility.Auto;
-            this.PicThree.Size = new System.Drawing.Size(27, 20);
-            this.PicThree.StyleController = this.layoutControl1;
-            this.PicThree.TabIndex = 7;
-            this.PicThree.Click += new System.EventHandler(this.PicThree_Click);
-            // 
             // PicSearch
             // 
             this.PicSearch.Cursor = System.Windows.Forms.Cursors.Default;
@@ -339,11 +274,7 @@
             this.layoutControlItem2,
             this.layoutControlItem3,
             this.emptySpaceItem1,
-            this.layoutControlItem4,
-            this.layoutControlItem5,
-            this.layoutControlItem6,
             this.layoutControlItem7,
-            this.emptySpaceItem4,
             this.emptySpaceItem2,
             this.layoutControlItem8,
             this.layoutControlItem9});
@@ -379,38 +310,8 @@
             this.emptySpaceItem1.AllowHotTrack = false;
             this.emptySpaceItem1.Location = new System.Drawing.Point(192, 0);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(104, 24);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(199, 24);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
-            // 
-            // layoutControlItem4
-            // 
-            this.layoutControlItem4.Control = this.PicThree;
-            this.layoutControlItem4.Location = new System.Drawing.Point(296, 0);
-            this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 2, 2);
-            this.layoutControlItem4.Size = new System.Drawing.Size(27, 24);
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem4.TextVisible = false;
-            // 
-            // layoutControlItem5
-            // 
-            this.layoutControlItem5.Control = this.PicSeven;
-            this.layoutControlItem5.Location = new System.Drawing.Point(323, 0);
-            this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 2, 2);
-            this.layoutControlItem5.Size = new System.Drawing.Size(27, 24);
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem5.TextVisible = false;
-            // 
-            // layoutControlItem6
-            // 
-            this.layoutControlItem6.Control = this.PicAll;
-            this.layoutControlItem6.Location = new System.Drawing.Point(350, 0);
-            this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 2, 2);
-            this.layoutControlItem6.Size = new System.Drawing.Size(30, 24);
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem7
             // 
@@ -420,15 +321,6 @@
             this.layoutControlItem7.Size = new System.Drawing.Size(391, 226);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
-            // 
-            // emptySpaceItem4
-            // 
-            this.emptySpaceItem4.AllowHotTrack = false;
-            this.emptySpaceItem4.Location = new System.Drawing.Point(380, 0);
-            this.emptySpaceItem4.Name = "emptySpaceItem4";
-            this.emptySpaceItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.emptySpaceItem4.Size = new System.Drawing.Size(11, 24);
-            this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
             // 
             // emptySpaceItem2
             // 
@@ -477,20 +369,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.Gdv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ComBoxName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtName)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicAll.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicSeven.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PicThree.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PicSearch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtSearch.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
@@ -508,18 +393,11 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraGrid.GridControl Gdc;
-        private DevExpress.XtraEditors.PictureEdit PicAll;
-        private DevExpress.XtraEditors.PictureEdit PicSeven;
-        private DevExpress.XtraEditors.PictureEdit PicThree;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
         private DevExpress.XtraEditors.SimpleButton BtnCancel;
         private DevExpress.XtraEditors.SimpleButton BtnOK;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
-        private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem4;
         private DevExpress.XtraLayout.EmptySpaceItem emptySpaceItem2;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridView Gdv;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn ColName;

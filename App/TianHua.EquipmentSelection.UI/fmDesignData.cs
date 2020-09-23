@@ -87,7 +87,7 @@ namespace TianHua.FanSelection.UI
             Gdv.FocusedColumn = Gdv.Columns["Name"];
             Gdv.ShowEditor();
 
-            PicSeven_Click(null, null);
+ 
         }
 
         public string SetFanDesignDataName(FanDesignDataModel _FanData)
@@ -194,12 +194,12 @@ namespace TianHua.FanSelection.UI
         private void Filter(string _FilterStr)
         {
 
-            var _DateTime = DateTime.Now;
+            //var _DateTime = DateTime.Now;
 
             var _FilterString = @" Name LIKE '%" + _FilterStr + "%'";
 
-            if (m_FilterDate != 0)
-                _FilterString += @"  And ( LastOperationDate  >  '" + _DateTime.AddDays(m_FilterDate) + "')";
+            //if (m_FilterDate != 0)
+            //    _FilterString += @"  And ( LastOperationDate  >  '" + _DateTime.AddDays(m_FilterDate) + "')";
 
             //if (m_FilterDate != 0)
             //    _FilterString += @"  And ( LastOperationDate  Between '" + _DateTime.AddDays(m_FilterDate) + "' And '" + _DateTime + "')";
@@ -208,33 +208,7 @@ namespace TianHua.FanSelection.UI
             (Gdv as ColumnView).ActiveFilterString = _FilterString;
         }
 
-        private void PicAll_Click(object sender, EventArgs e)
-        {
-            PicAll.Image = Properties.Resources.全部_选中;
-            PicSeven.Image = Properties.Resources._7天_未选中;
-            PicThree.Image = Properties.Resources._3天_未选中;
-            m_FilterDate = 0;
-            Filter(FuncStr.NullToStr(TxtSearch.Text));
-        }
-
-        private void PicSeven_Click(object sender, EventArgs e)
-        {
-            PicAll.Image = Properties.Resources.全部_未选中;
-            PicSeven.Image = Properties.Resources._7天_选中;
-            PicThree.Image = Properties.Resources._3天_未选中;
-            m_FilterDate = -7; ;
-            Filter(FuncStr.NullToStr(TxtSearch.Text));
-        }
-
-        private void PicThree_Click(object sender, EventArgs e)
-        {
-            PicAll.Image = Properties.Resources.全部_未选中;
-            PicSeven.Image = Properties.Resources._7天_未选中;
-            PicThree.Image = Properties.Resources._3天_选中;
-            m_FilterDate = -3;
-            Filter(FuncStr.NullToStr(TxtSearch.Text));
-
-        }
+  
 
         private void Gdv_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {

@@ -158,6 +158,7 @@ namespace TianHua.FanSelection.UI
             {
                 e.Document.PushModelSelectionDialogVisible();
                 e.Document.HideModelSelectionDialog();
+                // hide overview UI
             }
         }
 

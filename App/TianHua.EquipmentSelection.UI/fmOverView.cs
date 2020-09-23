@@ -127,6 +127,7 @@ namespace TianHua.FanSelection.UI
             m_ListAxialFanParameters = _ListAxialFanParameters;
             m_ListAxialFanParametersDouble = _ListAxialFanParametersDouble;
 
+            InitListFan();
         }
 
 
@@ -205,7 +206,7 @@ namespace TianHua.FanSelection.UI
 
         private void fmOverView_Load(object sender, EventArgs e)
         {
-            InitListFan();
+       
         }
 
         private void InitListFan()

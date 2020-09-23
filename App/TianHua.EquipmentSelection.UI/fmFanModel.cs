@@ -34,7 +34,7 @@ namespace TianHua.FanSelection.UI
 
         private void fmFanModel_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(438, 440);
+            this.Size = new Size(452, 480);
 
         }
 
@@ -94,7 +94,7 @@ namespace TianHua.FanSelection.UI
 
             LabModelNum.Text = _FanDataModel.FanModelNum;
             LabCCFC.Text = _FanDataModel.FanModelCCCF;
-            LabAir.Text = FuncStr.NullToStr(_FanDataModel.AirVolume);
+            LabAir.Text = FuncStr.NullToStr(_FanDataModel.SplitAirVolume);
             LabPa.Text = FuncStr.NullToStr(_FanDataModel.WindResis);
             LabMotorPower.Text = _FanDataModel.FanModelMotorPower;
             LabNoise.Text = _FanDataModel.FanModelNoise;
@@ -144,8 +144,10 @@ namespace TianHua.FanSelection.UI
 
             if (_FanDataModel.FanSelectionStateInfo != null)
             {
+ 
                 this.TxtPrompt.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
                 this.TxtPrompt.AppearanceItemCaption.Options.UseForeColor = true;
+                TxtPrompt1.Text = " ";
                 if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighUnsafe)
                 {
                     TxtPrompt.Text = " 高速挡输入的总阻力偏小.";
@@ -160,14 +162,18 @@ namespace TianHua.FanSelection.UI
                 }
                 else if (_FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound && _FanDataModel.FanSelectionStateInfo.RecommendPointInLow.Count == 2)
                 {
-                    TxtPrompt.Text = string.Format(" 低速挡的工况点与高速挡差异过大,低速档风量的推荐值在{0}m³/h左右,总阻力的推荐值小于{1}Pa. ",
-                    _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[0], _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[1]);
+                    TxtPrompt.Text = string.Format(" 低速挡的工况点与高速挡差异过大,低速档风量的推荐值在{0}m³/h左右, ",
+                    _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[0]);
+                    TxtPrompt1.Text = string.Format(" 总阻力的推荐值小于{0}Pa.", _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[1]);
                     this.TxtPrompt.AppearanceItemCaption.ForeColor = Color.Red;
+                    this.TxtPrompt1.AppearanceItemCaption.ForeColor = Color.Red;
                 }
                 else
                 {
                     TxtPrompt.Text = " ";
+                    TxtPrompt1.Text = " ";
                     this.TxtPrompt.AppearanceItemCaption.ForeColor = Color.Transparent;
+ 
                 }
 
             }
@@ -193,11 +199,11 @@ namespace TianHua.FanSelection.UI
 
             LabAir.Text = LabAir.Text + "/" + _FanSon.AirVolume;
 
-     
+
 
             LabPa.Text = LabPa.Text + "/" + _FanSon.WindResis;
 
-  
+
 
             double _SafetyFactor = 0;
 
@@ -260,7 +266,7 @@ namespace TianHua.FanSelection.UI
             if (_FanDataModel.VentStyle == "轴流")
             {
                 double _SafetyFactor = 0;
-                double _Flow = Math.Round(FuncStr.NullToDouble(_FanDataModel.AirVolume) / 3600, 5);
+                double _Flow = Math.Round(FuncStr.NullToDouble(_FanDataModel.SplitAirVolume) / 3600, 5);
                 var _SpecificSpeed = 5.54 * FuncStr.NullToDouble(_FanDataModel.FanModelFanSpeed) * Math.Pow(_Flow, 0.5) / Math.Pow(_FanDataModel.WindResis, 0.75);
                 var _NoSplit = _FanDataModel.FanModelName.Split('-');
                 double _No = 0;
@@ -271,7 +277,7 @@ namespace TianHua.FanSelection.UI
                 var _AxialFanEfficiency = m_ListAxialFanEfficiency.Find(p => FuncStr.NullToInt(p.No_Min) <= _No && FuncStr.NullToInt(p.No_Max) >= _No
                    && _FanDataModel.VentLev == p.FanEfficiencyLevel);
                 if (_AxialFanEfficiency == null) { return; }
-                var _ShaftPower = _FanDataModel.AirVolume * _FanDataModel.WindResis / _AxialFanEfficiency.FanEfficiency * 100 / 0.855 / 1000 / 3600;
+                var _ShaftPower = _FanDataModel.SplitAirVolume * _FanDataModel.WindResis / _AxialFanEfficiency.FanEfficiency * 100 / 0.855 / 1000 / 3600;
 
                 if (_ShaftPower <= 0.5)
                 {
@@ -322,14 +328,14 @@ namespace TianHua.FanSelection.UI
             else
             {
                 double _SafetyFactor = 0;
-                double _Flow = Math.Round(FuncStr.NullToDouble(_FanDataModel.AirVolume) / 3600, 5);
+                double _Flow = Math.Round(FuncStr.NullToDouble(_FanDataModel.SplitAirVolume) / 3600, 5);
                 var _SpecificSpeed = 5.54 * FuncStr.NullToDouble(_FanDataModel.FanModelFanSpeed) * Math.Pow(_Flow, 0.5) / Math.Pow(_FanDataModel.WindResis, 0.75);
 
                 var _FanEfficiency = m_ListFanEfficiency.Find(p => FuncStr.NullToInt(p.No_Min) <= FuncStr.NullToInt(_FanDataModel.FanModelNum) && FuncStr.NullToInt(p.No_Max) >= FuncStr.NullToInt(_FanDataModel.FanModelNum)
                      && FuncStr.NullToInt(p.Rpm_Min) <= FuncStr.NullToInt(_SpecificSpeed)
                       && FuncStr.NullToInt(p.Rpm_Max) >= FuncStr.NullToInt(_SpecificSpeed) && _FanDataModel.VentLev == p.FanEfficiencyLevel);
                 if (_FanEfficiency == null) { return; }
-                var _ShaftPower = _FanDataModel.AirVolume * _FanDataModel.WindResis / _FanEfficiency.FanInternalEfficiency * 100 / 0.855 / 1000 / 3600;
+                var _ShaftPower = _FanDataModel.SplitAirVolume * _FanDataModel.WindResis / _FanEfficiency.FanInternalEfficiency * 100 / 0.855 / 1000 / 3600;
                 if (_ShaftPower <= 0.5)
                 {
                     _SafetyFactor = 1.5;
@@ -600,9 +606,9 @@ namespace TianHua.FanSelection.UI
             m_Fan.FanModelCCCF = FuncStr.NullToStr(LabCCFC.Text);
 
 
-            m_Fan.AirVolume = FuncStr.NullToInt(LabAir.Text);
+            //m_Fan.AirVolume = FuncStr.NullToInt(LabAir.Text);
 
-            m_Fan.WindResis = FuncStr.NullToInt(LabPa.Text);
+            //m_Fan.WindResis = FuncStr.NullToInt(LabPa.Text);
 
             m_Fan.FanModelMotorPower = FuncStr.NullToStr(LabMotorPower.Text);
             m_Fan.FanModelNoise = FuncStr.NullToStr(LabNoise.Text);

@@ -38,6 +38,20 @@ namespace TianHua.FanSelection.UI
             if (form != null && form.Visible)
             {
                 form.Hide();
+                HidefmOverView(form);
+
+            }
+        }
+
+        private static void HidefmOverView(Form _Form)
+        {
+            if (_Form.Text == "风机选型")
+            {
+                var _fmFanSelection = _Form as fmFanSelection;
+                if (_fmFanSelection != null)
+                {
+                    _fmFanSelection.m_fmOverView.Hide();
+                }
             }
         }
 
