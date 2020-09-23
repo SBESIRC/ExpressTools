@@ -90,7 +90,7 @@ namespace TianHua.FanSelection
         {
             get
             {
-                if (Scenario != "消防加压送风") { return AirCalcValue; }
+                if (Scenario != "消防加压送风") { return AirVolume; }
 
                 var _Value = this.AirCalcValue * this.AirCalcFactor / this.VentQuan;
 
