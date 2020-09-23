@@ -34,7 +34,7 @@ namespace TianHua.FanSelection.UI
 
         private void fmFanModel_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(452, 480);
+            this.Size = new Size(488, 480);
 
         }
 
@@ -124,7 +124,7 @@ namespace TianHua.FanSelection.UI
                 RGroupPower.Enabled = true;
             }
 
-
+            RGroupFanControl_SelectedIndexChanged(null, null); 
 
             //if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
             //{
