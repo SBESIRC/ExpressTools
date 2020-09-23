@@ -505,7 +505,7 @@ namespace TianHua.FanSelection.UI
                             _Fan.FanModelWeight = _FanParameters.Weight;
                             _Fan.IsPointSafe = !picker.IsOptimalModel();
 
-                            m_fmFanModel.CalcFanEfficiency(_Fan);
+                            m_fmFanModel.InitForm(_Fan,m_ListFan);
 
                             if (!_Fan.IsPointSafe)
                             {
@@ -605,7 +605,7 @@ namespace TianHua.FanSelection.UI
                                 _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
                             }
 
-                            m_fmFanModel.CalcFanEfficiency(_Fan);
+                            m_fmFanModel.InitForm(_Fan,m_ListFan);
                         }
 
                     }
@@ -665,7 +665,7 @@ namespace TianHua.FanSelection.UI
                                 _Fan.FanModelWeight = _FanParameters.Weight;
                                 _Fan.IsPointSafe = !picker.IsOptimalModel();
 
-                                m_fmFanModel.CalcFanEfficiency(_Fan);
+                                m_fmFanModel.InitForm(_Fan,m_ListFan);
                             }
 
                         }
@@ -788,7 +788,7 @@ namespace TianHua.FanSelection.UI
                                     _Fan.FanModelHeight = _FanParameters.Height2;
                                 }
 
-                                m_fmFanModel.CalcFanEfficiency(_Fan);
+                                m_fmFanModel.InitForm(_Fan,m_ListFan);
                             }
 
                         }

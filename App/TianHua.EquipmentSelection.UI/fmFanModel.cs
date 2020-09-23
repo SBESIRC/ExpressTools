@@ -124,7 +124,7 @@ namespace TianHua.FanSelection.UI
                 RGroupPower.Enabled = true;
             }
 
-            RGroupFanControl_SelectedIndexChanged(null, null); 
+            RGroupFanControl_SelectedIndexChanged(null, null);
 
             //if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
             //{
@@ -144,7 +144,7 @@ namespace TianHua.FanSelection.UI
 
             if (_FanDataModel.FanSelectionStateInfo != null)
             {
- 
+
                 this.TxtPrompt.AppearanceItemCaption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
                 this.TxtPrompt.AppearanceItemCaption.Options.UseForeColor = true;
                 TxtPrompt1.Text = " ";
@@ -173,23 +173,41 @@ namespace TianHua.FanSelection.UI
                     TxtPrompt.Text = " ";
                     TxtPrompt1.Text = " ";
                     this.TxtPrompt.AppearanceItemCaption.ForeColor = Color.Transparent;
- 
+
                 }
 
             }
 
             CalcFanEfficiency(_FanDataModel);
 
+            InitSonFan();
+
+            _FanDataModel.AirVolumeDescribe = LabAir.Text;
+
+            _FanDataModel.WindResisDescribe = LabPa.Text;
+
+            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
+
 
         }
 
         private void InitSonFan()
         {
-            if (m_Fan == null || m_Fan.PID != "0" || m_ListFan == null || m_ListFan.Count == 0) { return; }
+            if (m_Fan == null || m_Fan.PID != "0" || m_ListFan == null || m_ListFan.Count == 0)
+            {
+                LabAir.Text = FuncStr.NullToStr(m_Fan.SplitAirVolume);
+                LabPa.Text = FuncStr.NullToStr(m_Fan.WindResis);
+                return;
+            }
 
             var _FanSon = m_ListFan.Find(p => p.PID == m_Fan.ID);
 
-            if (_FanSon == null) { return; }
+            if (_FanSon == null)
+            {
+                LabAir.Text = FuncStr.NullToStr(m_Fan.SplitAirVolume);
+                LabPa.Text = FuncStr.NullToStr(m_Fan.WindResis);
+                return;
+            }
 
             LabAir.Text = LabAir.Text + "/" + _FanSon.AirVolume;
 
@@ -375,13 +393,7 @@ namespace TianHua.FanSelection.UI
 
             }
 
-            InitSonFan();
-
-            _FanDataModel.AirVolumeDescribe = LabAir.Text;
-
-            _FanDataModel.WindResisDescribe = LabPa.Text;
-
-            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
+   
         }
 
         private List<MotorPower> GetListMotorPower(FanDataModel _FanDataModel)
