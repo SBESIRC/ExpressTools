@@ -206,7 +206,7 @@ namespace TianHua.FanSelection.UI
 
         private void fmOverView_Load(object sender, EventArgs e)
         {
-       
+
         }
 
         private void InitListFan()
@@ -665,7 +665,7 @@ namespace TianHua.FanSelection.UI
             TreeListNode _Node = _HitInfo.Node;
             if (e.Button == MouseButtons.Left)
             {
-                if (_Node != null)
+                if (_Node != null && _HitInfo.Column != null)
                 {
                     TreeList.FocusedColumn = _HitInfo.Column;
 
@@ -713,7 +713,7 @@ namespace TianHua.FanSelection.UI
                             this.ToolTip.ShowHint("当前风机与[" + _ErrorStr + "]冲突！", MousePosition);
                             return;
                         }
- 
+
                     }
 
 

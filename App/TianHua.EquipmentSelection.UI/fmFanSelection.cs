@@ -2227,7 +2227,10 @@ namespace TianHua.FanSelection.UI
         private void BtnOverView_Click(object sender, EventArgs e)
         {
             m_fmOverView.Init(m_ListFan, m_ListFanParameters, m_ListFanParametersSingle, m_ListFanParametersDouble, m_ListAxialFanParameters, m_ListAxialFanParametersDouble);
+
             m_fmOverView.Show();
+
+            m_fmOverView.DataSourceChanged(m_ListFan);
         }
 
         private void TreeList_DataSourceChanged(object sender, EventArgs e)

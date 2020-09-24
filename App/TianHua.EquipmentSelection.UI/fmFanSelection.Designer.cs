@@ -276,15 +276,15 @@
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.BarManager;
-            this.barDockControlTop.Size = new System.Drawing.Size(1748, 24);
+            this.barDockControlTop.Size = new System.Drawing.Size(1828, 24);
             // 
             // barDockControlBottom
             // 
             this.barDockControlBottom.CausesValidation = false;
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barDockControlBottom.Location = new System.Drawing.Point(0, 332);
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 341);
             this.barDockControlBottom.Manager = this.BarManager;
-            this.barDockControlBottom.Size = new System.Drawing.Size(1748, 0);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1828, 0);
             // 
             // barDockControlLeft
             // 
@@ -292,15 +292,15 @@
             this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.barDockControlLeft.Location = new System.Drawing.Point(0, 24);
             this.barDockControlLeft.Manager = this.BarManager;
-            this.barDockControlLeft.Size = new System.Drawing.Size(0, 308);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 317);
             // 
             // barDockControlRight
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(1748, 24);
+            this.barDockControlRight.Location = new System.Drawing.Point(1828, 24);
             this.barDockControlRight.Manager = this.BarManager;
-            this.barDockControlRight.Size = new System.Drawing.Size(0, 308);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 317);
             // 
             // barSubItem1
             // 
@@ -333,16 +333,16 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(172, 327, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(1748, 308);
+            this.layoutControl1.Size = new System.Drawing.Size(1828, 317);
             this.layoutControl1.TabIndex = 4;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // BtnOverView
             // 
             this.BtnOverView.AllowFocus = false;
-            this.BtnOverView.Location = new System.Drawing.Point(1617, 5);
+            this.BtnOverView.Location = new System.Drawing.Point(1691, 5);
             this.BtnOverView.Name = "BtnOverView";
-            this.BtnOverView.Size = new System.Drawing.Size(126, 22);
+            this.BtnOverView.Size = new System.Drawing.Size(132, 22);
             this.BtnOverView.StyleController = this.layoutControl1;
             this.BtnOverView.TabIndex = 12;
             this.BtnOverView.Text = "总  览";
@@ -465,7 +465,7 @@
             this.ComBoxIntakeForm,
             this.ComBoxVibrationMode});
             this.TreeList.RowHeight = 28;
-            this.TreeList.Size = new System.Drawing.Size(1738, 272);
+            this.TreeList.Size = new System.Drawing.Size(1818, 281);
             this.TreeList.TabIndex = 11;
             this.TreeList.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Solid;
             this.TreeList.CustomNodeCellEditForEditing += new DevExpress.XtraTreeList.GetCustomNodeCellEditEventHandler(this.TreeList_CustomNodeCellEditForEditing);
@@ -485,7 +485,7 @@
             this.treeListBand15.Caption = "风机编号";
             this.treeListBand15.Columns.Add(this.ColFanNum);
             this.treeListBand15.Name = "treeListBand15";
-            this.treeListBand15.Width = 133;
+            this.treeListBand15.Width = 131;
             // 
             // ColFanNum
             // 
@@ -497,7 +497,7 @@
             this.ColFanNum.OptionsColumn.AllowEdit = false;
             this.ColFanNum.Visible = true;
             this.ColFanNum.VisibleIndex = 0;
-            this.ColFanNum.Width = 133;
+            this.ColFanNum.Width = 131;
             // 
             // treeListBand1
             // 
@@ -508,7 +508,7 @@
             this.treeListBand1.Columns.Add(this.ColAddAuxiliary);
             this.treeListBand1.Name = "treeListBand1";
             this.treeListBand1.RowCount = 2;
-            this.treeListBand1.Width = 112;
+            this.treeListBand1.Width = 120;
             // 
             // ColName
             // 
@@ -520,7 +520,7 @@
             this.ColName.Name = "ColName";
             this.ColName.Visible = true;
             this.ColName.VisibleIndex = 1;
-            this.ColName.Width = 88;
+            this.ColName.Width = 90;
             // 
             // TxtName
             // 
@@ -539,7 +539,7 @@
             this.ColAddAuxiliary.Name = "ColAddAuxiliary";
             this.ColAddAuxiliary.Visible = true;
             this.ColAddAuxiliary.VisibleIndex = 2;
-            this.ColAddAuxiliary.Width = 24;
+            this.ColAddAuxiliary.Width = 30;
             // 
             // PicAddAuxiliary
             // 
@@ -555,7 +555,7 @@
             this.treeListBand2.Caption = "子项";
             this.treeListBand2.Columns.Add(this.ColInstallSpace);
             this.treeListBand2.Name = "treeListBand2";
-            this.treeListBand2.Width = 104;
+            this.treeListBand2.Width = 102;
             // 
             // ColInstallSpace
             // 
@@ -567,7 +567,7 @@
             this.ColInstallSpace.Name = "ColInstallSpace";
             this.ColInstallSpace.Visible = true;
             this.ColInstallSpace.VisibleIndex = 3;
-            this.ColInstallSpace.Width = 104;
+            this.ColInstallSpace.Width = 102;
             // 
             // TxtInstallSpace
             // 
@@ -583,7 +583,7 @@
             this.BandUse.Caption = "细分用途";
             this.BandUse.Columns.Add(this.ColUse);
             this.BandUse.Name = "BandUse";
-            this.BandUse.Width = 81;
+            this.BandUse.Width = 79;
             // 
             // ColUse
             // 
@@ -595,7 +595,7 @@
             this.ColUse.Name = "ColUse";
             this.ColUse.Visible = true;
             this.ColUse.VisibleIndex = 4;
-            this.ColUse.Width = 81;
+            this.ColUse.Width = 79;
             // 
             // ComBoxUse
             // 
@@ -624,7 +624,7 @@
             this.treeListBand3.Caption = "风机楼层编号";
             this.treeListBand3.Columns.Add(this.ColInstallFloor);
             this.treeListBand3.Name = "treeListBand3";
-            this.treeListBand3.Width = 94;
+            this.treeListBand3.Width = 100;
             // 
             // ColInstallFloor
             // 
@@ -636,7 +636,7 @@
             this.ColInstallFloor.Name = "ColInstallFloor";
             this.ColInstallFloor.Visible = true;
             this.ColInstallFloor.VisibleIndex = 5;
-            this.ColInstallFloor.Width = 94;
+            this.ColInstallFloor.Width = 100;
             // 
             // TxtInstallFloor
             // 
@@ -652,7 +652,7 @@
             this.treeListBand4.Caption = "风机序号";
             this.treeListBand4.Columns.Add(this.ColVentNum);
             this.treeListBand4.Name = "treeListBand4";
-            this.treeListBand4.Width = 80;
+            this.treeListBand4.Width = 78;
             // 
             // ColVentNum
             // 
@@ -664,7 +664,7 @@
             this.ColVentNum.Name = "ColVentNum";
             this.ColVentNum.Visible = true;
             this.ColVentNum.VisibleIndex = 6;
-            this.ColVentNum.Width = 80;
+            this.ColVentNum.Width = 78;
             // 
             // TxtVentNum
             // 
@@ -680,7 +680,7 @@
             this.treeListBand5.Caption = "数量";
             this.treeListBand5.Columns.Add(this.ColVentQuan);
             this.treeListBand5.Name = "treeListBand5";
-            this.treeListBand5.Width = 55;
+            this.treeListBand5.Width = 62;
             // 
             // ColVentQuan
             // 
@@ -693,7 +693,7 @@
             this.ColVentQuan.OptionsColumn.AllowEdit = false;
             this.ColVentQuan.Visible = true;
             this.ColVentQuan.VisibleIndex = 7;
-            this.ColVentQuan.Width = 55;
+            this.ColVentQuan.Width = 62;
             // 
             // TxtVentQuan
             // 
@@ -707,7 +707,7 @@
             this.treeListBand6.Caption = "备注";
             this.treeListBand6.Columns.Add(this.ColRemark);
             this.treeListBand6.Name = "treeListBand6";
-            this.treeListBand6.Width = 49;
+            this.treeListBand6.Width = 66;
             // 
             // ColRemark
             // 
@@ -719,7 +719,7 @@
             this.ColRemark.Name = "ColRemark";
             this.ColRemark.Visible = true;
             this.ColRemark.VisibleIndex = 8;
-            this.ColRemark.Width = 49;
+            this.ColRemark.Width = 66;
             // 
             // PicRemark
             // 
@@ -735,7 +735,7 @@
             this.treeListBand7.Caption = "风量\r\n（m³/h）";
             this.treeListBand7.Columns.Add(this.ColAirVolume);
             this.treeListBand7.Name = "treeListBand7";
-            this.treeListBand7.Width = 96;
+            this.treeListBand7.Width = 98;
             // 
             // ColAirVolume
             // 
@@ -747,7 +747,7 @@
             this.ColAirVolume.Name = "ColAirVolume";
             this.ColAirVolume.Visible = true;
             this.ColAirVolume.VisibleIndex = 9;
-            this.ColAirVolume.Width = 96;
+            this.ColAirVolume.Width = 98;
             // 
             // TxtAirVolume
             // 
@@ -767,7 +767,7 @@
             this.treeListBand8.Caption = "总阻力\r\n（Pa）";
             this.treeListBand8.Columns.Add(this.ColWindResis);
             this.treeListBand8.Name = "treeListBand8";
-            this.treeListBand8.Width = 82;
+            this.treeListBand8.Width = 84;
             // 
             // ColWindResis
             // 
@@ -779,7 +779,7 @@
             this.ColWindResis.Name = "ColWindResis";
             this.ColWindResis.Visible = true;
             this.ColWindResis.VisibleIndex = 10;
-            this.ColWindResis.Width = 82;
+            this.ColWindResis.Width = 84;
             // 
             // TxtWindResis
             // 
@@ -797,7 +797,7 @@
             this.treeListBand9.Caption = "风机形式";
             this.treeListBand9.Columns.Add(this.ColVentStyle);
             this.treeListBand9.Name = "treeListBand9";
-            this.treeListBand9.Width = 149;
+            this.treeListBand9.Width = 151;
             // 
             // ColVentStyle
             // 
@@ -809,7 +809,7 @@
             this.ColVentStyle.Name = "ColVentStyle";
             this.ColVentStyle.Visible = true;
             this.ColVentStyle.VisibleIndex = 11;
-            this.ColVentStyle.Width = 149;
+            this.ColVentStyle.Width = 151;
             // 
             // ComBoxVentStyle
             // 
@@ -835,7 +835,7 @@
             this.treeListBand17.Caption = "气流方向";
             this.treeListBand17.Columns.Add(this.ColIntakeForm);
             this.treeListBand17.Name = "treeListBand17";
-            this.treeListBand17.Width = 89;
+            this.treeListBand17.Width = 91;
             // 
             // ColIntakeForm
             // 
@@ -847,7 +847,7 @@
             this.ColIntakeForm.Name = "ColIntakeForm";
             this.ColIntakeForm.Visible = true;
             this.ColIntakeForm.VisibleIndex = 12;
-            this.ColIntakeForm.Width = 89;
+            this.ColIntakeForm.Width = 91;
             // 
             // ComBoxIntakeForm
             // 
@@ -882,7 +882,7 @@
             this.treeListBand10.Caption = "驱动方式";
             this.treeListBand10.Columns.Add(this.ColVentConnect);
             this.treeListBand10.Name = "treeListBand10";
-            this.treeListBand10.Width = 96;
+            this.treeListBand10.Width = 98;
             // 
             // ColVentConnect
             // 
@@ -894,7 +894,7 @@
             this.ColVentConnect.Name = "ColVentConnect";
             this.ColVentConnect.Visible = true;
             this.ColVentConnect.VisibleIndex = 13;
-            this.ColVentConnect.Width = 96;
+            this.ColVentConnect.Width = 98;
             // 
             // ComBoxVentConnect
             // 
@@ -919,7 +919,7 @@
             this.treeListBand11.Caption = "风机能效";
             this.treeListBand11.Columns.Add(this.ColVentLev);
             this.treeListBand11.Name = "treeListBand11";
-            this.treeListBand11.Width = 74;
+            this.treeListBand11.Width = 84;
             // 
             // ColVentLev
             // 
@@ -931,7 +931,7 @@
             this.ColVentLev.Name = "ColVentLev";
             this.ColVentLev.Visible = true;
             this.ColVentLev.VisibleIndex = 14;
-            this.ColVentLev.Width = 74;
+            this.ColVentLev.Width = 84;
             // 
             // ComBoxVentLev
             // 
@@ -956,7 +956,7 @@
             this.treeListBand12.Caption = "电机能效";
             this.treeListBand12.Columns.Add(this.ColEleLev);
             this.treeListBand12.Name = "treeListBand12";
-            this.treeListBand12.Width = 74;
+            this.treeListBand12.Width = 84;
             // 
             // ColEleLev
             // 
@@ -968,7 +968,7 @@
             this.ColEleLev.Name = "ColEleLev";
             this.ColEleLev.Visible = true;
             this.ColEleLev.VisibleIndex = 15;
-            this.ColEleLev.Width = 74;
+            this.ColEleLev.Width = 84;
             // 
             // ComBoxEleLev
             // 
@@ -1031,7 +1031,7 @@
             this.treeListBand14.Caption = "风机型号";
             this.treeListBand14.Columns.Add(this.ColFanModelName);
             this.treeListBand14.Name = "treeListBand14";
-            this.treeListBand14.Width = 170;
+            this.treeListBand14.Width = 171;
             // 
             // ColFanModelName
             // 
@@ -1043,7 +1043,7 @@
             this.ColFanModelName.Name = "ColFanModelName";
             this.ColFanModelName.Visible = true;
             this.ColFanModelName.VisibleIndex = 16;
-            this.ColFanModelName.Width = 170;
+            this.ColFanModelName.Width = 171;
             // 
             // TxtFanModelName
             // 
@@ -1059,7 +1059,7 @@
             this.treeListBand19.Caption = "安装方式";
             this.treeListBand19.Columns.Add(this.ColMountType);
             this.treeListBand19.Name = "treeListBand19";
-            this.treeListBand19.Width = 82;
+            this.treeListBand19.Width = 83;
             // 
             // ColMountType
             // 
@@ -1071,7 +1071,7 @@
             this.ColMountType.Name = "ColMountType";
             this.ColMountType.Visible = true;
             this.ColMountType.VisibleIndex = 17;
-            this.ColMountType.Width = 82;
+            this.ColMountType.Width = 83;
             // 
             // ComBoxMountType
             // 
@@ -1096,7 +1096,7 @@
             this.treeListBand18.Caption = "减振方式";
             this.treeListBand18.Columns.Add(this.ColVibrationMode);
             this.treeListBand18.Name = "treeListBand18";
-            this.treeListBand18.Width = 76;
+            this.treeListBand18.Width = 77;
             // 
             // ColVibrationMode
             // 
@@ -1110,7 +1110,7 @@
             this.ColVibrationMode.Name = "ColVibrationMode";
             this.ColVibrationMode.Visible = true;
             this.ColVibrationMode.VisibleIndex = 18;
-            this.ColVibrationMode.Width = 76;
+            this.ColVibrationMode.Width = 77;
             // 
             // ComBoxVibrationMode
             // 
@@ -1141,7 +1141,7 @@
             this.treeListBand16.Caption = "插入\r\n图块";
             this.treeListBand16.Columns.Add(this.ColInsertMap);
             this.treeListBand16.Name = "treeListBand16";
-            this.treeListBand16.Width = 65;
+            this.treeListBand16.Width = 67;
             // 
             // ColInsertMap
             // 
@@ -1153,7 +1153,7 @@
             this.ColInsertMap.Name = "ColInsertMap";
             this.ColInsertMap.Visible = true;
             this.ColInsertMap.VisibleIndex = 19;
-            this.ColInsertMap.Width = 65;
+            this.ColInsertMap.Width = 67;
             // 
             // PicInsertMap
             // 
@@ -1181,9 +1181,9 @@
             // BtnCopy
             // 
             this.BtnCopy.AllowFocus = false;
-            this.BtnCopy.Location = new System.Drawing.Point(1003, 5);
+            this.BtnCopy.Location = new System.Drawing.Point(1049, 5);
             this.BtnCopy.Name = "BtnCopy";
-            this.BtnCopy.Size = new System.Drawing.Size(126, 22);
+            this.BtnCopy.Size = new System.Drawing.Size(132, 22);
             this.BtnCopy.StyleController = this.layoutControl1;
             this.BtnCopy.TabIndex = 10;
             this.BtnCopy.Text = "复制";
@@ -1192,9 +1192,9 @@
             // BtnDown
             // 
             this.BtnDown.AllowFocus = false;
-            this.BtnDown.Location = new System.Drawing.Point(873, 5);
+            this.BtnDown.Location = new System.Drawing.Point(913, 5);
             this.BtnDown.Name = "BtnDown";
-            this.BtnDown.Size = new System.Drawing.Size(126, 22);
+            this.BtnDown.Size = new System.Drawing.Size(132, 22);
             this.BtnDown.StyleController = this.layoutControl1;
             this.BtnDown.TabIndex = 9;
             this.BtnDown.Text = "下移";
@@ -1203,9 +1203,9 @@
             // BtnUp
             // 
             this.BtnUp.AllowFocus = false;
-            this.BtnUp.Location = new System.Drawing.Point(743, 5);
+            this.BtnUp.Location = new System.Drawing.Point(777, 5);
             this.BtnUp.Name = "BtnUp";
-            this.BtnUp.Size = new System.Drawing.Size(126, 22);
+            this.BtnUp.Size = new System.Drawing.Size(132, 22);
             this.BtnUp.StyleController = this.layoutControl1;
             this.BtnUp.TabIndex = 8;
             this.BtnUp.Text = "上移";
@@ -1214,9 +1214,9 @@
             // BtnDle
             // 
             this.BtnDle.AllowFocus = false;
-            this.BtnDle.Location = new System.Drawing.Point(613, 5);
+            this.BtnDle.Location = new System.Drawing.Point(641, 5);
             this.BtnDle.Name = "BtnDle";
-            this.BtnDle.Size = new System.Drawing.Size(126, 22);
+            this.BtnDle.Size = new System.Drawing.Size(132, 22);
             this.BtnDle.StyleController = this.layoutControl1;
             this.BtnDle.TabIndex = 7;
             this.BtnDle.Text = "删除";
@@ -1225,9 +1225,9 @@
             // BtnAdd
             // 
             this.BtnAdd.AllowFocus = false;
-            this.BtnAdd.Location = new System.Drawing.Point(483, 5);
+            this.BtnAdd.Location = new System.Drawing.Point(505, 5);
             this.BtnAdd.Name = "BtnAdd";
-            this.BtnAdd.Size = new System.Drawing.Size(126, 22);
+            this.BtnAdd.Size = new System.Drawing.Size(132, 22);
             this.BtnAdd.StyleController = this.layoutControl1;
             this.BtnAdd.TabIndex = 6;
             this.BtnAdd.Text = "新增";
@@ -1242,7 +1242,7 @@
             this.ComBoxScene.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.ComBoxScene.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
-            this.ComBoxScene.Size = new System.Drawing.Size(423, 20);
+            this.ComBoxScene.Size = new System.Drawing.Size(445, 20);
             this.ComBoxScene.StyleController = this.layoutControl1;
             this.ComBoxScene.TabIndex = 4;
             this.ComBoxScene.SelectedValueChanged += new System.EventHandler(this.ComBoxScene_SelectedValueChanged);
@@ -1263,7 +1263,7 @@
             this.layoutControlItem8});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(3, 3, 3, 3);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(1748, 308);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(1828, 317);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -1271,52 +1271,52 @@
             this.layoutControlItem1.Control = this.ComBoxScene;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(478, 26);
+            this.layoutControlItem1.Size = new System.Drawing.Size(500, 26);
             this.layoutControlItem1.Text = "应用场景";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(48, 14);
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.BtnAdd;
-            this.layoutControlItem3.Location = new System.Drawing.Point(478, 0);
+            this.layoutControlItem3.Location = new System.Drawing.Point(500, 0);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem3.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
             // 
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.BtnDle;
-            this.layoutControlItem4.Location = new System.Drawing.Point(608, 0);
+            this.layoutControlItem4.Location = new System.Drawing.Point(636, 0);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem4.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
             // 
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.BtnUp;
-            this.layoutControlItem5.Location = new System.Drawing.Point(738, 0);
+            this.layoutControlItem5.Location = new System.Drawing.Point(772, 0);
             this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem5.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.BtnDown;
-            this.layoutControlItem6.Location = new System.Drawing.Point(868, 0);
+            this.layoutControlItem6.Location = new System.Drawing.Point(908, 0);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem6.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 
             // layoutControlItem7
             // 
             this.layoutControlItem7.Control = this.BtnCopy;
-            this.layoutControlItem7.Location = new System.Drawing.Point(998, 0);
+            this.layoutControlItem7.Location = new System.Drawing.Point(1044, 0);
             this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem7.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem7.TextVisible = false;
             // 
@@ -1325,24 +1325,24 @@
             this.layoutControlItem2.Control = this.TreeList;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 26);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(1742, 276);
+            this.layoutControlItem2.Size = new System.Drawing.Size(1822, 285);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // emptySpaceItem4
             // 
             this.emptySpaceItem4.AllowHotTrack = false;
-            this.emptySpaceItem4.Location = new System.Drawing.Point(1128, 0);
+            this.emptySpaceItem4.Location = new System.Drawing.Point(1180, 0);
             this.emptySpaceItem4.Name = "emptySpaceItem4";
-            this.emptySpaceItem4.Size = new System.Drawing.Size(484, 26);
+            this.emptySpaceItem4.Size = new System.Drawing.Size(506, 26);
             this.emptySpaceItem4.TextSize = new System.Drawing.Size(0, 0);
             // 
             // layoutControlItem8
             // 
             this.layoutControlItem8.Control = this.BtnOverView;
-            this.layoutControlItem8.Location = new System.Drawing.Point(1612, 0);
+            this.layoutControlItem8.Location = new System.Drawing.Point(1686, 0);
             this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(130, 26);
+            this.layoutControlItem8.Size = new System.Drawing.Size(136, 26);
             this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem8.TextVisible = false;
             // 
@@ -1350,7 +1350,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1748, 332);
+            this.ClientSize = new System.Drawing.Size(1828, 341);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.barDockControlLeft);
             this.Controls.Add(this.barDockControlRight);

@@ -617,8 +617,8 @@ namespace TianHua.FanSelection.UI
         private void BtnOK_Click(object sender, EventArgs e)
         {
             m_Fan.FanModelNum = FuncStr.NullToStr(LabModelNum.Text);
-            m_Fan.FanModelCCCF = FuncStr.NullToStr(LabCCFC.Text);
 
+            m_Fan.FanModelCCCF = FuncStr.NullToStr(LabCCFC.Text);
 
             //m_Fan.AirVolume = FuncStr.NullToInt(LabAir.Text);
 
