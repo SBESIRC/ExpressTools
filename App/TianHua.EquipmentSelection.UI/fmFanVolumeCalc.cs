@@ -20,54 +20,6 @@ namespace TianHua.FanSelection.UI
             var modelStairWind = new StaircaseAirModel();
             var modelRefugeLayer = new RefugeRoomAndCorridorModel();
             var modelRefugeFont = new RefugeFontRoomModel();
-            model.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0
-            });
-
-            modelNatural.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0,
-            });
-            modelNatural.StairCaseDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0,
-            });
-            modelWind.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0,
-            });
-
-            modelStairNoWind.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0,
-                Crack_Door_Q = 0,
-            });
-
-            modelStairWind.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0,
-                Crack_Door_Q = 0,
-            });
-
-            modelRefugeFont.FrontRoomDoors.Add(new ThEvacuationDoor()
-            {
-                Width_Door_Q = 0,
-                Height_Door_Q = 0,
-                Count_Door_Q = 0
-            });
 
             int comboBox1index = 0;
             if (fandatamodel.FanVolumeModel is FireFrontModel)

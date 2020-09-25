@@ -11,9 +11,15 @@ namespace TianHua.FanSelection.Model
     /// </summary>
     public class RefugeFontRoomModel :ThFanVolumeModel
     {
+        public double OverAk { get; set; }
         public RefugeFontRoomModel()
         {
-            FrontRoomDoors = new List<ThEvacuationDoor>();
+            FrontRoomDoors2 = new Dictionary<string, List<ThEvacuationDoor>>()
+            {
+                {"楼层一",new List<ThEvacuationDoor>() },
+                {"楼层二",new List<ThEvacuationDoor>() },
+                {"楼层三",new List<ThEvacuationDoor>() }
+            };
         }
 
         /// <summary>
@@ -23,16 +29,39 @@ namespace TianHua.FanSelection.Model
         {
             get
             {
-                double Ak = 0.0;
-                FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
+                int ValidFloorCount = 0;
+                OverAk = 0;
+                bool HasValidDoorInFloor = false;
+                foreach (var floor in FrontRoomDoors2)
+                {
+                    foreach (var door in floor.Value)
+                    {
+                        if (door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q == 0)
+                        {
+                            continue;
+                        }
+                        OverAk += door.Width_Door_Q * door.Height_Door_Q * door.Count_Door_Q;
+                        HasValidDoorInFloor = true;
+                    }
+                    if (HasValidDoorInFloor)
+                    {
+                        ValidFloorCount++;
+                    }
+                    HasValidDoorInFloor = false;
+                }
+                if (ValidFloorCount != 0)
+                {
+                    OverAk = OverAk / ValidFloorCount;
+                }
                 int V = 1;
-                return Math.Round(Ak * V * 3600);
+                OverAk = Math.Round(OverAk, 2);
+                return Math.Round(OverAk * V * 3600);
             }
         }
         /// <summary>
         /// 前室门
         /// </summary>
-        public List<ThEvacuationDoor> FrontRoomDoors { get; set; }
+        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
 
         /// <summary>
         /// 前室门宽

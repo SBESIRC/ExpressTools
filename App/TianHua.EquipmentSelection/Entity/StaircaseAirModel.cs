@@ -14,7 +14,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 这是AK的值
         /// </summary>
-        public double OverAk = 0.0;
+        public double OverAk { get; set; }
         public int StairN1 = 0;
         public int AAAA = 25300, BBBB = 27500;
         public int CCCC = 27800, DDDD = 28100;
@@ -37,7 +37,12 @@ namespace TianHua.FanSelection.Model
         }
         public StaircaseAirModel()
         {
-            FrontRoomDoors = new List<ThEvacuationDoor>();
+            FrontRoomDoors2 = new Dictionary<string, List<ThEvacuationDoor>>()
+            {
+                {"楼层一",new List<ThEvacuationDoor>() },
+                {"楼层二",new List<ThEvacuationDoor>() },
+                {"楼层三",new List<ThEvacuationDoor>() }
+            };
         }
 
         /// <summary>
@@ -47,19 +52,78 @@ namespace TianHua.FanSelection.Model
         {
             get
             {
-                double Ak = 0.0;
-                foreach (var door in FrontRoomDoors)
+                OverAk = 0;
+                int ValidFloorCount = 0;
+                bool HasValidDoorInFloor = false;
+                foreach (var floor in FrontRoomDoors2)
                 {
-                    if (door.Crack_Door_Q * door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q == 0)
+                    foreach (var door in floor.Value)
                     {
-                        continue;
+                        if (door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q * door.Crack_Door_Q == 0)
+                        {
+                            continue;
+                        }
+                        OverAk += door.Width_Door_Q * door.Height_Door_Q * door.Count_Door_Q;
+                        HasValidDoorInFloor = true;
                     }
-                    Ak += door.Width_Door_Q * door.Height_Door_Q * door.Count_Door_Q;
+                    if (HasValidDoorInFloor)
+                    {
+                        ValidFloorCount++;
+                    }
+                    HasValidDoorInFloor = false;
                 }
-                //FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
-                OverAk = Ak;
+                if (ValidFloorCount != 0)
+                {
+                    OverAk = OverAk / ValidFloorCount;
+                }
                 double V = 0.7;
-                return Math.Round(Ak * V * StairN1 * 3600);
+                OverAk = Math.Round(OverAk, 2);
+                return Math.Round(OverAk * V * StairN1 * 3600);
+            }
+        }
+
+        /// <summary>
+        /// N2
+        /// </summary>
+        public double N2
+        {
+            get
+            {
+                double n2 = (Count_Floor - StairN1) * FrontRoomDoors2.Sum(
+                    f => f.Value.Where(
+                        d => d.Count_Door_Q * d.Crack_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).Sum(d => d.Count_Door_Q));
+                n2 = Math.Round(n2,2);
+                return n2 > 0 ? n2 : 0;
+            }
+        }
+
+        /// <summary>
+        /// 送风阀漏风面积和
+        /// </summary>
+        public double LeakArea
+        {
+            get
+            {
+                double leakarea = 0;
+                foreach (var floor in FrontRoomDoors2)
+                {
+                    foreach (var door in floor.Value)
+                    {
+                        if (door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q * door.Crack_Door_Q == 0)
+                        {
+                            continue;
+                        }
+                        if (door.Type == ThEvacuationDoorType.单扇)
+                        {
+                            leakarea += (door.Width_Door_Q + door.Height_Door_Q) * 2 * door.Crack_Door_Q / 1000 * door.Count_Door_Q;
+                        }
+                        else
+                        {
+                            leakarea += ((door.Width_Door_Q + door.Height_Door_Q) * 2 + door.Height_Door_Q) * door.Crack_Door_Q / 1000 * door.Count_Door_Q;
+                        }
+                    }
+                }
+                return Math.Round(leakarea,2);
             }
         }
 
@@ -70,34 +134,7 @@ namespace TianHua.FanSelection.Model
         {
             get
             {
-                double a = 0.0, b = 0.0;
-                int p = 6;
-                double tempN2 = 0.0;
-                double N2 = 0.0;
-                int length = FrontRoomDoors.Count();
-                for (int i = 0; i < length; i++)
-                {
-                    if (FrontRoomDoors[i].Crack_Door_Q * FrontRoomDoors[i].Count_Door_Q * FrontRoomDoors[i].Height_Door_Q * FrontRoomDoors[i].Width_Door_Q == 0)
-                    {
-                        continue;
-                    }
-                    if (FrontRoomDoors[i].Type.ToString().Equals("单扇"))
-                    {
-                        a += (FrontRoomDoors[i].Width_Door_Q +
-                            FrontRoomDoors[i].Height_Door_Q) * 2
-                            * FrontRoomDoors[i].Crack_Door_Q / 1000 * FrontRoomDoors[i].Count_Door_Q;
-                    }
-                    else
-                    {
-                        b += ((FrontRoomDoors[i].Width_Door_Q +
-                                FrontRoomDoors[i].Height_Door_Q) * 2
-                                + FrontRoomDoors[i].Height_Door_Q)
-                                * FrontRoomDoors[i].Crack_Door_Q / 1000 * FrontRoomDoors[i].Count_Door_Q;
-                    }
-                }
-                FrontRoomDoors.ForEach(o => tempN2 += o.Count_Door_Q);
-                N2 = ((Count_Floor - StairN1) * tempN2 > 0) ? ((Count_Floor - StairN1) * tempN2) : 0;
-                return Math.Round(0.827 * (a + b) * Math.Sqrt(p) * 1.25 * N2 * 3600);
+                return Math.Round(0.827 * LeakArea * Math.Sqrt(6) * 1.25 * N2 * 3600);
             }
         }
         /// <summary>
@@ -129,7 +166,8 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 前室门
         /// </summary>
-        public List<ThEvacuationDoor> FrontRoomDoors { get; set; }
+        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
+
 
         /// <summary>
         /// 系统楼层数

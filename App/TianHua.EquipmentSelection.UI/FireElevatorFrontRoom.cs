@@ -13,7 +13,7 @@ using System.Reflection;
 using System.Collections;
 using System.Text.RegularExpressions;
 using DevExpress.XtraLayout.Utils;
-
+using DevExpress.XtraGrid;
 
 namespace TianHua.FanSelection.UI
 {
@@ -31,7 +31,9 @@ namespace TianHua.FanSelection.UI
             InitializeComponent();
             Model = model;
 
-            gridControl1.DataSource = model.FrontRoomDoors;
+            gridControl1.DataSource = model.FrontRoomDoors2.ElementAt(0).Value;
+            gridControl2.DataSource = model.FrontRoomDoors2.ElementAt(1).Value;
+            gridControl3.DataSource = model.FrontRoomDoors2.ElementAt(2).Value;
             CheckPanel.Controls.Clear();
             subview = new ModelValidation(Model);
             CheckPanel.Controls.Add(subview);
@@ -59,7 +61,7 @@ namespace TianHua.FanSelection.UI
 
             if (model.Load == FireFrontModel.LoadHeight.LoadHeightLow)
             {
-                UpdateWithModel(Model);
+                UpdateWithModel();
                 CheckPanel.Controls.Clear();
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
@@ -75,7 +77,7 @@ namespace TianHua.FanSelection.UI
             if (lowLoad.Checked)
             {
                 Model.Load = FireFrontModel.LoadHeight.LoadHeightLow;
-                UpdateWithModel(Model);
+                UpdateWithModel();
                 CheckPanel.Controls.Clear();
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
@@ -87,7 +89,7 @@ namespace TianHua.FanSelection.UI
             if (middleLoad.Checked)
             {
                 Model.Load = FireFrontModel.LoadHeight.LoadHeightMiddle;
-                UpdateWithModel(Model);
+                UpdateWithModel();
             }
             
         }
@@ -97,7 +99,7 @@ namespace TianHua.FanSelection.UI
             if (highLoad.Checked)
             {
                 Model.Load = FireFrontModel.LoadHeight.LoadHeightHigh;
-                UpdateWithModel(Model);
+                UpdateWithModel();
             }
             
         }
@@ -109,7 +111,7 @@ namespace TianHua.FanSelection.UI
                 return;
             }
             Model.Count_Floor = Convert.ToInt32(layerCount.Text);
-            UpdateWithModel(Model);
+            UpdateWithModel();
         }
 
         private void length_EditValueChanged(object sender, EventArgs e)
@@ -119,7 +121,7 @@ namespace TianHua.FanSelection.UI
                 return;
             }
             Model.Length_Valve = Convert.ToInt32(length.Text);
-            UpdateWithModel(Model);
+            UpdateWithModel();
         }
 
         private void wide_EditValueChanged(object sender, EventArgs e)
@@ -129,10 +131,10 @@ namespace TianHua.FanSelection.UI
                 return;
             }
             Model.Width_Valve = Convert.ToInt32(wide.Text);
-            UpdateWithModel(Model);
+            UpdateWithModel();
         }
 
-        private void UpdateWithModel(FireFrontModel model)
+        private void UpdateWithModel()
         {
             Lj.Text = Convert.ToString(Model.TotalVolume);
             L1.Text = Convert.ToString(Model.DoorOpeningVolume);
@@ -161,50 +163,75 @@ namespace TianHua.FanSelection.UI
 
         private void Add_Click(object sender, EventArgs e)
         {
-            Model.FrontRoomDoors.Add(new ThEvacuationDoor());
-            gridControl1.DataSource = Model.FrontRoomDoors;
-            gridView1.RefreshData();
+            switch (xtraTabControl1.SelectedTabPage.Text)
+            {
+                case "楼层一":
+                    AddDoorItemInModel(Model.FrontRoomDoors2.ElementAt(0).Value, gridControl1, gridView1);
+                    break;
+                case "楼层二":
+                    AddDoorItemInModel(Model.FrontRoomDoors2.ElementAt(1).Value, gridControl2, gridView2);
+                    break;
+                case "楼层三":
+                    AddDoorItemInModel(Model.FrontRoomDoors2.ElementAt(2).Value, gridControl3, gridView3);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            foreach (int row in gridView1.GetSelectedRows())
+            switch (xtraTabControl1.SelectedTabPage.Text)
             {
-                Model.FrontRoomDoors.RemoveAt(row);
+                case "楼层一":
+                    DeleteDoorItemFromModel(Model.FrontRoomDoors2.ElementAt(0).Value, gridControl1, gridView1);
+                    break;
+                case "楼层二":
+                    DeleteDoorItemFromModel(Model.FrontRoomDoors2.ElementAt(1).Value, gridControl2, gridView2);
+                    break;
+                case "楼层三":
+                    DeleteDoorItemFromModel(Model.FrontRoomDoors2.ElementAt(2).Value, gridControl3, gridView3);
+                    break;
+                default:
+                    break;
             }
-            UpdateWithModel(Model);
-            gridControl1.DataSource = Model.FrontRoomDoors;
-            gridView1.RefreshData();
+            UpdateWithModel();
         }
 
         private void MoveUp_Click(object sender, EventArgs e)
         {
-            int index = gridView1.GetSelectedRows()[0];
-            if (index == 0)
+            switch (xtraTabControl1.SelectedTabPage.Text)
             {
-                return;
+                case "楼层一":
+                    MoveUpDoorItemInModel(Model.FrontRoomDoors2.ElementAt(0).Value, gridControl1, gridView1);
+                    break;
+                case "楼层二":
+                    MoveUpDoorItemInModel(Model.FrontRoomDoors2.ElementAt(1).Value, gridControl2, gridView2);
+                    break;
+                case "楼层三":
+                    MoveUpDoorItemInModel(Model.FrontRoomDoors2.ElementAt(2).Value, gridControl3, gridView3);
+                    break;
+                default:
+                    break;
             }
-            var tmp = Model.FrontRoomDoors[index];
-            Model.FrontRoomDoors[index] = Model.FrontRoomDoors[index - 1];
-            Model.FrontRoomDoors[index - 1] = tmp;
-            gridControl1.DataSource = Model.FrontRoomDoors;
-            gridView1.RefreshData();
-            gridView1.FocusedRowHandle = index - 1;
         }
 
         private void MoveDown_Click(object sender, EventArgs e)
         {
-            int index = gridView1.GetSelectedRows()[0];
-            if (index == Model.FrontRoomDoors.Count() - 1)
+            switch (xtraTabControl1.SelectedTabPage.Text)
             {
-                return;
+                case "楼层一":
+                    MoveDownDoorItemInModel(Model.FrontRoomDoors2.ElementAt(0).Value, gridControl1, gridView1);
+                    break;
+                case "楼层二":
+                    MoveDownDoorItemInModel(Model.FrontRoomDoors2.ElementAt(1).Value, gridControl2, gridView2);
+                    break;
+                case "楼层三":
+                    MoveDownDoorItemInModel(Model.FrontRoomDoors2.ElementAt(2).Value, gridControl3, gridView3);
+                    break;
+                default:
+                    break;
             }
-            var tmp = Model.FrontRoomDoors[index];
-            Model.FrontRoomDoors[index] = Model.FrontRoomDoors[index + 1];
-            Model.FrontRoomDoors[index + 1] = tmp;
-            gridControl1.DataSource = Model.FrontRoomDoors;
-            gridView1.RefreshData();
-            gridView1.FocusedRowHandle = index + 1;
         }
 
         private void NewFireElevatorFrontRomm_Load(object sender, EventArgs e)
@@ -246,7 +273,7 @@ namespace TianHua.FanSelection.UI
         private void DoorInfoChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             subview.Refresh();
-            UpdateWithModel(Model);
+            UpdateWithModel();
         }
     }
 }

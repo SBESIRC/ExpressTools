@@ -14,7 +14,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 这是AK的值
         /// </summary>
-        public double OverAk = 0.0;
+        public double OverAk { get; set; }
         public int AAAA = 35400, BBBB = 36900;
         public int CCCC = 37100, DDDD = 40200;
 
@@ -26,7 +26,12 @@ namespace TianHua.FanSelection.Model
         }
         public FireFrontModel()
         {
-            FrontRoomDoors = new List<ThEvacuationDoor>();
+            FrontRoomDoors2 = new Dictionary<string, List<ThEvacuationDoor>>
+            {
+                {"楼层一",new List<ThEvacuationDoor>() },
+                {"楼层二",new List<ThEvacuationDoor>() },
+                {"楼层三",new List<ThEvacuationDoor>() }
+            };
         }
         /// <summary>
         /// 门开启风量
@@ -35,11 +40,34 @@ namespace TianHua.FanSelection.Model
         {
             get
             {
-                double Ak = 0.0;
-                FrontRoomDoors.ForEach(o => Ak += o.Width_Door_Q * o.Height_Door_Q * o.Count_Door_Q);
-                OverAk = Ak;
+                //double Ak = 0.0;
+                OverAk = 0;
+                int ValidFloorCount = 0;
+                bool HasValidDoorInFloor = false;
+                foreach (var floor in FrontRoomDoors2)
+                {
+                    foreach (var door in floor.Value)
+                    {
+                        if (door.Count_Door_Q * door.Height_Door_Q * door.Width_Door_Q == 0)
+                        {
+                            continue;
+                        }
+                        OverAk += door.Width_Door_Q * door.Height_Door_Q * door.Count_Door_Q;
+                        HasValidDoorInFloor = true;
+                    }
+                    if (HasValidDoorInFloor)
+                    {
+                        ValidFloorCount++;
+                    }
+                    HasValidDoorInFloor = false;
+                }
+                if (ValidFloorCount != 0)
+                {
+                    OverAk = OverAk / ValidFloorCount;
+                }
+                OverAk = Math.Round(OverAk,2);
                 int V = 1;
-                return Math.Round(Ak * V * Math.Min(Count_Floor, 3) * 3600);
+                return Math.Round(OverAk * V * Math.Min(Count_Floor, 3) * 3600);
             }
         }
         /// <summary>
@@ -75,9 +103,9 @@ namespace TianHua.FanSelection.Model
         public int Count_Floor { get; set; }
 
         /// <summary>
-        /// 前室门
+        /// 前室门(楼层1，楼层2，楼层3)
         /// </summary>
-        public List<ThEvacuationDoor> FrontRoomDoors { get; set; }
+        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
 
         public List<ThResult> Result { get; set; }
         /// <summary>

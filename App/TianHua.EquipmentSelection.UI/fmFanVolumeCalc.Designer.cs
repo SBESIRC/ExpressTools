@@ -107,10 +107,10 @@
             // middlePanel
             // 
             this.middlePanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.middlePanel.Location = new System.Drawing.Point(4, 71);
+            this.middlePanel.Location = new System.Drawing.Point(4, 59);
             this.middlePanel.Margin = new System.Windows.Forms.Padding(2);
             this.middlePanel.Name = "middlePanel";
-            this.middlePanel.Size = new System.Drawing.Size(476, 620);
+            this.middlePanel.Size = new System.Drawing.Size(476, 632);
             this.middlePanel.TabIndex = 5;
             // 
             // panelControl1
@@ -120,7 +120,7 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Location = new System.Drawing.Point(4, 4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(476, 63);
+            this.panelControl1.Size = new System.Drawing.Size(476, 51);
             this.panelControl1.TabIndex = 4;
             // 
             // layoutControl2
@@ -131,7 +131,7 @@
             this.layoutControl2.Name = "layoutControl2";
             this.layoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(782, 57, 650, 400);
             this.layoutControl2.Root = this.layoutControlGroup2;
-            this.layoutControl2.Size = new System.Drawing.Size(476, 63);
+            this.layoutControl2.Size = new System.Drawing.Size(476, 51);
             this.layoutControl2.TabIndex = 2;
             this.layoutControl2.Text = "layoutControl2";
             // 
@@ -147,7 +147,7 @@
             "楼梯间（前室送风）",
             "封闭避难层（间）、避难走道",
             "避难走道前室"});
-            this.comboBox1.Location = new System.Drawing.Point(12, 30);
+            this.comboBox1.Location = new System.Drawing.Point(12, 25);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(452, 22);
             this.comboBox1.TabIndex = 4;
@@ -161,7 +161,8 @@
             this.simpleLabelItem1,
             this.layoutControlItem4});
             this.layoutControlGroup2.Name = "Root";
-            this.layoutControlGroup2.Size = new System.Drawing.Size(476, 63);
+            this.layoutControlGroup2.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 5, 2);
+            this.layoutControlGroup2.Size = new System.Drawing.Size(476, 51);
             this.layoutControlGroup2.TextVisible = false;
             // 
             // simpleLabelItem1
@@ -180,7 +181,7 @@
             this.layoutControlItem4.Control = this.comboBox1;
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 18);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(456, 25);
+            this.layoutControlItem4.Size = new System.Drawing.Size(456, 26);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
             // 
@@ -211,16 +212,16 @@
             this.layoutControlItem1.Control = this.panelControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(480, 67);
+            this.layoutControlItem1.Size = new System.Drawing.Size(480, 55);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.middlePanel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 67);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 55);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(480, 624);
+            this.layoutControlItem2.Size = new System.Drawing.Size(480, 636);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 

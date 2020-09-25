@@ -14,28 +14,46 @@ namespace TianHua.FanSelection.ExcelExport
         {
             if (model is FireFrontModel fm)
             {
-                fm.FrontRoomDoors = fm.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in fm.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+                 }
                 return new FireFrontExportWorker();
             }
             else if (model is FontroomNaturalModel fn)
             {
-                fn.FrontRoomDoors = fn.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
-                fn.StairCaseDoors = fn.StairCaseDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in fn.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+                }
+                foreach (var floor in fn.StairCaseDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+                }
                 return new FontroomNaturalExportWorker();
             }
             else if (model is FontroomWindModel ft)
             {
-                ft.FrontRoomDoors = ft.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in ft.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+                }
                 return new FontroomWindExportWorker();
             }
             else if (model is StaircaseNoAirModel sn)
             {
-                sn.FrontRoomDoors = sn.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in sn.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q * d.Crack_Door_Q == 0);
+                }
                 return new StaircaseNoAirExportWorker();
             }
             else if (model is StaircaseAirModel sa)
             {
-                sa.FrontRoomDoors = sa.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in sa.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q * d.Crack_Door_Q == 0);
+                }
                 return new StaircaseAirExportWorker();
             }
             else if (model is RefugeRoomAndCorridorModel)
@@ -44,7 +62,10 @@ namespace TianHua.FanSelection.ExcelExport
             }
             else if (model is RefugeFontRoomModel rf)
             {
-                rf.FrontRoomDoors = rf.FrontRoomDoors.Where(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q != 0).ToList();
+                foreach (var floor in rf.FrontRoomDoors2)
+                {
+                    floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+                }
                 return new RefugeFontRoomExportWorker();
             }
             return null;
@@ -92,5 +113,13 @@ namespace TianHua.FanSelection.ExcelExport
         }
 
         public abstract void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile);
+
+        private void CleanZeroItem(Dictionary<string, List<ThEvacuationDoor>> floors)
+        {
+            foreach (var floor in floors)
+            {
+                floor.Value.RemoveAll(d => d.Count_Door_Q * d.Height_Door_Q * d.Width_Door_Q == 0);
+            }
+        }
     }
 }
