@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmOverView));
             this.bar2 = new DevExpress.XtraBars.Bar();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
@@ -102,7 +101,7 @@
             this.TxtUse = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.TxtRemark = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.CheckCFPYYBF = new DevExpress.XtraEditors.CheckEdit();
-            this.BarManager = new DevExpress.XtraBars.BarManager(this.components);
+            this.BarManager = new DevExpress.XtraBars.BarManager();
             this.bar1 = new DevExpress.XtraBars.Bar();
             this.BarBtnExportFanPara = new DevExpress.XtraBars.BarButtonItem();
             this.BarBtnExportFanCalc = new DevExpress.XtraBars.BarButtonItem();
@@ -190,7 +189,7 @@
             this.treeListBand38 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.treeListBand39 = new DevExpress.XtraTreeList.Columns.TreeListBand();
             this.treeListBand40 = new DevExpress.XtraTreeList.Columns.TreeListBand();
-            this.ToolTip = new DevExpress.Utils.ToolTipController(this.components);
+            this.ToolTip = new DevExpress.Utils.ToolTipController();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             this.sidePanel1.SuspendLayout();
@@ -771,7 +770,6 @@
             // 
             this.TxtAirVolume.AutoHeight = false;
             this.TxtAirVolume.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
-            this.TxtAirVolume.ContextImageOptions.SvgImage = global::TianHua.FanSelection.UI.Properties.Resources.计算器;
             this.TxtAirVolume.Mask.EditMask = "[1-9]\\d*";
             this.TxtAirVolume.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtAirVolume.Name = "TxtAirVolume";
@@ -803,7 +801,6 @@
             // 
             this.TxtWindResis.AutoHeight = false;
             this.TxtWindResis.ContextImageOptions.Alignment = DevExpress.XtraEditors.ContextImageAlignment.Far;
-            this.TxtWindResis.ContextImageOptions.SvgImage = global::TianHua.FanSelection.UI.Properties.Resources.计算器;
             this.TxtWindResis.Name = "TxtWindResis";
             this.TxtWindResis.ReadOnly = true;
             // 
@@ -1071,7 +1068,6 @@
             // TxtFanModelName
             // 
             this.TxtFanModelName.AutoHeight = false;
-            this.TxtFanModelName.ContextImageOptions.SvgImage = global::TianHua.FanSelection.UI.Properties.Resources.风机;
             this.TxtFanModelName.Name = "TxtFanModelName";
             // 
             // treeListBand58

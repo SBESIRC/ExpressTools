@@ -245,7 +245,28 @@ namespace TianHua.FanSelection.UI
                 m_ListFan.ForEach(p =>
                 {
                     var _List = m_ListFan.FindAll(s => p.InstallSpace == s.InstallSpace && p.InstallFloor == s.InstallFloor && p.ID != s.ID && p.FanPrefix == s.FanPrefix);
-                    if (_List != null && _List.Count > 0) p.IsRepetitions = true;
+                    if (_List != null && _List.Count > 0)
+                    {
+                        _List.ForEach(l =>
+                        {
+                            if (l.ListVentQuan != null && l.ListVentQuan.Count > 0)
+                            {
+                                for (int i = 0; i < l.ListVentQuan.Count; i++)
+                                {
+
+                                    if (p.ListVentQuan.Contains(l.ListVentQuan[i]))
+                                    {
+                                        p.IsRepetitions = true;
+                                    }
+                            
+                                }
+                            }
+                        });
+                    }
+
+
+
+              
                 });
             }
 

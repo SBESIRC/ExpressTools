@@ -215,6 +215,7 @@ namespace TianHua.FanSelection.UI
 
             LabPa.Text = LabPa.Text + "/" + _FanSon.WindResis;
 
+      
 
 
             double _SafetyFactor = 0;
@@ -226,7 +227,7 @@ namespace TianHua.FanSelection.UI
             var _FanEfficiency = m_ListFanEfficiency.Find(p => FuncStr.NullToInt(p.No_Min) <= FuncStr.NullToInt(m_Fan.FanModelNum) && FuncStr.NullToInt(p.No_Max) >= FuncStr.NullToInt(m_Fan.FanModelNum)
                  && FuncStr.NullToInt(p.Rpm_Min) <= FuncStr.NullToInt(_SpecificSpeed)
                   && FuncStr.NullToInt(p.Rpm_Max) >= FuncStr.NullToInt(_SpecificSpeed) && m_Fan.VentLev == p.FanEfficiencyLevel);
-            if (_FanEfficiency == null) { return; }
+            if (_FanEfficiency == null) { LabMotorPower.Text = LabMotorPower.Text + "/" + "0"; return; }
             var _ShaftPower = _FanSon.AirVolume * _FanSon.WindResis / _FanEfficiency.FanInternalEfficiency * 100 / 0.855 / 1000 / 3600;
             if (_ShaftPower <= 0.5)
             {

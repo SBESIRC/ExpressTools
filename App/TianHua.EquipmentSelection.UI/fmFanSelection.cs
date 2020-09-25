@@ -304,7 +304,7 @@ namespace TianHua.FanSelection.UI
                 if (_fmDragCalc.m_ListFan != null && _fmDragCalc.m_ListFan.Count > 0)
                     _Fan = _fmDragCalc.m_ListFan.First();
                 SetFanModel();
-                FanSelectionInfoError(_Fan);
+                //FanSelectionInfoError(_Fan);
                 m_fmOverView.DataSourceChanged(m_ListFan);
             }
         }
@@ -351,7 +351,7 @@ namespace TianHua.FanSelection.UI
                 }
 
                 SetFanModel();
-                FanSelectionInfoError(_Fan);
+                //FanSelectionInfoError(_Fan);
                 m_fmOverView.DataSourceChanged(m_ListFan);
                 TreeList.Refresh();
             }
@@ -503,7 +503,7 @@ namespace TianHua.FanSelection.UI
                             _Fan.FanModelWeight = _FanParameters.Weight;
                             _Fan.IsPointSafe = !picker.IsOptimalModel();
 
-                            m_fmFanModel.InitForm(_Fan,m_ListFan);
+                            m_fmFanModel.InitForm(_Fan, m_ListFan);
 
                             if (!_Fan.IsPointSafe)
                             {
@@ -603,7 +603,7 @@ namespace TianHua.FanSelection.UI
                                 _Fan.FanSelectionStateInfo.fanSelectionState = FanSelectionState.HighUnsafe;
                             }
 
-                            m_fmFanModel.InitForm(_Fan,m_ListFan);
+                            m_fmFanModel.InitForm(_Fan, m_ListFan);
                         }
 
                     }
@@ -663,7 +663,7 @@ namespace TianHua.FanSelection.UI
                                 _Fan.FanModelWeight = _FanParameters.Weight;
                                 _Fan.IsPointSafe = !picker.IsOptimalModel();
 
-                                m_fmFanModel.InitForm(_Fan,m_ListFan);
+                                m_fmFanModel.InitForm(_Fan, m_ListFan);
                             }
 
                         }
@@ -786,7 +786,7 @@ namespace TianHua.FanSelection.UI
                                     _Fan.FanModelHeight = _FanParameters.Height2;
                                 }
 
-                                m_fmFanModel.InitForm(_Fan,m_ListFan);
+                                m_fmFanModel.InitForm(_Fan, m_ListFan);
                             }
 
                         }
@@ -1470,7 +1470,8 @@ namespace TianHua.FanSelection.UI
             {
                 _FanDataModel.ID = _Guid;
                 _FanDataModel.PID = "0";
-                _FanDataModel.Name = SetFanDataModelName(_FanDataModel);
+                //_FanDataModel.Name = SetFanDataModelName(_FanDataModel);
+                _FanDataModel.Name = _FanDataModel.Name;
                 _FanDataModel.InstallFloor = SetFanDataModelByFloor(_FanDataModel);
                 _ListTemp.Add(_FanDataModel);
 
@@ -1501,7 +1502,8 @@ namespace TianHua.FanSelection.UI
                     var _MainFanData = FuncJson.Deserialize<FanDataModel>(_MainJson);
                     _MainFanData.ID = _Guid;
                     _MainFanData.PID = "0";
-                    _MainFanData.Name = SetFanDataModelName(_MainFanData);
+                    //_MainFanData.Name = SetFanDataModelName(_MainFanData);
+                    _MainFanData.Name = _MainFanData.Name;
                     _ListTemp.Add(_MainFanData);
                     var _Inidex = m_ListFan.IndexOf(_MainFan);
 
@@ -2078,6 +2080,14 @@ namespace TianHua.FanSelection.UI
             }
             if (string.IsNullOrEmpty(_FanDataModel.VentStyle))
             {
+                return;
+            }
+            if (_FanDataModel.FanSelectionStateInfo != null && _FanDataModel.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowNotFound &&
+             _FanDataModel.FanSelectionStateInfo.RecommendPointInLow != null && _FanDataModel.FanSelectionStateInfo.RecommendPointInLow.Count == 2)
+            {
+                XtraMessageBox.Show(string.Format(" 低速挡的工况点与高速挡差异过大,低速档风量的推荐值在{0}m³/h左右,总阻力的推荐值小于{1}Pa. ",
+                    _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[0], _FanDataModel.FanSelectionStateInfo.RecommendPointInLow[1]
+                    ), "警告", MessageBoxButtons.OK);
                 return;
             }
 
