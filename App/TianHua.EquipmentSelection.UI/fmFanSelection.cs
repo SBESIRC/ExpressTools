@@ -2091,6 +2091,7 @@ namespace TianHua.FanSelection.UI
                 return;
             }
 
+
             // 发送CAD命令
             var parameters = new Object[] { FuncJson.Serialize(_FanDataModel) };
             CommandHandlerBase.ExecuteFromCommandLine(false, "THFJBLOCK", parameters);

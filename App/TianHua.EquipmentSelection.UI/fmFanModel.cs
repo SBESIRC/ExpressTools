@@ -57,9 +57,9 @@ namespace TianHua.FanSelection.UI
             {
                 m_ListFanEfficiency.ForEach(p =>
                 {
-                    if (p.No_Max == string.Empty) p.No_Max = "999";
+                    if (p.No_Max == string.Empty) p.No_Max = "9999";
                     if (p.No_Min == string.Empty) p.No_Max = "0";
-                    if (p.Rpm_Max == string.Empty) p.Rpm_Max = "999";
+                    if (p.Rpm_Max == string.Empty) p.Rpm_Max = "9999";
                     if (p.Rpm_Min == string.Empty) p.Rpm_Min = "0";
                 });
             }
@@ -68,7 +68,7 @@ namespace TianHua.FanSelection.UI
             {
                 m_ListAxialFanEfficiency.ForEach(p =>
                 {
-                    if (p.No_Max == string.Empty) p.No_Max = "999";
+                    if (p.No_Max == string.Empty) p.No_Max = "9999";
                     if (p.No_Min == string.Empty) p.No_Max = "0";
                 });
             }
@@ -193,29 +193,48 @@ namespace TianHua.FanSelection.UI
 
         private void InitSonFan()
         {
-            if (m_Fan == null || m_Fan.PID != "0" || m_ListFan == null || m_ListFan.Count == 0)
+
+            if (m_Fan == null || m_ListFan == null || m_ListFan.Count == 0)
             {
                 LabAir.Text = FuncStr.NullToStr(m_Fan.SplitAirVolume);
                 LabPa.Text = FuncStr.NullToStr(m_Fan.WindResis);
                 return;
             }
 
-            var _FanSon = m_ListFan.Find(p => p.PID == m_Fan.ID);
+            FanDataModel _FanSon = null;
 
-            if (_FanSon == null)
+            FanDataModel _FanMain = new FanDataModel();
+
+            if (m_Fan.PID == "0")
+            {
+                _FanSon = m_ListFan.Find(p => p.PID == m_Fan.ID);
+            }
+            else
+            {
+                var _Json = FuncJson.Serialize(m_Fan);
+                _FanSon = FuncJson.Deserialize<FanDataModel>(_Json);
+                m_Fan = m_ListFan.Find(p => p.ID == _FanSon.PID);
+                _FanMain = m_ListFan.Find(p => p.ID == _FanSon.PID);
+            }
+
+
+
+
+
+            if (_FanSon == null || m_Fan == null)
             {
                 LabAir.Text = FuncStr.NullToStr(m_Fan.SplitAirVolume);
                 LabPa.Text = FuncStr.NullToStr(m_Fan.WindResis);
                 return;
             }
 
-            LabAir.Text = LabAir.Text + "/" + _FanSon.AirVolume;
+            LabAir.Text = m_Fan.SplitAirVolume + "/" + _FanSon.AirVolume;
 
 
 
-            LabPa.Text = LabPa.Text + "/" + _FanSon.WindResis;
+            LabPa.Text = m_Fan.WindResis + "/" + _FanSon.WindResis;
 
-      
+
 
 
             double _SafetyFactor = 0;
@@ -266,9 +285,15 @@ namespace TianHua.FanSelection.UI
 
             if (_MotorPower != null)
             {
-                LabMotorPower.Text = LabMotorPower.Text + "/" + _MotorPower.Power;
-
+                LabMotorPower.Text = m_Fan.FanModelMotorPower + "/" + _MotorPower.Power;
+           
             }
+
+            _FanMain.AirVolumeDescribe = LabAir.Text;
+
+            _FanMain.WindResisDescribe = LabPa.Text;
+
+            _FanMain.FanModelPowerDescribe = LabMotorPower.Text;
         }
 
         public void CalcFanEfficiency(FanDataModel _FanDataModel)
@@ -394,7 +419,7 @@ namespace TianHua.FanSelection.UI
 
             }
 
-   
+
         }
 
         private List<MotorPower> GetListMotorPower(FanDataModel _FanDataModel)
