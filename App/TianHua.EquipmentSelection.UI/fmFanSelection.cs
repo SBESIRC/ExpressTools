@@ -233,13 +233,11 @@ namespace TianHua.FanSelection.UI
             var _JsonAxialFanParametersDouble = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), ThFanSelectionCommon.AXIAL_Parameters_Double));
             m_ListAxialFanParametersDouble = FuncJson.Deserialize<List<AxialFanParameters>>(_JsonAxialFanParametersDouble);
 
-            if (File.Exists(Path.Combine(Active.DocumentDirectory, "FanDesignData.json")))
+            if (File.Exists(ThFanSelectionUIUtils.DefaultModelExportCatalogPath()))
             {
-                var _JsonmFanDesign = ReadTxt(Path.Combine(Active.DocumentDirectory, "FanDesignData.json"));
+                var _JsonmFanDesign = ReadTxt(ThFanSelectionUIUtils.DefaultModelExportCatalogPath());
                 m_ListFanDesign = FuncJson.Deserialize<List<FanDesignDataModel>>(_JsonmFanDesign);
             }
-
-
         }
 
 
@@ -1591,7 +1589,7 @@ namespace TianHua.FanSelection.UI
         private void BarBtnOpen_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
             fmDesignData _fmDesignData = new fmDesignData();
-            _fmDesignData.InitForm(m_ListFanDesign, "打开", Active.DocumentDirectory, m_FanDesign);
+            _fmDesignData.InitForm(m_ListFanDesign, "打开", ThFanSelectionUIUtils.DefaultModelExportPath(), m_FanDesign);
             if (_fmDesignData.ShowDialog() == DialogResult.OK)
             {
                 if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)
@@ -1618,7 +1616,7 @@ namespace TianHua.FanSelection.UI
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
                 fmDesignData _fmDesignData = new fmDesignData();
-                _fmDesignData.InitForm(m_ListFanDesign, "保存", Active.DocumentDirectory, m_FanDesign);
+                _fmDesignData.InitForm(m_ListFanDesign, "保存", ThFanSelectionUIUtils.DefaultModelExportPath(), m_FanDesign);
                 if (_fmDesignData.ShowDialog() == DialogResult.OK)
                 {
                     if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)
@@ -1636,13 +1634,11 @@ namespace TianHua.FanSelection.UI
                 if (m_FanDesign.Path == string.Empty) { return; }
                 m_FanDesign.LastOperationDate = DateTime.Now;
                 var _JsonFanDesign = FuncJson.Serialize(m_ListFanDesign);
-                JsonExporter.Instance.SaveToFile(Path.Combine(Active.DocumentDirectory, "FanDesignData.json"), Encoding.UTF8, _JsonFanDesign);
+                JsonExporter.Instance.SaveToFile(ThFanSelectionUIUtils.DefaultModelExportCatalogPath(), Encoding.UTF8, _JsonFanDesign);
 
                 var _JsonFan = FuncJson.Serialize(m_ListFan);
                 JsonExporter.Instance.SaveToFile(FuncStr.NullToStr(m_FanDesign.Path), Encoding.UTF8, _JsonFan);
             }
-
-
         }
 
         private void BarBtnSaveAs_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
@@ -1653,7 +1649,7 @@ namespace TianHua.FanSelection.UI
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
                 fmDesignData _fmDesignData = new fmDesignData();
-                _fmDesignData.InitForm(m_ListFanDesign, "另存", Active.DocumentDirectory, m_FanDesign);
+                _fmDesignData.InitForm(m_ListFanDesign, "另存", ThFanSelectionUIUtils.DefaultModelExportPath(), m_FanDesign);
                 if (_fmDesignData.ShowDialog() == DialogResult.OK)
                 {
                     if (_fmDesignData.m_FanDesign != null && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Path) != string.Empty && FuncStr.NullToStr(_fmDesignData.m_FanDesign.Name) != string.Empty)

@@ -226,6 +226,7 @@
     <Compile Include="ThFanSelectionEngine.cs" />
     <Compile Include="ThFanSelectionGeExtension.cs" />
     <Compile Include="ThFanSelectionUICommon.cs" />
+    <Compile Include="ThFanSelectionUIUtils.cs" />
     <Compile Include="ThFSBlockReference.cs" />
     <EmbeddedResource Include="FireElevatorFrontRoom.resx">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>

@@ -10,5 +10,6 @@ namespace TianHua.FanSelection.UI
     {
         public const string DOCUMENT_USER_DATA_UI = "THMODELPICKDLG";
         public const string DOCUMENT_USER_DATA_UI_VISIBLE = "THMODELPICKDLGVISIBLE";
+        public const string MODEL_EXPORTCATALOG = "FanDesignData.json";
     }
 }

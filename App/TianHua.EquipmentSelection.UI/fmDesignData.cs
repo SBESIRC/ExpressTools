@@ -156,7 +156,7 @@ namespace TianHua.FanSelection.UI
             m_ListFanDesign.ForEach(p => p.Status = "0");
             var _Json = FuncJson.Serialize(m_ListFanDesign);
 
-            JsonExporter.Instance.SaveToFile(Path.Combine(m_Path, "FanDesignData.json"), Encoding.UTF8, _Json);
+            JsonExporter.Instance.SaveToFile(Path.Combine(m_Path, ThFanSelectionUICommon.MODEL_EXPORTCATALOG), Encoding.UTF8, _Json);
 
             if (m_ActionType == "打开")
             {
