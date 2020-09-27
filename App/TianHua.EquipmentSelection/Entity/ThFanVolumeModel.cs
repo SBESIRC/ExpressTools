@@ -18,6 +18,8 @@ namespace TianHua.FanSelection.Model
     {
         public abstract string FireScenario { get; }
 
+        public virtual double TotalVolume { get; }
+
         public double QueryValue { get; set; }
     }
 }

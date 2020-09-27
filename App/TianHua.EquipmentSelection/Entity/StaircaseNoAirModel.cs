@@ -143,7 +143,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 合计
         /// </summary>
-        public double TotalVolume
+        public override double TotalVolume
         {
             get
             {

@@ -18,7 +18,7 @@ namespace TianHua.FanSelection.UI
     public partial class StaircaseWind : ThAirVolumeUserControl
     {
         private StaircaseAirModel Model { get; set; }
-        private UserControl subview;
+        private ModelValidation subview;
         private ModelValidator valid = new ModelValidator();
         public StaircaseWind(StaircaseAirModel model)
         {
@@ -185,6 +185,7 @@ namespace TianHua.FanSelection.UI
                 CheckPanel.Controls.Add(subview);
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
+            subview.SetFinalValue();
         }
 
         private void Add_Click(object sender, EventArgs e)

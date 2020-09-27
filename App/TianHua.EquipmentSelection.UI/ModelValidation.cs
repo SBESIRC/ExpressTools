@@ -61,5 +61,10 @@ namespace TianHua.FanSelection.UI
                 Model.QueryValue = 0;
             }
         }
+
+        public void SetFinalValue()
+        {
+            FinalValue.Text = Math.Max(Model.TotalVolume, Convert.ToDouble(Query.Text)).ToString();
+        }
     }
 }

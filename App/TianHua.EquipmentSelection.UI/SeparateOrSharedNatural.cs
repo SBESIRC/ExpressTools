@@ -17,7 +17,7 @@ namespace TianHua.FanSelection.UI
     /// </summary>
     public partial class SeparateOrSharedNatural : ThAirVolumeUserControl
     {
-        private UserControl subview;
+        private ModelValidation subview;
         private FontroomNaturalModel Model { get; set; }
         private ModelValidator valid = new ModelValidator();
 
@@ -160,6 +160,7 @@ namespace TianHua.FanSelection.UI
                 CheckPanel.Controls.Add(subview);
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
+            subview.SetFinalValue();
         }
 
         private void AddFont_Click(object sender, EventArgs e)
