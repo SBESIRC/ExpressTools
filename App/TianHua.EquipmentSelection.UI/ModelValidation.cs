@@ -14,7 +14,6 @@ namespace TianHua.FanSelection.UI
 {
     public partial class ModelValidation : UserControl
     {
-        public FireFrontModel ModelResult=new FireFrontModel() ;   //这个具体用什么实例化都没关系，只是显示作用
         public ThFanVolumeModel Model { get; set; }
         public ModelValidation(dynamic model)
         {
@@ -30,22 +29,20 @@ namespace TianHua.FanSelection.UI
             {
                 Query.ReadOnly = false;
             }
-            ModelResult.Result = new List<ThResult>()
+            List<ThResult> results = new List<ThResult>()
             {
                 new ThResult()
                 {
                     Name ="24<h≤50",
-                    Result=model.OverAk>=3.2?model.AAAA.ToString()+"-"+model.BBBB.ToString():
-                           (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString(),
+                    Result=model.OverAk>=3.2 ? model.AAAA.ToString()+"-"+model.BBBB.ToString() : (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString()
                 },
                 new ThResult()
                 {
                     Name ="50<h≤100",
-                     Result=model.OverAk>=3.2?model.CCCC.ToString()+"-"+model.DDDD.ToString():
-                           (0.75*model.CCCC).ToString()+"-"+(model.DDDD).ToString(),
+                     Result=model.OverAk>=3.2 ? model.CCCC.ToString()+"-"+model.DDDD.ToString() : (0.75*model.CCCC).ToString()+"-"+(model.DDDD).ToString()
                 },
             };
-            gridControl1.DataSource = ModelResult.Result;
+            gridControl1.DataSource = results;
             gridView1.RefreshData();
         }
 
