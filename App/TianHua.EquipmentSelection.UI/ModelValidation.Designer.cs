@@ -73,13 +73,13 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(363, 403, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(289, 263);
+            this.layoutControl1.Size = new System.Drawing.Size(289, 114);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(149, 231);
+            this.labelControl2.Location = new System.Drawing.Point(149, 82);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(28, 14);
             this.labelControl2.StyleController = this.layoutControl1;
@@ -88,15 +88,16 @@
             // 
             // FinalValue
             // 
-            this.FinalValue.Location = new System.Drawing.Point(64, 231);
+            this.FinalValue.Location = new System.Drawing.Point(64, 82);
             this.FinalValue.Name = "FinalValue";
+            this.FinalValue.Properties.ReadOnly = true;
             this.FinalValue.Size = new System.Drawing.Size(81, 20);
             this.FinalValue.StyleController = this.layoutControl1;
             this.FinalValue.TabIndex = 8;
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(12, 231);
+            this.labelControl1.Location = new System.Drawing.Point(12, 82);
             this.labelControl1.Margin = new System.Windows.Forms.Padding(0);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(48, 14);
@@ -120,7 +121,7 @@
             this.gridControl1.Location = new System.Drawing.Point(12, 36);
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(265, 191);
+            this.gridControl1.Size = new System.Drawing.Size(265, 42);
             this.gridControl1.TabIndex = 5;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -132,12 +133,14 @@
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
             this.gridColumn2});
+            this.gridView1.DetailHeight = 70;
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsCustomization.AllowColumnMoving = false;
             this.gridView1.OptionsCustomization.AllowColumnResizing = false;
             this.gridView1.OptionsCustomization.AllowFilter = false;
             this.gridView1.OptionsCustomization.AllowSort = false;
+            this.gridView1.OptionsEditForm.EditFormColumnCount = 2;
             this.gridView1.OptionsView.ShowGroupPanel = false;
             this.gridView1.OptionsView.ShowIndicator = false;
             // 
@@ -196,7 +199,7 @@
             this.layoutControlItem5,
             this.layoutControlItem6});
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(289, 263);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(289, 114);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -213,7 +216,7 @@
             this.layoutControlItem2.Control = this.gridControl1;
             this.layoutControlItem2.Location = new System.Drawing.Point(0, 24);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(269, 195);
+            this.layoutControlItem2.Size = new System.Drawing.Size(269, 46);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
@@ -229,7 +232,7 @@
             // layoutControlItem4
             // 
             this.layoutControlItem4.Control = this.labelControl1;
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 219);
+            this.layoutControlItem4.Location = new System.Drawing.Point(0, 70);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Size = new System.Drawing.Size(52, 24);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
@@ -238,7 +241,7 @@
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.FinalValue;
-            this.layoutControlItem5.Location = new System.Drawing.Point(52, 219);
+            this.layoutControlItem5.Location = new System.Drawing.Point(52, 70);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Size = new System.Drawing.Size(85, 24);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
@@ -247,7 +250,7 @@
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.labelControl2;
-            this.layoutControlItem6.Location = new System.Drawing.Point(137, 219);
+            this.layoutControlItem6.Location = new System.Drawing.Point(137, 70);
             this.layoutControlItem6.Name = "layoutControlItem6";
             this.layoutControlItem6.Size = new System.Drawing.Size(132, 24);
             this.layoutControlItem6.Spacing = new DevExpress.XtraLayout.Utils.Padding(0, 100, 0, 0);
@@ -260,7 +263,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.layoutControl1);
             this.Name = "ModelValidation";
-            this.Size = new System.Drawing.Size(289, 263);
+            this.Size = new System.Drawing.Size(289, 114);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FinalValue.Properties)).EndInit();
