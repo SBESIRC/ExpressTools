@@ -77,7 +77,10 @@ namespace ThSitePlan.Engine
                         {
                             //获取item的图框
                             var groupitemframe = ThSitePlanDbEngine.Instance.FrameByName(it.Properties["Name"].ToString());
-
+                            if (groupitemframe.IsNull)
+                            {
+                                return false;
+                            }
                             //计算该图框与当前色块图框的vector3d
                             Vector3d frameoffset = acadDatabase.Database.FrameOffset(groupitemframe, currenthatchframe);
 

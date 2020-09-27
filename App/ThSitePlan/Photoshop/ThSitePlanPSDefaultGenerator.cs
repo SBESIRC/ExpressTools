@@ -21,5 +21,11 @@ namespace ThSitePlan.Photoshop
             var worker = new ThSitePlanPSDefaultWorker(PSService);
             return worker.DoUpdate(path, configItem);
         }
+
+        public override bool Clean(ThSitePlanConfigItem configItem)
+        {
+            var worker = new ThSitePlanPSDefaultWorker(PSService);
+            return worker.CleanInPS(configItem);
+        }
     }
 }

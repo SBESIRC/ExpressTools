@@ -1,4 +1,5 @@
 ﻿using System;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
@@ -9,6 +10,11 @@ namespace ThEssential.BlockConvert
         {
             //
         }
+
+        /// <summary>
+        /// 插入图块
+        /// </summary>
+        public abstract ObjectId Insert(string name, Scale3d scale, ThBConvertBlockReference srcBlockReference);
 
         /// <summary>
         /// 调整位置

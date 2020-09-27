@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
+using NFox.Cad.Collections;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Runtime;
 
 namespace ThSitePlan.Engine
 {
@@ -39,6 +42,15 @@ namespace ThSitePlan.Engine
                     ThSitePlanDbEngine.Instance.Initialize(Active.Database);
                     var currenthatchframe = ThSitePlanDbEngine.Instance.FrameByName(configItem.Properties["Name"].ToString());
 
+                    //获取该色块填充图框中所有Hatch, 若已经存在用户hatch不再重新生成
+                    using (var objs = Filter(database, configItem, currenthatchframe, RXClass.GetClass(typeof(Hatch)).DxfName))
+                    {
+                        if (objs.Count != 0)
+                        {
+                            return true;
+                        }
+                    }
+
                     //遍历当前group，逐一获取group中各个item的图框，将图框中的所有色块图层的元素拷贝到当前色块图框
                     foreach (var item in currentgroup.Items)
                     {
@@ -67,6 +79,23 @@ namespace ThSitePlan.Engine
             }
 
             return true;
+        }
+
+        private ObjectIdCollection Filter(Database database, ThSitePlanConfigItem configItem, ObjectId frame, string filtertypedxf)
+        {
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == filtertypedxf);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
         }
     }
 }

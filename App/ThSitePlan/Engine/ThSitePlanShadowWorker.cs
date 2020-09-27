@@ -5,6 +5,9 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using NFox.Cad.Collections;
 using ThSitePlan.Configuration;
+using System.Windows.Forms;
+using DotNetARX;
+using System.Linq;
 
 namespace ThSitePlan.Engine
 {
@@ -35,8 +38,25 @@ namespace ThSitePlan.Engine
                     {
                         return false;
                     }
-
-                    Active.Editor.HatchBoundaryCmd(objs);
+                    Active.Editor.HatchBoundaryPolyCmd(objs);
+                    using (var polys = FilterPoly(database, configItem, options))
+                    {
+                        foreach (ObjectId item in polys)
+                        {
+                            foreach (ObjectId obj in FilterAllInPoly(database, item))
+                            {
+                                if (!obj.IsErased && !obj.Equals(item))
+                                {
+                                    obj.Erase();
+                                }
+                            }
+                        }
+                    }
+                    using (var polys = FilterPoly(database, configItem, options))
+                    {
+                        Active.Editor.CreateRegions(polys);
+                    }
+                    //Active.Editor.HatchBoundaryCmd(objs);
                 }
 
                 // 删除Hatch，只保留其轮廓线
@@ -84,23 +104,37 @@ namespace ThSitePlan.Engine
                 // 根据建筑物面域生成阴影面域
                 using (var objs = FilterRegion(database, configItem, options))
                 {
-                    foreach (ObjectId objId in objs)
+                    // 启动进度条
+                    using (ProgressMeter pm = new ProgressMeter())
                     {
-                        using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
+                        pm.SetLimit(objs.Count);
+                        pm.Start("正在生成建筑阴影");
+
+                        foreach (ObjectId objId in objs)
                         {
-                            var shadow = ThSitePlanBuildingShadow.CreateShadow(buildInfo);
-                            if (shadow != null)
+                            using (var buildInfo = new ThSitePlanBuilding(database, objId, frameName))
                             {
-                                // 计算阴影和其他建筑物的遮挡
-                                shadow.ProjectShadow(buildInfo);
-                            }
-                            else
-                            {
-                                // 创建简易的阴影面域
-                                shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo);
-                                shadow.Regions[0].CreateHatchWithPolygon();
+                                var shadow = ThSitePlanBuildingShadow.CreateShadow(buildInfo);
+                                if (shadow != null)
+                                {
+                                    // 计算阴影和其他建筑物的遮挡
+                                    shadow.ProjectShadow(buildInfo);
+                                }
+                                //else
+                                //{
+                                //    // 创建简易的阴影面域
+                                //    shadow = ThSitePlanBuildingShadow.CreateSimpleShadow(buildInfo, 3);
+                                //    shadow.Regions[0].CreateHatchWithPolygon();
+                                //}
+                                // 更新进度条
+                                pm.MeterProgress();
+                                // 让CAD在长时间任务处理时任然能接收消息
+                                Application.DoEvents();
                             }
                         }
+
+                        // 停止进度条
+                        pm.Stop();
                     }
                 }
 
@@ -143,6 +177,41 @@ namespace ThSitePlan.Engine
                 frame,
                 PolygonSelectionMode.Crossing,
                 filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterPoly(Database database, ThSitePlanConfigItem configItem, ThSitePlanOptions options)
+        {
+            ObjectId frame = (ObjectId)options.Options["Frame"];
+            var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Crossing,
+                filter);
+            if (psr.Status == PromptStatus.OK)
+            {
+                return new ObjectIdCollection(psr.Value.GetObjectIds().Where(p=>!p.Equals(frame)).ToArray());
+            }
+            else
+            {
+                return new ObjectIdCollection();
+            }
+        }
+
+        private ObjectIdCollection FilterAllInPoly(Database database, ObjectId frame)
+        {
+            //var filter = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            PromptSelectionResult psr = Active.Editor.SelectByPolyline(
+                frame,
+                PolygonSelectionMode.Window,
+                null);
             if (psr.Status == PromptStatus.OK)
             {
                 return new ObjectIdCollection(psr.Value.GetObjectIds());

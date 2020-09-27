@@ -20,8 +20,11 @@
     <Setting Name="PlantRadius" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">5</Value>
     </Setting>
-    <Setting Name="PlantDensity" Type="System.Int32" Scope="Application">
+    <Setting Name="PlantDensity" Type="System.Double" Scope="Application">
       <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="FileSavePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

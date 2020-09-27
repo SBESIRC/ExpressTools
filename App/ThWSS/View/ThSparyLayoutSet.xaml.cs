@@ -26,8 +26,7 @@ namespace ThWss.View
         {
             InitializeComponent();
 
-            this.custom.IsChecked = true;
-            this.tab1.IsChecked = true;
+            this.standard.IsChecked = true;
             ReadConfigInfo();
         }
 
@@ -60,18 +59,6 @@ namespace ThWss.View
             }
         }
 
-        private void ProtectRb_Checked(object sender, RoutedEventArgs e)
-        {
-            if (this.radiusPro.IsChecked == true)
-            {
-                this.radius.IsEnabled = true;
-            }
-            else
-            {
-                this.radius.IsEnabled = false;
-            }
-        }
-
         private void tabRB_Checked(object sender, RoutedEventArgs e)
         {
             ReadConfigInfo();
@@ -84,6 +71,7 @@ namespace ThWss.View
         /// <param name="e"></param>
         private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
         {
+            //SaveConfigInfo();
             this.Close();
         }
         
@@ -98,9 +86,6 @@ namespace ThWss.View
             {
                 //验证
                 if (!VerifyInputInfo()) { return; };
-
-                //存储本次操作配置
-                SaveConfigInfo();
 
                 this.DialogResult = true;
                 this.Close();
@@ -119,10 +104,31 @@ namespace ThWss.View
         /// <summary>
         /// 存储上一次信息
         /// </summary>
-        private void SaveConfigInfo()
+        public void SaveConfigInfo()
         {
             LayoutCacheModel layoutCacheModel = new LayoutCacheModel();
             Constraint constraint = new Constraint();
+            //存储tab页
+            if (this.tab1.IsChecked == true)
+            {
+                layoutCacheModel.tanName = this.tab1.Name;
+            }
+            else if (this.tab2.IsChecked == true)
+            {
+                layoutCacheModel.tanName = this.tab2.Name;
+            }
+            else if (this.tab3.IsChecked == true)
+            {
+                layoutCacheModel.tanName = this.tab3.Name;
+            }
+            else if (this.tab4.IsChecked == true)
+            {
+                layoutCacheModel.tanName = this.tab4.Name;
+            }
+            else if (this.tab5.IsChecked == true)
+            {
+                layoutCacheModel.tanName = this.tab5.Name;
+            }
             //自定义/标准约束
             if (this.custom.IsChecked == true)
             {
@@ -148,6 +154,7 @@ namespace ThWss.View
                 constraint.standard = standard;
             }
             layoutCacheModel.constraint = constraint;
+            layoutCacheModel.protectRadius = "0";
             //上喷下喷
             if (this.downSpary.IsChecked == true)
             {
@@ -157,16 +164,6 @@ namespace ThWss.View
             {
                 layoutCacheModel.nozzleType = upSpary.Name;
             }
-            //保护策略
-            if (this.radiusPro.IsChecked == true)
-            {
-                layoutCacheModel.protectStrategy = this.radiusPro.Name;
-            }
-            else
-            {
-                layoutCacheModel.protectStrategy = this.rectanglePro.Name;
-            }
-            layoutCacheModel.protectRadius = radius.Text;
             //考虑梁
             HasBeam hasBeam = new HasBeam();
             if (this.HasBeam.IsChecked == true)
@@ -187,10 +184,6 @@ namespace ThWss.View
             {
                 layoutCacheModel.layoutType = this.frame.Name;
             }
-            else if (this.customPart.IsChecked == true)
-            {
-                layoutCacheModel.layoutType = this.customPart.Name;
-            }
             else
             {
                  layoutCacheModel.layoutType = this.fire.Name;
@@ -210,8 +203,50 @@ namespace ThWss.View
             ConfigHelper configHelper = new ConfigHelper();
             configHelper.elementNode = configHelper.ReadNode(nodeName).FirstOrDefault();
             LayoutCacheModel layoutCacheModel = configHelper.Deserialize<LayoutCacheModel>();
+            //存储tab页
+            if (this.tab1.IsChecked != true && this.tab2.IsChecked != true && this.tab3.IsChecked != true
+                && this.tab4.IsChecked != true && this.tab5.IsChecked != true)
+            {
+                if (string.IsNullOrEmpty(layoutCacheModel.tanName))
+                {
+                    this.tab1.IsChecked = true;
+                }
+                else
+                {
+                    if (layoutCacheModel.tanName == this.tab1.Name)
+                    {
+                        this.tab1.IsChecked = true;
+                    }
+                    else if (layoutCacheModel.tanName == this.tab2.Name)
+                    {
+                        this.tab2.IsChecked = true;
+                    }
+                    else if (layoutCacheModel.tanName == this.tab3.Name)
+                    {
+                        this.tab3.IsChecked = true;
+                    }
+                    else if (layoutCacheModel.tanName == this.tab4.Name)
+                    {
+                        this.tab4.IsChecked = true;
+                    }
+                    else if (layoutCacheModel.tanName == this.tab5.Name)
+                    {
+                        this.tab5.IsChecked = true;
+                    }
+                }
+            }
             //自定义/标准约束
-            if(layoutCacheModel.constraint.constraintType == this.standard.Name)
+            if(layoutCacheModel.constraint.constraintType == this.custom.Name)
+            {
+                this.custom.IsChecked = true;
+                var spcing = layoutCacheModel.constraint.custom.sparySpacing.Split(',');
+                this.customControl.sparySSpcing.Text = spcing[0];
+                this.customControl.sparyESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
+                spcing = layoutCacheModel.constraint.custom.otherSpacing.Split(',');
+                this.customControl.otherSSpcing.Text = spcing[0];
+                this.customControl.otherESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
+            }
+            else
             {
                 this.standard.IsChecked = true;
                 bool parse = int.TryParse(layoutCacheModel.constraint.standard.hazardLevel, out int res);
@@ -225,16 +260,6 @@ namespace ThWss.View
                     this.standControl.standRange.IsChecked = true;
                 }
             }
-            else
-            {
-                this.custom.IsChecked = true;
-                var spcing = layoutCacheModel.constraint.custom.sparySpacing.Split(',');
-                this.customControl.sparySSpcing.Text = spcing[0];
-                this.customControl.sparyESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
-                spcing = layoutCacheModel.constraint.custom.otherSpacing.Split(',');
-                this.customControl.otherSSpcing.Text = spcing[0];
-                this.customControl.otherESpcing.Text = spcing.Length > 1 ? spcing[1] : null;
-            }
             //上喷下喷
             if (layoutCacheModel.nozzleType == this.downSpary.Name)
             {
@@ -244,20 +269,14 @@ namespace ThWss.View
             {
                 this.upSpary.IsChecked = true;
             }
-            //保护策略
-            if (layoutCacheModel.protectStrategy == this.radiusPro.Name)
+            //考虑梁
+            if (!string.IsNullOrEmpty(layoutCacheModel.hasBeam.considerBeam) && layoutCacheModel.hasBeam.considerBeam == "0")
             {
-                this.radiusPro.IsChecked = true;
-                this.radius.IsEnabled = true;
+                this.HasBeam.IsChecked = false;
+                this.beamHeight.IsEnabled = false;
+                this.plateThick.IsEnabled = false;
             }
             else
-            {
-                this.rectanglePro.IsChecked = true;
-                this.radius.IsEnabled = false;
-            }
-            this.radius.Text = layoutCacheModel.protectRadius;
-            //考虑梁
-            if (!string.IsNullOrEmpty(layoutCacheModel.hasBeam.considerBeam) && layoutCacheModel.hasBeam.considerBeam != "0")
             {
                 this.HasBeam.IsChecked = true;
                 this.beamHeight.IsEnabled = true;
@@ -270,14 +289,12 @@ namespace ThWss.View
             {
                 this.frame.IsChecked = true;
             }
-            else if (layoutCacheModel.layoutType == customPart.Name)
-            {
-                this.customPart.IsChecked = true;
-            }
             else
             {
                 this.fire.IsChecked = true;
             }
+
+            SetDefaultValues();
         }
 
         private string GetTabName()
@@ -297,6 +314,42 @@ namespace ThWss.View
             }
             
             return res;
+        }
+
+        /// <summary>
+        /// 设置默认值
+        /// </summary>
+        private void SetDefaultValues()
+        {
+            if (string.IsNullOrEmpty(this.beamHeight.Text))
+            {
+                this.beamHeight.Text = "600";
+            }
+
+            if (string.IsNullOrEmpty(this.plateThick.Text))
+            {
+                this.plateThick.Text = "100";
+            }
+
+            if (string.IsNullOrEmpty(this.customControl.sparySSpcing.Text))
+            {
+                this.customControl.sparySSpcing.Text = "1500";
+            }
+
+            if (string.IsNullOrEmpty(this.customControl.sparyESpcing.Text))
+            {
+                this.customControl.sparyESpcing.Text = "2200";
+            }
+
+            if (string.IsNullOrEmpty(this.customControl.otherSSpcing.Text))
+            {
+                this.customControl.otherSSpcing.Text = "300";
+            }
+
+            if (string.IsNullOrEmpty(this.customControl.otherESpcing.Text))
+            {
+                this.customControl.otherESpcing.Text = "2700";
+            }
         }
         #endregion
 
@@ -351,7 +404,7 @@ namespace ThWss.View
                 }
                 else
                 {
-                    if (Convert.ToInt32(this.customControl.sparySSpcing.Text) >= Convert.ToInt32(this.customControl.sparyESpcing.Text))
+                    if (Convert.ToInt32(this.customControl.sparySSpcing.Text) > Convert.ToInt32(this.customControl.sparyESpcing.Text))
                     {
                         this.customControl.sparyESpcing.Text = null;
                         MessageBox.Show("喷头最小间距不能大于最大间距！");
@@ -385,7 +438,7 @@ namespace ThWss.View
         /// <param name="e"></param>
         private void tb_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            Regex re = new Regex("[^0-9.-]+");
+            Regex re = new Regex("[^0-9]+");
             e.Handled = re.IsMatch(e.Text);
         }
 
@@ -414,5 +467,19 @@ namespace ThWss.View
             plateThickWindow.ShowDialog();
         }
         #endregion
+
+        /// <summary>
+        /// 按ESC关闭窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Esc_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)//Esc键  
+            {
+                //SaveConfigInfo();
+                this.Close();
+            }
+        }
     }
 }

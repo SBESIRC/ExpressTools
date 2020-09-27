@@ -2,7 +2,6 @@
 using Linq2Acad;
 using System.Linq;
 using GeometryExtensions;
-using Dreambuild.AutoCAD;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
@@ -65,20 +64,12 @@ namespace ThEssential.BlockConvert
                     .Where(o => o.GetEffectiveName() == name);
                 foreach(var blkRef in blkRefs)
                 {
-                    // 这里用一个“简单粗暴”的方法判断块引用是否在一个范围内：
-                    //  计算块引用外包框的中心点是否落在这个范围内
-                    // GeometricExtents会得到非常非常小的-Z值，例如-1E-24
-                    // 这个精度已经远远超过CAD的默认全局公差(点有1E-10的公差，向量有1E-12的公差）
-                    // 但是C#中double的精度更高，这样会导致在double比较时由于精度过高，出现错误结果
-                    // 为了规避由于精度不同导致的错误，这里首先对Point3d的Z值用CAD的全局公差处理
-                    // 若Z值已经小于全局公差，则认为其为0
-                    var center = blkRef.GetCenter();
-                    var center2d = new Point3d(center.X, center.Y, 0.0);
-                    if (center2d.IsEqualTo(center))
-                    {
-                        center = center2d;
-                    }
-                    if (center.IsInside(extents))
+                    Plane XYPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
+                    Matrix3d matrix = Matrix3d.Projection(XYPlane, XYPlane.Normal);
+                    var projectExtents = new Extents3d(
+                        extents.MinPoint.TransformBy(matrix),
+                        extents.MaxPoint.TransformBy(matrix));
+                    if (blkRef.Position.TransformBy(matrix).IsInside(projectExtents))
                     {
                         objs.Add(blkRef.ObjectId);
                     }

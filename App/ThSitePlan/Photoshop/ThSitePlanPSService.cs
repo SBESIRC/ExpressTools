@@ -1,19 +1,19 @@
 ﻿using System;
 using Photoshop;
-using System.Drawing;
-using ThSitePlan.Configuration;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
+using ThSitePlan.Configuration;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using PsApplication = Photoshop.Application;
 
 namespace ThSitePlan.Photoshop
 {
     public class ThSitePlanPSService : IDisposable
     {
-        public bool IsValid { get; set; }
+        public int ErrorCode { get; private set; }
+        public string ErrorMessage { get; private set; }
         public PsApplication Application { get; set; }
-
         public Document CurrentFirstDocument { get; set; }
 
         public ThSitePlanPSService()
@@ -21,13 +21,19 @@ namespace ThSitePlan.Photoshop
             try
             {
                 Application = new PsApplication();
-                IsValid = true;
+                Application.Visible = false;
             }
-            catch 
+            catch(COMException e) 
             {
                 Application = null;
-                IsValid = false;
+                ErrorCode = e.ErrorCode;
+                ErrorMessage = e.Message;
             }
+        }
+
+        public void ShowPSApp()
+        {
+            this.Application.Visible = true;
         }
 
         public void Dispose()
@@ -36,17 +42,27 @@ namespace ThSitePlan.Photoshop
         }
 
         // 创建一个空白图纸
-        public void NewEmptyDocument(string DocName)
+        public void NewEmptyDocument(string DocName, double psdocwidth, double psdochight)
         {
             var StartUnits = Application.Preferences.RulerUnits;
             Application.Preferences.RulerUnits = PsUnits.psCM;
-            Application.Documents.Add(
-                ThSitePlanCommon.PsDocOpenPropertity["DocWidth"],
-                ThSitePlanCommon.PsDocOpenPropertity["DocHight"],
-                ThSitePlanCommon.PsDocOpenPropertity["PPI"],
+            Document currentdoc = Application.Documents.Add(
+                psdocwidth,
+                psdochight,
+                300,
                 DocName);
-            Application.ActiveDocument.ArtLayers[1].IsBackgroundLayer = true;
             Application.Preferences.RulerUnits = StartUnits;
+
+            ArtLayer firstlayer = Application.ActiveDocument.ArtLayers[1];
+            currentdoc.ActiveLayer = firstlayer;
+            Selection ChannelSelection = currentdoc.Selection;
+            SolidColor ColorInPS = new SolidColor();
+            ColorInPS.RGB.Red = 228;
+            ColorInPS.RGB.Green = 228;
+            ColorInPS.RGB.Blue = 221;
+            ChannelSelection.Fill(ColorInPS);
+
+            CurrentFirstDocument = currentdoc;
         }
 
         //PS中载入Channel选区并填充
@@ -80,18 +96,23 @@ namespace ThSitePlan.Photoshop
                 return null;
             }
 
-            fileName = (string)configItem.Properties["Name"] + ".pdf";
-            fullPath = Path.Combine(path, fileName);
+            //fileName = (string)configItem.Properties["Name"] + ".pdf";
+            //fullPath = Path.Combine(path, fileName);
             //装载PDF获取图层名称
-            Document NewOpenDoc = Application.Open(fullPath);
+            PDFOpenOptions pdfop = new PDFOpenOptions
+            {
+                CropPage = PsCropToType.psBoundingBox
+            };
+            Document NewOpenDoc = Application.Open(fullPath, pdfop);
             string CurDocNa = NewOpenDoc.Name;
             ArtLayer newlayer = NewOpenDoc.ArtLayers[1];
+            newlayer.Translate(0,0);
             newlayer.Name = CurDocNa;
             string DocName = NewOpenDoc.Name;
 
             //设置图层的不透明度和填充颜色
-            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
             FillBySelectChannel(NewOpenDoc.Name, configItem);
+            newlayer.Opacity = Convert.ToDouble(configItem.Properties["Opacity"]);
 
             return NewOpenDoc;
 
@@ -130,6 +151,11 @@ namespace ThSitePlan.Photoshop
                 else
                 {
                     bool FindOrNot = false;
+
+                    if (SerLaySet.IsNull())
+                    {
+                        return null;
+                    }
 
                     foreach (LayerSet LaysetInCurDOC in SerLaySet.LayerSets)
                     {
@@ -199,6 +225,61 @@ namespace ThSitePlan.Photoshop
             newdoc.Close(PsSaveOptions.psDoNotSaveChanges);
         }
 
+        //在指定PS文档中检索指定图层，找到插入位置
+        public ArtLayer FindUpdateLocation(string docname, Document serdoc)
+        {
+            List<string> DocNameSpt = docname.Split('-').ToList();
+            LayerSets FirstLayerSets = serdoc.LayerSets;
+            LayerSet SerLaySet = null;
+            for (int i = 0; i < DocNameSpt.Count - 1; i++)
+            {
+                if (i == 0)
+                {
+                    foreach (LayerSet LaysetInCurDOC in FirstLayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            SerLaySet.Name = DocNameSpt[i];
+                            break;
+                        }
+                    }
+
+                    if (SerLaySet.IsNull())
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    foreach (LayerSet LaysetInCurDOC in SerLaySet.LayerSets)
+                    {
+                        if (LaysetInCurDOC.Name == DocNameSpt[i])
+                        {
+                            SerLaySet = LaysetInCurDOC;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (SerLaySet == null)
+            {
+                return null;
+            }
+
+            foreach (ArtLayer artlayer in SerLaySet.ArtLayers)
+            {
+                if (DocNameSpt.Last() == artlayer.Name)
+                {
+                    return artlayer;
+                }
+            }
+
+            return null;
+        }
+
+
         //在首文档最外层layers中按名称查找需要更新层，更新其内容
         public bool UpdateLayersInOutSet(Document searchdoc, Document origdoc)
         {
@@ -220,25 +301,65 @@ namespace ThSitePlan.Photoshop
         }
 
         //在插入位置下找到该文档并替换
-        public void UpdateLayerInSet(ArtLayer OperateLayer, LayerSet EndLayerSet)
+        public void UpdateLayerInSet(ArtLayer OperateLayer, ArtLayer findlayer)
         {
             List<string> CurDoc_Sets = OperateLayer.Name.Split('-').ToList();
             OperateLayer.Name = CurDoc_Sets.Last();
-            foreach (ArtLayer lyit in EndLayerSet.ArtLayers)
-            {
-                if (lyit.Name == OperateLayer.Name)
-                {
-                    lyit.Clear();
-                    OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
-                    lyit.Merge();
-                }
-            }
+            OperateLayer.Move(findlayer, PsElementPlacement.psPlaceAfter);
+            findlayer.Delete();
+            //foreach (ArtLayer lyit in EndLayerSet.ArtLayers)
+            //{
+            //    if (lyit.Name == OperateLayer.Name)
+            //    {
+            //        OperateLayer.Move(lyit, PsElementPlacement.psPlaceAfter);
+            //        lyit.Delete();
+            //        break;
+            //    }
+            //}
         }
 
-        //导出并保存PSD文件
+        //用于更新操作时导出并保存PSD文件
+        public void ExportToFileForUpdate(string path)
+        {
+            if (Application.Documents.Count == 0)
+            {
+                return;
+            }
+            Application.ActiveDocument.SaveAs(path);
+            Application.Visible = true;
+        }
+
+        //用于生成操作时导出并保存PSD文件
         public void ExportToFile(string path)
         {
-            Application.ActiveDocument.SaveAs(path);
+            string nameprefi = "一键彩总图";
+            int originaldwgindex = 1;
+            string psfilename = nameprefi + originaldwgindex + ".psd";
+            while (File.Exists(Path.Combine(path, psfilename)))
+            {
+                originaldwgindex++;
+                psfilename = nameprefi + originaldwgindex + ".psd";
+            }
+            Application.ActiveDocument.SaveAs(Path.Combine(path, psfilename));
+            Application.Visible = true;
         }
+
+        //在当前文档中查找指定名称的图层
+        public ArtLayer FindLayerByName(string docname)
+        {
+            Document searchdoc = Application.ActiveDocument;
+            //在PS根节点下检索，若找到直接返回
+            foreach (ArtLayer outlayer in searchdoc.ArtLayers)
+            {
+                if (outlayer.Name == docname)
+                {
+                    return outlayer;
+                }
+            }
+
+            //在PS中所有图层组中检索
+            return FindUpdateLocation(docname, searchdoc);
+        }
+
     }
 }

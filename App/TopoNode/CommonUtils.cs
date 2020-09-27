@@ -137,6 +137,7 @@ namespace TopoNode
         /// </summary>
         private void CoEdgeEraseDo()
         {
+            double tole = 1e-3;
             for (int i = 0; i < m_coEdges.Count; i++)
             {
                 var curEdge = m_coEdges[i];
@@ -162,13 +163,13 @@ namespace TopoNode
                     var releLinePtE = releLine.EndPoint;
 
                     // 当前段被相关重合段裁剪
-                    if (CommonUtils.IsPointOnSegment(releLinePtS, curLine) && !CommonUtils.IsPointOnSegment(releLinePtE, curLine)) // 部分包含当前线条
+                    if (CommonUtils.IsPointOnSegment(releLinePtS, curLine, tole) && !CommonUtils.IsPointOnSegment(releLinePtE, curLine, tole)) // 部分包含当前线条
                     {
-                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
+                        if (CommonUtils.IsPointOnSegment(curLinePtS, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtE); // 裁剪当前线段
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtS, curLinePtS);
                         }
@@ -176,13 +177,13 @@ namespace TopoNode
                         curEdge.ChangeCount++;
                         continue;
                     }
-                    else if (CommonUtils.IsPointOnSegment(releLinePtE, curLine) && !CommonUtils.IsPointOnSegment(releLinePtS, curLine)) // 部分包含当前线条
+                    else if (CommonUtils.IsPointOnSegment(releLinePtE, curLine, tole) && !CommonUtils.IsPointOnSegment(releLinePtS, curLine, tole)) // 部分包含当前线条
                     {
                         if (CommonUtils.IsPointOnSegment(curLinePtS, releLine))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtE);
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.CoNode.Line2d = new LineSegment2d(releLinePtE, curLinePtS);
                         }
@@ -194,12 +195,12 @@ namespace TopoNode
                     // 部分裁剪完出现完全包含或者相同的情况
                     if (curEdge.ChangeCount != 0)
                     {
-                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtS) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtE))
-                           || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtE) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtS)))
+                        if ((CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtS, tole) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtE, tole))
+                           || (CommonUtils.Point2dIsEqualPoint2d(curLinePtS, releLinePtE, tole) && CommonUtils.Point2dIsEqualPoint2d(curLinePtE, releLinePtS, tole)))
                         {
                             curEdge.IsErase = true;
                         }
-                        else if (CommonUtils.IsPointOnSegment(curLinePtS, releLine) && CommonUtils.IsPointOnSegment(curLinePtE, releLine))
+                        else if (CommonUtils.IsPointOnSegment(curLinePtS, releLine, tole) && CommonUtils.IsPointOnSegment(curLinePtE, releLine, tole))
                         {
                             curEdge.IsErase = true;
                         }
@@ -866,7 +867,7 @@ namespace TopoNode
         {
             foreach (var edge in innerProfile)
             {
-                var pt = edge.Start;
+                var pt = edge.Start + new Vector3d(0, 0.001, 0);
                 if (!PtInLoop(outerprofile, pt))
                 {
                     return false;
@@ -1078,6 +1079,31 @@ namespace TopoNode
         /// <param name="loop"></param>
         /// <returns></returns>
         public static double CalcuLoopArea(List<TopoEdge> loop)
+        {
+            double area = 0.0;
+
+            foreach (var edge in loop)
+            {
+                if (edge.IsLine)
+                    area += 0.5 * (edge.Start.X * edge.End.Y - edge.Start.Y * edge.End.X);
+                else
+                {
+                    var srcCurve = edge.SrcCurve;
+                    var topoEdgeMidPt = srcCurve.GetPointAtParameter(0.5 * (srcCurve.StartParam + srcCurve.EndParam));
+                    area += 0.5 * (edge.Start.X * topoEdgeMidPt.Y - edge.Start.Y * topoEdgeMidPt.X);
+                    area += 0.5 * (topoEdgeMidPt.X * edge.End.Y - topoEdgeMidPt.Y * edge.End.X);
+                }
+            }
+
+            return area;
+        }
+
+        /// <summary>
+        /// 计算离散后的面积
+        /// </summary>
+        /// <param name="loop"></param>
+        /// <returns></returns>
+        public static double CalcuTesslateLoopArea(List<TopoEdge> loop)
         {
             double area = 0.0;
 
@@ -1506,13 +1532,37 @@ namespace TopoNode
             var lines3d = new List<Line>();
             foreach (var curve in srcCurves)
             {
-                if (curve is Line)
+                if (curve is Line line)
                 {
-                    lines3d.Add(curve as Line);
+                    if (!IsAlmostNearZero(line.StartPoint.Z, 1E-10))
+                    {
+                        var ptS = line.StartPoint;
+                        var ptE = line.EndPoint;
+                        var lineZ0 = new Line(new Point3d(ptS.X, ptS.Y, 0), new Point3d(ptE.X, ptE.Y, 0));
+                        lineZ0.Layer = line.Layer;
+                        lines3d.Add(lineZ0);
+                    }
+                    else
+                        lines3d.Add(line);
                 }
-                else
+                else if (curve is Arc arc)
                 {
-                    outCurves.Add(curve);
+                    if (!IsAlmostNearZero(arc.Center.Z, 1E-10))
+                    {
+                        var ptS = arc.StartPoint;
+                        var ptSZ0 = new Point3d(ptS.X, ptS.Y, 0);
+                        var ptMid = arc.GetPointAtParameter(0.5 * (arc.StartParam + arc.EndParam));
+                        var ptMidZ0 = new Point3d(ptMid.X, ptMid.Y, 0);
+                        var ptE = arc.EndPoint;
+                        var ptEZ0 = new Point3d(ptE.X, ptE.Y, 0);
+
+                        var arcZ0 = new Arc();
+                        arcZ0.CreateArc(ptSZ0, ptMidZ0, ptEZ0);
+                        arcZ0.Layer = arc.Layer;
+                        outCurves.Add(arcZ0);
+                    }
+                    else
+                        outCurves.Add(curve);
                 }
             }
 

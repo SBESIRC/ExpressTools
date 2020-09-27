@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ThWSS.Model;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
@@ -23,6 +24,23 @@ namespace ThWSS.Engine
         /// <param name="database"></param>
         /// <param name="polygon"></param>
         /// <returns></returns>
-        public abstract bool Acquire(Database database, Polyline polygon);
+        public abstract bool Acquire(Database database, Polyline floor, ObjectId frame);
+
+        /// <summary>
+        /// 从图纸的指定框线提取对象
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="polygon"></param>
+        /// <returns></returns>
+        public abstract bool Acquire(Database database, Polyline floor, ObjectIdCollection frames);
+
+
+        /// <summary>
+        /// 从图纸的指定框线提取对象
+        /// </summary>
+        /// <param name="database"></param>
+        /// <param name="frames"></param>
+        /// <returns></returns>
+        public abstract bool Acquire(Database database, Polyline floor, DBObjectCollection frames);
     }
 }

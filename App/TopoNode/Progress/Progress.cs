@@ -55,23 +55,10 @@ namespace TopoNode.Progress
             {
                 var progress = Progress.Instance;
                 progress.m_progressBar.Value = value;
-                progress.Refresh();
-            }
-            catch
-            {
-                // 避免出现某些操作，异常崩溃， 
-            }
-        }
-
-        public static void SetProgressValue(int value)
-        {
-            try
-            {
-                var progress = Progress.Instance;
-                var PreValue = value / 10;
-                var valueShow = string.Format("{0}%", PreValue);
+                var valueShow = string.Format("{0}%", value / 100.0);
                 progress.m_lblProgresss.Text = valueShow;
-                progress.Refresh();
+                progress.m_lblProgresss.Refresh();
+                progress.Show();
             }
             catch
             {
@@ -85,6 +72,21 @@ namespace TopoNode.Progress
             {
                 var progress = Progress.Instance;
                 progress.m_lblTip.Text = tip;
+                progress.m_lblTip.Refresh();
+            }
+            catch
+            {
+                // 避免出现某些操作，异常崩溃， 
+            }
+        }
+
+        public static void Reset()
+        {
+            try
+            {
+                var progress = Progress.Instance;
+                progress.m_lblTip.Text = string.Empty;
+                progress.m_lblProgresss.Text = string.Empty;
                 progress.Refresh();
             }
             catch

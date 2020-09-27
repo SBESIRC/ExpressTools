@@ -25,6 +25,7 @@ namespace ThSitePlan
         public static readonly string LAYER_PAVE_OUTD = "P-AI-pavement";
         public static readonly string LAYER_GREEN_WATER = "P-GREN-WATER";
         public static readonly string LAYER_GREEN_LANDSP = "P-AI-landscape";
+        public static readonly string LAYER_TREE = "P-AI-tree";
         // 由于方案图纸的单位是米（m），设置0.1米作为种子点的偏移量
         public static readonly double seed_point_offset = 30;
         public static readonly double overkill_tolerance = 0.001;
@@ -53,12 +54,7 @@ namespace ThSitePlan
         //RoadCenterLine
         public static readonly string LAYER_RoadCenterLine = "P-TRAF-CITY";
 
-        //photoshop文档尺寸
-        public static readonly Dictionary<string, double> PsDocOpenPropertity = new Dictionary<string, double>
-        {
-            {"DocWidth", 41.84},
-            {"DocHight", 59.17},
-            {"PPI", 300},
-        };
+        //文件保存路径名
+        public static readonly string ThSitePlan_File_Save_Path = "一键彩总PDF图纸文件";
     }
 }

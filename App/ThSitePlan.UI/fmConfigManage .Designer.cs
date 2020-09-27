@@ -32,20 +32,24 @@ namespace ThSitePlan.UI
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions1 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
             DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions2 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fmConfigManage));
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject7 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject8 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.XtraEditors.Controls.EditorButtonImageOptions editorButtonImageOptions3 = new DevExpress.XtraEditors.Controls.EditorButtonImageOptions();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject9 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject10 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject11 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
             this.TxtName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
             this.label6 = new System.Windows.Forms.Label();
-            this.BtnHelp = new System.Windows.Forms.Button();
-            this.BtnCancel = new System.Windows.Forms.Button();
-            this.BtnOK = new System.Windows.Forms.Button();
-            this.BtnExport = new System.Windows.Forms.Button();
-            this.BtnImport = new System.Windows.Forms.Button();
-            this.BtnRestore = new System.Windows.Forms.Button();
             this.TreeList = new DevExpress.XtraTreeList.TreeList();
             this.ColName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.TextName = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
@@ -72,16 +76,22 @@ namespace ThSitePlan.UI
             this.TxtEmpty = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.ComBoxLayer = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.MEdit = new DevExpress.XtraEditors.Repository.RepositoryItemMRUEdit();
+            this.BtnRestore = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnImport = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnExport = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnCancel = new DevExpress.XtraEditors.SimpleButton();
+            this.BtnHelp = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlItem13 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
+            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem12 = new DevExpress.XtraLayout.LayoutControlItem();
             this.behaviorManager1 = new DevExpress.Utils.Behaviors.BehaviorManager(this.components);
             this.Tim = new System.Windows.Forms.Timer(this.components);
             this.ContMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -130,13 +140,13 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).BeginInit();
             this.ContMenu.SuspendLayout();
             this.ContextMenuTransparency.SuspendLayout();
@@ -151,20 +161,20 @@ namespace ThSitePlan.UI
             // 
             this.layoutControl1.AllowCustomization = false;
             this.layoutControl1.Controls.Add(this.label6);
-            this.layoutControl1.Controls.Add(this.BtnHelp);
-            this.layoutControl1.Controls.Add(this.BtnCancel);
-            this.layoutControl1.Controls.Add(this.BtnOK);
-            this.layoutControl1.Controls.Add(this.BtnExport);
-            this.layoutControl1.Controls.Add(this.BtnImport);
-            this.layoutControl1.Controls.Add(this.BtnRestore);
             this.layoutControl1.Controls.Add(this.TreeList);
+            this.layoutControl1.Controls.Add(this.BtnRestore);
+            this.layoutControl1.Controls.Add(this.BtnImport);
+            this.layoutControl1.Controls.Add(this.BtnExport);
+            this.layoutControl1.Controls.Add(this.BtnOK);
+            this.layoutControl1.Controls.Add(this.BtnCancel);
+            this.layoutControl1.Controls.Add(this.BtnHelp);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.HiddenItems.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem13});
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.LookAndFeel.SkinName = "Metropolis";
             this.layoutControl1.Name = "layoutControl1";
-            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(946, 252, 650, 533);
+            this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(1153, 238, 650, 533);
             this.layoutControl1.Root = this.layoutControlGroup1;
             this.layoutControl1.Size = new System.Drawing.Size(773, 478);
             this.layoutControl1.TabIndex = 0;
@@ -179,73 +189,10 @@ namespace ThSitePlan.UI
             this.label6.Text = "CAD脚本程序：";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // BtnHelp
-            // 
-            this.BtnHelp.Location = new System.Drawing.Point(674, 445);
-            this.BtnHelp.Name = "BtnHelp";
-            this.BtnHelp.Size = new System.Drawing.Size(88, 22);
-            this.BtnHelp.TabIndex = 16;
-            this.BtnHelp.Text = "帮助";
-            this.BtnHelp.UseVisualStyleBackColor = true;
-            this.BtnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
-            // 
-            // BtnCancel
-            // 
-            this.BtnCancel.Location = new System.Drawing.Point(580, 445);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(92, 22);
-            this.BtnCancel.TabIndex = 15;
-            this.BtnCancel.Text = "取消";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
-            // 
-            // BtnOK
-            // 
-            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(485, 445);
-            this.BtnOK.Name = "BtnOK";
-            this.BtnOK.Size = new System.Drawing.Size(93, 22);
-            this.BtnOK.TabIndex = 14;
-            this.BtnOK.Text = "确定";
-            this.BtnOK.UseVisualStyleBackColor = true;
-            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
-            // 
-            // BtnExport
-            // 
-            this.BtnExport.Location = new System.Drawing.Point(189, 445);
-            this.BtnExport.Name = "BtnExport";
-            this.BtnExport.Size = new System.Drawing.Size(91, 22);
-            this.BtnExport.TabIndex = 13;
-            this.BtnExport.Text = "导出";
-            this.BtnExport.UseVisualStyleBackColor = true;
-            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
-            // 
-            // BtnImport
-            // 
-            this.BtnImport.Location = new System.Drawing.Point(102, 445);
-            this.BtnImport.Name = "BtnImport";
-            this.BtnImport.Size = new System.Drawing.Size(85, 22);
-            this.BtnImport.TabIndex = 12;
-            this.BtnImport.Text = "导入";
-            this.BtnImport.UseVisualStyleBackColor = true;
-            this.BtnImport.Click += new System.EventHandler(this.BtnImport_Click);
-            // 
-            // BtnRestore
-            // 
-            this.BtnRestore.Location = new System.Drawing.Point(11, 445);
-            this.BtnRestore.Name = "BtnRestore";
-            this.BtnRestore.Size = new System.Drawing.Size(89, 22);
-            this.BtnRestore.TabIndex = 11;
-            this.BtnRestore.Text = "还原";
-            this.BtnRestore.UseVisualStyleBackColor = true;
-            this.BtnRestore.Click += new System.EventHandler(this.BtnRestore_Click);
-            // 
             // TreeList
             // 
-            this.TreeList.Appearance.FocusedRow.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.TreeList.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.TreeList.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(102)))), ((int)(((byte)(124)))));
             this.TreeList.Appearance.FocusedRow.Options.UseBackColor = true;
-            this.TreeList.Appearance.FocusedRow.Options.UseForeColor = true;
             this.TreeList.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
             this.ColName,
             this.ColColor,
@@ -258,10 +205,10 @@ namespace ThSitePlan.UI
             this.TreeList.ColumnsImageList = this.images;
             this.TreeList.Cursor = System.Windows.Forms.Cursors.Default;
             this.TreeList.DataSource = null;
+            this.TreeList.HorzScrollStep = 1;
             this.TreeList.HtmlImages = this.images;
             this.TreeList.Location = new System.Drawing.Point(12, 12);
             this.TreeList.LookAndFeel.SkinName = "Office 2016 Colorful";
-            this.TreeList.LookAndFeel.UseDefaultLookAndFeel = false;
             this.TreeList.Name = "TreeList";
             this.TreeList.BeginUnboundLoad();
             this.TreeList.AppendNode(new object[] {
@@ -305,7 +252,7 @@ namespace ThSitePlan.UI
             this.TextName});
             this.TreeList.RowHeight = 28;
             this.TreeList.SelectImageList = this.images;
-            this.TreeList.Size = new System.Drawing.Size(749, 428);
+            this.TreeList.Size = new System.Drawing.Size(749, 426);
             this.TreeList.TabIndex = 4;
             this.TreeList.TreeLevelWidth = 12;
             this.TreeList.TreeLineStyle = DevExpress.XtraTreeList.LineStyle.Solid;
@@ -357,7 +304,6 @@ namespace ThSitePlan.UI
             this.ColColor.ColumnEdit = this.ColorEdit;
             this.ColColor.FieldName = "PSD_Color";
             this.ColColor.Name = "ColColor";
-            this.ColColor.OptionsColumn.AllowEdit = false;
             this.ColColor.OptionsColumn.AllowMove = false;
             this.ColColor.Visible = true;
             this.ColColor.VisibleIndex = 1;
@@ -367,10 +313,20 @@ namespace ThSitePlan.UI
             // 
             this.ColorEdit.AutoHeight = false;
             this.ColorEdit.AutomaticColor = System.Drawing.Color.Black;
-            editorButtonImageOptions1.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions1.Image")));
+            serializableAppearanceObject1.BackColor = System.Drawing.Color.Red;
+            serializableAppearanceObject1.BackColor2 = System.Drawing.Color.Yellow;
+            serializableAppearanceObject1.Options.UseBackColor = true;
+            serializableAppearanceObject2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            serializableAppearanceObject2.Options.UseBackColor = true;
+            serializableAppearanceObject3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            serializableAppearanceObject3.Options.UseBackColor = true;
+            serializableAppearanceObject4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            serializableAppearanceObject4.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            serializableAppearanceObject4.Options.UseBackColor = true;
+            editorButtonImageOptions2.Image = ((System.Drawing.Image)(resources.GetObject("editorButtonImageOptions2.Image")));
             this.ColorEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, editorButtonImageOptions1, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, serializableAppearanceObject2, serializableAppearanceObject3, serializableAppearanceObject4, "", null, null, DevExpress.Utils.ToolTipAnchor.Default),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "", -1, true, true, false, editorButtonImageOptions2, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, serializableAppearanceObject6, serializableAppearanceObject7, serializableAppearanceObject8, "", "Spectroscope", null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.ColorEdit.ButtonsStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.ColorEdit.ColorDialogOptions.AllowTransparency = false;
             this.ColorEdit.ColorDialogOptions.ShowMakeWebSafeButton = false;
@@ -404,8 +360,16 @@ namespace ThSitePlan.UI
             // SpinEdit
             // 
             this.SpinEdit.AutoHeight = false;
+            serializableAppearanceObject9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            serializableAppearanceObject9.Options.UseBackColor = true;
+            serializableAppearanceObject10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            serializableAppearanceObject10.Options.UseBackColor = true;
+            serializableAppearanceObject11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            serializableAppearanceObject11.Options.UseBackColor = true;
+            serializableAppearanceObject12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            serializableAppearanceObject12.Options.UseBackColor = true;
             this.SpinEdit.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo, "", -1, true, true, false, editorButtonImageOptions3, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject9, serializableAppearanceObject10, serializableAppearanceObject11, serializableAppearanceObject12, "", null, null, DevExpress.Utils.ToolTipAnchor.Default)});
             this.SpinEdit.ExportMode = DevExpress.XtraEditors.Repository.ExportMode.Value;
             this.SpinEdit.Mask.EditMask = "(1|([1-9]\\d{0,1})|100)";
             this.SpinEdit.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
@@ -422,7 +386,7 @@ namespace ThSitePlan.UI
             this.ColFrame.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.ColFrame.AppearanceHeader.Options.UseTextOptions = true;
             this.ColFrame.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.ColFrame.Caption = "CAD图像框";
+            this.ColFrame.Caption = "CAD图框";
             this.ColFrame.FieldName = "CAD_Frame";
             this.ColFrame.Name = "ColFrame";
             this.ColFrame.OptionsColumn.AllowEdit = false;
@@ -472,9 +436,6 @@ namespace ThSitePlan.UI
             // 
             this.Gdc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Gdc.Location = new System.Drawing.Point(0, 0);
-            this.Gdc.LookAndFeel.SkinMaskColor = System.Drawing.Color.Transparent;
-            this.Gdc.LookAndFeel.SkinName = "The Bezier";
-            this.Gdc.LookAndFeel.UseDefaultLookAndFeel = false;
             this.Gdc.MainView = this.Gdv;
             this.Gdc.Name = "Gdc";
             this.Gdc.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
@@ -486,7 +447,7 @@ namespace ThSitePlan.UI
             // 
             // Gdv
             // 
-            this.Gdv.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Gdv.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(102)))), ((int)(((byte)(124)))));
             this.Gdv.Appearance.FocusedRow.Options.UseBackColor = true;
             this.Gdv.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn5,
@@ -638,6 +599,68 @@ namespace ThSitePlan.UI
             this.MEdit.Name = "MEdit";
             this.MEdit.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             // 
+            // BtnRestore
+            // 
+            this.BtnRestore.Location = new System.Drawing.Point(12, 444);
+            this.BtnRestore.Name = "BtnRestore";
+            this.BtnRestore.Size = new System.Drawing.Size(87, 22);
+            this.BtnRestore.StyleController = this.layoutControl1;
+            this.BtnRestore.TabIndex = 23;
+            this.BtnRestore.Text = "还原";
+            this.BtnRestore.Click += new System.EventHandler(this.BtnRestore_Click);
+            // 
+            // BtnImport
+            // 
+            this.BtnImport.Location = new System.Drawing.Point(103, 444);
+            this.BtnImport.Name = "BtnImport";
+            this.BtnImport.Size = new System.Drawing.Size(87, 22);
+            this.BtnImport.StyleController = this.layoutControl1;
+            this.BtnImport.TabIndex = 24;
+            this.BtnImport.Text = "导入";
+            this.BtnImport.Click += new System.EventHandler(this.BtnImport_Click);
+            // 
+            // BtnExport
+            // 
+            this.BtnExport.Location = new System.Drawing.Point(194, 444);
+            this.BtnExport.Name = "BtnExport";
+            this.BtnExport.Size = new System.Drawing.Size(87, 22);
+            this.BtnExport.StyleController = this.layoutControl1;
+            this.BtnExport.TabIndex = 25;
+            this.BtnExport.Text = "导出";
+            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            // 
+            // BtnOK
+            // 
+            this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.BtnOK.Location = new System.Drawing.Point(486, 444);
+            this.BtnOK.Name = "BtnOK";
+            this.BtnOK.Size = new System.Drawing.Size(91, 22);
+            this.BtnOK.StyleController = this.layoutControl1;
+            this.BtnOK.TabIndex = 26;
+            this.BtnOK.Text = "确定";
+            this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
+            // 
+            // BtnCancel
+            // 
+            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BtnCancel.Location = new System.Drawing.Point(581, 444);
+            this.BtnCancel.Name = "BtnCancel";
+            this.BtnCancel.Size = new System.Drawing.Size(89, 22);
+            this.BtnCancel.StyleController = this.layoutControl1;
+            this.BtnCancel.TabIndex = 27;
+            this.BtnCancel.Text = "取消";
+            this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
+            // 
+            // BtnHelp
+            // 
+            this.BtnHelp.Location = new System.Drawing.Point(674, 444);
+            this.BtnHelp.Name = "BtnHelp";
+            this.BtnHelp.Size = new System.Drawing.Size(87, 22);
+            this.BtnHelp.StyleController = this.layoutControl1;
+            this.BtnHelp.TabIndex = 28;
+            this.BtnHelp.Text = "帮助";
+            this.BtnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
+            // 
             // layoutControlItem13
             // 
             this.layoutControlItem13.Control = this.label6;
@@ -653,13 +676,13 @@ namespace ThSitePlan.UI
             this.layoutControlGroup1.GroupBordersVisible = false;
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
+            this.emptySpaceItem1,
+            this.layoutControlItem7,
             this.layoutControlItem2,
-            this.layoutControlItem3,
-            this.layoutControlItem4,
-            this.layoutControlItem5,
-            this.layoutControlItem6,
-            this.layoutControlItem8,
-            this.emptySpaceItem1});
+            this.layoutControlItem9,
+            this.layoutControlItem10,
+            this.layoutControlItem11,
+            this.layoutControlItem12});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(773, 478);
             this.layoutControlGroup1.TextVisible = false;
@@ -671,77 +694,71 @@ namespace ThSitePlan.UI
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 4);
-            this.layoutControlItem1.Size = new System.Drawing.Size(753, 434);
+            this.layoutControlItem1.Size = new System.Drawing.Size(753, 432);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
-            // 
-            // layoutControlItem2
-            // 
-            this.layoutControlItem2.Control = this.BtnRestore;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 434);
-            this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem2.Size = new System.Drawing.Size(91, 24);
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem2.TextVisible = false;
-            // 
-            // layoutControlItem3
-            // 
-            this.layoutControlItem3.Control = this.BtnImport;
-            this.layoutControlItem3.Location = new System.Drawing.Point(91, 434);
-            this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem3.Size = new System.Drawing.Size(87, 24);
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem3.TextVisible = false;
-            // 
-            // layoutControlItem4
-            // 
-            this.layoutControlItem4.Control = this.BtnExport;
-            this.layoutControlItem4.Location = new System.Drawing.Point(178, 434);
-            this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem4.Size = new System.Drawing.Size(93, 24);
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem4.TextVisible = false;
-            // 
-            // layoutControlItem5
-            // 
-            this.layoutControlItem5.Control = this.BtnOK;
-            this.layoutControlItem5.Location = new System.Drawing.Point(474, 434);
-            this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem5.Size = new System.Drawing.Size(95, 24);
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem5.TextVisible = false;
-            // 
-            // layoutControlItem6
-            // 
-            this.layoutControlItem6.Control = this.BtnCancel;
-            this.layoutControlItem6.Location = new System.Drawing.Point(569, 434);
-            this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem6.Size = new System.Drawing.Size(94, 24);
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem6.TextVisible = false;
-            // 
-            // layoutControlItem8
-            // 
-            this.layoutControlItem8.Control = this.BtnHelp;
-            this.layoutControlItem8.Location = new System.Drawing.Point(663, 434);
-            this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Padding = new DevExpress.XtraLayout.Utils.Padding(1, 1, 1, 1);
-            this.layoutControlItem8.Size = new System.Drawing.Size(90, 24);
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(0, 0);
-            this.layoutControlItem8.TextVisible = false;
             // 
             // emptySpaceItem1
             // 
             this.emptySpaceItem1.AllowHotTrack = false;
-            this.emptySpaceItem1.Location = new System.Drawing.Point(271, 434);
+            this.emptySpaceItem1.Location = new System.Drawing.Point(273, 432);
             this.emptySpaceItem1.Name = "emptySpaceItem1";
-            this.emptySpaceItem1.Size = new System.Drawing.Size(203, 24);
+            this.emptySpaceItem1.Size = new System.Drawing.Size(201, 26);
             this.emptySpaceItem1.TextSize = new System.Drawing.Size(0, 0);
+            // 
+            // layoutControlItem7
+            // 
+            this.layoutControlItem7.Control = this.BtnRestore;
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 432);
+            this.layoutControlItem7.Name = "layoutControlItem7";
+            this.layoutControlItem7.Size = new System.Drawing.Size(91, 26);
+            this.layoutControlItem7.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem7.TextVisible = false;
+            // 
+            // layoutControlItem2
+            // 
+            this.layoutControlItem2.Control = this.BtnImport;
+            this.layoutControlItem2.Location = new System.Drawing.Point(91, 432);
+            this.layoutControlItem2.Name = "layoutControlItem2";
+            this.layoutControlItem2.Size = new System.Drawing.Size(91, 26);
+            this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem2.TextVisible = false;
+            // 
+            // layoutControlItem9
+            // 
+            this.layoutControlItem9.Control = this.BtnExport;
+            this.layoutControlItem9.Location = new System.Drawing.Point(182, 432);
+            this.layoutControlItem9.Name = "layoutControlItem9";
+            this.layoutControlItem9.Size = new System.Drawing.Size(91, 26);
+            this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem9.TextVisible = false;
+            // 
+            // layoutControlItem10
+            // 
+            this.layoutControlItem10.Control = this.BtnOK;
+            this.layoutControlItem10.Location = new System.Drawing.Point(474, 432);
+            this.layoutControlItem10.Name = "layoutControlItem10";
+            this.layoutControlItem10.Size = new System.Drawing.Size(95, 26);
+            this.layoutControlItem10.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem10.TextVisible = false;
+            // 
+            // layoutControlItem11
+            // 
+            this.layoutControlItem11.Control = this.BtnCancel;
+            this.layoutControlItem11.Location = new System.Drawing.Point(569, 432);
+            this.layoutControlItem11.Name = "layoutControlItem11";
+            this.layoutControlItem11.Size = new System.Drawing.Size(93, 26);
+            this.layoutControlItem11.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem11.TextVisible = false;
+            // 
+            // layoutControlItem12
+            // 
+            this.layoutControlItem12.Control = this.BtnHelp;
+            this.layoutControlItem12.Location = new System.Drawing.Point(662, 432);
+            this.layoutControlItem12.Name = "layoutControlItem12";
+            this.layoutControlItem12.Size = new System.Drawing.Size(91, 26);
+            this.layoutControlItem12.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem12.TextVisible = false;
             // 
             // Tim
             // 
@@ -926,13 +943,16 @@ namespace ThSitePlan.UI
             // 
             // fmConfigManage
             // 
+            this.AcceptButton = this.BtnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.BtnCancel;
             this.ClientSize = new System.Drawing.Size(773, 478);
             this.Controls.Add(this.PopCtl);
             this.Controls.Add(this.layoutControl1);
             this.Controls.Add(this.BtnPick);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.LookAndFeel.SkinName = "Visual Studio 2013 Dark";
             this.LookAndFeel.UseDefaultLookAndFeel = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -965,13 +985,13 @@ namespace ThSitePlan.UI
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem13)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem12)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.behaviorManager1)).EndInit();
             this.ContMenu.ResumeLayout(false);
             this.ContextMenuTransparency.ResumeLayout(false);
@@ -1004,18 +1024,6 @@ namespace ThSitePlan.UI
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox ComBoxLayer;
         private DevExpress.XtraEditors.Repository.RepositoryItemComboBox ComBoxScript;
         private DevExpress.XtraEditors.Repository.RepositoryItemPictureEdit PictureEdit;
-        private System.Windows.Forms.Button BtnHelp;
-        private System.Windows.Forms.Button BtnCancel;
-        private System.Windows.Forms.Button BtnOK;
-        private System.Windows.Forms.Button BtnExport;
-        private System.Windows.Forms.Button BtnImport;
-        private System.Windows.Forms.Button BtnRestore;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
         private DevExpress.XtraEditors.Repository.RepositoryItemMRUEdit MEdit;
         private System.Windows.Forms.ContextMenuStrip ContMenu;
         private System.Windows.Forms.ToolStripMenuItem MenuItemNewPeerGroup;
@@ -1052,5 +1060,17 @@ namespace ThSitePlan.UI
         private DevExpress.XtraEditors.SimpleButton BtnPick;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit TextName;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel1;
+        private DevExpress.XtraEditors.SimpleButton BtnRestore;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
+        private DevExpress.XtraEditors.SimpleButton BtnImport;
+        private DevExpress.XtraEditors.SimpleButton BtnExport;
+        private DevExpress.XtraEditors.SimpleButton BtnOK;
+        private DevExpress.XtraEditors.SimpleButton BtnCancel;
+        private DevExpress.XtraEditors.SimpleButton BtnHelp;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem10;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem11;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem12;
     }
 }

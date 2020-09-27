@@ -18,7 +18,11 @@ namespace TianHua.AutoCAD.ThCui
                 CreatePlotToolPanel(tab);
                 CreatePurgeToolPanel(tab);
                 CreateBlockToolPanel(tab);
+                CreateOutlineToolPanel(tab);
+                CreateEquipmentToolPanel(tab);
+                CreateFireControlToolPanel(tab);
                 CreateMiscellaneousPanel(tab);
+                CreateSitePlanToolPanel(tab);
             }
         }
 
@@ -259,6 +263,69 @@ namespace TianHua.AutoCAD.ThCui
             }
         }
 
+        private static void CreateOutlineToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("OutlineTool", "房间框线");
+            var row = panel.AddNewRibbonRow();
+
+            // 建筑已绘
+            row.AddNewButton("建筑已绘",
+                "提取建筑绘制框线",
+                "THWRR",
+                "提取建筑绘制框线",
+                "IDI_THCAD_THWRR_SMALL",
+                "IDI_THCAD_THWRR_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 自动识别
+            row.AddNewButton("自动识别",
+                "自动识别框线",
+                "THWRI",
+                "自动识别框线",
+                "IDI_THCAD_THWRI_SMALL",
+                "IDI_THCAD_THWRI_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            // 手动绘制
+            row.AddNewButton("手动绘制",
+                "手动绘制框线",
+                "THWRD",
+                "手动绘制框线",
+                "IDI_THCAD_THWRD_SMALL",
+                "IDI_THCAD_THWRD_LARGE",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateFireControlToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("FireControlTool", "消防喷淋");
+            var row = panel.AddNewRibbonRow();
+
+            // 喷头布置
+            row.AddNewButton("喷头布置",
+                "自动喷淋喷头布置",
+                "THPT",
+                "自动喷淋喷头布置",
+                "IDI_THCAD_THPT_SMALL",
+                "IDI_THCAD_THPT_SMALL",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateEquipmentToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("EquipmentTool", "设备选型");
+            var row = panel.AddNewRibbonRow();
+
+            // 风机选型
+            row.AddNewButton("风机选型",
+                "天华风机选型",
+                "THFJ",
+                "天华风机选型",
+                "IDI_THCAD_THFJ_SMALL",
+                "IDI_THCAD_THFJ_SMALL",
+                RibbonButtonStyle.LargeWithText);
+        }
+
         private static void CreateDrawToolPanel(RibbonTabSource tab)
         {
             var panel = tab.AddNewPanel("DrawTool", "绘图修改");
@@ -275,20 +342,6 @@ namespace TianHua.AutoCAD.ThCui
                     "绘制多段线穿过所需编号停车位图块，根据多段线穿过停车位的先后顺序快速生成车位编号",
                     "IDI_THCAD_THCNU_SMALL",
                     "IDI_THCAD_THCNU_LARGE",
-                    RibbonButtonStyle.LargeWithText);
-            }
-
-            // 喷头布置
-            {
-                var subPanel = row.AddNewPanel();
-
-                var subRow = subPanel.AddNewRibbonRow();
-                subRow.AddNewButton("喷头布置",
-                    "喷头布置",
-                    "THSPC",
-                    "1. 点击房间内一点自动布置喷淋点位 2.选择房间框线布置喷淋点位 3.绘制房间框线布置喷淋点位",
-                    "IDI_THCAD_THSPC",
-                    "IDI_THCAD_THSPC",
                     RibbonButtonStyle.LargeWithText);
             }
 
@@ -874,6 +927,57 @@ namespace TianHua.AutoCAD.ThCui
                 "柱配筋图纸校核",
                 "IDI_THCAD_THCRC_SMALL",
                 "IDI_THCAD_THCRC_LARGE",
+                RibbonButtonStyle.LargeWithText);
+        }
+
+        private static void CreateSitePlanToolPanel(RibbonTabSource tab)
+        {
+            var panel = tab.AddNewPanel("SitePlanTool", "一键彩总");
+            var row = panel.AddNewRibbonRow();
+
+            //一键生成
+            row.AddNewButton("一键生成",
+                "天华彩总一键生成",
+                "THPGE",
+                "天华彩总一键生成",
+                "IDI_THCAD_THPGE_SMALL",
+                "IDI_THCAD_THPGE_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //局部刷新
+            row.AddNewButton("局部刷新",
+                "天华彩总局部刷新",
+                "THPUD",
+                "天华彩总局部刷新",
+                "IDI_THCAD_THPUD_SMALL",
+                "IDI_THCAD_THPUD_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //映射管理
+            row.AddNewButton("映射管理",
+                "天华彩总映射管理",
+                "THPCF",
+                "天华彩总映射管理",
+                "IDI_THCAD_THPCF_SMALL",
+                "IDI_THCAD_THPCF_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //常用设置
+            row.AddNewButton("常用设置",
+                "天华彩总常用设置",
+                "THPOP",
+                "天华彩总常用设置",
+                "IDI_THCAD_THPOP_SMALL",
+                "IDI_THCAD_THPOP_LARGE",
+                RibbonButtonStyle.LargeWithText);
+
+            //生成查看
+            row.AddNewButton("生成查看",
+                "天华彩总生成查看",
+                "THPBR",
+                "天华彩总生成查看",
+                "IDI_THCAD_THPBR_SMALL",
+                "IDI_THCAD_THPBR_LARGE",
                 RibbonButtonStyle.LargeWithText);
         }
     }

@@ -109,13 +109,26 @@ namespace ThSitePlan.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int PlantDensity {
+        public double PlantDensity {
             get {
-                return ((int)(this["PlantDensity"]));
+                return ((double)(this["PlantDensity"]));
             }
             set
             {
                 this["PlantDensity"] = value;
+            }
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FileSavePath {
+            get {
+                return ((string)(this["FileSavePath"]));
+            }
+            set
+            {
+                this["FileSavePath"] = value;
             }
         }
     }

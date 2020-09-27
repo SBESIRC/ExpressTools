@@ -174,6 +174,30 @@ namespace ThSitePlan
             }
         }
 
+        public static void HatchBoundaryPolyCmd(this Editor editor, ObjectIdCollection objs)
+        {
+            foreach (ObjectId obj in objs)
+            {
+#if ACAD_ABOVE_2014
+                Active.Editor.Command("_.-HATCHEDIT",
+                    obj,
+                    "_B",
+                    "_P",
+                    "_Y");
+#else
+                ResultBuffer args = new ResultBuffer(
+                   new TypedValue((int)LispDataType.Text, "_.-HATCHEDIT"),
+                   new TypedValue((int)LispDataType.ObjectId, obj),
+                   new TypedValue((int)LispDataType.Text, "_B"),
+                   new TypedValue((int)LispDataType.Text, "_P"),
+                   new TypedValue((int)LispDataType.Text, "_Y")
+                   );
+                Active.Editor.AcedCmd(args);
+#endif
+            }
+        }
+
+
         public static void ExplodeCmd(this Editor editor, ObjectIdCollection objs)
         {
 #if ACAD_ABOVE_2014

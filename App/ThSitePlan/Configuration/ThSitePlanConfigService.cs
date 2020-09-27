@@ -8,15 +8,23 @@ using System.Linq;
 
 namespace ThSitePlan.Configuration
 {
+    public enum UpdateStaus
+    {
+        NoUpdate = 0 ,
+        UpdatePS = 1,
+        UpdateCAD = 2,
+
+    }
+
     public abstract class ThSitePlanConfigObj
     {
-        public abstract bool IsEnabled { get; set; }
+        public abstract UpdateStaus Status { get; set; }
         public abstract Dictionary<string, object> Properties { get; set; }
     }
 
     public class ThSitePlanConfigItem : ThSitePlanConfigObj
     {
-        public override bool IsEnabled { get; set; }
+        public override UpdateStaus Status { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
         public ThSitePlanConfigItem()
         {
@@ -26,7 +34,7 @@ namespace ThSitePlan.Configuration
 
     public class ThSitePlanConfigItemGroup : ThSitePlanConfigObj
     {
-        public override bool IsEnabled { get; set; }
+        public override UpdateStaus Status { get; set; }
         public Queue<ThSitePlanConfigObj> Items { get; set; }
         public override Dictionary<string, object> Properties { get; set; }
 
@@ -45,6 +53,136 @@ namespace ThSitePlan.Configuration
         {
             Items.Enqueue(group);
         }
+
+        public List<ThSitePlanConfigItem> GetAllItems()
+        {
+            List<ThSitePlanConfigItem> allitems = new List<ThSitePlanConfigItem>();
+            foreach (var item in this.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    if (it.Properties["Name"].ToString() == ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized)
+                    {
+                        continue;
+                    }
+                    allitems.Add(it);
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    AllItemsInGroup(gp, ref allitems);
+                }
+            }
+            return allitems;
+        }
+
+        private void AllItemsInGroup(ThSitePlanConfigItemGroup group, ref List<ThSitePlanConfigItem> allitems)
+        {
+            foreach (var item in group.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    allitems.Add(it);
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    AllItemsInGroup(gp, ref allitems);
+                }
+            }
+        }
+
+        public int GetItemsCount()
+        {
+            int temp = 0;
+            foreach (var item in this.Items)
+            {
+                if (item is  ThSitePlanConfigItem it)
+                {
+                    if (item.Status != UpdateStaus.NoUpdate)
+                    {
+                        temp++;
+                    }
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    if (item.Status != UpdateStaus.NoUpdate)
+                    {
+                        ItemsCountsInGroup(gp, ref temp);
+                    }
+                }
+            }
+            return temp;
+        }
+
+        private void ItemsCountsInGroup(ThSitePlanConfigItemGroup group, ref int temp)
+        {
+            foreach (var item in group.Items)
+            {
+                if (item is ThSitePlanConfigItem it)
+                {
+                    temp++;
+                }
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    ItemsCountsInGroup(gp, ref temp);
+                }
+            }
+        }
+
+        public int GetEnableItemsCount()
+        {
+            int temp = 0;
+            foreach (var item in this.Items)
+            {
+                if (item.Status != UpdateStaus.NoUpdate)
+                {
+                    temp++;
+                }
+            }
+            return temp;
+        }
+
+        public void EnableAllGroupAndItem()
+        {
+            this.Status = UpdateStaus.UpdateCAD;
+            EnableAllItem(this);
+        }
+        private void EnableAllItem(ThSitePlanConfigObj conobj)
+        {
+            if (conobj is ThSitePlanConfigItemGroup gp)
+            {
+                gp.Status = UpdateStaus.UpdateCAD;
+                foreach (var gpitem in gp.Items)
+                {
+                    EnableAllItem(gpitem);
+                }
+            }
+            else if (conobj is ThSitePlanConfigItem it)
+            {
+                it.Status = UpdateStaus.UpdateCAD;
+            }
+        }
+
+        public void UnableAllGroupAndItem()
+        {
+            this.Status = UpdateStaus.NoUpdate;
+            UnableAllItem(this);
+        }
+        private void UnableAllItem(ThSitePlanConfigObj conobj)
+        {
+            if (conobj is ThSitePlanConfigItemGroup gp)
+            {
+                gp.Status = UpdateStaus.NoUpdate;
+                foreach (var gpitem in gp.Items)
+                {
+                    UnableAllItem(gpitem);
+                }
+            }
+            else if (conobj is ThSitePlanConfigItem it)
+            {
+                it.Status = UpdateStaus.NoUpdate;
+            }
+        }
+
     }
 
     public class ThSitePlanConfigService
@@ -61,7 +199,8 @@ namespace ThSitePlan.Configuration
         //-------------SINGLETON-----------------
 
         public ThSitePlanConfigItemGroup Root { get; set; }
-        public string RootJsonString { get; set; }
+        public string RootJsonString { get; private set; }
+        public string DefaultJsonString { get; private set; }
 
         /// <summary>
         /// 初始化
@@ -70,14 +209,11 @@ namespace ThSitePlan.Configuration
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
+                InitializeWithResource();
                 DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
                 if (dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
                 {
                     InitializeWithDb();
-                }
-                else
-                {
-                    InitializeWithResource();
                 }
             }
         }
@@ -90,184 +226,47 @@ namespace ThSitePlan.Configuration
                 ObjectId obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
                 Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
                 string xrecorddata = bck.Data.AsArray().First().Value.ToString();
-                if (xrecorddata != null)
+                if (!string.IsNullOrEmpty(xrecorddata))
                 {
                     RootJsonString = xrecorddata;
                     InitializeFromString(xrecorddata);
                 }
-                else
-                {
-                    InitializeWithResource();
-                }
             }
-        }
-
-        private void InitalizeWithCode()
-        {
-            Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unrecognized},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()}
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "基本文字说明及图例"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-NOTE-PLTB",
-                            "P-BUID-NUMB",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "场地标高"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-ROAD-BEAE",
-                            "P-ROAD-ELEV",
-                            "P-BUID-ELEV",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "尺寸标注"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-FIRE-DIMS",
-                            "P-ROAD-DIMS",
-                            "P-BUID-DIMS",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "界线"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-LIMT",
-                            "P-LIMT-LIPB",
-                            "P-LIMT-BUID",
-                            "P-LIMT-COOR",
-                            "P-BUID-UDBD",
-                        }
-                    }
-                }
-            });
-
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "原始场地叠加线稿"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-OUTD"
-                        }
-                    }
-                }
-            });
-
-            // 建筑物
-            Root.AddGroup(ConstructBuilding());
-
-            // 全局阴影
-            Root.AddItem(new ThSitePlanConfigItem()
-            {
-                Properties = new Dictionary<string, object>()
-                {
-                    { "Name", "全局阴影"},
-                    { "Color", Color.Black},
-                    { "Opacity", 100 },
-                    { "CADFrame", "" },
-                    { "CADLayer", new  List<string>()
-                        {
-                            "P-BUID-HACH"
-                        }
-                    }
-                }
-            });
-
-            // 树木
-            Root.AddGroup(ConstructTree());
-
-            // 场地
-            Root.AddGroup(ConstructSites());
-
-            // 道路
-            Root.AddGroup(ConstructRoads());
-
-            // 铺装
-            Root.AddGroup(ConstructPavement());
-
-            // 景观绿地
-            Root.AddGroup(ConstructGreenland());
         }
 
         private void InitializeWithResource()
         {
             string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
             RootJsonString = _Txt;
+            DefaultJsonString = _Txt;
             InitializeFromString(_Txt);
         }
 
         private void InitializeFromString(string orgstring)
         {
-            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
-            Root = new ThSitePlanConfigItemGroup();
-            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
-            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
-            Root = ReConstructItemName(Root, null);
+            Root = StringToRoot(orgstring);
         }
 
-        public void EnableAll(bool bEnable)
+        public ThSitePlanConfigItemGroup StringToRoot(string orgstring)
         {
-            EnableItem(bEnable, Root);
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(orgstring);
+            var orgroot = new ThSitePlanConfigItemGroup();
+            orgroot.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, orgroot);
+            orgroot = ReConstructItemName(orgroot, null);
+
+            return orgroot;
         }
 
-        public void EnableItemAndItsAncestor(string name, bool bEnable)
+        public void EnableAll(UpdateStaus upstaus)
+        {
+            EnableItem(upstaus, Root);
+        }
+
+        public void EnableItemAndItsAncestor(string name, UpdateStaus upstaus)
         {
             //打开所有分组
-            EnableAllGroup(true,Root);
+            EnableAllGroup(upstaus, Root);
 
             //查找要打开的item子项，打开该项以及其兄弟节点
             string[] namegroup = name.Split('-');
@@ -283,7 +282,7 @@ namespace ThSitePlan.Configuration
                         //找到item直接打开，对于某些只有一层的图层
                         if (item is ThSitePlanConfigItem fdit)
                         {
-                            item.IsEnabled = bEnable;
+                            item.Status = upstaus;
                             FindItem = fdit;
                             break;
                         }
@@ -293,10 +292,10 @@ namespace ThSitePlan.Configuration
                         {
                             if (i == namegroup.Length - 2)
                             {
-                                item.IsEnabled = bEnable;
+                                item.Status = upstaus;
                                 foreach (var item2 in fdgp.Items)
                                 {
-                                    item2.IsEnabled = bEnable;
+                                    item2.Status = upstaus;
                                 }
                             }
 
@@ -313,16 +312,16 @@ namespace ThSitePlan.Configuration
             }
         }
 
-        public void EnableItemAndItsSiblings(string name, bool bEnable)
+        public void EnableItemAndItsSiblings(string name, UpdateStaus upstaus)
         {
             ThSitePlanConfigItemGroup siblinggroup = FindGroupByItemName(name);
-            EnableItem(true, siblinggroup);
+            EnableItem(upstaus, siblinggroup);
         }
 
-        public void EnableItemAndAncestorNoSib(string name, bool bEnable)
+        public void EnableItemAndAncestorNoSib(string name, UpdateStaus upstaus)
         {
             //打开所有分组
-            EnableAllGroup(true, Root);
+            EnableAllGroup(upstaus, Root);
 
             //查找要打开的item子项，打开该项以及其兄弟节点
             string[] namegroup = name.Split('-');
@@ -338,7 +337,7 @@ namespace ThSitePlan.Configuration
                         //找到item直接打开，对于某些只有一层的图层
                         if (item is ThSitePlanConfigItem fdit)
                         {
-                            item.IsEnabled = bEnable;
+                            item.Status = upstaus;
                             FindItem = fdit;
                             break;
                         }
@@ -346,7 +345,7 @@ namespace ThSitePlan.Configuration
                         //找到该项父结点，打开该节点
                         else if (item is ThSitePlanConfigItemGroup fdgp)
                         {
-                            fdgp.IsEnabled = bEnable;
+                            fdgp.Status = upstaus;
                             SearchItems = fdgp.Items;
                             break;
                         }
@@ -360,30 +359,30 @@ namespace ThSitePlan.Configuration
             }
         }
 
-        private void EnableItem(bool bEnable, ThSitePlanConfigObj itgrp)
+        private void EnableItem(UpdateStaus upstaus, ThSitePlanConfigObj itgrp)
         {
             if (itgrp is ThSitePlanConfigItemGroup group)
             {
-                group.IsEnabled = bEnable;
+                group.Status = upstaus;
                 foreach (var groupItem in group.Items)
                 {
-                    EnableItem(bEnable, groupItem);
+                    EnableItem(upstaus, groupItem);
                 }
             }
             else if (itgrp is ThSitePlanConfigItem item)
             {
-                item.IsEnabled = bEnable;
+                item.Status = upstaus;
             }
         }
 
-        private void EnableAllGroup(bool bEnable, ThSitePlanConfigObj itgrp)
+        private void EnableAllGroup(UpdateStaus upstaus, ThSitePlanConfigObj itgrp)
         {
             if (itgrp is ThSitePlanConfigItemGroup group)
             {
-                group.IsEnabled = bEnable;
+                group.Status = upstaus;
                 foreach (var groupItem in group.Items)
                 {
-                    EnableAllGroup(bEnable, groupItem);
+                    EnableAllGroup(upstaus, groupItem);
                 }
             }
 
@@ -1201,6 +1200,24 @@ namespace ThSitePlan.Configuration
             }
             string itemname = finditem.Properties["Name"].ToString();
             return FindGroupByItemName(itemname);
+        }
+
+        public ThSitePlanConfigItem FindItemByID(string id, ThSitePlanConfigItemGroup findgrp)
+        {
+            ThSitePlanConfigItem finditem = new ThSitePlanConfigItem();
+            foreach (var item in findgrp.Items)
+            {
+                if (item is ThSitePlanConfigItemGroup gp)
+                {
+                    FindItemByID(id, gp);
+                }
+                else if (item is ThSitePlanConfigItem it && item.Properties["ID"].ToString().Equals(id))
+                {
+                    finditem = it;
+                    break;
+                }
+            }
+            return finditem;
         }
 
         private ThSitePlanConfigItemGroup ReConstructItemName(ThSitePlanConfigItemGroup origingroup, string outergroupname)

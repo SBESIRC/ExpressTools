@@ -423,5 +423,78 @@ namespace ThCADCore.Test
                 }
             }
         }
+
+        [CommandMethod("TIANHUACAD", "ThRegionDifference", CommandFlags.Modal)]
+        public void ThRegionDifference()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetSelection();
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetEntity("请选择对象");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var objs = new DBObjectCollection();
+                foreach (var obj in result.Value.GetObjectIds())
+                {
+                    objs.Add(acadDatabase.Element<Entity>(obj));
+                }
+
+
+                var region = acadDatabase.Element<Polyline>(result2.ObjectId);
+                foreach (Entity item in region.Difference(objs))
+                {
+                    item.ColorIndex = 1;
+                    acadDatabase.ModelSpace.Add(item);
+                }
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "ThBufferSimplify", CommandFlags.Modal)]
+        public void ThBufferSimplify()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var result2 = Active.Editor.GetDistance("请输入距离");
+                if (result2.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var pline = acadDatabase.Element<Polyline>(result.ObjectId);
+                var resultLine = pline.Simplify(result2.Value);
+                resultLine.ColorIndex = 1;
+                acadDatabase.ModelSpace.Add(resultLine);
+            }
+        }
+
+        [CommandMethod("TIANHUACAD", "ThMeasure", CommandFlags.Modal)]
+        public void ThMeasure()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var result = Active.Editor.GetEntity("请选择对象");
+                if (result.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                var pline = acadDatabase.Element<Polyline>(result.ObjectId);
+                Active.Editor.WriteLine(pline.Measure(pline));
+            }
+        }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using ThWSS.Model;
+using ThWSS.Bussiness;
 using Autodesk.AutoCAD.DatabaseServices;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-using ThWSS.Model;
+using TopoNode.Progress;
 
 namespace ThWSS.Engine
 {
@@ -19,63 +18,48 @@ namespace ThWSS.Engine
         public static ThSprayLayoutEngine Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
-        public ThSprayLayoutWorker Workers = new ThSprayLayoutWorker();
-        public ThBeamRecognitionEngine BeamEngine = new ThBeamRecognitionEngine();
-        public ThRoomRecognitionEngine RoomEngine = new ThRoomRecognitionEngine();
-        public ThColumnRecognitionEngine ColumnEngine = new ThColumnRecognitionEngine();
-
         /// <summary>
-        /// 喷淋布置引擎
+        /// 按房间轮廓线布置喷淋
         /// </summary>
         /// <param name="database"></param>
-        /// <param name="polygon"></param>
-        public void Layout(Database database, Polyline polygon, SparyLayoutModel layoutModel)
+        /// <param name="fire"></param>
+        public void Layout(Database database, Polyline floor, ObjectIdCollection frames, SprayLayoutModel layoutModel)
         {
-            try
+            Progress.Reset();
+            Progress.ShowProgress();
+            Progress.SetTip("正在清洗数据...");
+            using (var explodeManager = new ThSprayDbExplodeManager(database))
             {
-                // 从房间引擎中获取房间信息
-                RoomEngine.Acquire(database, polygon);
-                // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
-            }
-            catch (System.Exception ex)
-            {
-                return;
-            }
-        }
-
-        /// <summary>
-        /// 喷淋布置引擎
-        /// </summary>
-        /// <param name="polylines"></param>
-        public void Layout(List<Polyline> polylines, SparyLayoutModel layoutModel)
-        {
-            try
-            {
-                RoomEngine.Elements = new List<ThModelElement>();
-                foreach (var pLine in polylines)
+                using (var roomEngine = new ThRoomRecognitionEngine())
                 {
-                    var thRoom = new ThRoom();
-                    thRoom.Properties = new Dictionary<string, object>() { { "room", pLine } };
-                    RoomEngine.Elements.Add(thRoom);
+                    roomEngine.Acquire(database, floor, frames);
+                    for (int i = 0; i < roomEngine.Rooms.Count; i++)
+                    {
+                        Progress.SetTip(string.Format("正在布置喷淋{0}/{1}", i+1, roomEngine.Rooms.Count));
+                        DoLayout(roomEngine.Rooms[i], floor, layoutModel);
+                    }
                 }
-                
-                // 遍历房间，对每个房间进行布置
-                RoomEngine.Elements.Cast<ThRoom>().ForEach(o => Layout(o, layoutModel));
             }
-            catch (System.Exception ex)
-            {
-                throw;
-            }
+            Progress.HideProgress();
         }
 
         /// <summary>
         /// 在一个房间内布置喷淋
         /// </summary>
         /// <param name="room"></param>
-        private void Layout(ThRoom room, SparyLayoutModel layoutModel)
+        private void DoLayout(ThRoom room, Polyline floor, SprayLayoutModel layoutModel)
         {
-            Workers.DoLayout(room, layoutModel);
+            SparyLayoutService service = null;
+            if (layoutModel.UseBeam)
+            {
+                service = new SprayLayoutByBeamService();
+            }
+            else
+            {
+                service = new SprayLayoutNoBeamService();
+            }
+            service.CleanSpray(room);
+            service.LayoutSpray(room, floor, layoutModel);
         }
     }
 }

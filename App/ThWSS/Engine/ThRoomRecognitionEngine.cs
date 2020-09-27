@@ -1,122 +1,290 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
 using TopoNode;
+using Linq2Acad;
+using System.Linq;
+using ThWSS.Model;
+using TopoNode.Progress;
+using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Engine
 {
-    public class ThRoom : ThModelElement
-    {
-        public override Dictionary<string, object> Properties { get; set; }
-    }
-
-    public class ThRoomRecognitionEngine : ThModeltRecognitionEngine
+    public class ThRoomRecognitionEngine : ThModeltRecognitionEngine, IDisposable
     {
         public override List<ThModelElement> Elements { get; set; }
+        public List<ThRoom> Rooms => Elements.Where(o => o is ThRoom).Cast<ThRoom>().ToList();
 
-        public override bool Acquire(Database database, Polyline polygon)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ThRoomRecognitionEngine()
         {
             Elements = new List<ThModelElement>();
+        }
 
-            //打开需要的图层
-            List<string> wallLayers = null;
-            List<string> arcDoorLayers = null;
-            List<string> windLayers = null;
-            List<string> validLayers = null;
-            List<string> beamLayers = null;
-            List<string> columnLayers = null;
-            var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
+        /// <summary>
+        /// 析构函数
+        /// </summary>
+        public void Dispose()
+        {
+            //
+        }
 
-            // 图元预处理
-            var pickPoints = new List<Point3d>();
-            var removeEntityLst = Utils.PreProcess2(validLayers);
-            pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
-
-            foreach (var pt in pickPoints)
-                Utils.DrawPreviewPoint(pt, "pick");
-
-            // 获取相关图层中的数据
-            var allCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
-            var layerCurves = Utils.GetLayersFromCurves(allCurves);
-            if (allCurves == null || allCurves.Count == 0)
+        public override bool Acquire(Database database, Polyline floor, ObjectId frame)
+        {
+            using (var acadDatabase = AcadDatabase.Active())
             {
-                return false;
-            }
-
-            allCurves = TopoUtils.TesslateCurve(allCurves);
-            Utils.ExtendCurves(allCurves, 10);
-
-            // wall 中的数据
-            var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
-            if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)
-            {
-                Utils.PostProcess(removeEntityLst);
-                return false;
-            }
-            wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
-
-            // door 内门中的数据
-            if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-            {
-                var doorBounds = Utils.GetBoundsFromLayerBlocksAndCurves(arcDoorLayers);
-                var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, wallAllCurves, arcDoorLayers.First());
-                if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                var plBack = acadDatabase.Element<Polyline>(frame).Clone() as Polyline;
+                plBack.Closed = true;
+                var selectPLines = new List<Polyline>()
                 {
-                    layerCurves = Utils.GetLayersFromCurves(doorInsertCurves);
-                    allCurves.AddRange(doorInsertCurves);
+                    plBack
+                };
+
+                var extendLength = 100;
+                // 开始弹出进度条提示
+                Progress.ShowProgress();
+                Progress.SetTip("图纸预处理...");
+
+                Progress.SetValue(900);
+                var pickTextNodes = Utils.GetRoomTextNodes("AD-NAME-ROOM");
+
+                // 获取相关图层中的数据
+                // allCurves指所有能作为墙一部分的曲线
+                var srcAllCurves = Utils.GetAllCurvesFromLayerNames(ThRoomLayerManager.Instance.AllLayers());
+                if (srcAllCurves == null || srcAllCurves.Count == 0)
+                {
+                    Progress.HideProgress();
+                    return false;
                 }
-            }
 
-            // wind 中的数据
-            if (windLayers != null && windLayers.Count != 0)
-            {
-                var windBounds = Utils.GetBoundsFromLayerBlocksAndCurves(windLayers);
-
-                var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
-
-                if (windInsertCurves != null && windInsertCurves.Count != 0)
+                // wall 中的数据
+                var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(ThRoomLayerManager.Instance.WallLayers());
+                if (srcWallAllCurves == null || srcWallAllCurves.Count == 0)
                 {
-                    layerCurves = Utils.GetLayersFromCurves(windInsertCurves);
-                    allCurves.AddRange(windInsertCurves);
+                    Progress.HideProgress();
+                    return false;
                 }
-            }
-            
-            var layerNames = Utils.GetLayersFromCurves(allCurves);
 
-            layerNames = Utils.GetLayersFromCurves(allCurves);
-            allCurves = CommonUtils.RemoveCollinearLines(allCurves);
-            layerNames = Utils.GetLayersFromCurves(allCurves);
+                Progress.SetValue(1000);
+                Progress.SetTip("区域识别中...");
+                var selectCount = selectPLines.Count;
+                double beginPos = 1000.0;
+                double FFStep = 5400.0 / selectCount;
 
-            var progress = 61.0;
-            var inc = 30.0 / pickPoints.Count;
-            var hasPutPolys = new List<Tuple<Point3d, double>>();
-            for (int i = 0; i < pickPoints.Count; i++)
-            {
-                try
+                for (int i = 0; i < selectCount; i++)
                 {
-                    progress += inc;
-                    var profile = TopoUtils.MakeProfileFromPoint2(allCurves, pickPoints[i]);
-                    if (profile == null)
+                    double profileFindPre = FFStep / 4.0;
+                    double smallStep = 0.0;
+                    var curSelectPLine = selectPLines[i];
+                    var line2ds = CommonUtils.Polyline2dLines(curSelectPLine);
+                    if (CommonUtils.CalcuLoopArea(line2ds) < 0)
+                    {
+                        using (var db = AcadDatabase.Active())
+                        {
+                            curSelectPLine.ReverseCurve();
+                        }
+                    }
+
+                    var curSelectTextNodes = Utils.GetValidFRoomNodeFromSelectPLine(pickTextNodes, curSelectPLine);
+                    if (curSelectTextNodes == null || curSelectTextNodes.Count == 0)
                         continue;
 
-                    if (CommonUtils.HasPolylines(hasPutPolys, profile.profile))
-                        continue;
+                    srcAllCurves = TopoUtils.TesslateCurve(srcAllCurves);
+                    var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
+#if DEBUG
+                    foreach (var textNode in curSelectTextNodes)
+                        Utils.DrawPreviewPoint(textNode.textPoint, "pick");
+#endif
 
-                    ThRoom thRoom = new ThRoom();
-                    thRoom.Properties = new Dictionary<string, object>();
-                    thRoom.Properties.Add("ThRomm" + i, profile.profile);
+                    allCurves = Utils.ExtendCurves(allCurves, extendLength);
+
+                    var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
+                    wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
+
+                    // wind线作为墙的一部分
+                    if (ThRoomLayerManager.Instance.WindowLayers().Count != 0)
+                    {
+                        var windCurves = Utils.GetWindDOORCurves(ThRoomLayerManager.Instance.WindowLayers());
+                        windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
+                        if (windCurves != null && windCurves.Count != 0)
+                        {
+                            var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
+                            tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, extendLength);
+                            wallAllCurves.AddRange(tesslateWindCurves);
+                            allCurves.AddRange(tesslateWindCurves);
+                        }
+                    }
+
+                    // door线作为墙的一部分
+                    if (ThRoomLayerManager.Instance.DoorLayers().Count != 0)
+                    {
+                        var doorCurves = Utils.GetWindDOORCurves(ThRoomLayerManager.Instance.DoorLayers());
+                        doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
+                        if (doorCurves != null && doorCurves.Count != 0)
+                        {
+                            var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
+                            wallAllCurves.AddRange(tesslateDoorCurves);
+                            allCurves.AddRange(tesslateDoorCurves);
+                        }
+                    }
+
+                    smallStep = profileFindPre / 3.0;
+                    beginPos += smallStep;
+                    Progress.SetValue((int)beginPos);
+                    // door 内门中的数据
+                    if (ThRoomLayerManager.Instance.DoorLayers().Count != 0)
+                    {
+                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(ThRoomLayerManager.Instance.DoorLayers());
+                        doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
+                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, ThRoomLayerManager.Instance.DoorLayers().First());
+
+                        if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                        {
+                            doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, extendLength);
+                            allCurves.AddRange(doorInsertCurves);
+#if DEBUG
+                            Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+#endif
+                        }
+                    }
+
+                    beginPos += smallStep;
+                    Progress.SetValue((int)beginPos);
+                    // wind 中的数据
+                    if (ThRoomLayerManager.Instance.WindowLayers().Count != 0)
+                    {
+                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(ThRoomLayerManager.Instance.WindowLayers());
+                        windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
+                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, ThRoomLayerManager.Instance.WindowLayers().First());
+
+                        if (windInsertCurves != null && windInsertCurves.Count != 0)
+                        {
+                            windInsertCurves = Utils.ExtendCurves(windInsertCurves, extendLength);
+#if DEBUG
+                            Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+#endif
+                            allCurves.AddRange(windInsertCurves);
+                        }
+                    }
+
+                    allCurves = CommonUtils.RemoveCollinearLines(allCurves);
+
+                    beginPos += smallStep;
+                    Progress.SetValue((int)beginPos);
+                    var inc = (profileFindPre * 3.0) / curSelectTextNodes.Count;
+                    var hasPutPolys = new List<Tuple<Point3d, double>>();
+
+                    int roomIndex = 0;
+                    foreach (var selectTextNode in curSelectTextNodes)
+                    {
+                        beginPos += inc;
+                        Progress.SetValue((int)beginPos);
+//#if DEBUG
+//                        Utils.DrawProfile(allCurves, "allCurves");
+//#endif
+                        try
+                        {
+                            var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, selectTextNode.textPoint);
+                            if (aimProfile == null)
+                                continue;
+
+                            if (CommonUtils.HasPolylines(hasPutPolys, aimProfile.profile))
+                                continue;
+
+                            // 包含水和井且面积大于3平米，则布置
+                            var roomTextName = selectTextNode.textString;
+                            if (roomTextName.Contains("水") && roomTextName.Contains("井"))
+                            {
+                                if ((Math.Abs(aimProfile.profile.Area) / 1e6) < 3)
+                                    continue;
+                            }
+
+                            // 获取房间轮廓
+                            ThRoom thRoom = new ThRoom()
+                            {
+                                Properties = new Dictionary<string, object>()
+                                {
+                                    { string.Format("ThRoom{0}", roomIndex++),  aimProfile.profile }
+                                }
+                            };
+                            Elements.Add(thRoom);
+
+                            // 获取房间内孤立柱
+                            int columnIndex = 0;
+                            thRoom.Columns = new List<ThModelElement>();
+                            foreach (var plineDic in aimProfile.InnerPolylineLayers)
+                            {
+                                if (plineDic.profileLayers.Where(x => x.ToUpper().Contains("COLU")).Count() > 0)
+                                {
+#if DEBUG
+                                    Utils.DrawProfile(new List<Curve>() { plineDic.profile }, "inner");
+#endif
+                                    ThColumn thColumn = new ThColumn()
+                                    {
+                                        Properties = new Dictionary<string, object>()
+                                        {
+                                            { string.Format("ThColumn{0}", columnIndex++), plineDic.profile }
+                                        }
+                                    };
+                                    thRoom.Columns.Add(thColumn);
+                                }
+                            }
+
+                            // 输出房间轮廓曲线
+                            Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, ThWSSCommon.AreaOutlineLayer);
+                        }
+                        catch
+                        {
+                            //Active.WriteMessage(e.Message);
+                        }
+                    }
+                }
+
+                Progress.SetValue(6500);
+                Progress.HideProgress();
+                return true;
+            }
+        }
+
+        public override bool Acquire(Database database, Polyline floor, ObjectIdCollection frames)
+        {
+            var plines = new DBObjectCollection();
+            using (var acadDatabase = AcadDatabase.Use(database))
+            {
+                // 为了确保选择的多段线可以形成封闭的房间轮廓
+                // 把多段线的Closed状态设置成true
+                foreach (ObjectId frame in frames)
+                {
+                    var pline = acadDatabase.Element<Polyline>(frame);
+                    var clone = pline.GetTransformedCopy(Matrix3d.Identity) as Polyline;
+                    clone.Closed = true;
+                    plines.Add(clone);
+                }
+            }
+            return Acquire(database, floor, plines);
+        }
+
+        public override bool Acquire(Database database, Polyline floor, DBObjectCollection frames)
+        {
+            using (var acadDatabase = AcadDatabase.Use(database))
+            {
+                int roomIndex = 0;
+                foreach (Polyline frame in frames)
+                {
+                    // 获取房间轮廓
+                    ThRoom thRoom = new ThRoom()
+                    {
+                        Properties = new Dictionary<string, object>()
+                        {
+                            { string.Format("ThRoom{0}", roomIndex++), frame }
+                        }
+                    };
                     Elements.Add(thRoom);
-
-                    Utils.DrawProfile(new List<Curve>() { profile.profile }, "outProfile");
-                    Utils.DrawTextProfile(profile.profileCurves, profile.profileLayers);
                 }
-                catch
-                { }
             }
 
-            Utils.PostProcess(removeEntityLst);
             return true;
         }
 

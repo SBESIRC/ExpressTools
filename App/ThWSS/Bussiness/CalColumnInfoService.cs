@@ -1,44 +1,27 @@
-﻿using AcHelper;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Linq2Acad;
-using NFox.Cad.Collections;
-using System;
-using System.Collections.Generic;
+﻿using Linq2Acad;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ThWSS.Utlis;
+using ThWSS.Engine;
+using System.Collections.Generic;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThWSS.Bussiness
 {
     public class CalColumnInfoService
     {
-        public List<Polyline> GetColumnStruc()
+        public List<Polyline> GetAllColumnInfo(Polyline room, Polyline floor)
         {
-            List<Polyline> column = new List<Polyline>();
-            using (AcadDatabase acdb = AcadDatabase.Active())
+            using (var acdb = AcadDatabase.Active())
+            using (var columnEngine = new ThColumnRecognitionEngine())
             {
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_COLU");
-                var entSelected = Active.Editor.SelectAll(filterlist);
-                if (entSelected.Status != PromptStatus.OK)
+                columnEngine.Acquire(acdb.Database, floor, new DBObjectCollection()
                 {
-                    return column;
-                }
+                    room,
+                });
 
-                // 执行操作
-                DBObjectCollection dBObjects = new DBObjectCollection();
-                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                {
-                    dBObjects.Add(acdb.Element<Entity>(obj));
-                }
-
-                foreach (var item in dBObjects)
-                {
-                    column.Add(OrientedBoundingBox.Calculate(item as Polyline));
-                }
+                return columnEngine.Elements
+                    .SelectMany(x => x.Properties.Values)
+                    .Cast<Polyline>().ToList();
             }
-            return column;
         }
     }
 }

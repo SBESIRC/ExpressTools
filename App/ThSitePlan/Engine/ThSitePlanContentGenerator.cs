@@ -26,11 +26,8 @@ namespace ThSitePlan.Engine {
             };
 
             var scriptId = configItem.Properties["CADScriptID"].ToString();
-            if (scriptId != "1" && scriptId != "2")
-            {
-                var worker = new ThSitePlanMoveWorker();
-                worker.DoProcess(database, configItem, options);
-            }
+            var worker = new ThSitePlanCopyWorker();
+            worker.DoProcess(database, configItem, options);
 
             return true;
         }

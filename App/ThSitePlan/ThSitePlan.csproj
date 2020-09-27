@@ -30,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ThSitePlanConfigService.cs" />
+    <Compile Include="Configuration\ThSitePlanSettingsService.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryBuildingWorker.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryGenerator.cs" />
     <Compile Include="Engine\ThSitePlanBoundaryWorker.cs" />
@@ -38,6 +39,7 @@
     <Compile Include="Engine\ThSitePlanBuildingShadow.cs" />
     <Compile Include="Engine\ThSitePlanDbEngine.cs" />
     <Compile Include="Engine\ThSitePlanDerivedContentGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanFrameCleanGenerator.cs" />
     <Compile Include="Engine\ThSitePlanFrameNameGenerator.cs" />
     <Compile Include="Engine\ThSitePlanCADWorker.cs" />
     <Compile Include="Engine\ThSitePlanContentGenerator.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="Engine\ThSitePlanShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanSimpleShadowWorker.cs" />
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
+    <Compile Include="Engine\ThSitePlanUndefineCleanGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
     <Compile Include="Enum\EnumCADScript.cs" />
     <Compile Include="Function\FuncFile.cs" />
@@ -62,6 +65,12 @@
     <Compile Include="Photoshop\ThSitePlanPSWorker.cs" />
     <Compile Include="Entity\ColorGeneralDataModel.cs" />
     <Compile Include="Entity\LayerDataModel.cs" />
+    <Compile Include="PlaceholderTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PlaceholderTextBox.Designer.cs">
+      <DependentUpon>PlaceholderTextBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presenters\Presenter.cs" />
     <Compile Include="Presenters\PresenterConfigManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,17 +170,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-  <COMReference Include="Photoshop">
-    <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
-    <VersionMajor>1</VersionMajor>
-    <VersionMinor>0</VersionMinor>
-    <Lcid>0</Lcid>
-    <WrapperTool>tlbimp</WrapperTool>
-    <Isolated>False</Isolated>
-    <EmbedInteropTypes>True</EmbedInteropTypes>
-  </COMReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\点击_16.png" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +200,15 @@
     <None Include="Resources\图标-13.png" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="Photoshop">
+      <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="Photoshop">
       <Guid>{E891EE9A-D0AE-4CB4-8871-F92C0109F18E}</Guid>
       <VersionMajor>1</VersionMajor>

@@ -37,6 +37,14 @@ namespace ThSitePlan.Engine
                     floor = Math.Max(floor, UInt32.Parse(match.Groups[1].Value) + UInt32.Parse(match.Groups[2].Value));
                 }
             }
+            foreach (var annotation in Annotations)
+            {
+                Match match = Regex.Match(annotation, @"^([0-9]+)[Ff]\s*\/\s*([0-9]+)[Dd]$");
+                if (match.Success)
+                {
+                    floor = Math.Max(floor, UInt32.Parse(match.Groups[1].Value));
+                }
+            }
             return floor;
         }
     }

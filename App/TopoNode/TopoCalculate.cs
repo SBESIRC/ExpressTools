@@ -691,7 +691,7 @@ namespace TopoNode
                 //if (ptCen.GetDistanceTo(new Point3d(0, 0)) > 1e7)
                 //    ptCen = new Point2d(ptCen.X * 1e-6, ptCen.Y * 1e-6);
 
-                var curLoopArea = CommonUtils.CalcuLoopArea(resEdges);
+                var curLoopArea = CommonUtils.CalcuTesslateLoopArea(resEdges);
                 //if (Math.Abs(curLoopArea) > 1e7)
                 //    curLoopArea *= 1e-6;
                 proLoops.Add(new ProductLoop(srcEdgeLoops[i].TopoEdges, curLoopArea, ptCen));
@@ -1229,6 +1229,8 @@ namespace TopoNode
         public void DoCal(List<Curve> totalCurves)
         {
             var scatterCurves = ScatterCurves.MakeNewCurves(srcCurves);
+            //Utils.DrawProfile(scatterCurves, "scatter");
+            //return;
             var scatterRightCurves = CalcuRightCurves(scatterCurves);
             if (scatterRightCurves == null || scatterRightCurves.Count == 0)
                 return;
@@ -1287,7 +1289,18 @@ namespace TopoNode
                 return;
 
             var outProfile = m_ProfileLoop.First();
-            var relatedCurves = CalcuRelatedCurves(scatterCurves, outProfile.TopoEdges);
+            // 包含column
+            var columnScatterCurves = scatterCurves.Where(p =>
+            {
+                if (p.Layer.ToUpper().Contains("COLU"))
+                    return true;
+                return false;
+            }).ToList();
+
+            if (columnScatterCurves.Count == 0)
+                return;
+
+            var relatedCurves = CalcuRelatedCurves(columnScatterCurves, outProfile.TopoEdges);
             //Utils.DrawProfile(relatedCurves, "rela");
             //return;
             CalculateLoop(relatedCurves);
@@ -1482,7 +1495,7 @@ namespace TopoNode
 
             if (curve is Line || curve is Arc)
             {
-                var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam));
+                var midPt = curve.GetPointAtParameter(0.5 * (curve.StartParam + curve.EndParam)) + new Vector3d(0, 0.12345, 0);
                 if (CommonUtils.PtInLoop(topoEdges, midPt))
                     return true;
             }
@@ -3005,7 +3018,8 @@ namespace TopoNode
             double val = m_x * dir.X + m_y * dir.Y;
             double tmp = Math.Sqrt(Math.Pow(m_x, 2) + Math.Pow(m_y, 2)) * Math.Sqrt(Math.Pow(dir.X, 2) + Math.Pow(dir.Y, 2));
             double angleRad = Math.Acos(CommonUtils.CutRadRange(val / tmp));
-
+            if (CommonUtils.IsAlmostNearZero((angleRad - Math.PI)))
+                return angleRad;
             if (CrossProduct(dir) < 0)
                 return -angleRad;
             return angleRad;

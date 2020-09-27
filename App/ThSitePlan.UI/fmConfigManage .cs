@@ -23,6 +23,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using System.Collections;
 using DevExpress.XtraTreeList.Columns;
 using DevExpress.LookAndFeel;
+using ThSitePlan.Configuration;
 
 namespace ThSitePlan.UI
 {
@@ -40,6 +41,8 @@ namespace ThSitePlan.UI
         public const string m_CloseUpKey = "+{F1}";
 
         public string m_ColorGeneralConfig { get; set; }
+
+        public string m_ColorDefaultConfig { get; set; }
 
         public bool m_ColumnError { get; set; }
 
@@ -78,6 +81,7 @@ namespace ThSitePlan.UI
         {
 
             InitializeComponent();
+            UserLookAndFeel.Default.SetSkinStyle(SkinStyle.VisualStudio2013Dark);
         }
 
 
@@ -122,7 +126,7 @@ namespace ThSitePlan.UI
 
             TreeList.ActiveFilterString = _FilterString;
 
-          
+
 
             //SetEditCloseUpKey();
 
@@ -213,8 +217,16 @@ namespace ThSitePlan.UI
                         _ColorGeneral.ImgType = "0";
                     }
                 }
+            }
 
-
+            if (e.Column.FieldName == "Name")
+            {
+                TreeList.PostEditor();
+                var _Type = FuncStr.NullToStr(e.Node.GetValue("Type"));
+                if (_Type == "0")
+                {
+                    TreeList.FocusedNode.SetValue("CAD_Frame", e.Value);
+                }
 
 
 
@@ -555,7 +567,7 @@ namespace ThSitePlan.UI
                 var _TreeList = sender as TreeList;
                 if (_TreeList == null) { return; }
                 var _FocusedColumn = _TreeList.FocusedColumn;
-                if (_FocusedColumn.FieldName == "Name" || _FocusedColumn.FieldName == "PSD_Color" || _FocusedColumn.FieldName == "PSD_Transparency")
+                if (_FocusedColumn.FieldName == "Name" || _FocusedColumn.FieldName == "PSD_Transparency")
                 {
 
                     _FocusedColumn.OptionsColumn.AllowEdit = true;
@@ -669,7 +681,7 @@ namespace ThSitePlan.UI
             _NewColorGeneral.PSD_Transparency = 100;
             _NewColorGeneral.CAD_Layer = null;
             _NewColorGeneral.CAD_Script = "";
-            _NewColorGeneral.CAD_Frame = "";
+            _NewColorGeneral.CAD_Frame = "未命名图层";
             //m_ListColorGeneral.Add(_NewColorGeneral);
             var _Inidex = m_ListColorGeneral.IndexOf(_ColorGeneral);
             m_ListColorGeneral.Insert(_Inidex + 1, _NewColorGeneral);
@@ -679,6 +691,7 @@ namespace ThSitePlan.UI
 
         private void MenuItemRename_Click(object sender, EventArgs e)
         {
+            ColName.OptionsColumn.AllowEdit = true;
             keybd_event((byte)Keys.F2, 0, 0, 0);
         }
 
@@ -701,26 +714,54 @@ namespace ThSitePlan.UI
                 _NewColorGeneral.ID = _Guid;
             }
             _NewColorGeneral.DataType = "1";
-            _NewColorGeneral.Name = _NewColorGeneral.Name + " - 副本";
+            _NewColorGeneral.Name = SetColorGeneralName(_NewColorGeneral);
             _ListTemp.Add(_NewColorGeneral);
             CopyChildNodes(_ColorGeneral, _ListTemp, _Guid);
             var _Inidex = m_ListColorGeneral.IndexOf(_ColorGeneral);
             m_ListColorGeneral.InsertRange(_Inidex + 1, _ListTemp);
             TreeList.RefreshDataSource();
             this.TreeList.ExpandAll();
+
         }
+
+
+        public string SetColorGeneralName(ColorGeneralDataModel _NewColorGeneral)
+        {
+            var _List = m_ListColorGeneral.FindAll(p => p.Name.Contains(_NewColorGeneral.Name) && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+            if (_List == null || _List.Count == 0) { return _NewColorGeneral.Name + " - 副本"; }
+            for (int i = 1; i < 10000; i++)
+            {
+                if (i == 1)
+                {
+                    var _ListTemp1 = m_ListColorGeneral.FindAll(p => p.Name == _NewColorGeneral.Name + " - 副本" && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+                    if (_ListTemp1 == null || _ListTemp1.Count == 0) { return _NewColorGeneral.Name + " - 副本"; }
+                }
+                else
+                {
+                    var _ListTemp = m_ListColorGeneral.FindAll(p => p.Name == _NewColorGeneral.Name + " - 副本(" + i + ")" && p.PID == _NewColorGeneral.PID && p.ID != _NewColorGeneral.ID);
+                    if (_ListTemp == null || _ListTemp.Count == 0) { return _NewColorGeneral.Name + " - 副本(" + i + ")"; }
+                }
+
+            }
+            return string.Empty;
+        }
+
 
         private void MenuItemDelete_Click(object sender, EventArgs e)
         {
-            var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
-            //if (_ColorGeneral == null || _ColorGeneral.DataType == "0") { return; }
-            if (_ColorGeneral == null) { return; }
-            List<ColorGeneralDataModel> _ListTemp = new List<ColorGeneralDataModel>();
-            GetChildNodes(_ColorGeneral, _ListTemp);
-            _ListTemp.ForEach(p => m_ListColorGeneral.Remove(p));
-            m_ListColorGeneral.Remove(_ColorGeneral);
-            TreeList.RefreshDataSource();
-            this.TreeList.ExpandAll();
+            TreeList.DeleteNode(TreeList.FocusedNode);
+
+
+            //var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
+            ////if (_ColorGeneral == null || _ColorGeneral.DataType == "0") { return; }
+            //if (_ColorGeneral == null) { return; }
+            //List<ColorGeneralDataModel> _ListTemp = new List<ColorGeneralDataModel>();
+            //GetChildNodes(_ColorGeneral, _ListTemp);
+            //_ListTemp.ForEach(p => m_ListColorGeneral.Remove(p));
+            //m_ListColorGeneral.Remove(_ColorGeneral);
+
+            //TreeList.RefreshDataSource();
+            //this.TreeList.ExpandAll();
         }
 
         private void MenuItemOpacity_Click(object sender, EventArgs e)
@@ -745,7 +786,7 @@ namespace ThSitePlan.UI
                     _NewColorGeneral.ID = Guid.NewGuid().ToString();
                     _NewColorGeneral.PID = _Guid;
                     _NewColorGeneral.DataType = "1";
-                    _NewColorGeneral.Name = _NewColorGeneral.Name + " - 副本";
+                    _NewColorGeneral.Name = SetColorGeneralName(_NewColorGeneral);
                     _List.Add(_NewColorGeneral);
                     var _ListTemp = m_ListColorGeneral.FindAll(p => p.PID == _Tmp.ID && p.ID != p.PID);
                     if (_ListTemp.Count > 0)
@@ -834,7 +875,39 @@ namespace ThSitePlan.UI
             _TargetNode = _Tree.CalcHitInfo(_P).Node;
             var _Type = _TargetNode.GetValue("Type");
             var _ID = _TargetNode.GetValue("ID");
-            var _PID = _TargetNode.GetValue("PID");
+                var _PID = _TargetNode.GetValue("PID");
+            var _Name = _DragNode.GetValue("Name");
+            var _DragID = _DragNode.GetValue("ID");
+
+            if (FuncStr.NullToStr(_Type) == "1")
+            {
+                var _List = m_ListColorGeneral.FindAll(p => FuncStr.NullToStr(p.PID) == FuncStr.NullToStr(_ID) && FuncStr.NullToStr(p.ID) != FuncStr.NullToStr(_DragID));
+                if (_List != null && _List.Count > 0)
+                {
+                    var _ColorGeneral = _List.Find(p => p.Name == FuncStr.NullToStr(_Name));
+                    if (_ColorGeneral != null)
+                    {
+                        XtraMessageBox.Show("组内名称冲突!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Effect = DragDropEffects.None;
+                        return;
+                    }
+                }
+         
+            }
+            else
+            {
+                var _List = m_ListColorGeneral.FindAll(p => FuncStr.NullToStr(p.PID) == FuncStr.NullToStr(_PID) && FuncStr.NullToStr(p.ID) != FuncStr.NullToStr(_DragID));
+                if (_List != null && _List.Count > 0)
+                {
+                    var _ColorGeneral = _List.Find(p => p.Name == FuncStr.NullToStr(_Name));
+                    if (_ColorGeneral != null)
+                    {
+                        XtraMessageBox.Show("组内名称冲突!", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        e.Effect = DragDropEffects.None;
+                        return;
+                    }
+                }
+            }
 
 
 
@@ -1000,7 +1073,13 @@ namespace ThSitePlan.UI
 
         private void BtnRestore_Click(object sender, EventArgs e)
         {
-            m_ListColorGeneral = m_Presenter.InitColorGeneral();
+            string _Txt = FuncStr.NullToStr(m_ColorDefaultConfig);
+            var _ListColorGeneral = FuncJson.Deserialize<List<ColorGeneralDataModel>>(_Txt);
+            ThSitePlanConfigItemGroup Root = new ThSitePlanConfigItemGroup();
+            Root.Properties.Add("Name", ThSitePlanCommon.ThSitePlan_Frame_Name_Unused);
+            FuncFile.ToConfigItemGroup(_ListColorGeneral, Root);
+            m_Presenter.SetImgType(_ListColorGeneral);
+            m_ListColorGeneral = _ListColorGeneral;
             TreeList.DataSource = m_ListColorGeneral;
             this.TreeList.ExpandAll();
         }
@@ -1022,6 +1101,7 @@ namespace ThSitePlan.UI
         {
 
             BtnPick.PerformClick();
+  
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -1031,7 +1111,8 @@ namespace ThSitePlan.UI
 
         private void BtnHelp_Click(object sender, EventArgs e)
         {
-            //this.defaultLookAndFeel1.LookAndFeel.SkinName = SkinStyle.VisualStudio2013Dark;
+ 
+            System.Diagnostics.Process.Start("http://info.thape.com.cn/AI/thcad/help/page_ysgl.html");
         }
 
         private void BtnPick_Click(object sender, EventArgs e)
@@ -1040,12 +1121,14 @@ namespace ThSitePlan.UI
             var _FocusedColumn = TreeList.FocusedColumn;
             var _ColorGeneral = TreeList.GetFocusedRow() as ColorGeneralDataModel;
             if (_ColorGeneral == null) { return; }
+            this.Hide();
             var _List = m_Presenter.AddLayer(this.Handle);
 
             if (_List != null || _List.Count > 0)
             {
                 _List.ForEach(p =>
                 {
+                    if (_ColorGeneral.CAD_Layer == null) { _ColorGeneral.CAD_Layer = new List<LayerDataModel>(); }
                     var _Layer = _ColorGeneral.CAD_Layer.Find(s => s.Name == p);
                     if (_Layer == null)
                     {
@@ -1057,7 +1140,7 @@ namespace ThSitePlan.UI
                     TreeList.RefreshDataSource();
                 });
             }
-
+            this.Show();
         }
 
         private void TreeList_DoubleClick(object sender, EventArgs e)
@@ -1129,7 +1212,7 @@ namespace ThSitePlan.UI
         private void TreeList_HiddenEditor(object sender, EventArgs e)
         {
             ColName.OptionsColumn.AllowEdit = false;
-            ColColor.OptionsColumn.AllowEdit = false;
+            //ColColor.OptionsColumn.AllowEdit = false;
             ColTransparency.OptionsColumn.AllowEdit = false;
         }
 

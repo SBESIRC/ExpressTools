@@ -56,39 +56,61 @@
     <Compile Include="..\TopoNode\Utils.cs">
       <Link>Topology\Utils.cs</Link>
     </Compile>
-    <Compile Include="Beam\ThBeamDbManager.cs" />
     <Compile Include="Beam\ThBeamGeometryService.cs" />
     <Compile Include="Beam\ThBeamLayerManager.cs" />
     <Compile Include="Bussiness\CalBeamInfoService.cs" />
     <Compile Include="Bussiness\CalColumnInfoService.cs" />
-    <Compile Include="Bussiness\InsertSparyService.cs" />
-    <Compile Include="Bussiness\SparyLayout\ISparyLayoutService.cs" />
-    <Compile Include="Bussiness\SparyLayout\SparyLayoutByBeamService.cs" />
-    <Compile Include="Bussiness\SparyLayout\SprayLayoutNoBeamService.cs" />
+    <Compile Include="Bussiness\DetailsHandleService.cs" />
+    <Compile Include="Bussiness\InsertSprayService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutByBeamService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutDataUtils.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutNoBeamService.cs" />
+    <Compile Include="Bussiness\SprayLayout\SprayLayoutData.cs" />
+    <Compile Include="Column\ThColumnGeometryService.cs" />
+    <Compile Include="Column\ThColumnLayerManager.cs" />
     <Compile Include="Config\ConfigHelper.cs" />
     <Compile Include="Config\Model\LayoutCacheModel.cs" />
     <Compile Include="Engine\ThBeamRecognitionEngine.cs" />
     <Compile Include="Engine\ThColumnRecognitionEngine.cs" />
     <Compile Include="Engine\ThModeltRecognitionEngine.cs" />
-    <Compile Include="Engine\ThModelElement.cs" />
+    <Compile Include="Model\ThBeam.cs" />
+    <Compile Include="Model\ThColumn.cs" />
+    <Compile Include="Model\ThModelElement.cs" />
+    <Compile Include="Engine\ThRoomDbManager.cs" />
+    <Compile Include="Engine\ThRoomLayerManager.cs" />
+    <Compile Include="Engine\ThAreaOutlineDbManager.cs" />
+    <Compile Include="Engine\ThAreaOutlineLayerManager.cs" />
     <Compile Include="Engine\ThRoomRecognitionEngine.cs" />
     <Compile Include="Engine\ThSprayLayoutEngine.cs" />
-    <Compile Include="Engine\ThSprayLayoutWorker.cs" />
-    <Compile Include="LayoutRule\LayoutInterface.cs" />
-    <Compile Include="LayoutRule\SquareLayout.cs" />
-    <Compile Include="Model\SparyLayoutModel.cs" />
+    <Compile Include="Layout\AdjustmentLayoutSpray.cs" />
+    <Compile Include="Layout\ILayoutInterface.cs" />
+    <Compile Include="Layout\SquareLayout.cs" />
+    <Compile Include="Layout\SquareLayoutByBeam.cs" />
+    <Compile Include="Layout\SquareLayoutWithRay.cs" />
+    <Compile Include="Model\SprayLayoutModel.cs" />
+    <Compile Include="Model\ThRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Engine\ThSprayDbExplodeManager.cs" />
     <Compile Include="ThWSSApp.cs" />
+    <Compile Include="ThWSSCommon.cs" />
     <Compile Include="Utlis\GetObjectUtils.cs" />
     <Compile Include="Utlis\GeUtils.cs" />
     <Compile Include="Utlis\OrientedBoundingBox.cs" />
     <Compile Include="Utlis\RegionDivisionByBeamUtils.cs" />
     <Compile Include="Utlis\RegionDivisionUtils.cs" />
+    <Compile Include="Utlis\ThWSSDbExtension.cs" />
+    <Compile Include="Utlis\ThWSSEditorExtension.cs" />
     <Compile Include="View\StandardBindWindow.xaml.cs" />
     <Compile Include="View\PlateThcikWindow.xaml.cs" />
     <Compile Include="View\DefaultBeamHeightWindow.xaml.cs" />
@@ -103,6 +125,8 @@
       <DependentUpon>StandardUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProtectStrategyWindow.xaml.cs" />
+    <Compile Include="View\ThProtectRangeWindow.xaml.cs" />
+    <Compile Include="View\ThRiskAlertWindow.xaml.cs" />
     <Compile Include="View\ThSparyLayoutSet.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,19 +134,23 @@
       <Link>Topology\Progress.resx</Link>
       <DependentUpon>Progress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
       <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
       <Name>DotNetARX</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThBeam\ThBeam.csproj">
+      <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
+      <Name>ThBeam</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThCADCore\ThCADCore.csproj">
       <Project>{c6ac9e68-9059-4ddd-8fa7-58e2656d572e}</Project>
       <Name>ThCADCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThStructure\ThStructure.csproj">
-      <Project>{0f36f6e9-f83b-40f6-b848-b13b20e9b1be}</Project>
-      <Name>ThStructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
       <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
@@ -166,6 +194,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\ThProtectRangeWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ThRiskAlertWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\ThSparyLayoutSet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,7 +214,11 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\问号16x16.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains('ACAD2012'))">
       <ItemGroup>

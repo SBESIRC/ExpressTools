@@ -45,7 +45,7 @@ namespace ThWSS.Utlis
             }
 
             var bLines = GetDivisionines(pLines, points);
-            var diviPoly = GetMinPolygon(bLines);
+            var diviPoly = GetMinPolygon(bLines).Where(x => x.Area > 0).ToList();
             diviPoly = CalMergeRule(diviPoly);
             return diviPoly;
         }
@@ -119,13 +119,9 @@ namespace ThWSS.Utlis
             polygons = polygons.OrderBy(x => x.Area).ToList();
         //两个区域相交部分很多，且与多个区域相交的区域合并掉
         RETRY:
+            polygons = polygons.Where(x => x.Area > 0).ToList();
             foreach (var poly1 in polygons)
             {
-                if (poly1.Area <= 0)
-                {
-                    continue;
-                }
-
                 //面积太小无法排布的区域合并掉
                 var needMerge = CalInvalidPolygon(poly1);
 
@@ -294,7 +290,6 @@ namespace ThWSS.Utlis
         RETRY:
             foreach (var line in lines1)
             {
-                var s = line;
                 foreach (var oLine in lines2)
                 {
                     var segLine1 = new LineSegment3d(line.StartPoint, line.EndPoint);

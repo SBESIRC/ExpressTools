@@ -38,10 +38,9 @@
             // 
             this.m_progressBar.ForeColor = System.Drawing.SystemColors.Control;
             this.m_progressBar.Location = new System.Drawing.Point(55, 37);
-            this.m_progressBar.Maximum = 1000;
+            this.m_progressBar.Maximum = 10000;
             this.m_progressBar.Name = "m_progressBar";
             this.m_progressBar.Size = new System.Drawing.Size(341, 20);
-            this.m_progressBar.Step = 1;
             this.m_progressBar.TabIndex = 0;
             // 
             // m_lblTip
@@ -60,12 +59,12 @@
             this.m_lblProgresss.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.m_lblProgresss.Font = new System.Drawing.Font("楷体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.m_lblProgresss.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.m_lblProgresss.Location = new System.Drawing.Point(337, 13);
+            this.m_lblProgresss.Location = new System.Drawing.Point(324, 13);
             this.m_lblProgresss.Name = "m_lblProgresss";
-            this.m_lblProgresss.Size = new System.Drawing.Size(56, 16);
+            this.m_lblProgresss.Size = new System.Drawing.Size(0, 16);
             this.m_lblProgresss.TabIndex = 2;
-            this.m_lblProgresss.Text = "10%100";
-            this.m_lblProgresss.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.m_lblProgresss.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.m_lblProgresss.UseWaitCursor = true;
             // 
             // Progress
             // 

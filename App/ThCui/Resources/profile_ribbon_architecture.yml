@@ -33,6 +33,21 @@ panels:
       - text: "柱校核\r\n（公测）"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": false, "IsEnabled": true }
+  - UID: "pnlSitePlanTool"
+    name: "SitePlanTool"
+    title: "一键彩总"
+    items:
+      - text: "一键生成"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "局部刷新"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "映射管理"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "常用设置"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+      - text: "生成查看"
+        attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": true, "IsEnabled": true }
   - UID: "pnlStatistic"
     name: "Statistic"
     title: "计算工具"
@@ -57,10 +72,6 @@ panels:
       - text: ""
         items:
           - text: "车位编号"
-            attributes: { "IsVisible": false, "IsEnabled": true }
-      - text: ""
-        items:
-          - text: "喷头布置"
             attributes: { "IsVisible": false, "IsEnabled": true }
       - text: ""
         items:
@@ -148,11 +159,35 @@ panels:
       - text: "文字块镜像"
         attributes: { "IsVisible": true, "IsEnabled": true }
     attributes: { "IsVisible": true, "IsEnabled": true }
+  - UID: "pnlOutlineTool"
+    name: "OutlineTool"
+    title: "房间框线"
+    items:  
+       - text: "建筑已绘"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+       - text: "自动识别"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+       - text: "手动绘制"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
+  - UID: "pnlFireControlTool"
+    name: "FireControlTool"
+    title: "消防喷淋"
+    items:
+       - text: "喷头布置"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
+  - UID: "pnlEquipmentTool"
+    name: "EquipmentTool"
+    title: "设备选型"
+    items:
+       - text: "风机选型"
+         attributes: { "IsVisible": true, "IsEnabled": true }
+    attributes: { "IsVisible": false, "IsEnabled": true }
   - UID: "pnlMiscellaneous"
     name: "Miscellaneous"
     title: "第三方支持"
     items:
       - text: "天正看图插件"
         attributes: { "IsVisible": true, "IsEnabled": true }
-    attributes: { "IsVisible": true, "IsEnabled": true }
-    
+    attributes: { "IsVisible": true, "IsEnabled": true }    

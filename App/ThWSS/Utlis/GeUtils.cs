@@ -156,24 +156,6 @@ namespace ThWSS.Utlis
             Vector3d preV = (pt - preP).GetNormal();
             Point3d movePt = pt - nextV * 1 + preV * 1;
             return CheckPointInPolyline(poly, movePt, 0.0001);
-            
-            //Vector3d normal = poly.Normal;
-            //Vector3d nextV = (nextP - pt).GetNormal();
-            //Vector3d preV = (pt - preP).GetNormal();
-            //Vector3d dir = preV.CrossProduct(nextV);
-
-            //if (Math.Abs(dir.Z) < 0.001)
-            //{
-            //    return 0;
-            //}
-            //else if (!((dir.Z > 0 && normal.Z > 0) || (dir.Z < 0 && normal.Z < 0)))
-            //{
-            //    return 1;
-            //}
-            //else
-            //{
-            //    return -1;
-            //}
         }
 
         /// <summary>
@@ -337,5 +319,135 @@ namespace ThWSS.Utlis
             return allPoints;
         }
 
+        /// <summary>
+        /// 将一个线(projectLine)投影到另一条线(line)的直线上
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="projectLine"></param>
+        /// <returns></returns>
+        public static Line LineProjectToLine(Line line, Line projectLine)
+        {
+            return new Line(line.GetClosestPointTo(projectLine.StartPoint, true),
+                line.GetClosestPointTo(projectLine.EndPoint
+, true));
+        }
+
+        /// <summary>
+        /// 放大或者缩小polyline
+        /// </summary>
+        /// <param name="polyDic"></param>
+        /// <returns></returns>
+        public static Polyline PolygonBuffer(Polyline polyline, List<KeyValuePair<Line, double>> polyDic)
+        {
+            Polyline resPolly = new Polyline() { Closed = true };
+
+            bool isCW = IsClockwise(polyline);
+            for (int i = 0; i < polyDic.Count; i++)
+            {
+                var current = polyDic[i];
+                var currentPt = current.Key.EndPoint;
+                var currentDir = current.Key.Delta.GetNormal();
+
+                var next = polyDic[(i + 1) % polyline.NumberOfVertices];
+                var nextDir = next.Key.Delta.GetNormal();
+                if (currentDir.IsParallelTo(nextDir))
+                {
+                    continue;
+                }
+
+                var resDir = currentDir.CrossProduct(nextDir);
+                var cuMoveDir = nextDir;
+                var nextMoveDir = -currentDir;
+
+                if ((isCW && resDir.Z > 0)|| (!isCW && resDir.Z < 0))  //如果是阴角
+                {
+                    cuMoveDir = -cuMoveDir;
+                    nextMoveDir = -nextMoveDir;
+                }
+
+                double sinX = Math.Sin(currentDir.GetAngleTo(nextDir));
+                Point2d resPt = (currentPt + cuMoveDir * (current.Value / sinX) + nextMoveDir * (next.Value / sinX)).ToPoint2D();
+                resPolly.AddVertexAt(i, resPt, 0, 0, 0);
+            }
+            return resPolly;
+        }
+
+        /// <summary>
+        /// 判断是否是顺时针还是逆时针
+        /// </summary>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static bool IsClockwise(Polyline polyline)
+        {
+            Point3d currentPt = polyline.GetPoint3dAt(0);
+            Point3d nextPt = currentPt;
+            Point3d prePt = currentPt;
+            for (int i = 0; i < polyline.NumberOfVertices; i++)
+            {
+                var tempPt = polyline.GetPoint3dAt(i);
+                if (tempPt.X <= currentPt.X)
+                {
+                    currentPt = tempPt;
+                    nextPt = polyline.GetPoint3dAt((i + 1) % polyline.NumberOfVertices);
+                    int j = i - 1;
+                    if (j < 0)
+                    {
+                        j = polyline.NumberOfVertices - 1;
+                    }
+                    prePt = polyline.GetPoint3dAt(j);
+                }
+            }
+
+            Vector3d nextDir = (nextPt - currentPt).GetNormal();
+            Vector3d preDir = (currentPt - prePt).GetNormal();
+            Vector3d resDir = preDir.CrossProduct(nextDir);
+            return resDir.Z > 0 ? false : true;
+        }
+
+        /// <summary>
+        /// 逆转polyline
+        /// </summary>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
+        public static Polyline ReversePolyline(Polyline polyline)
+        {
+            Polyline resPoly = new Polyline() { Closed = true };
+            int j = 0;
+            for (int i = polyline.NumberOfVertices - 1; i >= 0; i--)
+            {
+                resPoly.AddVertexAt(j, polyline.GetPoint2dAt(i), 0, 0, 0);
+                j++;
+            }
+            return resPoly;
+        }
+
+        /// <summary>
+        /// 延展Polyline
+        /// </summary>
+        /// <param name="polys"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public static List<Polyline> ExtendPolygons(List<Polyline> polys, double offset)
+        {
+            List<Polyline> resPoly = new List<Polyline>();
+            foreach (var pls in polys)
+            {
+                List<Line> lines = new List<Line>();
+                for (int i = 0; i < pls.NumberOfVertices; i++)
+                {
+                    lines.Add(new Line(pls.GetPoint3dAt(i), pls.GetPoint3dAt((i + 1) % pls.NumberOfVertices)));
+                }
+
+                lines = lines.OrderByDescending(x => x.Length).ToList();
+                Polyline polyline = new Polyline() { Closed = true };
+                polyline.AddVertexAt(0, (lines[0].StartPoint - lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(1, (lines[0].EndPoint + lines[0].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(2, (lines[1].StartPoint - lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                polyline.AddVertexAt(3, (lines[1].EndPoint + lines[1].Delta.GetNormal() * offset).ToPoint2D(), 0, 0, 0);
+                resPoly.Add(polyline);
+            }
+            return resPoly;
+        }
     }
 }
+                                

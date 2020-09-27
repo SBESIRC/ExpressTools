@@ -1,19 +1,21 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using AcHelper;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
 using Linq2Acad;
-using NFox.Cad.Collections;
+using DotNetARX;
 using ThWss.View;
-using ThWSS.Engine;
-using ThWSS.Model;
 using ThWSS.Beam;
+using ThWSS.Model;
+using ThWSS.Utlis;
+using ThWSS.Engine;
+using ThCADCore.NTS;
+using System.Linq;
+using TopoNode.Progress;
+using NFox.Cad.Collections;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.DatabaseServices;
 using ThStructure.BeamInfo.Command;
-using ThStructure.BeamInfo.Business;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace ThWSS
@@ -22,15 +24,18 @@ namespace ThWSS
     {
         public void Initialize()
         {
-            //throw new NotImplementedException();
+            //
         }
 
         public void Terminate()
         {
-            //throw new NotImplementedException();
+            //
         }
 
-        [CommandMethod("TIANHUACAD", "THCalOBB", CommandFlags.Modal)]
+        /// <summary>
+        /// 喷淋布置命令（界面）
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THPT", CommandFlags.Modal)]
         public void ThDistinguishBeam()
         {
             ThSparyLayoutSet instance = new ThSparyLayoutSet();
@@ -40,73 +45,276 @@ namespace ThWSS
                 return;
             }
 
+            //存储本次操作配置
+            instance.SaveConfigInfo();
             var layoutModel = SetWindowValues(instance);
             Run(layoutModel);
         }
 
-        [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
-        public void THGETBEAMINFO()
+        /// <summary>
+        /// 喷淋布置命令（命令行）
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "-THPT", CommandFlags.Modal)]
+        public void ThDistinguishBeamCLI()
         {
-            using (AcadDatabase acdb = AcadDatabase.Active())
-            using (ThBeamDbManager beamManager = new ThBeamDbManager(acdb.Database))
+            PromptKeywordOptions keywordOptions = new PromptKeywordOptions("\n请指定布置区域：")
             {
-                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                // 获取所有构成梁的曲线（线，多段线，圆弧）
-                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(beamManager);
-                // 考虑到多段线的情况，需要将多段线“炸”成线来处理
-                thDisBeamCommand.CalBeamStruc(ThBeamGeometryPreprocessor.ExplodeCurves(beamCurves));
+                AllowNone = true
+            };
+            keywordOptions.Keywords.Add("Firecompartment", "Firecompartment", "防火分区(F)");
+            keywordOptions.Keywords.Add("frameLine", "frameLine", "来自框线(L)");
+            keywordOptions.Keywords.Add("Custom", "Custom", "自定义区域(C)");
+            keywordOptions.Keywords.Default = "Firecompartment";
+            PromptResult result = Active.Editor.GetKeywords(keywordOptions);
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            var layoutModel = SprayLayoutModel.Create();
+            if (result.StringResult == "Firecompartment")
+            {
+                layoutModel.sparyLayoutWay = LayoutWay.fire;
+            }
+            else if (result.StringResult == "frameLine")
+            {
+                layoutModel.sparyLayoutWay = LayoutWay.frame;
+            }
+            Run(layoutModel);
+        }
+
+        /// <summary>
+        /// 自动识别图纸中的面积框线
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THWRI", CommandFlags.Modal)]
+        public void ThAutoAreaOutlines()
+        {
+            // 选择防火分区
+            PromptSelectionOptions options = new PromptSelectionOptions()
+            {
+                SingleOnly = true,
+                AllowDuplicates = false,
+                MessageForAdding = "请选择防火分区",
+                RejectObjectsOnLockedLayers = true,
+            };
+            var filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var result = Active.Editor.GetSelection(options, filterlist);
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+
+            foreach(ObjectId frame in result.Value.GetObjectIds())
+            {
+                // 先获取现有的面积框线
+                var outlines = new ObjectIdCollection();
+                filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                result = Active.Editor.SelectByPolyline(
+                    frame,
+                    PolygonSelectionMode.Window,
+                    filterlist);
+                if (result.Status == PromptStatus.OK)
+                {
+                    foreach (ObjectId obj in result.Value.GetObjectIds())
+                    {
+                        outlines.Add(obj);
+                    }
+                }
+
+                // 获取房间轮廓线
+                var newOutlines = new ObjectIdCollection();
+                void handler(object s, ObjectEventArgs e)
+                {
+                    if (e.DBObject is Polyline polyline)
+                    {
+                        if (polyline.Layer == ThWSSCommon.AreaOutlineLayer)
+                        {
+                            newOutlines.Add(e.DBObject.ObjectId);
+                        }
+                    }
+                }
+                Active.Database.ObjectAppended += handler;
+                using (var roomManager = new ThRoomDbManager(Active.Database))
+                using (var engine = new ThRoomRecognitionEngine())
+                {
+                    engine.Acquire(Active.Database, null, frame);
+                }
+                Active.Database.ObjectAppended -= handler;
+
+                // 设置房间轮廓线颜色
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (ObjectId obj in newOutlines)
+                    {
+                        acadDatabase.Element<Polyline>(obj, true).ColorIndex = 30;
+                    }
+                }
+
+                // 删除重复的轮廓线
+                var frames = new DBObjectCollection();
+                var newFrames = new DBObjectCollection();
+                var duplicatedFrames = new DBObjectCollection();
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (ObjectId obj in outlines)
+                    {
+                        frames.Add(acadDatabase.Element<Polyline>(obj));
+                    }
+                    foreach (ObjectId obj in newOutlines)
+                    {
+                        newFrames.Add(acadDatabase.Element<Polyline>(obj));
+                    }
+                    foreach (Polyline polyline in newFrames)
+                    {
+                        if (frames.ContainsDuplication(polyline))
+                        {
+                            duplicatedFrames.Add(polyline);
+                        }
+                    }
+                    foreach (Polyline polyline in duplicatedFrames)
+                    {
+                        polyline.UpgradeOpen();
+                        polyline.Erase();
+                    }
+                }
             }
         }
 
-
-        [CommandMethod("TIANHUACAD", "THMERGEBEAMCURVES", CommandFlags.Modal)]
-        public void ThMergeBeamCurves()
+        /// <summary>
+        /// 用户自绘面积框线
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THWRD", CommandFlags.Modal)]
+        public void ThCustomAreaOutlines()
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                PromptSelectionOptions options = new PromptSelectionOptions()
-                {
-                    AllowDuplicates = false,
-                    RejectObjectsOnLockedLayers = true,
-                };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == string.Join(",", new string[]
-                {
-                    RXClass.GetClass(typeof(Arc)).DxfName,
-                    RXClass.GetClass(typeof(Line)).DxfName,
-                    RXClass.GetClass(typeof(Polyline)).DxfName,
-                }));
-                var result = Active.Editor.GetSelection(options, filterlist);
-                if (result.Status != PromptStatus.OK)
+                // 选择自定义区域
+                var polygon = CreatePolygonArea();
+                if (polygon == null || polygon.NumberOfVertices == 0)
                 {
                     return;
                 }
 
-                var objs = new DBObjectCollection();
-                foreach (var objId in result.Value.GetObjectIds())
-                {
-                    var obj = acadDatabase.Element<Entity>(objId, true);
-                    objs.Add(obj.GetTransformedCopy(Matrix3d.Identity));
-                }
-                var results = ThBeamGeometryPreprocessor.MergeCurves(objs);
-                if (results.Count == 0)
+                // 判断是否可以作为面积框线
+                var outline = acadDatabase.Database.AreaOutline(polygon);
+                if (outline == null)
                 {
                     return;
                 }
 
-                // 将合并后的图元添加到图纸中
-                // 未参与合并的图元会被重新添加到图纸中
-                foreach (Entity obj in results)
+                // 添加到当前图纸
+                acadDatabase.ModelSpace.Add(outline);
+
+                // 设置颜色和图层
+                outline.ColorIndex = 50;
+                outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
+            }
+        }
+
+        /// <summary>
+        /// 识别已绘制的面积框线
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THWRR", CommandFlags.Modal)]
+        public void ThAreaOutlines()
+        {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
+            // 先获取现有的面积框线
+            var frames = new ObjectIdCollection();
+            var filterlist = OpFilter.Bulid(o =>
+                o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+            var result = Active.Editor.SelectByWindow(
+                pline.GeometricExtents.MinPoint,
+                pline.GeometricExtents.MaxPoint,
+                PolygonSelectionMode.Window,
+                filterlist);
+            if (result.Status == PromptStatus.OK)
+            {
+                foreach (ObjectId obj in result.Value.GetObjectIds())
                 {
-                    acadDatabase.ModelSpace.Add(obj);
+                    frames.Add(obj);
                 }
-                // 将原图元从图纸中删除
-                foreach (var objId in result.Value.GetObjectIds())
+            }
+
+            // 通过“炸”外参获取的房间框线被创建在由外参引入的临时图层上
+            // 当外参“卸载”后，这个临时外参图层将失效
+            // 为了避免这个情况，将置于临时外参图层的房间框线复制到指定图层中
+            // https://www.keanw.com/2009/05/importing-autocad-layers-from-xrefs-using-net.html
+            Progress.Reset();
+            Progress.ShowProgress();
+            Progress.SetTip("正在提取信息...");
+            using (var outlineManager = new ThAreaOutlineDbManager(Active.Database))
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var outlines = new DBObjectCollection();
+                foreach (ObjectId obj in frames)
                 {
-                    acadDatabase.Element<Entity>(objId, true).Erase();
+                    outlines.Add(acadDatabase.Element<Polyline>(obj));
+                }
+
+                var newOutlines = new DBObjectCollection();
+                foreach (ObjectId obj in outlineManager.Geometries)
+                {
+                    var outline = acadDatabase.Database.AreaOutline(obj);
+                    if (outline != null && 
+                        pline.Contains(outline) && 
+                        !outlines.ContainsDuplication(outline) &&
+                        !newOutlines.ContainsDuplication(outline))
+                    {
+                        newOutlines.Add(outline);
+                        acadDatabase.ModelSpace.Add(outline);
+                        outline.ColorIndex = 1;
+                        outline.LayerId = acadDatabase.Database.CreateAreaOutlineLayer();
+                    }
+                }
+            }
+            Progress.HideProgress();
+        }
+
+#if DEBUG
+
+        /// <summary>
+        /// 提取指定区域内的梁信息
+        /// </summary>
+        [CommandMethod("TIANHUACAD", "THGETBEAMINFO", CommandFlags.Modal)]
+        public void THGETBEAMINFO()
+        {
+            // 选择楼层区域
+            // 暂时只支持矩形区域
+            var pline = CreateWindowArea();
+            if (pline == null)
+            {
+                return;
+            }
+
+            using (var explodeManager = new ThSprayDbExplodeManager(Active.Database))
+            {
+                ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
+                var beamCurves = ThBeamGeometryService.Instance.BeamCurves(Active.Database, pline);
+                var beams = thDisBeamCommand.CalBeamStruc(beamCurves);
+                using (var acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (var beam in beams)
+                    {
+                        acadDatabase.ModelSpace.Add(beam.BeamBoundary);
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// 提取所选图元的梁信息
+        /// </summary>
         [CommandMethod("TIANHUACAD", "THGETBEAMINFO2", CommandFlags.Modal)]
         public void THGETBEAMINFO2()
         {
@@ -118,7 +326,19 @@ namespace ThWSS
                     AllowDuplicates = false,
                     RejectObjectsOnLockedLayers = true,
                 };
-                var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "ARC,LINE,LWPOLYLINE" & o.Dxf((int)DxfCode.LayerName) == "S_BEAM");
+
+                // 梁线的图元类型
+                // 暂时不支持弧梁
+                var dxfNames = new string[]
+                {
+                    RXClass.GetClass(typeof(Line)).DxfName,
+                    RXClass.GetClass(typeof(Polyline)).DxfName,
+                };
+                // 梁线的图元图层
+                var layers = ThBeamLayerManager.GeometryLayers(acdb.Database);
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == string.Join(",", dxfNames) &
+                    o.Dxf((int)DxfCode.LayerName) == string.Join(",", layers.ToArray()));
                 var entSelected = Active.Editor.GetSelection(options, filterlist);
                 if (entSelected.Status != PromptStatus.OK)
                 {
@@ -134,91 +354,153 @@ namespace ThWSS
                 }
 
                 ThDisBeamCommand thDisBeamCommand = new ThDisBeamCommand();
-                thDisBeamCommand.CalBeamStruc(dBObjects);
+                var beams = thDisBeamCommand.CalBeamStruc(dBObjects);
+                using (var acadDatabase = AcadDatabase.Active())
+                {
+                    foreach (var beam in beams)
+                    {
+                        acadDatabase.ModelSpace.Add(beam.BeamBoundary);
+                    }
+                }
             }
         }
+
+#endif
 
         /// <summary>
         /// 执行布置喷淋
         /// </summary>
         /// <returns></returns>
-        private void Run(SparyLayoutModel layoutModel)
+        private void Run(SprayLayoutModel layoutModel)
         {
-            try
+            if (layoutModel.sparyLayoutWay == LayoutWay.fire)
             {
-                using (AcadDatabase acdb = AcadDatabase.Active())
+                // 选择楼层区域
+                // 暂时只支持矩形区域
+                var pline = CreateWindowArea();
+                if (pline == null)
                 {
-                    //防火分区
-                    if (layoutModel.sparyLayoutWay == LayoutWay.fire)
-                    {
-                        ThSprayLayoutEngine.Instance.Layout(acdb.Database, null, layoutModel);
-                    }
-                    //来自框线
-                    else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
-                    {
-                        PromptSelectionOptions options = new PromptSelectionOptions()
-                        {
-                            AllowDuplicates = false,
-                            RejectObjectsOnLockedLayers = true,
-                        };
-                        var filterlist = OpFilter.Bulid(o => o.Dxf((int)DxfCode.Start) == "POLYLINE,LWPOLYLINE");
-                        var entSelected = Active.Editor.GetSelection(options, filterlist);
-                        if (entSelected.Status != PromptStatus.OK)
-                        {
-                            return;
-                        }
+                    return;
+                }
 
-                        // 执行操作
-                        DBObjectCollection dBObjects = new DBObjectCollection();
-                        foreach (ObjectId obj in entSelected.Value.GetObjectIds())
-                        {
-                            dBObjects.Add(acdb.Element<Entity>(obj, true));
-                        }
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                }
 
-                        List<Polyline> room = new List<Polyline>();
-                        foreach (var item in dBObjects)
-                        {
-                            room.Add(item as Polyline);
-                        }
-                        var closedRoom = room.Select(x => { x.Closed = true; return x; }).ToList();
-                        ThSprayLayoutEngine.Instance.Layout(closedRoom, layoutModel);
-                    }
-                    //自定义区域
-                    else if (layoutModel.sparyLayoutWay == LayoutWay.customPart)
+                var frames = new ObjectIdCollection();
+                foreach (ObjectId obj in entSelected.Value.GetObjectIds())
+                {
+                    // 获取防火分区内的房间框线
+                    filterlist = OpFilter.Bulid(o =>
+                        o.Dxf((int)DxfCode.LayerName) == ThWSSCommon.AreaOutlineLayer &
+                        o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                    var result = Active.Editor.SelectByPolyline(obj,
+                        PolygonSelectionMode.Window, filterlist);
+                    if (result.Status == PromptStatus.OK)
                     {
-                        Polyline pline = new Polyline() { Closed = true };
-                        using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+                        foreach(ObjectId frame in result.Value.GetObjectIds())
                         {
-                            try
+                            if (!frames.Contains(frame))
                             {
-                                pc.Collect();
-                            }
-                            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception ex)
-                            {
-                                throw ex;
-                            }
-                            Point3dCollection winCorners = pc.CollectedPoints;
-                            for (int i = 0; i < winCorners.Count; i++)
-                            {
-                                pline.AddVertexAt(i, new Point2d(winCorners[i].X, winCorners[i].Y), 0, 0, 0);
+                                frames.Add(frame);
                             }
                         }
-
-                        acdb.ModelSpace.Add(pline);
-                        ThSprayLayoutEngine.Instance.Layout(new List<Polyline>() { pline }, layoutModel);
                     }
                 }
-            }
-            catch (Autodesk.AutoCAD.BoundaryRepresentation.Exception ex)
-            {
-                //return false;
-            }
+                if (frames.Count == 0)
+                {
+                    return;
+                }
 
+                // 执行操作
+                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
+            }
+            else if (layoutModel.sparyLayoutWay == LayoutWay.frame)
+            {
+                // 选择楼层区域
+                // 暂时只支持矩形区域
+                var pline = CreateWindowArea();
+                if (pline == null)
+                {
+                    return;
+                }
+
+                // 选取框线
+                PromptSelectionOptions options = new PromptSelectionOptions()
+                {
+                    AllowDuplicates = false,
+                    RejectObjectsOnLockedLayers = true,
+                };
+                var filterlist = OpFilter.Bulid(o =>
+                    o.Dxf((int)DxfCode.Start) == RXClass.GetClass(typeof(Polyline)).DxfName);
+                var entSelected = Active.Editor.GetSelection(options, filterlist);
+                if (entSelected.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                // 执行操作
+                var frames = new ObjectIdCollection(entSelected.Value.GetObjectIds());
+                ThSprayLayoutEngine.Instance.Layout(Active.Database, pline, frames, layoutModel);
+            }
         }
 
-        private SparyLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
+        private Polyline CreateWindowArea()
         {
-            SparyLayoutModel layoutModel = new SparyLayoutModel();
+            Polyline pline = new Polyline()
+            {
+                Closed = true
+            };
+            using (PointCollector pc = new PointCollector(PointCollector.Shape.Window))
+            {
+                try
+                {
+                    pc.Collect();
+                    pline.CreateRectangle(
+                        pc.CollectedPoints[0].ToPoint2D(),
+                        pc.CollectedPoints[1].ToPoint2D());
+                    return pline;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        private Polyline CreatePolygonArea()
+        {
+            Polyline pline = new Polyline()
+            {
+                Closed = true
+            };
+            using (PointCollector pc = new PointCollector(PointCollector.Shape.Polygon))
+            {
+                try
+                {
+                    pc.Collect();
+                    pline.CreatePolyline(pc.CollectedPoints);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return pline;
+        }
+
+        private SprayLayoutModel SetWindowValues(ThSparyLayoutSet thSpary)
+        {
+            SprayLayoutModel layoutModel = SprayLayoutModel.Create();
             if (thSpary.fire.IsChecked == true)
             {
                 layoutModel.sparyLayoutWay = LayoutWay.fire;
@@ -227,15 +509,112 @@ namespace ThWSS
             {
                 layoutModel.sparyLayoutWay = LayoutWay.frame;
             }
-            else if (thSpary.customPart.IsChecked == true)
+
+            if (thSpary.custom.IsChecked == true)
             {
-                layoutModel.sparyLayoutWay = LayoutWay.customPart;
+                layoutModel.sparySSpcing = Convert.ToDouble(thSpary.customControl.sparySSpcing.Text);
+                layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
+                layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
+                layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
+                layoutModel.protectRadius = Math.Sqrt((layoutModel.otherESpcing * layoutModel.otherESpcing * 4) / Math.PI);
+            }
+            else if (thSpary.standard.IsChecked == true)
+            {
+                double radius = 0;
+                if (thSpary.standControl.danLevel.SelectedIndex == 0)
+                {
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2200;
+                        radius = 20000000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 5400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2700;
+                        radius = 29000000;
+                    }
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 1)
+                {
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3600;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1800;
+                        radius = 12500000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4800;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2400;
+                        radius = 23000000;
+                    }
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 2)
+                {
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3400;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1700;
+                        radius = 11500000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 4200;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 2100;
+                        radius = 17500000;
+                    }
+                }
+                else if (thSpary.standControl.danLevel.SelectedIndex == 3)
+                {
+                    if (thSpary.standControl.standRange.IsChecked == true)
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3000;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1500;
+                        radius = 9000000;
+                    }
+                    else
+                    {
+                        layoutModel.sparySSpcing = 300;
+                        layoutModel.sparyESpcing = 3600;
+                        layoutModel.otherSSpcing = 300;
+                        layoutModel.otherESpcing = 1800;
+                        radius = 13000000;
+                    }
+                }
+                layoutModel.protectRadius = Math.Sqrt(radius / Math.PI);
             }
 
-            layoutModel.sparySSpcing = Convert.ToDouble(thSpary.customControl.sparySSpcing.Text);
-            layoutModel.sparyESpcing = Convert.ToDouble(thSpary.customControl.sparyESpcing.Text);
-            layoutModel.otherSSpcing = Convert.ToDouble(thSpary.customControl.otherSSpcing.Text);
-            layoutModel.otherESpcing = Convert.ToDouble(thSpary.customControl.otherESpcing.Text);
+            if (thSpary.upSpary.IsChecked == true)
+            {
+                layoutModel.sprayType = 0;
+            }
+            else if (thSpary.downSpary.IsChecked == true)
+            {
+                layoutModel.sprayType = 1;
+            }
+            
+            layoutModel.UseBeam = thSpary.HasBeam.IsChecked == true;
+            if (layoutModel.UseBeam)
+            {
+                layoutModel.beamHeight = Convert.ToDouble(thSpary.beamHeight.Text);
+                layoutModel.floorThcik = Convert.ToDouble(thSpary.plateThick.Text);
+            }
 
             return layoutModel;
         }

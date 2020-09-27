@@ -9,7 +9,6 @@ using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.ApplicationServices;
 using NFox.Cad.Collections;
 using GeometryExtensions;
 using ThEssential.BlockConvert;
@@ -79,7 +78,11 @@ namespace ThEssential.Command
                     var entSelected = Active.Editor.SelectCrossingWindow(winCorners[0], winCorners[1], filterlist);
                     if (entSelected.Status == PromptStatus.OK)
                     {
-                        extents.AddExtents(winCorners.ToExtents3d());
+                        // 我们需要用这个选择框在外参中的相同范围内寻找块引用，
+                        // 考虑到外参图纸的WCS和当前图纸的WCS是完全一致的（暂时不考虑图纸WCS不一致的情况）
+                        // 同时考虑到PointCollector收集的点是UCS下的点，所以需要将这些点从UCS转换到WCS下
+                        extents.AddPoint(winCorners[0].TransformBy(Active.Editor.UCS2WCS()));
+                        extents.AddPoint(winCorners[1].TransformBy(Active.Editor.UCS2WCS()));
                         entSelected.Value.GetObjectIds().ForEach(o => objs.Add(o));
                     }
                 }
@@ -102,11 +105,13 @@ namespace ThEssential.Command
                     if (blkDef.IsFromExternalReference && blkDef.IsFromOverlayReference)
                     {
                         // 暂时不考虑unresolved的情况
-                        var xrefDatatbase = blkDef.GetXrefDatabase(false);
-                        // 暂时只关心特定的外参图纸（暖通提资）
-                        if (Path.GetFileName(xrefDatatbase.Filename).StartsWith("H"))
+                        using (var xrefDatatbase = blkDef.GetXrefDatabase(false))
                         {
-                            xrefs.Add(xrefDatatbase.Filename);
+                            // 暂时只关心特定的外参图纸（暖通提资）
+                            if (Path.GetFileName(xrefDatatbase.Filename).StartsWith("H"))
+                            {
+                                xrefs.Add(xrefDatatbase.Filename);
+                            }
                         }
                     }
                 }
@@ -160,20 +165,31 @@ namespace ThEssential.Command
                                         continue;
                                     }
 
+                                    // 转换后块的名字
                                     // 在当前图纸中查找是否存在新的块定义
                                     // 若不存在，则插入新的块定义；
                                     // 若存在，则保持现有的块定义
-                                    var name = (string)transformedBlock.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK];
+                                    string name = null;
+                                    if (Mode == ConvertMode.STRONGCURRENT)
+                                    {
+                                        var attribute = blockReference.IsFirePowerSupply() ?
+                                            ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_FIREPOWER : 
+                                            ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK_NON_FIREPOWER;
+                                        name = (string)transformedBlock.Attributes[attribute];
+                                    }
+                                    else if (Mode == ConvertMode.WEAKCURRENT)
+                                    {
+                                        name = (string)transformedBlock.Attributes[ThBConvertCommon.BLOCK_MAP_ATTRIBUTES_BLOCK];
+                                    }
+                                    else
+                                    {
+                                        throw new NotSupportedException();
+                                    }
                                     var result = currentDb.Blocks.Import(blockDb.Blocks.ElementOrDefault(name), false);
 
                                     // 插入新的块引用
-                                    var objId = currentDb.ModelSpace.ObjectId.InsertBlockReference(
-                                        "0",
-                                        name,
-                                        Point3d.Origin,
-                                        new Scale3d(transformedBlock.Scale()),
-                                        0.0,
-                                        new Dictionary<string, string>());
+                                    var scale = new Scale3d(transformedBlock.Scale());
+                                    var objId = engine.Insert(name, scale, blockReference);
 
                                     // 将新插入的块引用调整到源块引用所在的位置
                                     engine.TransformBy(objId, blockReference);

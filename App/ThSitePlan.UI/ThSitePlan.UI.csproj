@@ -130,12 +130,24 @@
     <Compile Include="fmMobilePanel.Designer.cs">
       <DependentUpon>fmMobilePanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="fmThSitePlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fmThSitePlan.Designer.cs">
+      <DependentUpon>fmThSitePlan.cs</DependentUpon>
+    </Compile>
     <Compile Include="MouseHook.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressBarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressBarForm.Designer.cs">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThSitePlanDbEventHandleOverride.cs" />
     <Compile Include="ThSitePlanDbEventHandler.cs" />
     <Compile Include="ThSitePlanDocCollectionEventHandler.cs" />
+    <Compile Include="ThSitePlanDocEventHandler.cs" />
     <Compile Include="ThSitePlanUiApp.cs" />
     <Compile Include="WinApi.cs" />
     <EmbeddedResource Include="fmConfigManage .resx">
@@ -143,6 +155,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="fmMobilePanel.resx">
       <DependentUpon>fmMobilePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fmThSitePlan.resx">
+      <DependentUpon>fmThSitePlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressBarForm.resx">
+      <DependentUpon>ProgressBarForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

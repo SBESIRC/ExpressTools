@@ -32,6 +32,10 @@ namespace ThCADCore.NTS
                 {
                     AddGeometry(polyline.ToNTSLineString());
                 }
+                else if (obj is Circle circle)
+                {
+                    AddGeometry(circle.ToNTSPolygon());
+                }
                 else
                 {
                     throw new NotSupportedException();
@@ -130,6 +134,106 @@ namespace ThCADCore.NTS
                 }
             }
             return objs[0] as Curve;
+        }
+
+        /// <summary>
+        /// 最近的几个邻居
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        public DBObjectCollection NearestNeighbour(Curve curve, int num)
+        {
+            num += 1;
+            IGeometry geometry = null;
+            if (curve is Line line)
+            {
+                geometry = line.ToNTSLineString();
+            }
+            else if (curve is Polyline polyline)
+            {
+                geometry = polyline.ToNTSLineString();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            var objs = new DBObjectCollection();
+            var neighbours = Engine.NearestNeighbour(
+                geometry.EnvelopeInternal,
+                geometry,
+                new GeometryItemDistance(),
+                num);
+            foreach (var neighbour in neighbours)
+            {
+                // 从邻居中过滤掉自己
+                if (neighbour.EqualsExact(geometry))
+                {
+                    continue;
+                }
+
+                if (neighbour is ILineString lineString)
+                {
+                    objs.Add(lineString.ToDbPolyline());
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
+            return objs;
+        }
+
+        /// <summary>
+        /// 找到最近的元素，并从集合中剔除该元素
+        /// </summary>
+        /// <param name="curve"></param>
+        /// <returns></returns>
+        public DBObject NearestNeighbourRemove(Curve curve)
+        {
+            IGeometry geometry = null;
+            if (curve is Line line)
+            {
+                geometry = line.ToNTSLineString();
+            }
+            else if (curve is Polyline polyline)
+            {
+                geometry = polyline.ToNTSLineString();
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            DBObject obj = null;
+            if (Engine.Count > 0)
+            {
+                var neighbours = Engine.NearestNeighbour(
+                                geometry.EnvelopeInternal,
+                                geometry,
+                                new GeometryItemDistance(),
+                                2);
+                foreach (var neighbour in neighbours)
+                {
+                    // 从邻居中过滤掉自己
+                    if (neighbour.EqualsExact(geometry))
+                    {
+                        continue;
+                    }
+
+                    if (neighbour is ILineString lineString)
+                    {
+                        obj =lineString.ToDbPolyline();
+                        Engine.Remove(neighbour.EnvelopeInternal, neighbour);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
+            }
+            
+            return obj;
         }
     }
 }

@@ -1,0 +1,95 @@
+﻿<Window x:Class="ThColumnInfo.View.ComponentPropDefine"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
+        xmlns:local="clr-namespace:ThColumnInfo"
+        xmlns:local1="clr-namespace:ThColumnInfo.View"
+        mc:Ignorable="d"
+        Title="构件属性定义" Width="350" Height="230" MinWidth="350" MinHeight="230"
+        MaxWidth="350" MaxHeight="230" KeyDown="Window_KeyDown" Loaded="Window_Loaded" Closed="Window_Closed" ResizeMode="NoResize">
+    <!--Title="{Binding TitleContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
+    <Window.Resources>
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="宋体" />
+            <Setter Property="FontSize" Value="10"></Setter>
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="{x:Type ComboBox}">
+            <Setter Property="FontFamily" Value="宋体" />
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontFamily" Value="宋体" />
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Height" Value="20"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10,0,5,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"></ColumnDefinition>
+            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Content="属性名称" Grid.Row="0" VerticalContentAlignment="Top"/>
+        <Label Content="属性列表" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Top" />
+        <ListBox Name="lbPropertiyNames" Grid.Row="1" Grid.RowSpan="4" Width="120" Height="150"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" SelectionChanged="LbPropertiyNames_SelectionChanged"
+                 ItemsSource="{Binding PropertyInfos}" DisplayMemberPath="Text" SelectedValuePath="Name"
+                 SelectedValue="{Binding PropertyName,Mode=OneWayToSource}">  
+        </ListBox>
+        <ListBox Name="lbProperties" Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" 
+                 Width="80" Height="150" HorizontalAlignment="Left" Margin="0,1,0,5"
+                  VerticalAlignment="Top"
+                 ItemsSource="{Binding CtInfos,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 SelectionChanged="LbProperties_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Background="{Binding BackGroundBrush}" Width="30" Height="15" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Text}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Name="lblSetProperty" Content="{Binding PropertySetText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="2" />
+        <ComboBox Name="cbAntiSeismicGrade" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                  ItemsSource="{Binding ParaSetInfo.AntiseismicGradeList}" 
+                  SelectedValue="{Binding CustomData.AntiSeismicGrade,Mode=TwoWay}">
+        </ComboBox>
+        <ComboBox Name="cbConcreteStrength" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                  ItemsSource="{Binding ParaSetInfo.ConcreteStrengthList}" 
+                  SelectedValue="{Binding CustomData.ConcreteStrength,Mode=TwoWay}">
+        </ComboBox>
+        <TextBox Name="tbProtectThickness" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                 Text="{Binding Path=CustomData.ProtectLayerThickness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
+        <TextBox Name="tbHoopReinEnlargeTimes" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                 Text="{Binding Path=CustomData.HoopReinforcementEnlargeTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
+        <TextBox Name="tbLongitudalEnlargeTimes" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                 Text="{Binding Path=CustomData.LongitudinalReinforceEnlargeTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 PreviewTextInput="Textbox_PreviewTextInput" input:InputMethod.IsInputMethodEnabled="False">
+        </TextBox>
+        <ComboBox Name="cbHoopFullHeightEncryption" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                  ItemsSource="{Binding YnList}" 
+                  SelectedValue="{Binding CustomData.HoopReinforceFullHeightEncryption,Mode=TwoWay}">
+                  </ComboBox>
+        <ComboBox Name="cbCornerColumn" Margin="10,3,0,0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top"
+                  ItemsSource="{Binding YnList}" SelectedValue="{Binding CustomData.CornerColumn,Mode=TwoWay}">
+        </ComboBox>
+        <CheckBox Name="chkRecoveryInit" Content="恢复默认值" VerticalContentAlignment="Center" Margin="10,3,0,0"
+                  Grid.Row="2" Grid.Column="2" IsChecked="{Binding RecoveryInit}" Checked="ChkRecoveryInit_Checked"
+                  Unchecked="ChkRecoveryInit_Unchecked"></CheckBox>
+    </Grid>
+</Window>

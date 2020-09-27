@@ -1,7 +1,4 @@
-﻿using System;
-using Linq2Acad;
-using System.Linq;
-using System.Collections.Generic;
+﻿using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
@@ -20,6 +17,19 @@ namespace ThEssential.BlockConvert
             })
             {
                 return mText.Text;
+            }
+        }
+
+        public static string BlockName(this Cell cell)
+        {
+            var blockId = cell.BlockTableRecordId;
+            if (blockId.IsNull)
+            {
+                return string.Empty;
+            }
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(blockId.Database))
+            {
+                return acadDatabase.Element<BlockTableRecord>(blockId).Name;
             }
         }
     }

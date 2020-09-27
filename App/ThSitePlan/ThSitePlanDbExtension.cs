@@ -79,15 +79,38 @@ namespace ThSitePlan
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                // 暂时忽略掉在锁定图层中的图元
+                // https://www.keanw.com/2011/08/preventing-autocad-objects-from-being-selected-using-net.html
+                // https://forums.autodesk.com/t5/net/editor-selectall-to-get-selection-of-object-ids-not-on-locked/td-p/4584613
+                void ed_SelectionAdded(object sender, SelectionAddedEventArgs e)
+                {
+                    using (AcadDatabase acdb = AcadDatabase.Use(database))
+                    {
+                        var lockedLayers = acdb.Layers.Where(o => o.IsLocked).Select(o => o.ObjectId);
+                        ObjectId[] ids = e.AddedObjects.GetObjectIds();
+                        for (int i = 0; i < ids.Length; i++)
+                        {
+                            var entity = acdb.Element<Entity>(ids[i]);
+                            if (lockedLayers.Contains(entity.LayerId))
+                            {
+                                e.Remove(i);
+                            }
+                        }
+                    }
+                }
+                Active.Editor.SelectionAdded += ed_SelectionAdded;
                 PromptSelectionResult psr = Active.Editor.SelectByPolyline(
                     frame,
                     PolygonSelectionMode.Crossing,
                     null);
+                Active.Editor.SelectionAdded -= ed_SelectionAdded;
                 if (psr.Status == PromptStatus.OK)
                 {
-                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds());
+                    // Crossing选择会选择到用来界定选择区域的框线
+                    // 这里需要在选择结果中过滤掉框线自己
+                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds()
+                        .Where(o => o != frame).ToArray());
                     acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
-
                 }
             }
         }
@@ -182,6 +205,14 @@ namespace ThSitePlan
                     // 图元不是块引用
                     return false;
                 }
+            }
+        }
+
+        public static bool IsBlockReferenceOnLockedLayer(this BlockReference blockReference)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                return acadDatabase.Layers.Where(o => o.ObjectId == blockReference.LayerId && o.IsLocked).Any();
             }
         }
 
@@ -326,6 +357,7 @@ namespace ThSitePlan
                         var regions = Region.CreateFromCurves(items);
                         var shadowRegion = regions[0] as Region;
                         shadows.Add(acadDatabase.ModelSpace.Add(shadowRegion));
+                        //shadows.Add(shadowRegion.Id);
                     }
                     catch
                     {
@@ -347,6 +379,28 @@ namespace ThSitePlan
                     buildings.Add(acadDatabase.Element<Region>(obj));
                 }
                 var diffRegions = shadow.Difference(buildings);
+                foreach (var region in diffRegions)
+                {
+                    region.SetPropertiesFrom(shadow);
+                }
+                return diffRegions;
+            }
+        }
+
+        public static List<Polyline> CreateDifferenceShadowRegion(this ObjectId shadowObj, List<Polyline> buildingObjs)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Use(shadowObj.Database))
+            {
+                var shadow = acadDatabase.Element<Region>(shadowObj);
+                var buildings = new DBObjectCollection();
+                foreach (var obj in buildingObjs)
+                {
+                    if (obj.Area > 0)
+                    {
+                        buildings.Add(obj);
+                    }
+                }
+                var diffRegions = shadow.Differences(buildings);
                 foreach (var region in diffRegions)
                 {
                     region.SetPropertiesFrom(shadow);

@@ -18,7 +18,10 @@ namespace ThWSS.Config
             {
                 CreateXmlConfig();
             }
-            config = XElement.Parse(configText);
+            else
+            {
+                config = XElement.Parse(configText);
+            }
             elementNode = config;
         }
 

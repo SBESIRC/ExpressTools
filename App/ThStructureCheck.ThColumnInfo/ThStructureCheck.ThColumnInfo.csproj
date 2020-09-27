@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B5BED9D-48D9-444B-A869-A78D4068D2CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ThColumnInfo</RootNamespace>
+    <AssemblyName>ThColumnInfo</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET40|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET45|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-NET46|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-NET40|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-NET45|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-NET46|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="..\TIANHUA.CSharp.General.targets" />
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\BuildInSituMarkInf.cs" />
+    <Compile Include="Business\BlockReferenceGeometryExtents3d.cs" />
+    <Compile Include="Business\ColumnBindTextManager.cs" />
+    <Compile Include="Business\DistinguishCBH.cs" />
+    <Compile Include="Business\ExtractColumnTable.cs" />
+    <Compile Include="Business\MoveRotateScaleJig.cs" />
+    <Compile Include="Business\PlantCalDataToDraw.cs" />
+    <Compile Include="Business\ThStandardSignManager.cs" />
+    <Compile Include="Business\ThStandardSign.cs" />
+    <Compile Include="Model\CalculationInfo.cs" />
+    <Compile Include="Model\ColorTextInfo.cs" />
+    <Compile Include="Model\ColumnBindText.cs" />
+    <Compile Include="Model\ColumnCustomData.cs" />
+    <Compile Include="Model\FloorInfo.cs" />
+    <Compile Include="Model\ParameterSetInfo.cs" />
+    <Compile Include="Model\PropertyNameInfo.cs" />
+    <Compile Include="Model\SteeBarLevel.cs" />
+    <Compile Include="Model\YjkColumnDataInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Service\CheckResultCadInteractive.cs" />
+    <Compile Include="Service\ColuJointCoreAnalysis.cs" />
+    <Compile Include="Service\CurveDuplicate.cs" />
+    <Compile Include="Service\ExtendLength.cs" />
+    <Compile Include="Service\HoopReinforcementAnalysis.cs" />
+    <Compile Include="Service\ThColunmDocManager.cs" />
+    <Compile Include="ThProgressBar.cs" />
+    <Compile Include="Tools\CurveAnyInsidePoint.cs" />
+    <Compile Include="Tools\TopoService.cs" />
+    <Compile Include="Tools\WpfTopMostTool.cs" />
+    <Compile Include="Validate\Model\AngularReinforcementNumModel.cs" />
+    <Compile Include="Validate\Model\ColumnDataModel.cs" />
+    <Compile Include="Validate\Model\ColumnSpecModel.cs" />
+    <Compile Include="Validate\Model\CompoundStirrupModel.cs" />
+    <Compile Include="Validate\Model\JointCoreReinforceModel.cs" />
+    <Compile Include="Validate\Model\MinimumReinforceRatioEModel.cs" />
+    <Compile Include="Validate\Model\MinimumReinforceRatioBModel.cs" />
+    <Compile Include="Validate\Model\MinimumReinforceRatioAModel.cs" />
+    <Compile Include="Validate\Model\ReinforcementAreaModel.cs" />
+    <Compile Include="Validate\Model\ShearSpanRatioModel.cs" />
+    <Compile Include="Validate\Model\StirrupFullHeightEncryptionModel.cs" />
+    <Compile Include="Validate\Model\StirrupLimbSpaceModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingAModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingBModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingCModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingDModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingEModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingKModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingGModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingHModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingJModel.cs" />
+    <Compile Include="Validate\Model\StirrupMaximumSpacingFModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterAModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterBModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterCModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterFModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterEModel.cs" />
+    <Compile Include="Validate\Model\StirrupMinimumDiameterDModel.cs" />
+    <Compile Include="Validate\Model\StirrupReinforcementAreaModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioHModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioEModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioCModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioBModel.cs" />
+    <Compile Include="Validate\Model\VolumeReinforceRatioAModel.cs" />
+    <Compile Include="Validate\Rules\JointCoreReinforceAreaRule.cs" />
+    <Compile Include="Validate\Rules\MaximumReinforcementRatioBRule.cs" />
+    <Compile Include="Validate\Rules\MaximumReinforcementRatioARule.cs" />
+    <Compile Include="Validate\Rules\AngularReinforcementDiaRule.cs" />
+    <Compile Include="Validate\Rules\AngularReinforcementNumRule.cs" />
+    <Compile Include="Validate\Rules\AxialCompressionRatioRule.cs" />
+    <Compile Include="Validate\Rules\LongShortEdgeRatioRule.cs" />
+    <Compile Include="Validate\Rules\CompoundStirrupRule.cs" />
+    <Compile Include="Validate\Rules\IRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioERule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioDRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioCRule.cs" />
+    <Compile Include="Validate\Rules\SpecConsistRule.cs" />
+    <Compile Include="Validate\Rules\SectionTooSmallRule.cs" />
+    <Compile Include="Validate\Model\MaximumReinforcementRatioModel.cs" />
+    <Compile Include="Validate\Model\AngularReinforcementDiaModel.cs" />
+    <Compile Include="Validate\Model\AxialCompressionRatioModel.cs" />
+    <Compile Include="Validate\Model\ColumnSectionModel.cs" />
+    <Compile Include="Validate\Model\ValidateModel.cs" />
+    <Compile Include="Validate\Model\VerDirForceIronModel.cs" />
+    <Compile Include="Validate\Model\VerDirIronClearSpaceModel.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioBRule.cs" />
+    <Compile Include="Validate\Rules\MinimumReinforcementRatioARule.cs" />
+    <Compile Include="Validate\Rules\ReinforcementAreaRule.cs" />
+    <Compile Include="Validate\Rules\ShearSpanRatioRule.cs" />
+    <Compile Include="Validate\Rules\StirrupFullHeightEncryptionRule.cs" />
+    <Compile Include="Validate\Rules\StirrupLimbSpaceRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingLRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingKRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingIRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingGRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingJRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingHRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingFRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingERule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingDRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingCRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingBRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMaximumSpacingARule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterDRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterCRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterBRule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterARule.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterFRule.cs.cs" />
+    <Compile Include="Validate\Rules\StirrupMinimumDiameterERule.cs.cs" />
+    <Compile Include="Validate\Rules\StirrupReinforcementAreaRule.cs" />
+    <Compile Include="Validate\Rules\VerDirIronClearSpaceBRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioHRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioGRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioFRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioERule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioDRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioCRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioBRule.cs" />
+    <Compile Include="Validate\Rules\VolumeReinforceRatioARule.cs" />
+    <Compile Include="Validate\ThConverter.cs" />
+    <Compile Include="Validate\Rules\VerDirForceIronDiaRule.cs" />
+    <Compile Include="Validate\Rules\VerDirIronClearSpaceARule.cs" />
+    <Compile Include="Tools\BaseFunction.cs" />
+    <Compile Include="ColumnDrawRule.cs" />
+    <Compile Include="Business\ExtractBase.cs" />
+    <Compile Include="Business\ExtractYjkColumnInfo.cs" />
+    <Compile Include="Business\GraphicStyleColumnDetailInfo.cs" />
+    <Compile Include="Business\ExtractColumnPosition.cs" />
+    <Compile Include="Business\IDataSource.cs" />
+    <Compile Include="Business\IDatabaseDataSource.cs" />
+    <Compile Include="Model\ColumnInf.cs" />
+    <Compile Include="Model\CNotifyPropertyChange.cs" />
+    <Compile Include="Model\ColumnRelateInf.cs" />
+    <Compile Include="Model\TableCellInfo.cs" />
+    <Compile Include="Model\DrawColumnInf.cs" />
+    <Compile Include="Business\ThColumnJig.cs" />
+    <Compile Include="Business\ThDrawColumns.cs" />
+    <Compile Include="Business\ThRelateColumn.cs" />
+    <Compile Include="Validate\ThCalculationValidate.cs" />
+    <Compile Include="Validate\ThSpecificationValidate.cs" />
+    <Compile Include="Validate\ThValidate.cs" />
+    <Compile Include="ViewModel\CalculationInfoVM.cs" />
+    <Compile Include="Commands\DelegateCommand .cs" />
+    <Compile Include="DrawableOverruleController.cs" />
+    <Compile Include="Model\ColumnTableRecordInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\SearchFields.cs" />
+    <Compile Include="Tools\ThColumnInfoDbUtils.cs" />
+    <Compile Include="THColumnInfoApp.cs" />
+    <Compile Include="Tools\ThColumnInfoUtils.cs" />
+    <Compile Include="Business\DataStyleColumnDetailInfo.cs" />
+    <Compile Include="ViewModel\CheckResultVM.cs" />
+    <Compile Include="ViewModel\ComponentPropDefineVM.cs" />
+    <Compile Include="ViewModel\ParameterSetVM.cs" />
+    <Compile Include="View\CheckPalette.cs" />
+    <Compile Include="View\CheckResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\CheckResult.Designer.cs">
+      <DependentUpon>CheckResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ColumnParameterSet.xaml.cs" />
+    <Compile Include="View\DataPalette.cs" />
+    <Compile Include="View\DataResult.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\DataResult.Designer.cs">
+      <DependentUpon>DataResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\ImportCalculation.xaml.cs" />
+    <Compile Include="View\ComponentPropDefine.xaml.cs" />
+    <Compile Include="View\ParameterSet.xaml.cs" />
+    <Compile Include="View\ParameterSetTip.xaml.cs" />
+    <Compile Include="View\ValidateRules.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetARX\2010\DotNetARX.csproj">
+      <Project>{5ddfcada-bea4-402c-b3e4-5c7f83c2f09e}</Project>
+      <Name>DotNetARX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThCADCore\ThCADCore.csproj">
+      <Project>{c6ac9e68-9059-4ddd-8fa7-58e2656d572e}</Project>
+      <Name>ThCADCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ExtensionTools.csproj">
+      <Project>{8a2e6fb5-12f2-4406-8109-d9ddc8452dfd}</Project>
+      <Name>ExtensionTools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CheckResult.resx">
+      <DependentUpon>CheckResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\DataResult.resx">
+      <DependentUpon>DataResult.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="View\ColumnParameterSet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ImportCalculation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ComponentPropDefine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ParameterSet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ParameterSetTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Choose>
+    <When Condition="$(DefineConstants.Contains('ACAD2012'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2012.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2012.Net.Interop.x64" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2014'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2014.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2014.Net.Interop.x64" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2016'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD-2016.Net.Base" Version="1.0.0" />
+        <PackageReference Include="AutoCAD-2016.Net.Interop.x86" Version="1.0.0" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains('ACAD2018'))">
+      <ItemGroup>
+        <PackageReference Include="AutoCAD.NET" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Core" Version="22.0.0" />
+        <PackageReference Include="AutoCAD.NET.Model" Version="22.0.0" />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
+    <PackageReference Include="NPOI" Version="2.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Select.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\ComponentPropModify.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ComponentModifyPng.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\DetailDataHide.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\DetailDataShow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ComponentPropModify.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DetailDataHide.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DetailDataShow.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\Check.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Export.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Set.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

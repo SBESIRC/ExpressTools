@@ -1,19 +1,34 @@
 ﻿using System;
 using Linq2Acad;
+using DotNetARX;
 using Autodesk.AutoCAD.Geometry;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace ThEssential.BlockConvert
 {
     public class ThBConvertEngineWeakCurrent : ThBConvertEngine
     {
+        public override ObjectId Insert(string name, Scale3d scale, ThBConvertBlockReference srcBlockReference)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                return acadDatabase.ModelSpace.ObjectId.InsertBlockReference(
+                    "0",
+                    name,
+                    Point3d.Origin,
+                    scale,
+                    0.0,
+                    new Dictionary<string, string>(srcBlockReference.Attributes));
+            }
+        }
+
         public override void MatchProperties(ObjectId blkRef, ThBConvertBlockReference srcBlockReference)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
                 acadDatabase.Element<BlockReference>(blkRef, true).LayerId = ThBConvertDbUtils.BlockLayer();
             }
-
         }
 
         public override void SetDatbaseProperties(ObjectId blkRef, ThBConvertBlockReference srcBlockReference)

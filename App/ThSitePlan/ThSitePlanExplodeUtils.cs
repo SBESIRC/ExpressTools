@@ -31,9 +31,17 @@ namespace ThSitePlan
                     var blockReferences = new List<BlockReference>();
                     foreach(var obj in psr.Value.GetObjectIds())
                     {
-                        var item = acadDatabase.Element<BlockReference>(obj, true);
+                        var item = acadDatabase.Element<BlockReference>(obj);
+                        // 块引用本身不在锁定图层上，但是块定义的图元在锁定图层上
+                        // 将块引用炸开后，其子图元被”释放“出来，放置在锁定图层上
+                        // 暂时忽略掉那些在锁定图层上的块引用
+                        if (item.IsBlockReferenceOnLockedLayer())
+                        {
+                            continue;
+                        }
                         if (item.IsBlockReferenceExplodable())
                         {
+                            item.UpgradeOpen();
                             blockReferences.Add(item);
                         }
                     }

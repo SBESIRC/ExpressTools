@@ -20,14 +20,20 @@ namespace ThSitePlan.Engine
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
+                string file = Path.Combine(ThSitePlanSettingsService.Instance.OutputPath,
+                        (string)configItem.Properties["Name"]);
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
-                var file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
-                    (string)configItem.Properties["Name"]);
                 Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);
-                ThSitePlanPlotUtils.DoPlot(extents2d, file);
+                ThSitePlanPlotUtils.DoPlot(extents2d, file, IsLandscapFrame(frame));
                 return true;
             }
+        }
+
+        public bool IsLandscapFrame(Polyline frame)
+        {
+            Extents3d frameextent = frame.GeometricExtents;
+            return frameextent.Width() > frameextent.Height();
         }
     }
 }

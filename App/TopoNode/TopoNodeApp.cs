@@ -40,8 +40,7 @@ namespace TopoNode
             List<string> beamLayers = null;
             List<string> columnLayers = null;
             var allCurveLayers = Utils.ShowThLayers(out wallLayers, out arcDoorLayers, out windLayers, out validLayers, out beamLayers, out columnLayers);
-
-            var pickPoints = new List<Point3d>();
+            var pickTextNodes = new List<RoomTextNode>();
             List<Polyline> selectPLines = null;
             try
             {
@@ -58,22 +57,40 @@ namespace TopoNode
             // 开始弹出进度条提示
             Progress.Progress.ShowProgress();
             Progress.Progress.SetTip("图纸预处理...");
-            
 
             // 图元预处理
-            var removeEntityLst = Utils.PreProcess2(validLayers);
-            Progress.Progress.SetValue(140);
-            Progress.Progress.SetProgressValue(140);
-            pickPoints = Utils.GetRoomPoints("AD-NAME-ROOM");
-
+            var objs = Utils.PreProcess2(validLayers);
+            //return;
+            //Utils.PostProcess(removeEntityLst);
+            
+            Progress.Progress.SetValue(900);
+            pickTextNodes = Utils.GetRoomTextNodes("AD-NAME-ROOM");
             //foreach (var pt in pickPoints)
             //    Utils.DrawPreviewPoint(pt, "pick");
+            //var ed = AcadApp.DocumentManager.MdiActiveDocument.Editor;
+            //while (true)
+            //{
+            //    PromptPointOptions ppo = new PromptPointOptions("\n请点击");
+            //    ppo.AllowNone = true;
+            //    PromptPointResult ppr = ed.GetPoint(ppo);
+            //    if (ppr.Status == PromptStatus.None)
+            //        break;
+            //    if (ppr.Status == PromptStatus.Cancel)
+            //    {
+            //        return;
+            //    }
+
+            //    var pickPoint = ppr.Value;
+            //    pickPoints.Add(pickPoint);
+            //}
+
+
 
             // 获取相关图层中的数据
             var srcAllCurves = Utils.GetAllCurvesFromLayerNames(allCurveLayers);// allCurves指所有能作为墙一部分的曲线
             if (srcAllCurves == null || srcAllCurves.Count == 0)
             {
-                Utils.PostProcess(removeEntityLst);
+                Utils.PostProcess(objs);
                 Progress.Progress.HideProgress();
                 return;
             }
@@ -82,117 +99,121 @@ namespace TopoNode
             var srcWallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (srcWallAllCurves == null || srcWallAllCurves.Count == 0 || wallLayers.Count == 0)
             {
-                Utils.PostProcess(removeEntityLst);
+                Utils.PostProcess(objs);
                 Progress.Progress.HideProgress();
                 return;
             }
 
-            Progress.Progress.SetValue(150);
-            Progress.Progress.SetProgressValue(150);
+            Progress.Progress.SetValue(1000);
             Progress.Progress.SetTip("区域识别中...");
             var selectCount = selectPLines.Count;
-            double beginPos = 150.0;
-            double FFStep = 490.0 / selectCount;
+            double beginPos = 1000.0;
+            double FFStep = 5400.0 / selectCount;
 
             for (int i = 0; i < selectCount; i++)
             {
                 double profileFindPre = FFStep / 4.0;
                 double smallStep = 0.0;
                 var curSelectPLine = selectPLines[i];
-                var curSelectPoints = Utils.GetValidFPointsFromSelectPLine(pickPoints, curSelectPLine);
-                if (curSelectPoints == null || curSelectPoints.Count == 0)
+                var line2ds = CommonUtils.Polyline2dLines(curSelectPLine);
+                if (CommonUtils.CalcuLoopArea(line2ds) < 0)
+                {
+                    using (var db = AcadDatabase.Active())
+                    {
+                        curSelectPLine.ReverseCurve();
+                    }
+                }
+
+                var curSelectTextNodes = Utils.GetValidFRoomNodeFromSelectPLine(pickTextNodes, curSelectPLine);
+                if (curSelectTextNodes == null || curSelectTextNodes.Count == 0)
                     continue;
                 var allCurves = Utils.GetValidCurvesFromSelectPLine(srcAllCurves, curSelectPLine);
-                try
+
+                foreach (var textNode in curSelectTextNodes)
+                    Utils.DrawPreviewPoint(textNode.textPoint, "pick");
+
+                allCurves = TopoUtils.TesslateCurve(allCurves);
+                allCurves = Utils.ExtendCurves(allCurves, 100);
+
+                var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
+                wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
+
+                // wind线作为墙的一部分
+                if (windLayers != null && windLayers.Count != 0)
                 {
-                    foreach (var pt in curSelectPoints)
-                        Utils.DrawPreviewPoint(pt, "pick");
-
-                    allCurves = TopoUtils.TesslateCurve(allCurves);
-                    Utils.ExtendCurves(allCurves, 10);
-
-                    var wallAllCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(srcWallAllCurves, curSelectPLine);
-                    wallAllCurves = TopoUtils.TesslateCurve(wallAllCurves);
-
-                    // wind线作为墙的一部分
-                    if (windLayers != null && windLayers.Count != 0)
+                    var windCurves = Utils.GetWindDOORCurves(windLayers);
+                    windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
+                    if (windCurves != null && windCurves.Count != 0)
                     {
-                        var windCurves = Utils.GetWindDOORCurves(windLayers);
-                        windCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(windCurves, curSelectPLine);
-                        if (windCurves != null && windCurves.Count != 0)
-                        {
-                            var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
-                            Utils.ExtendCurvesWithTransaction(tesslateWindCurves, 3);
-                            wallAllCurves.AddRange(tesslateWindCurves);
-                            allCurves.AddRange(tesslateWindCurves);
-                        }
+                        var tesslateWindCurves = TopoUtils.TesslateCurve(windCurves);
+                        tesslateWindCurves = Utils.ExtendCurves(tesslateWindCurves, 100);
+                        wallAllCurves.AddRange(tesslateWindCurves);
+                        allCurves.AddRange(tesslateWindCurves);
                     }
-
-                    // door线作为墙的一部分
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-                    {
-                        var doorCurves = Utils.GetWindDOORCurves(arcDoorLayers);
-                        doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
-                        if (doorCurves != null && doorCurves.Count != 0)
-                        {
-                            var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
-                            wallAllCurves.AddRange(tesslateDoorCurves);
-                            allCurves.AddRange(tesslateDoorCurves);
-                        }
-                    }
-
-                    smallStep = profileFindPre / 3.0;
-                    beginPos += smallStep;
-                    Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
-                    // door 内门中的数据
-                    if (arcDoorLayers != null && arcDoorLayers.Count != 0)
-                    {
-                        var doorBounds = Utils.GetBoundsFromDOORLayerCurves(arcDoorLayers);
-                        doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
-                        var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, arcDoorLayers.First());
-
-                        if (doorInsertCurves != null && doorInsertCurves.Count != 0)
-                        {
-                            allCurves.AddRange(doorInsertCurves);
-                            Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
-                            //removeEntityLst.AddRange(doorInsertCurves);
-                        }
-                    }
-
-                    beginPos += smallStep;
-                    Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
-                    // wind 中的数据
-                    if (windLayers != null && windLayers.Count != 0)
-                    {
-                        var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
-                        windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
-                        var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
-
-                        if (windInsertCurves != null && windInsertCurves.Count != 0)
-                        {
-                            Utils.DrawProfile(windInsertCurves, "windInsertCurves");
-                            allCurves.AddRange(windInsertCurves);
-                        }
-                    }
-
-                    allCurves = CommonUtils.RemoveCollinearLines(allCurves);
                 }
-                catch (System.Exception e)
+
+                // door线作为墙的一部分
+                if (arcDoorLayers != null && arcDoorLayers.Count != 0)
                 {
+                    var doorCurves = Utils.GetWindDOORCurves(arcDoorLayers);
+                    doorCurves = Utils.GetValidCurvesFromSelectPLineNoSelf(doorCurves, curSelectPLine);
+                    if (doorCurves != null && doorCurves.Count != 0)
+                    {
+                        var tesslateDoorCurves = TopoUtils.TesslateCurve(doorCurves);
+                        tesslateDoorCurves = Utils.ExtendCurves(tesslateDoorCurves, 100);
+                        wallAllCurves.AddRange(tesslateDoorCurves);
+                        allCurves.AddRange(tesslateDoorCurves);
+                    }
+                }
+
+                smallStep = profileFindPre / 3.0;
+                beginPos += smallStep;
+                Progress.Progress.SetValue((int)beginPos);
+                // door 内门中的数据
+                if (arcDoorLayers != null && arcDoorLayers.Count != 0)
+                {
+                    var doorBounds = Utils.GetBoundsFromDOORLayerCurves(arcDoorLayers);
+                    doorBounds = Utils.GetValidBoundsFromSelectPLine(doorBounds, curSelectPLine);
+                    var doorInsertCurves = Utils.InsertDoorRelatedCurveDatas(doorBounds, allCurves, arcDoorLayers.First());
+
+                    if (doorInsertCurves != null && doorInsertCurves.Count != 0)
+                    {
+                        doorInsertCurves = Utils.ExtendCurves(doorInsertCurves, 100);
+                        allCurves.AddRange(doorInsertCurves);
+                        Utils.DrawProfile(doorInsertCurves, "doorInsertCurves");
+                        //removeEntityLst.AddRange(doorInsertCurves);
+                    }
                 }
 
                 beginPos += smallStep;
                 Progress.Progress.SetValue((int)beginPos);
-                Progress.Progress.SetProgressValue((int)beginPos);
+                // wind 中的数据
+                if (windLayers != null && windLayers.Count != 0)
+                {
+                    var windBounds = Utils.GetBoundsFromWINDLayerCurves(windLayers);
+                    windBounds = Utils.GetValidBoundsFromSelectPLine(windBounds, curSelectPLine);
+                    var windInsertCurves = Utils.InsertDoorRelatedCurveDatas(windBounds, wallAllCurves, windLayers.First());
+
+                    if (windInsertCurves != null && windInsertCurves.Count != 0)
+                    {
+                        windInsertCurves = Utils.ExtendCurves(windInsertCurves, 100);
+                        Utils.DrawProfile(windInsertCurves, "windInsertCurves");
+                        allCurves.AddRange(windInsertCurves);
+                    }
+                }
+
+                //Utils.ExtendCurves(allCurves, 5);
+                allCurves = CommonUtils.RemoveCollinearLines(allCurves);
+
+                beginPos += smallStep;
+                Progress.Progress.SetValue((int)beginPos);
                 //Utils.DrawProfile(allCurves, "allCurves");
                 //Utils.PostProcess(removeEntityLst);
                 //return;
                 //Utils.DrawProfile(allCurves, "allCurves");
                 //return;
 
-                var inc = (profileFindPre * 3.0) / curSelectPoints.Count;
+                var inc = (profileFindPre * 3.0) / curSelectTextNodes.Count;
                 var hasPutPolys = new List<Tuple<Point3d, double>>();
 
                 //var profiles = TopoUtils.MakeProfilesFromPoints(allCurves, pickPoints);
@@ -208,21 +229,29 @@ namespace TopoNode
                 //    }
                 //}
 
-                foreach (var pt in curSelectPoints)
+                foreach (var selectTextNode in curSelectTextNodes)
                 {
                     beginPos += inc;
                     Progress.Progress.SetValue((int)beginPos);
-                    Progress.Progress.SetProgressValue((int)beginPos);
 
+                    //Utils.DrawProfile(allCurves, "SRCaLL");
+                    //return;
                     try
                     {
-                        var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, pt);
+                        var aimProfile = TopoUtils.MakeProfileFromPoint2(allCurves, selectTextNode.textPoint);
                         if (aimProfile == null)
                             continue;
 
                         if (CommonUtils.HasPolylines(hasPutPolys, aimProfile.profile))
                             continue;
 
+                        // 包含水和井且面积大于3平米，则布置
+                        var roomTextName = selectTextNode.textString;
+                        if (roomTextName.Contains("水") && roomTextName.Contains("井"))
+                        {
+                            if ((Math.Abs(aimProfile.profile.Area) / 1e6) < 3)
+                                continue;
+                        }
                         Utils.DrawProfile(new List<Curve>() { aimProfile.profile }, "outProfile");
                         // Utils.DrawTextProfile(outProfile.profileCurves, outProfile.profileLayers);
                         if (aimProfile.InnerPolylineLayers.Count != 0)
@@ -240,9 +269,8 @@ namespace TopoNode
                 }
             }
 
-            Utils.PostProcess(removeEntityLst);
-            Progress.Progress.SetValue(650);
-            Progress.Progress.SetProgressValue(650);
+            Utils.PostProcess(objs);
+            Progress.Progress.SetValue(6500);
             Progress.Progress.HideProgress();
             //Utils.ErasePreviewPoint(objCollect);
         }
@@ -300,7 +328,7 @@ namespace TopoNode
             }
 
             allCurves = TopoUtils.TesslateCurve(allCurves);
-            Utils.ExtendCurves(allCurves, 10);
+            Utils.ExtendCurves(allCurves, 5);
             // wall 中的数据
             var wallAllCurves = Utils.GetAllCurvesFromLayerNames(wallLayers);
             if (wallAllCurves == null || wallAllCurves.Count == 0 || wallLayers.Count == 0)

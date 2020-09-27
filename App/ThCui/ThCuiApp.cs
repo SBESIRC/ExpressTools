@@ -570,7 +570,7 @@ namespace TianHua.AutoCAD.ThCui
                 try
                 {
                     var printerDesc = Path.GetFileName(file);
-                    var printerDescPath = Path.Combine(roamableRootPlottersPath, printerDesc);
+                    var printerDescPath = Path.Combine(roamableRootPlottersPath, "PMP Files", printerDesc);
                     if (bOverride)
                     {
                         File.Copy(file, printerDescPath, true);
@@ -587,7 +587,7 @@ namespace TianHua.AutoCAD.ThCui
                 try
                 {
                     var printerStyleSheet = Path.GetFileName(file);
-                    var printerStyleSheetPath = Path.Combine(roamableRootPlottersPath, printerStyleSheet);
+                    var printerStyleSheetPath = Path.Combine(roamableRootPlottersPath, "Plot Styles", printerStyleSheet);
                     if (bOverride && !File.Exists(printerStyleSheetPath))
                     {
                         File.Copy(file, printerStyleSheetPath);
