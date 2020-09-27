@@ -60,6 +60,7 @@ namespace TianHua.FanSelection.UI
             {
                 Model.QueryValue = 0;
             }
+            SetFinalValue();
         }
 
         public void SetFinalValue()
