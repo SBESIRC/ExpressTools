@@ -273,7 +273,7 @@ namespace TianHua.FanSelection.UI
                 _SafetyFactor = 1.1;
             }
 
-            var _ListMotor = GetListMotorPower(m_Fan);
+            var _ListMotor = GetListMotorPowerBySon(m_Fan);
             var _MotorEfficiency = PubVar.g_ListMotorEfficiency.Find(p => p.Key == m_Fan.VentConnect);
             var _Tmp = _ShaftPower / 0.85;
             var _ListMotorPower = _ListMotor.FindAll(p => FuncStr.NullToDouble(p.Power) >= _Tmp && p.MotorEfficiencyLevel == m_Fan.EleLev && p.Rpm == FuncStr.NullToStr(m_Fan.MotorTempo));
@@ -286,7 +286,7 @@ namespace TianHua.FanSelection.UI
             if (_MotorPower != null)
             {
                 LabMotorPower.Text = m_Fan.FanModelMotorPower + "/" + _MotorPower.Power;
-           
+
             }
 
             _FanMain.AirVolumeDescribe = LabAir.Text;
@@ -422,10 +422,100 @@ namespace TianHua.FanSelection.UI
 
         }
 
+        private List<MotorPower> GetListMotorPowerBySon(FanDataModel _FanMian)
+        {
+            if (_FanMian.FanModelName == string.Empty) { return m_ListMotorPowerDouble; }
+            if (_FanMian.VentStyle == "轴流")
+            {
+                if (_FanMian.FanModelName.Contains("II"))
+                {
+                    return m_ListMotorPowerDouble.FindAll(p => p.Axial2LowSpeed == "1");
+                }
+                if (_FanMian.FanModelName.Contains("IV"))
+                {
+                    return m_ListMotorPowerDouble.FindAll(p => p.Axial4LowSpeed == "1");
+                }
+            }
+            else
+            {
+                if (_FanMian.FanModelName.Contains("II"))
+                {
+                    return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge2LowSpeed == "1");
+                }
+                if (_FanMian.FanModelName.Contains("IV"))
+                {
+                    return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge4LowSpeed == "1");
+                }
+            }
+            return m_ListMotorPowerDouble;
+        }
+
+
+
+
+
         private List<MotorPower> GetListMotorPower(FanDataModel _FanDataModel)
         {
             if (_FanDataModel.Control == "双速")
             {
+                if (_FanDataModel.FanModelName == string.Empty) { return m_ListMotorPowerDouble; }
+
+                if (_FanDataModel.VentStyle == "轴流")
+                {
+                    if (_FanDataModel.PID == "0")
+                    {
+                        if (_FanDataModel.FanModelName.Contains("II"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Axial2HighSpeed == "1");
+                        }
+                        if (_FanDataModel.FanModelName.Contains("IV"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Axial4HighSpeed == "1");
+                        }
+                    }
+                    else
+                    {
+                        if (_FanDataModel.FanModelName.Contains("II"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Axial2LowSpeed == "1");
+                        }
+                        if (_FanDataModel.FanModelName.Contains("IV"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Axial4LowSpeed == "1");
+                        }
+                    }
+                }
+                else
+                {
+                    if (_FanDataModel.PID == "0")
+                    {
+                        if (_FanDataModel.FanModelName.Contains("II"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge2HighSpeed == "1");
+                        }
+                        if (_FanDataModel.FanModelName.Contains("IV"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge4HighSpeed == "1");
+                        }
+                    }
+                    else
+                    {
+                        if (_FanDataModel.FanModelName.Contains("II"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge2LowSpeed == "1");
+                        }
+                        if (_FanDataModel.FanModelName.Contains("IV"))
+                        {
+                            return m_ListMotorPowerDouble.FindAll(p => p.Centrifuge4LowSpeed == "1");
+                        }
+                    }
+                }
+
+
+
+
+
+
                 return m_ListMotorPowerDouble;
             }
             else

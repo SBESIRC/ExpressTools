@@ -267,6 +267,19 @@ namespace TianHua.FanSelection.UI
                 }
             }
 
+            if (e.Column.FieldName == "FanModelName")
+            {
+                var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
+                var _Fan = m_ListFan.Find(p => p.ID == _ID);
+                if (_Fan == null) { return; }
+                if (_Fan.FanModelName == string.Empty && _Fan.SplitAirVolume != 0 && _Fan.WindResis != 0)
+                {
+                    if (_Fan.PID == "0")
+                    {
+                        e.DisplayText = "无此风机";
+                    }
+                }
+            }
 
 
 
