@@ -58,6 +58,7 @@ namespace TianHua.FanSelection.UI
 
                 m_FanDesign.Name = SetFanDesignDataName(m_FanDesign);
                 m_FanDesign.Path = GetPath(m_FanDesign);
+                m_ListFanDesign.ForEach(p => p.Status = "0");
                 m_ListFanDesign.Insert(0, m_FanDesign);
             }
             if (m_ActionType == "另存")
@@ -87,7 +88,7 @@ namespace TianHua.FanSelection.UI
             Gdv.FocusedColumn = Gdv.Columns["Name"];
             Gdv.ShowEditor();
 
- 
+
         }
 
         public string SetFanDesignDataName(FanDesignDataModel _FanData)
@@ -127,8 +128,9 @@ namespace TianHua.FanSelection.UI
         private void ComBoxName_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
         {
             if (m_ListFanDesign == null || m_ListFanDesign.Count == 0) return;
-            if (m_ActionType == "另存") { return; }
+            if (m_ActionType == "另存" || m_ActionType == "保存") { return; }
             var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
+
             if (m_CurrentFanDesign.ID == _FanDesign.ID) { XtraMessageBox.Show(" 当前打开文件无法进行删除！ ", "提示"); return; }
             if (_FanDesign.Status == "1") { XtraMessageBox.Show(" 未保存文件无法进行删除！ ", "提示"); return; }
             if (XtraMessageBox.Show(" 设计数据[" + _FanDesign.Name + "]将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -180,9 +182,21 @@ namespace TianHua.FanSelection.UI
 
                 var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
 
-                if (m_CurrentFanDesign != null && m_CurrentFanDesign.ID == _FanDesign.ID) { return; }
+                //if (m_CurrentFanDesign != null && m_CurrentFanDesign.ID == _FanDesign.ID) { return; }
 
-                _FanDesign.Path = GetPath(m_FanDesign);
+                if (m_ActionType == "打开")
+                {
+                    var _Path = _FanDesign.Path;
+                    _FanDesign.Path = GetPath(_FanDesign);
+                    File.Move(_Path, _FanDesign.Path);
+                }
+                else
+                {
+                    _FanDesign.Path = GetPath(m_FanDesign);
+                }
+
+
+
             }
         }
 
@@ -208,7 +222,7 @@ namespace TianHua.FanSelection.UI
             (Gdv as ColumnView).ActiveFilterString = _FilterString;
         }
 
-  
+
 
         private void Gdv_ValidatingEditor(object sender, DevExpress.XtraEditors.Controls.BaseContainerValidateEditorEventArgs e)
         {
@@ -234,7 +248,12 @@ namespace TianHua.FanSelection.UI
         {
             var _FanDesignDataModel = Gdv.GetFocusedRow() as FanDesignDataModel;
             if (_FanDesignDataModel == null) { return; }
-            if (m_ActionType == "另存")
+
+ 
+
+
+
+            if (m_ActionType == "另存" || m_ActionType == "保存")
             {
                 var _FocusedColumn = Gdv.FocusedColumn;
                 if (_FanDesignDataModel.Status != "1")

@@ -2068,6 +2068,8 @@ namespace TianHua.FanSelection.UI
             else if (_Result == DialogResult.No)
             {
                 NewFanList();
+                this.Text = "风机选型";
+                m_FanDesign = null;
             }
         }
 
@@ -2122,7 +2124,7 @@ namespace TianHua.FanSelection.UI
                         || _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.LowUnsafe
                         || _Fan.FanSelectionStateInfo.fanSelectionState == FanSelectionState.HighAndLowBothUnsafe)
                     {
-                        e.Appearance.ForeColor = Color.Gold;
+                        e.Appearance.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
                         e.Appearance.Font = new System.Drawing.Font(e.Appearance.Font, e.Appearance.Font.Style | FontStyle.Italic);
                     }
 
