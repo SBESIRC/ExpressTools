@@ -53,7 +53,10 @@ namespace TianHua.FanSelection.Function
                 {
                     if (model.Distance(hotspot) < 1E-10)
                     {
-                        pickedModel.Add(model, model.GetClosestVertexTo(hotspot));
+                        if (!model.IsEmpty)
+                        {
+                            pickedModel.Add(model, model.GetClosestVertexTo(hotspot));
+                        }
                     }
                 }
             }
