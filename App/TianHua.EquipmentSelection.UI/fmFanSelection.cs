@@ -1762,6 +1762,7 @@ namespace TianHua.FanSelection.UI
         {
             if (m_ListFan == null || m_ListFan.Count == 0) { return; }
             TreeList.PostEditor();
+            var _TemFanDesign = m_FanDesign;
             m_FanDesign = null;
             if (m_FanDesign == null || FuncStr.NullToStr(m_FanDesign.Name) == string.Empty)
             {
@@ -1776,6 +1777,10 @@ namespace TianHua.FanSelection.UI
                         m_FanDesign = _fmDesignData.m_FanDesign;
                         this.Text = "风机选型 - " + _fmDesignData.m_FanDesign.Name;
                     }
+                }
+                else
+                {
+                    m_FanDesign = _TemFanDesign;
                 }
             }
 

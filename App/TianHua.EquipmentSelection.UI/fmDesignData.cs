@@ -131,7 +131,7 @@ namespace TianHua.FanSelection.UI
             if (m_ActionType == "另存" || m_ActionType == "保存") { return; }
             var _FanDesign = Gdv.GetRow(Gdv.FocusedRowHandle) as FanDesignDataModel;
 
-            if (m_CurrentFanDesign.ID == _FanDesign.ID) { XtraMessageBox.Show(" 当前打开文件无法进行删除！ ", "提示"); return; }
+            if (m_CurrentFanDesign != null && m_CurrentFanDesign.ID == _FanDesign.ID) { XtraMessageBox.Show(" 当前打开文件无法进行删除！ ", "提示"); return; }
             if (_FanDesign.Status == "1") { XtraMessageBox.Show(" 未保存文件无法进行删除！ ", "提示"); return; }
             if (XtraMessageBox.Show(" 设计数据[" + _FanDesign.Name + "]将被删除，是否继续？ ", "提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
