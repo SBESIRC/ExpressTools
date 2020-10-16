@@ -348,23 +348,48 @@ namespace TianHua.FanSelection.UI
                 }
 
             }
-            fmAirVolumeCalc _fmAirVolumeCalc = new fmAirVolumeCalc();
 
-            _fmAirVolumeCalc.InitForm(_Fan);
-            if (_fmAirVolumeCalc.ShowDialog() == DialogResult.OK)
+            //-消防排烟
+            //-消防排烟兼平时排风的第一行
+            if ((_Fan.Scenario == "消防排烟" || _Fan.Scenario == "消防排烟兼平时排风") && _Fan.PID == "0")
             {
-                if (_fmAirVolumeCalc.m_ListFan != null && _fmAirVolumeCalc.m_ListFan.Count > 0)
+
+
+                fmAirVolumeCalc_Exhaust _fmAirVolumeCalc = new fmAirVolumeCalc_Exhaust();
+
+                _fmAirVolumeCalc.InitForm(_Fan);
+
+              if (_fmAirVolumeCalc.ShowDialog() != DialogResult.OK)
                 {
-                    _Fan.AirVolume = _fmAirVolumeCalc.m_ListFan.First().AirVolume;
-                    _Fan.AirCalcFactor = _fmAirVolumeCalc.m_ListFan.First().AirCalcFactor;
-                    _Fan.AirCalcValue = _fmAirVolumeCalc.m_ListFan.First().AirCalcValue;
-                    _Fan.FanVolumeModel = _fmAirVolumeCalc.m_ListFan.First().FanVolumeModel;
+                    return;
                 }
+                _Fan.ExhaustModel = _fmAirVolumeCalc.m_Fan.ExhaustModel;
+                _Fan.AirVolume = _fmAirVolumeCalc.m_Fan.AirVolume;
+                _Fan.AirCalcFactor = _fmAirVolumeCalc.m_Fan.AirCalcFactor;
+                _Fan.AirCalcValue = _fmAirVolumeCalc.m_Fan.AirCalcValue;
 
                 SetFanModel();
-                //FanSelectionInfoError(_Fan);
-                m_fmOverView.DataSourceChanged(m_ListFan);
                 TreeList.Refresh();
+
+            }
+            else
+            {
+                fmAirVolumeCalc _fmAirVolumeCalc = new fmAirVolumeCalc();
+
+                _fmAirVolumeCalc.InitForm(_Fan);
+                if (_fmAirVolumeCalc.ShowDialog() == DialogResult.OK)
+                {
+                    if (_fmAirVolumeCalc.m_ListFan != null && _fmAirVolumeCalc.m_ListFan.Count > 0)
+                    {
+                        _Fan.AirVolume = _fmAirVolumeCalc.m_ListFan.First().AirVolume;
+                        _Fan.AirCalcFactor = _fmAirVolumeCalc.m_ListFan.First().AirCalcFactor;
+                        _Fan.AirCalcValue = _fmAirVolumeCalc.m_ListFan.First().AirCalcValue;
+                        _Fan.FanVolumeModel = _fmAirVolumeCalc.m_ListFan.First().FanVolumeModel;
+                    }
+
+                    SetFanModel();
+                    TreeList.Refresh();
+                }
             }
         }
 
@@ -449,10 +474,10 @@ namespace TianHua.FanSelection.UI
             {
                 if (fanmodel.Control == "双速")
                 {
-                    var picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                    var picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParametersDouble, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                     //if (!picker.IsFound())
                     //{
-                    //    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                    //    picker = new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                     //    if (!picker.IsFound())
                     //    {
                     //        fanmodel.Control = "单速";
@@ -462,12 +487,12 @@ namespace TianHua.FanSelection.UI
                 }
                 else
                 {
-                    return new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                    return new ThFanSelectionAxialModelPicker(m_ListAxialFanParameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                 }
             }
             else
             {
-                return new ThFanSelectionAxialModelPicker(lowaxialfanparameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                return new ThFanSelectionAxialModelPicker(lowaxialfanparameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
             }
         }
 
@@ -597,10 +622,10 @@ namespace TianHua.FanSelection.UI
                 {
                     if (fanmodel.Control == "双速")
                     {
-                        var picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                        var picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                         //if (!picker.IsFound())
                         //{
-                        //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                        //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                         //    if (!picker.IsFound())
                         //    {
                         //        fanmodel.Control = "单速";
@@ -610,7 +635,7 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        return new ThFanSelectionModelPicker(m_ListFanParameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                        return new ThFanSelectionModelPicker(m_ListFanParameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                     }
 
                 }
@@ -624,14 +649,13 @@ namespace TianHua.FanSelection.UI
                     }
                     else
                     {
-                        return new ThFanSelectionModelPicker(m_ListFanParametersSingle, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
+                        return new ThFanSelectionModelPicker(m_ListFanParametersSingle, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
                     }
                 }
             }
             else
             {
-                return new ThFanSelectionModelPicker(lowfugefanparameters, fanmodel, new List<double>() { fanmodel.AirVolume, fanmodel.WindResis, 0 });
-                ;
+                return new ThFanSelectionModelPicker(lowfugefanparameters, fanmodel, new List<double>() { fanmodel.GetAirVolume(), fanmodel.WindResis, 0 });
             }
         }
 
@@ -806,11 +830,11 @@ namespace TianHua.FanSelection.UI
                     {
                         if (_Fan.Control == "双速")
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersDouble, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParametersDouble;
                             //if (!picker.IsFound())
                             //{
-                            //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.AirVolume, _Fan.WindResis, 0 });
+                            //    picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                             //    if (!picker.IsFound())
                             //    {
                             //        _Fan.Control = "单速";
@@ -821,7 +845,7 @@ namespace TianHua.FanSelection.UI
                         }
                         else
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParameters, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParameters;
                         }
 
@@ -835,7 +859,7 @@ namespace TianHua.FanSelection.UI
                         }
                         else
                         {
-                            picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                            picker = new ThFanSelectionModelPicker(m_ListFanParametersSingle, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                             _ListFanParameters = m_ListFanParametersSingle;
                         }
                     }
@@ -896,7 +920,7 @@ namespace TianHua.FanSelection.UI
                     //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
                     //var parentfan = m_ListFan.Find(p => p.ID == _Fan.PID);
 
-                    picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                     if (picker != null)
                     {
                         if (picker.IsFound())
@@ -910,7 +934,7 @@ namespace TianHua.FanSelection.UI
                         }
                     }
 
-                    var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                    var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.GetAirVolume(), parent.WindResis, 0 });
                     SetFugeSelectionStateInfo(parent, _Fan, picker, parentpick, _ListFanParameters);
                     TreeList.RefreshNode(TreeList.FocusedNode);
                 }
@@ -933,7 +957,7 @@ namespace TianHua.FanSelection.UI
                         //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
                         //var parentfan = m_ListFan.Find(p => p.ID == _Fan.PID);
 
-                        picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                        picker = new ThFanSelectionModelPicker(_ListFanParameters, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                         if (picker != null)
                         {
                             if (picker.IsFound())
@@ -947,7 +971,7 @@ namespace TianHua.FanSelection.UI
                             }
                         }
 
-                        var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.AirVolume, parent.WindResis, 0 });
+                        var parentpick = new ThFanSelectionModelPicker(m_ListFanParametersDouble, parent, new List<double>() { parent.GetAirVolume(), parent.WindResis, 0 });
                         SetFugeSelectionStateInfo(parent, _Fan, picker, parentpick, _ListFanParameters);
                         TreeList.RefreshNode(TreeList.FocusedNode);
                     }
@@ -967,7 +991,7 @@ namespace TianHua.FanSelection.UI
                     //若当前节点为低速档
                     //先找到他的高速档父节点，并获取高速档选出的风机CCCF
                     //用高速档选型风机的CCCF过滤源数据，从而获取用于低速档选型的曲线(即父节点选型曲线对应的低速档曲线)
-                    picker = new ThFanSelectionAxialModelPicker(_ListAxialFanParameters, _Fan, new List<double>() { _Fan.SplitAirVolume, _Fan.WindResis, 0 });
+                    picker = new ThFanSelectionAxialModelPicker(_ListAxialFanParameters, _Fan, new List<double>() { _Fan.GetAirVolume(), _Fan.WindResis, 0 });
                     if (picker != null)
                     {
                         if (picker.IsFound())

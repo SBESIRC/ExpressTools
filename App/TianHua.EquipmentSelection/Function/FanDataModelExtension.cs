@@ -216,5 +216,14 @@ namespace TianHua.FanSelection.Function
 
             return false;
         }
+
+        public static int GetAirVolume(this FanDataModel model)
+        {
+            if (model.Scenario == "消防加压送风")
+            {
+                return model.SplitAirVolume;
+            }
+            return model.AirVolume;
+        }
     }
 }

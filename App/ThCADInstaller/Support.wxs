@@ -78,6 +78,12 @@
           <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" Guid="{FFAB3BF2-0266-4603-B88B-D64E06ADBB3D}" Win64="yes">
             <File Id="FILE_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" Source="$(var.AutoloaderContentsPath)\Support\电机功率-双速.json" KeyPath="yes" />
           </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_HRR" Guid="{CAEFA342-E8E6-47A1-9BFB-7C0EB04AB09E}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Equipment_HRR" Source="$(var.AutoloaderContentsPath)\Support\火灾达到静态时的热释放速率.json" KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autoloader_PackageContents_Support_Equipment_Minimum_Smoke_Emission" Guid="{476B199B-7697-4C5B-A3E8-1588E45605FE}" Win64="yes">
+              <File Id="FILE_Autoloader_PackageContents_Support_Equipment_Minimum_Smoke_Emission" Source="$(var.AutoloaderContentsPath)\Support\最小排烟量.json" KeyPath="yes" />
+          </Component>
       </DirectoryRef>
         <DirectoryRef Id="DIR_Autoloader_Contents_Support_DesignData">
           <Component Id="CMP_Autoloader_PackageContents_Support_DesignData_FanCalc" Guid="{35F09808-BBF0-487A-981C-7235355DC1BD}" Win64="yes">
@@ -121,6 +127,8 @@
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HTFC_Fan_Parameter_Double_Speed" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_AXIAL_Fan_Parameter_Double_Speed" />
             <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Motor_Power_Double_Speed" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_HRR" />
+            <ComponentRef Id="CMP_Autoloader_PackageContents_Support_Equipment_Minimum_Smoke_Emission" />
         </ComponentGroup>
     </Fragment>
 </Wix>

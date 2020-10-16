@@ -34,12 +34,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ExhaustCalcModel.cs" />
+    <Compile Include="Entity\ExhaustSpaceInfo.cs" />
     <Compile Include="Entity\FanDataModelBitmap.cs" />
     <Compile Include="Entity\FanDataModelNumber.cs" />
     <Compile Include="Entity\FanSelectionState.cs" />
     <Compile Include="Entity\FireFrontModel.cs" />
     <Compile Include="Entity\FontroomNaturalModel.cs" />
     <Compile Include="Entity\FontroomWindModel.cs" />
+    <Compile Include="Entity\HeatReleaseInfo.cs" />
     <Compile Include="Entity\ModelValidator.cs" />
     <Compile Include="Entity\RefugeFontRoomModel.cs" />
     <Compile Include="Entity\RefugeRoomAndCorridorModel.cs" />
