@@ -35,7 +35,7 @@ namespace TianHua.FanSelection.UI
 
             if (!m_Fan.ExhaustModel.IsNull())
             {
-                TxtCalcValue.Text = FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Axial_CalcAirVolum.NullToDouble(), Math.Max(m_Fan.ExhaustModel.Spill_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.Window_CalcAirVolum.NullToDouble())));
+                TxtCalcValue.Text = GetTxtCalcValue();
                 switch (m_Fan.ExhaustModel.ExhaustCalcType)
                 {
                     case "空间-净高小于等于6m":
@@ -64,6 +64,10 @@ namespace TianHua.FanSelection.UI
                         break;
                 }
             }
+            else
+            {
+                TxtCalcValue.Text = "无";
+            }
         }
 
         private void BtnCalc_Click(object sender, EventArgs e)
@@ -74,7 +78,6 @@ namespace TianHua.FanSelection.UI
                 m_Fan.ExhaustModel = new Model.ExhaustCalcModel();
                 m_Fan.ExhaustModel.SpatialTypes = "办公室、学校、客厅、走道";
             }
-            this.TxtCalcValue.Text = m_Fan.ExhaustModel.Axial_CalcAirVolum;
             _fmExhaustCalc.InitForm(m_Fan, m_ScenarioType);
             if (_fmExhaustCalc.ShowDialog() != DialogResult.OK)
             {
@@ -83,7 +86,11 @@ namespace TianHua.FanSelection.UI
             m_Fan.ExhaustModel = _fmExhaustCalc.m_Fan.ExhaustModel;
             if (!m_Fan.ExhaustModel.IsNull())
             {
-                TxtCalcValue.Text = FuncStr.NullToStr(m_Fan.ExhaustModel.Final_CalcAirVolum);
+                TxtCalcValue.Text = GetTxtCalcValue();
+            }
+            else
+            {
+                TxtCalcValue.Text = "无";
             }
         }
 
@@ -92,6 +99,18 @@ namespace TianHua.FanSelection.UI
             var _Rad = sender as RadioButton;
             if (_Rad == null) { return; }
             m_ScenarioType = _Rad.Text;
+        }
+
+        private string GetTxtCalcValue()
+        {
+            if (m_Fan.ExhaustModel.Final_CalcAirVolum == "无" || m_Fan.ExhaustModel.MaxSmokeExtraction == "无")
+            {
+                return "无";
+            }
+            else
+            {
+                return TxtCalcValue.Text = FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MaxSmokeExtraction.NullToDouble()));
+            }
         }
     }
 }

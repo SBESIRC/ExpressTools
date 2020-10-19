@@ -235,7 +235,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         }
 
         //计算排烟量
-        public static double GetCalcAirVolum(ExhaustCalcModel model)
+        public static string GetCalcAirVolum(ExhaustCalcModel model)
         {
             double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
             double mp = 0;
@@ -254,7 +254,8 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                     break;
             }
             double t = 293.15 + qc / (mp / 1.01);
-            return Math.Round(3600*mp * t / (1.2 * 293.15),0);
+            double calcairvolum = Math.Round(3600 * mp * t / (1.2 * 293.15), 0);
+            return double.IsNaN(calcairvolum)? "无": calcairvolum.NullToStr();
         }
 
         //计算排烟位置系数
@@ -271,7 +272,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         }
 
         //计算最大允许排烟
-        public static double GetMaxSmoke(ExhaustCalcModel model)
+        public static string GetMaxSmoke(ExhaustCalcModel model)
         {
             double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
             double dt = 0;
@@ -287,9 +288,10 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                     dt = qc / (GetWindowCalcAirVolum(model) / 1.01);
                     break;
                 default:
-                    return 0;
+                    return "无";
             }
-            return Math.Round(3600*4.16 * model.SmokeFactorValue.NullToDouble() * Math.Pow(model.SmokeThickness.NullToDouble(), 2.5) * Math.Pow(dt / 293.15, 0.5) , 1);
+            double maxsmoke = Math.Round(3600 * 4.16 * model.SmokeFactorValue.NullToDouble() * Math.Pow(model.SmokeThickness.NullToDouble(), 2.5) * Math.Pow(dt / 293.15, 0.5), 1);
+            return double.IsNaN(maxsmoke)? "无": maxsmoke.NullToStr();
         }
 
         //判断选型系数

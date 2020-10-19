@@ -40,17 +40,29 @@ namespace TianHua.FanSelection.UI
             this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
             m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
-            this.ComBoxPlume.SelectedIndex = 0;
-            m_Fan.ExhaustModel.PlumeSelection = this.ComBoxPlume.Text;
+            if (m_Fan.ExhaustModel.PlumeSelection.IsNullOrEmptyOrWhiteSpace())
+            {
+                this.ComBoxPlume.SelectedIndex = 0;
+            }
+            else
+            {
+                this.ComBoxPlume.Text= m_Fan.ExhaustModel.PlumeSelection;
+            }
 
             this.TxtLength.Text = m_Fan.ExhaustModel.SmokeLength;
             this.TxtWidth.Text = m_Fan.ExhaustModel.SmokeWidth;
             this.TxtDiameter.Text = m_Fan.ExhaustModel.SmokeDiameter;
             this.TxtSmokePosition.Text = m_Fan.ExhaustModel.SmokeFactorValue;
-            this.ComBoxWZ.SelectedIndex = 0;
-            m_Fan.ExhaustModel.SmokeFactorOption = this.ComBoxWZ.Text;
+            if (m_Fan.ExhaustModel.SmokeFactorOption.IsNullOrEmptyOrWhiteSpace())
+            {
+                this.ComBoxWZ.SelectedIndex = 0;
+            }
+            else
+            {
+                this.ComBoxWZ.Text = m_Fan.ExhaustModel.SmokeFactorOption;
+            }
             this.TxtSmokeLayerThickness.Text = m_Fan.ExhaustModel.SmokeThickness;
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel).ToString();
+            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
             switch (type)
             {
                 case "空间-净高小于等于6m":
@@ -180,13 +192,13 @@ namespace TianHua.FanSelection.UI
         private void SmokeLayerThicknessChanged(object sender, EventArgs e)
         {
             m_Fan.ExhaustModel.SmokeThickness = this.TxtSmokeLayerThickness.Text;
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel).ToString();
+            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
             m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
 
         private void SmokePositionChanged(object sender, EventArgs e)
         {
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel).ToString();
+            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
             m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
 
@@ -211,7 +223,7 @@ namespace TianHua.FanSelection.UI
             this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
             m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel).ToString();
+            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
             m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
     }

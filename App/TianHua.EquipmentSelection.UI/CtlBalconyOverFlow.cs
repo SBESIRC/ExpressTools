@@ -62,7 +62,7 @@ namespace TianHua.FanSelection.UI
             {
                 return;
             }
-            this.TxtCalculateVolume.Text = fmExhaustCalculator.GetCalcAirVolum(model).ToString();
+            this.TxtCalculateVolume.Text = fmExhaustCalculator.GetCalcAirVolum(model);
             m_Fan.ExhaustModel.Spill_CalcAirVolum = this.TxtCalculateVolume.Text;
             m_Fan.ExhaustModel.Final_CalcAirVolum = m_Fan.ExhaustModel.Spill_CalcAirVolum;
             panelchanged();
