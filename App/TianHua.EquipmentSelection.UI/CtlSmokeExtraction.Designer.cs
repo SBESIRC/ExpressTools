@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
+            this.Notetext = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ComBoxSpatialType = new DevExpress.XtraEditors.ComboBoxEdit();
@@ -43,7 +44,6 @@
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.Notetext = new System.Windows.Forms.Label();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
@@ -79,9 +79,18 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // Notetext
+            // 
+            this.Notetext.Location = new System.Drawing.Point(2, 151);
+            this.Notetext.MaximumSize = new System.Drawing.Size(251, 60);
+            this.Notetext.MinimumSize = new System.Drawing.Size(251, 60);
+            this.Notetext.Name = "Notetext";
+            this.Notetext.Size = new System.Drawing.Size(251, 60);
+            this.Notetext.TabIndex = 11;
+            // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(215, 124);
+            this.label2.Location = new System.Drawing.Point(215, 121);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 26);
             this.label2.TabIndex = 10;
@@ -90,7 +99,7 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(215, 94);
+            this.label1.Location = new System.Drawing.Point(215, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 26);
             this.label1.TabIndex = 9;
@@ -110,6 +119,7 @@
             "仓库",
             "汽车库",
             "其他公共场所"});
+            this.ComBoxSpatialType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.ComBoxSpatialType.Properties.SelectedIndexChanged += new System.EventHandler(this.SpatialTypeSelectedChanged);
             this.ComBoxSpatialType.Size = new System.Drawing.Size(180, 20);
             this.ComBoxSpatialType.StyleController = this.layoutControl1;
@@ -126,13 +136,13 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem("有喷淋", "有喷淋"),
             new DevExpress.XtraEditors.Controls.RadioGroupItem("无喷淋", "无喷淋")});
             this.RadSpray.Properties.SelectedIndexChanged += new System.EventHandler(this.RadSpraySelectedChanged);
-            this.RadSpray.Size = new System.Drawing.Size(180, 28);
+            this.RadSpray.Size = new System.Drawing.Size(180, 25);
             this.RadSpray.StyleController = this.layoutControl1;
             this.RadSpray.TabIndex = 5;
             // 
             // TxtHeight
             // 
-            this.TxtHeight.Location = new System.Drawing.Point(70, 97);
+            this.TxtHeight.Location = new System.Drawing.Point(70, 94);
             this.TxtHeight.Name = "TxtHeight";
             this.TxtHeight.Properties.Mask.AutoComplete = DevExpress.XtraEditors.Mask.AutoCompleteType.None;
             this.TxtHeight.Properties.Mask.EditMask = "([0-8]([.][0-9]{1,2}){0,1})|[9]";
@@ -148,7 +158,7 @@
             // TxtMinUnitVolume
             // 
             this.TxtMinUnitVolume.EditValue = "107000";
-            this.TxtMinUnitVolume.Location = new System.Drawing.Point(70, 127);
+            this.TxtMinUnitVolume.Location = new System.Drawing.Point(70, 124);
             this.TxtMinUnitVolume.Name = "TxtMinUnitVolume";
             this.TxtMinUnitVolume.Properties.ReadOnly = true;
             this.TxtMinUnitVolume.Size = new System.Drawing.Size(138, 20);
@@ -170,7 +180,7 @@
             this.layoutControlItem6});
             this.layoutControlGroup1.Name = "layoutControlGroup1";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(255, 176);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(255, 213);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // simpleLabelItem1
@@ -203,7 +213,7 @@
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 54);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.layoutControlItem3.Size = new System.Drawing.Size(255, 38);
+            this.layoutControlItem3.Size = new System.Drawing.Size(255, 35);
             this.layoutControlItem3.Text = "喷      淋：";
             this.layoutControlItem3.TextAlignMode = DevExpress.XtraLayout.TextAlignModeItem.AutoSize;
             this.layoutControlItem3.TextSize = new System.Drawing.Size(60, 14);
@@ -213,7 +223,7 @@
             // 
             this.layoutControlItem4.Control = this.TxtHeight;
             this.layoutControlItem4.CustomizationFormText = "空间净高：";
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 92);
+            this.layoutControlItem4.Location = new System.Drawing.Point(0, 89);
             this.layoutControlItem4.Name = "layoutControlItem4";
             this.layoutControlItem4.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
             this.layoutControlItem4.Size = new System.Drawing.Size(213, 30);
@@ -226,7 +236,7 @@
             // 
             this.layoutControlItem7.Control = this.TxtMinUnitVolume;
             this.layoutControlItem7.CustomizationFormText = "最小风量：";
-            this.layoutControlItem7.Location = new System.Drawing.Point(0, 122);
+            this.layoutControlItem7.Location = new System.Drawing.Point(0, 119);
             this.layoutControlItem7.Name = "layoutControlItem7";
             this.layoutControlItem7.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
             this.layoutControlItem7.Size = new System.Drawing.Size(213, 30);
@@ -238,7 +248,7 @@
             // layoutControlItem1
             // 
             this.layoutControlItem1.Control = this.label1;
-            this.layoutControlItem1.Location = new System.Drawing.Point(213, 92);
+            this.layoutControlItem1.Location = new System.Drawing.Point(213, 89);
             this.layoutControlItem1.Name = "layoutControlItem1";
             this.layoutControlItem1.Size = new System.Drawing.Size(42, 30);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
@@ -247,27 +257,18 @@
             // layoutControlItem5
             // 
             this.layoutControlItem5.Control = this.label2;
-            this.layoutControlItem5.Location = new System.Drawing.Point(213, 122);
+            this.layoutControlItem5.Location = new System.Drawing.Point(213, 119);
             this.layoutControlItem5.Name = "layoutControlItem5";
             this.layoutControlItem5.Size = new System.Drawing.Size(42, 30);
             this.layoutControlItem5.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem5.TextVisible = false;
             // 
-            // Notetext
-            // 
-            this.Notetext.Location = new System.Drawing.Point(2, 154);
-            this.Notetext.MaximumSize = new System.Drawing.Size(251, 60);
-            this.Notetext.MinimumSize = new System.Drawing.Size(251, 60);
-            this.Notetext.Name = "Notetext";
-            this.Notetext.Size = new System.Drawing.Size(251, 60);
-            this.Notetext.TabIndex = 11;
-            // 
             // layoutControlItem6
             // 
             this.layoutControlItem6.Control = this.Notetext;
-            this.layoutControlItem6.Location = new System.Drawing.Point(0, 152);
+            this.layoutControlItem6.Location = new System.Drawing.Point(0, 149);
             this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(255, 24);
+            this.layoutControlItem6.Size = new System.Drawing.Size(255, 64);
             this.layoutControlItem6.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem6.TextVisible = false;
             // 

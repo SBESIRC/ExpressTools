@@ -122,6 +122,7 @@
             "仓库",
             "汽车库",
             "其他公共场所"});
+            this.ComBoxSpatialType.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.ComBoxSpatialType.Properties.SelectedIndexChanged += new System.EventHandler(this.SpatialTypeSelectedChanged);
             this.ComBoxSpatialType.Size = new System.Drawing.Size(180, 20);
             this.ComBoxSpatialType.StyleController = this.layoutControl1;
