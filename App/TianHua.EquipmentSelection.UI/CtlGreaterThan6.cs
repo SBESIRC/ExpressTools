@@ -51,6 +51,7 @@ namespace TianHua.FanSelection.UI
             m_Fan.ExhaustModel.IsSpray = this.RadSpray.SelectedIndex == 0 ? true : false;
             this.TxtMinUnitVolume.Text = fmExhaustCalculator.GetMinVolumeForGreater6(m_Fan.ExhaustModel).ToString();
             m_Fan.ExhaustModel.MinAirVolume = this.TxtMinUnitVolume.Text;
+            panelchanged();
         }
 
     }

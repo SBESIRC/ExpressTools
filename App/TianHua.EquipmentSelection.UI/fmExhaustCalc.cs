@@ -40,13 +40,15 @@ namespace TianHua.FanSelection.UI
             this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
             m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
-            this.ComBoxPlume.Text = m_Fan.ExhaustModel.PlumeSelection;
+            this.ComBoxPlume.SelectedIndex = 0;
+            m_Fan.ExhaustModel.PlumeSelection = this.ComBoxPlume.Text;
 
             this.TxtLength.Text = m_Fan.ExhaustModel.SmokeLength;
             this.TxtWidth.Text = m_Fan.ExhaustModel.SmokeWidth;
             this.TxtDiameter.Text = m_Fan.ExhaustModel.SmokeDiameter;
             this.TxtSmokePosition.Text = m_Fan.ExhaustModel.SmokeFactorValue;
-            this.ComBoxWZ.Text = m_Fan.ExhaustModel.SmokeFactorOption;
+            this.ComBoxWZ.SelectedIndex = 0;
+            m_Fan.ExhaustModel.SmokeFactorOption = this.ComBoxWZ.Text;
             this.TxtSmokeLayerThickness.Text = m_Fan.ExhaustModel.SmokeThickness;
             this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel).ToString();
             switch (type)

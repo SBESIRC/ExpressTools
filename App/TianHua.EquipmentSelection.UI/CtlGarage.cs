@@ -42,6 +42,7 @@ namespace TianHua.FanSelection.UI
         private void RadSpraySelectedChanged(object sender, EventArgs e)
         {
             m_Fan.ExhaustModel.IsSpray = this.RadSpray.SelectedIndex == 0 ? true : false;
+            panelchanged();
         }
 
     }
