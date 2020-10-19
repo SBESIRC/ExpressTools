@@ -179,7 +179,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             {
                 return 0;
             }
-            return heatmodels.Select(h => h.ReleaseSpeed).First();
+            return 1000*heatmodels.Select(h => h.ReleaseSpeed).First();
         }
 
         //计算风口-当量直径
@@ -254,7 +254,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                     break;
             }
             double t = 293.15 + qc / (mp / 1.01);
-            return Math.Round(mp * t / (1.2 * 293.15),0);
+            return Math.Round(3600*mp * t / (1.2 * 293.15),0);
         }
 
         //计算排烟位置系数
