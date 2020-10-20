@@ -91,7 +91,7 @@
             this.TxtHeight.Location = new System.Drawing.Point(70, 65);
             this.TxtHeight.Name = "TxtHeight";
             this.TxtHeight.Properties.Mask.AutoComplete = DevExpress.XtraEditors.Mask.AutoCompleteType.None;
-            this.TxtHeight.Properties.Mask.EditMask = "[0-9]{0,}([.][0-9]){0,1}";
+            this.TxtHeight.Properties.Mask.EditMask = "([0-8]([.][0-9]{1,2}){0,1})|[9]";
             this.TxtHeight.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtHeight.Properties.Mask.ShowPlaceHolders = false;
             this.TxtHeight.Properties.EditValueChanged += new System.EventHandler(this.TxtHeightChanged);

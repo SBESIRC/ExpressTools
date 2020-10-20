@@ -290,7 +290,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                 default:
                     return "无";
             }
-            double maxsmoke = Math.Round(3600 * 4.16 * model.SmokeFactorValue.NullToDouble() * Math.Pow(model.SmokeThickness.NullToDouble(), 2.5) * Math.Pow(dt / 293.15, 0.5), 1);
+            double maxsmoke = Math.Round(3600 * 4.16 * model.SmokeFactorValue.NullToDouble() * Math.Pow(model.SmokeThickness.NullToDouble(), 2.5) * Math.Pow(dt / 293.15, 0.5));
             return double.IsNaN(maxsmoke)? "无": maxsmoke.NullToStr();
         }
 

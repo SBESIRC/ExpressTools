@@ -124,7 +124,7 @@
             this.TxtHeight.Location = new System.Drawing.Point(70, 95);
             this.TxtHeight.Name = "TxtHeight";
             this.TxtHeight.Properties.Mask.AutoComplete = DevExpress.XtraEditors.Mask.AutoCompleteType.None;
-            this.TxtHeight.Properties.Mask.EditMask = "([0-8]([.][0-9]){0,1})|[9]";
+            this.TxtHeight.Properties.Mask.EditMask = "([0-8]([.][0-9]{1,2}){0,1})|[9]";
             this.TxtHeight.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
             this.TxtHeight.Properties.Mask.ShowPlaceHolders = false;
             this.TxtHeight.Properties.NullValuePrompt = "输入0~9之间的数值";
@@ -295,7 +295,6 @@
             this.Size = new System.Drawing.Size(255, 150);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            this.layoutControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RadSpray.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtHeight.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TxtMinUnitVolume.Properties)).EndInit();
