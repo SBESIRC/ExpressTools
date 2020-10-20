@@ -112,7 +112,7 @@ namespace TianHua.FanSelection.UI
             }
             else
             {
-                return TxtCalcValue.Text = FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MaxSmokeExtraction.NullToDouble()));
+                return TxtCalcValue.Text = FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MinAirVolume.NullToDouble()));
             }
         }
     }
