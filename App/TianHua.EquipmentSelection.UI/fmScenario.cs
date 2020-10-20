@@ -14,6 +14,7 @@ namespace TianHua.FanSelection.UI
     public partial class fmScenario : DevExpress.XtraEditors.XtraForm
     {
         public FanDataModel m_Fan { get; set; }
+        public FanDataModel Oldm_Fan { get; set; }
 
         public string m_ScenarioType { get; set; }
 
@@ -32,6 +33,7 @@ namespace TianHua.FanSelection.UI
             var _Json = FuncJson.Serialize(_FanDataModel);
 
             m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
+            Oldm_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
 
             if (!m_Fan.ExhaustModel.IsNull())
             {
@@ -81,6 +83,7 @@ namespace TianHua.FanSelection.UI
             _fmExhaustCalc.InitForm(m_Fan, m_ScenarioType);
             if (_fmExhaustCalc.ShowDialog() != DialogResult.OK)
             {
+                m_Fan.ExhaustModel = Oldm_Fan.ExhaustModel;
                 return;
             }
             m_Fan.ExhaustModel = _fmExhaustCalc.m_Fan.ExhaustModel;
