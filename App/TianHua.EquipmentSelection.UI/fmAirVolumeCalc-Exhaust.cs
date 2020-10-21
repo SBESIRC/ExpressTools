@@ -30,6 +30,7 @@ namespace TianHua.FanSelection.UI
             if (m_Fan.ExhaustModel.IsNull())
             {
                 TxtCalcValue.Text = "无";
+                TxtEstimatedValue.Text = FuncStr.NullToStr(m_Fan.AirCalcValue);
                 m_Fan.AirCalcFactor = 1.2;
                 TxtFactor.Text = FuncStr.NullToStr(m_Fan.AirCalcFactor);
                 return;
