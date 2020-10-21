@@ -1950,7 +1950,7 @@ namespace TianHua.FanSelection.UI
                _ExportFanPara.FanEnergyLevel = p.VentLev;
                _ExportFanPara.DriveMode = p.VentConnect;
                _ExportFanPara.ElectricalEnergyLevel = p.EleLev;
-               _ExportFanPara.MotorPower = p.FanModelMotorPower;
+               _ExportFanPara.MotorPower = p.FanModelPowerDescribe;
                _ExportFanPara.PowerSource = "380-3-50";
                _ExportFanPara.ElectricalRpm = FuncStr.NullToStr(p.MotorTempo);
                _ExportFanPara.IsDoubleSpeed = p.Control;
