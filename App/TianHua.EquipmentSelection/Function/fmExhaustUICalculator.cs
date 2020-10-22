@@ -38,7 +38,7 @@ namespace TianHua.FanSelection.Function
         //获取Z1值
         public static double GetZ1Value(ExhaustCalcModel model)
         {
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             return 0.166 * Math.Pow(qc, 0.4);
         }
 
@@ -61,7 +61,7 @@ namespace TianHua.FanSelection.Function
             double hq = GetHqValue(model);
             double z = GetZValue(model);
             double mp = 0;
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             double z1 = GetZ1Value(model);
             if (z > z1)
             {
@@ -78,7 +78,7 @@ namespace TianHua.FanSelection.Function
         public static double GetOverfloorMpValue(ExhaustCalcModel model)
         {
             double W = model.Spill_FireOpening.NullToDouble() + model.Spill_OpenBalcony.NullToDouble();
-            double mp = 0.36 * (Math.Pow(model.HeatReleaseRate.NullToDouble() * Math.Pow(W, 2), 1.0 / 3.0) * (model.Spill_BalconySmokeBottom.NullToDouble() + 0.25 * model.Spill_FuelBalcony.NullToDouble()));
+            double mp = 0.36 * (Math.Pow(1000 * model.HeatReleaseRate.NullToDouble() * Math.Pow(W, 2), 1.0 / 3.0) * (model.Spill_BalconySmokeBottom.NullToDouble() + 0.25 * model.Spill_FuelBalcony.NullToDouble()));
             return mp;
         }
 
@@ -93,7 +93,7 @@ namespace TianHua.FanSelection.Function
         //计算dt
         public static double GetDtValue(ExhaustCalcModel model)
         {
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             double mp = 0;
             switch (model.PlumeSelection)
             {
@@ -109,7 +109,7 @@ namespace TianHua.FanSelection.Function
                 default:
                     break;
             }
-            return qc / (mp / 1.01);
+            return qc / (mp * 1.01);
         }
 
         //计算aw值

@@ -68,6 +68,7 @@ namespace TianHua.FanSelection.UI
             }
             else
             {
+                this.RadLessThan.Checked = true;
                 TxtCalcValue.Text = "无";
             }
         }

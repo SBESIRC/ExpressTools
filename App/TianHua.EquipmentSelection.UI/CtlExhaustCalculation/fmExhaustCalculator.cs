@@ -179,7 +179,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             {
                 return 0;
             }
-            return 1000*heatmodels.Select(h => h.ReleaseSpeed).First();
+            return heatmodels.Select(h => h.ReleaseSpeed).First();
         }
 
         //计算风口-当量直径
@@ -205,7 +205,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             }
 
             double mp = 0;
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             double z1 = 0.166 * Math.Pow(qc, 0.4);
             if (z > z1)
             {
@@ -222,7 +222,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         public static double GetOverfloorCalcAirVolum(ExhaustCalcModel model)
         {
             double W = model.Spill_FireOpening.NullToDouble() + model.Spill_OpenBalcony.NullToDouble();
-            double mp = 0.36 * (Math.Pow(model.HeatReleaseRate.NullToDouble() * Math.Pow(W, 2), 1.0 / 3.0) * (model.Spill_BalconySmokeBottom.NullToDouble() + 0.25 * model.Spill_FuelBalcony.NullToDouble()));
+            double mp = 0.36 * (Math.Pow(1000 * model.HeatReleaseRate.NullToDouble() * Math.Pow(W, 2), 1.0 / 3.0) * (model.Spill_BalconySmokeBottom.NullToDouble() + 0.25 * model.Spill_FuelBalcony.NullToDouble()));
             return mp;
         }
 
@@ -237,7 +237,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         //计算排烟量
         public static string GetCalcAirVolum(ExhaustCalcModel model)
         {
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             double mp = 0;
             switch (model.PlumeSelection)
             {
@@ -253,7 +253,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                 default:
                     break;
             }
-            double t = 293.15 + qc / (mp / 1.01);
+            double t = 293.15 + qc / (mp * 1.01);
             double calcairvolum = Math.Round(3600 * mp * t / (1.2 * 293.15), 0);
             return double.IsNaN(calcairvolum)? "无": calcairvolum.NullToStr();
         }
@@ -274,18 +274,18 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         //计算最大允许排烟
         public static string GetMaxSmoke(ExhaustCalcModel model)
         {
-            double qc = 0.7 * model.HeatReleaseRate.NullToDouble();
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
             double dt = 0;
             switch (model.PlumeSelection)
             {
                 case "轴对称型":
-                    dt = qc / (GetAxialCalcAirVolum(model) / 1.01);
+                    dt = qc / (GetAxialCalcAirVolum(model) * 1.01);
                     break;
                 case "阳台溢出型":
-                    dt = qc / (GetOverfloorCalcAirVolum(model) / 1.01);
+                    dt = qc / (GetOverfloorCalcAirVolum(model) * 1.01);
                     break;
                 case "窗口型":
-                    dt = qc / (GetWindowCalcAirVolum(model) / 1.01);
+                    dt = qc / (GetWindowCalcAirVolum(model) * 1.01);
                     break;
                 default:
                     return "无";
