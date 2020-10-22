@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TianHua.FanSelection.Model
 {
-    public class ExhaustCalcModel
+    public class ExhaustCalcModel : IFanModel
     {
 
         /// <summary>

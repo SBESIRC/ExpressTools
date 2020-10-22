@@ -10,7 +10,7 @@ namespace TianHua.FanSelection.ExcelExport
 {
     public class RefugeCorridorExportWorker : BaseExportWorker
     {
-        public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
+        public override void ExportToExcel(IFanModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelRangeCopyOperator copyoperator)
         {
             RefugeRoomAndCorridorModel refugeCorridorModel = fanmodel as RefugeRoomAndCorridorModel;
             setsheet.SetCellValue("D2", fandatamodel.FanNum);
@@ -18,7 +18,7 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D4", refugeCorridorModel.WindVolume.ToString());
             setsheet.SetCellValue("D5", refugeCorridorModel.Area_Net.ToString());
             setsheet.SetCellValue("D6", refugeCorridorModel.AirVol_Spec.ToString());
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D6", targetsheet);
+            copyoperator.CopyRangeToOtherSheet(setsheet, "A1:D6", targetsheet);
         }
     }
 }

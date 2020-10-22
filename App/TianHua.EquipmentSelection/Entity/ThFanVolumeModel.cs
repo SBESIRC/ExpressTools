@@ -14,7 +14,7 @@ namespace TianHua.FanSelection.Model
     [KnownType(typeof(RefugeRoomAndCorridorModel))]
     [KnownType(typeof(StaircaseAirModel))]
     [KnownType(typeof(StaircaseNoAirModel))]
-    public abstract class ThFanVolumeModel
+    public abstract class ThFanVolumeModel : IFanModel
     {
         public abstract string FireScenario { get; }
 

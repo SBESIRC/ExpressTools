@@ -10,7 +10,7 @@ namespace TianHua.FanSelection.ExcelExport
 {
     public class FireFrontExportWorker : BaseExportWorker
     {
-        public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
+        public override void ExportToExcel(IFanModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelRangeCopyOperator copyoperator)
         {
             FireFrontModel fireFrontModel = fanmodel as FireFrontModel;
             setsheet.SetCellValue("D2", fandatamodel.FanNum);
@@ -48,7 +48,7 @@ namespace TianHua.FanSelection.ExcelExport
                 }
             }
 
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D"+ (formRowIndex - 1).ToString(), targetsheet);
+            copyoperator.CopyRangeToOtherSheet(setsheet, "A1:D"+ (formRowIndex - 1).ToString(), targetsheet);
         }
     }
 }

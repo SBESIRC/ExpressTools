@@ -42,7 +42,6 @@
             this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.simpleLabelItem1 = new DevExpress.XtraLayout.SimpleLabelItem();
-            this.simpleLabelItem2 = new DevExpress.XtraLayout.SimpleLabelItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.simpleSeparator1 = new DevExpress.XtraLayout.SimpleSeparator();
@@ -56,12 +55,12 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem11 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.simpleLabelItem2 = new DevExpress.XtraLayout.SimpleLabelItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TxtCalcValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.simpleSeparator1)).BeginInit();
@@ -75,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem2)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -250,18 +250,6 @@
             this.simpleLabelItem1.Text = "非中庭：";
             this.simpleLabelItem1.TextSize = new System.Drawing.Size(60, 19);
             // 
-            // simpleLabelItem2
-            // 
-            this.simpleLabelItem2.AllowHotTrack = false;
-            this.simpleLabelItem2.AppearanceItemCaption.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
-            this.simpleLabelItem2.AppearanceItemCaption.Options.UseFont = true;
-            this.simpleLabelItem2.Location = new System.Drawing.Point(0, 184);
-            this.simpleLabelItem2.Name = "simpleLabelItem2";
-            this.simpleLabelItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
-            this.simpleLabelItem2.Size = new System.Drawing.Size(288, 29);
-            this.simpleLabelItem2.Text = "中庭：";
-            this.simpleLabelItem2.TextSize = new System.Drawing.Size(60, 19);
-            // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.BtnOK;
@@ -389,6 +377,18 @@
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
+            // simpleLabelItem2
+            // 
+            this.simpleLabelItem2.AllowHotTrack = false;
+            this.simpleLabelItem2.AppearanceItemCaption.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold);
+            this.simpleLabelItem2.AppearanceItemCaption.Options.UseFont = true;
+            this.simpleLabelItem2.Location = new System.Drawing.Point(0, 184);
+            this.simpleLabelItem2.Name = "simpleLabelItem2";
+            this.simpleLabelItem2.Padding = new DevExpress.XtraLayout.Utils.Padding(5, 5, 5, 5);
+            this.simpleLabelItem2.Size = new System.Drawing.Size(288, 29);
+            this.simpleLabelItem2.Text = "中庭：";
+            this.simpleLabelItem2.TextSize = new System.Drawing.Size(60, 19);
+            // 
             // fmScenario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -406,7 +406,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TxtCalcValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.simpleSeparator1)).EndInit();
@@ -420,6 +419,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem11)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.simpleLabelItem2)).EndInit();
             this.ResumeLayout(false);
 
         }

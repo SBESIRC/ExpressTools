@@ -43,6 +43,7 @@
     <Compile Include="Entity\FontroomNaturalModel.cs" />
     <Compile Include="Entity\FontroomWindModel.cs" />
     <Compile Include="Entity\HeatReleaseInfo.cs" />
+    <Compile Include="Entity\IFanModel.cs" />
     <Compile Include="Entity\ModelValidator.cs" />
     <Compile Include="Entity\RefugeFontRoomModel.cs" />
     <Compile Include="Entity\RefugeRoomAndCorridorModel.cs" />
@@ -56,6 +57,10 @@
     <Compile Include="ExcelExport\ExcelExportEngine.cs" />
     <Compile Include="ExcelExport\ExcelExtension.cs" />
     <Compile Include="ExcelExport\ExcelFile.cs" />
+    <Compile Include="ExcelExport\ExcelRangeCopyOperator.cs" />
+    <Compile Include="ExcelExport\ExhaustAxisymmetricExportWorker.cs" />
+    <Compile Include="ExcelExport\ExhaustBalconyExportWorker.cs" />
+    <Compile Include="ExcelExport\ExhaustWindowExportWorker.cs" />
     <Compile Include="ExcelExport\FireFrontExportWorker.cs" />
     <Compile Include="ExcelExport\FontroomNaturalExportWorker.cs" />
     <Compile Include="ExcelExport\FontroomWindExportWorker.cs" />
@@ -66,6 +71,7 @@
     <Compile Include="Function\FanDataModelExtension.cs" />
     <Compile Include="Function\FanParametersComparer.cs" />
     <Compile Include="Function\FanParametersExtension.cs" />
+    <Compile Include="Function\fmExhaustUICalculator.cs" />
     <Compile Include="ThFanSelectionCommon.cs" />
     <Compile Include="Function\ThFanSelectionModelPick.cs" />
     <Compile Include="Function\ThFanSelectionModelPicker.cs" />

@@ -10,7 +10,7 @@ namespace TianHua.FanSelection.ExcelExport
 {
     public class StaircaseAirExportWorker : BaseExportWorker
     {
-        public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
+        public override void ExportToExcel(IFanModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelRangeCopyOperator copyoperator)
         {
             StaircaseAirModel StaircaseAir = fanmodel as StaircaseAirModel;
             setsheet.SetCellValue("D2", fandatamodel.FanNum);
@@ -51,7 +51,7 @@ namespace TianHua.FanSelection.ExcelExport
                 }
             }
 
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
+            copyoperator.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
     }
 }

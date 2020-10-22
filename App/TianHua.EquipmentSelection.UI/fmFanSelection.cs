@@ -2051,10 +2051,7 @@ namespace TianHua.FanSelection.UI
 
             ExcelFile excelfile = new ExcelFile();
             Workbook targetWorkbookb = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "FanCalc.xlsx"));
-            var sourceWorkbookb = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "SmokeProofScenario.xlsx"));
-
             Worksheet _Sheet = targetWorkbookb.Worksheets[1];
-            var targetsheet = targetWorkbookb.GetSheetFromSheetName("防烟计算");
 
             var _List = m_ListFan;
 
@@ -2066,9 +2063,8 @@ namespace TianHua.FanSelection.UI
             if (_List != null && _List.Count > 0) _List = _List.OrderBy(p => p.SortScenario).OrderBy(p => p.SortID).ToList();
 
             var i = 4;
-            ExcelExportEngine.Instance.File = excelfile;
-            ExcelExportEngine.Instance.Sourcebook = sourceWorkbookb;
-            ExcelExportEngine.Instance.Targetsheet = targetsheet;
+            ExcelRangeCopyOperator copyOperatorForVolumeModel = new ExcelRangeCopyOperator();
+            ExcelRangeCopyOperator copyOperatorForExhaustModel = new ExcelRangeCopyOperator();
             _List.ForEach(p =>
             {
                 if (p.FanModelName == string.Empty || p.FanModelName == "无此风机") { return; }
@@ -2113,10 +2109,24 @@ namespace TianHua.FanSelection.UI
                 _Sheet.Cells[i, 24] = p.FanModelPower;
 
                 var model = p.FanVolumeModel;
-                if (!model.IsNull())
+                if (!p.IsNull())
                 {
                     ExcelExportEngine.Instance.Model = p;
-                    ExcelExportEngine.Instance.Run();
+                    
+                    if (p.FanVolumeModel !=null)
+                    {
+                        ExcelExportEngine.Instance.RangeCopyOperator = copyOperatorForVolumeModel;
+                        ExcelExportEngine.Instance.Sourcebook = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "SmokeProofScenario.xlsx"));
+                        ExcelExportEngine.Instance.Targetsheet = targetWorkbookb.GetSheetFromSheetName("防烟计算");
+                        ExcelExportEngine.Instance.Run();
+                    }
+                    else if (p.ExhaustModel != null)
+                    {
+                        ExcelExportEngine.Instance.RangeCopyOperator = copyOperatorForExhaustModel;
+                        ExcelExportEngine.Instance.Sourcebook = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "SmokeDischargeScenario.xlsx"));
+                        ExcelExportEngine.Instance.Targetsheet = targetWorkbookb.GetSheetFromSheetName("排烟计算");
+                        ExcelExportEngine.Instance.RunExhaustExport();
+                    }
                 }
 
                 i++;

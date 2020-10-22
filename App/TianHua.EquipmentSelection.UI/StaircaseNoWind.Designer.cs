@@ -385,7 +385,7 @@
             // 
             this.楼层二.Controls.Add(this.gridControl2);
             this.楼层二.Name = "楼层二";
-            this.楼层二.Size = new System.Drawing.Size(370, 121);
+            this.楼层二.Size = new System.Drawing.Size(370, 103);
             this.楼层二.Text = "楼层二";
             // 
             // gridControl2
@@ -400,7 +400,7 @@
             this.repositoryItemTextEdit6,
             this.repositoryItemTextEdit7,
             this.repositoryItemTextEdit8});
-            this.gridControl2.Size = new System.Drawing.Size(370, 121);
+            this.gridControl2.Size = new System.Drawing.Size(370, 103);
             this.gridControl2.TabIndex = 26;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -524,7 +524,7 @@
             // 
             this.楼层三.Controls.Add(this.gridControl3);
             this.楼层三.Name = "楼层三";
-            this.楼层三.Size = new System.Drawing.Size(370, 121);
+            this.楼层三.Size = new System.Drawing.Size(370, 103);
             this.楼层三.Text = "楼层三";
             // 
             // gridControl3
@@ -539,7 +539,7 @@
             this.repositoryItemTextEdit10,
             this.repositoryItemTextEdit11,
             this.repositoryItemTextEdit12});
-            this.gridControl3.Size = new System.Drawing.Size(370, 121);
+            this.gridControl3.Size = new System.Drawing.Size(370, 103);
             this.gridControl3.TabIndex = 26;
             this.gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView3});
