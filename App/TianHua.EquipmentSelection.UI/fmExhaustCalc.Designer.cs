@@ -39,14 +39,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.sidePanel2 = new DevExpress.XtraEditors.SidePanel();
-            this.ctlLessThan61 = new TianHua.FanSelection.UI.CtlLessThan6();
             this.BtnOK = new DevExpress.XtraEditors.SimpleButton();
             this.TxtVmax = new DevExpress.XtraEditors.TextEdit();
             this.TxtSmokeLayerThickness = new DevExpress.XtraEditors.TextEdit();
             this.ComBoxWZ = new DevExpress.XtraEditors.ComboBoxEdit();
             this.TxtSmokePosition = new DevExpress.XtraEditors.TextEdit();
             this.sidePanel1 = new DevExpress.XtraEditors.SidePanel();
-            this.CtlAxisy = new TianHua.FanSelection.UI.CtlAxisymmetric();
             this.ComBoxPlume = new DevExpress.XtraEditors.ComboBoxEdit();
             this.TxtHRR = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
@@ -73,6 +71,8 @@
             this.layoutControlItem16 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem18 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.ctlLessThan61 = new TianHua.FanSelection.UI.CtlLessThan6();
+            this.CtlAxisy = new TianHua.FanSelection.UI.CtlAxisymmetric();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TxtDiameter.Properties)).BeginInit();
@@ -238,14 +238,6 @@
             this.sidePanel2.Text = "sidePanel2";
             this.sidePanel2.Leave += new System.EventHandler(this.sidePanel2_Leave);
             // 
-            // ctlLessThan61
-            // 
-            this.ctlLessThan61.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ctlLessThan61.Location = new System.Drawing.Point(0, 0);
-            this.ctlLessThan61.Name = "ctlLessThan61";
-            this.ctlLessThan61.Size = new System.Drawing.Size(261, 196);
-            this.ctlLessThan61.TabIndex = 0;
-            // 
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
@@ -309,14 +301,6 @@
             this.sidePanel1.TabIndex = 11;
             this.sidePanel1.Text = "sidePanel1";
             this.sidePanel1.Leave += new System.EventHandler(this.sidePanel1_Leave);
-            // 
-            // CtlAxisy
-            // 
-            this.CtlAxisy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CtlAxisy.Location = new System.Drawing.Point(0, 0);
-            this.CtlAxisy.Name = "CtlAxisy";
-            this.CtlAxisy.Size = new System.Drawing.Size(255, 151);
-            this.CtlAxisy.TabIndex = 0;
             // 
             // ComBoxPlume
             // 
@@ -606,6 +590,22 @@
             this.layoutControlItem18.Size = new System.Drawing.Size(34, 30);
             this.layoutControlItem18.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem18.TextVisible = false;
+            // 
+            // ctlLessThan61
+            // 
+            this.ctlLessThan61.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ctlLessThan61.Location = new System.Drawing.Point(0, 0);
+            this.ctlLessThan61.Name = "ctlLessThan61";
+            this.ctlLessThan61.Size = new System.Drawing.Size(261, 196);
+            this.ctlLessThan61.TabIndex = 0;
+            // 
+            // CtlAxisy
+            // 
+            this.CtlAxisy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CtlAxisy.Location = new System.Drawing.Point(0, 0);
+            this.CtlAxisy.Name = "CtlAxisy";
+            this.CtlAxisy.Size = new System.Drawing.Size(255, 151);
+            this.CtlAxisy.TabIndex = 0;
             // 
             // fmExhaustCalc
             // 

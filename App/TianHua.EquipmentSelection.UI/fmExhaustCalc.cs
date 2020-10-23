@@ -31,11 +31,11 @@ namespace TianHua.FanSelection.UI
             Model.ExhaustModel.ExhaustCalcType = type;
             InitsidePanel2(type, OnGeneralChanged);
             InitsidePanel1(Model.ExhaustModel.PlumeSelection, OnVmaxChanged);
-            if (type == "空间-净高小于等于6m")
-            {
-                this.TxtHRR.Enabled = false;
-                this.ComBoxPlume.Enabled = false;
-            }
+            //if (type == "空间-净高小于等于6m")
+            //{
+            //    this.TxtHRR.Enabled = false;
+            //    this.ComBoxPlume.Enabled = false;
+            //}
             this.TxtHRR.Text = ExhaustModelCalculator.GetHeatReleaseRate(Loader, Model.ExhaustModel).ToString();
             Model.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
@@ -144,10 +144,10 @@ namespace TianHua.FanSelection.UI
             sidePanelcontrol.InitForm(Model,action);
             this.sidePanel1.Controls.Add(sidePanelcontrol);
             sidePanelcontrol.Dock = DockStyle.Fill;
-            if (Model.ExhaustModel.ExhaustCalcType == "空间-净高小于等于6m")
-            {
-                sidePanelcontrol.Enabled = false;
-            }
+            //if (Model.ExhaustModel.ExhaustCalcType == "空间-净高小于等于6m")
+            //{
+            //    sidePanelcontrol.Enabled = false;
+            //}
         }
 
         private void TxtHRRChanged(object sender, EventArgs e)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TianHua.FanSelection.Function;
 using TianHua.FanSelection.Model;
 using TianHua.Publics.BaseCode;
 
@@ -47,7 +48,7 @@ namespace TianHua.FanSelection.UI
 
             if (!Model.ExhaustModel.IsNull())
             {
-                TxtCalcValue.Text = GetTxtCalcValue();
+                TxtCalcValue.Text = ExhaustModelCalculator.GetTxtCalcValue(Model.ExhaustModel);
                 m_ScenarioType = Model.ExhaustModel.ExhaustCalcType;
                 if (Model.ExhaustModel.SpaceHeight.IsNullOrEmptyOrWhiteSpace())
                 {
@@ -106,7 +107,7 @@ namespace TianHua.FanSelection.UI
             Model.ExhaustModel = _fmExhaustCalc.Model.ExhaustModel;
             if (!Model.ExhaustModel.IsNull())
             {
-                TxtCalcValue.Text = GetTxtCalcValue();
+                TxtCalcValue.Text = ExhaustModelCalculator.GetTxtCalcValue(Model.ExhaustModel);
             }
             else
             {
@@ -120,19 +121,7 @@ namespace TianHua.FanSelection.UI
             if (_Rad == null) { return; }
             Model.ExhaustModel = ExhaustModels[_Rad.Text];
             m_ScenarioType = _Rad.Text;
-            TxtCalcValue.Text = GetTxtCalcValue();
-        }
-
-        private string GetTxtCalcValue()
-        {
-            if (Model.ExhaustModel.Final_CalcAirVolum == "无" || Model.ExhaustModel.MaxSmokeExtraction == "无")
-            {
-                return "无";
-            }
-            else
-            {
-                return FuncStr.NullToStr(Math.Max(Model.ExhaustModel.Final_CalcAirVolum.NullToDouble(), Model.ExhaustModel.MinAirVolume.NullToDouble()));
-            }
+            TxtCalcValue.Text = ExhaustModelCalculator.GetTxtCalcValue(Model.ExhaustModel);
         }
     }
 }

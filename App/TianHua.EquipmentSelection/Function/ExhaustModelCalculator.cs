@@ -364,5 +364,24 @@ namespace TianHua.FanSelection.Function
             return 293.15 + GetDtValue(model);
         }
 
+        public static string GetTxtCalcValue(ExhaustCalcModel model)
+        {
+            if (model.Final_CalcAirVolum == "无" || model.MaxSmokeExtraction == "无")
+            {
+                return "无";
+            }
+            else
+            {
+                if (model.ExhaustCalcType == "空间-净高小于等于6m")
+                {
+                    return FuncStr.NullToStr(model.MinAirVolume.NullToDouble());
+                }
+                else
+                {
+                    return FuncStr.NullToStr(Math.Max(model.Final_CalcAirVolum.NullToDouble(), model.MinAirVolume.NullToDouble()));
+                }
+            }
+        }
+
     }
 }

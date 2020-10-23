@@ -17,6 +17,7 @@ namespace TianHua.FanSelection.UI
         {
             Model = _FanDataModel;
             OnMinVolumChanged = action;
+            this.RadSpray.SelectedIndex = Model.ExhaustModel.IsSpray ? 0 : 1;
             this.ComBoxSpatialType.Text = Model.ExhaustModel.SpatialTypes;
             this.TxtHeight.Text = Model.ExhaustModel.SpaceHeight;
             this.TxtArea.Text = Model.ExhaustModel.CoveredArea;
@@ -47,5 +48,12 @@ namespace TianHua.FanSelection.UI
             TxtMinUnitVolume.Text = ExhaustModelCalculator.GetMinVolumeForLess6(Model.ExhaustModel).ToString();
             Model.ExhaustModel.MinAirVolume = TxtMinUnitVolume.Text;
         }
+
+        private void RadSpraySelectedChanged(object sender, EventArgs e)
+        {
+            Model.ExhaustModel.IsSpray = this.RadSpray.SelectedIndex == 0 ? true : false;
+            OnMinVolumChanged();
+        }
+
     }
 }
