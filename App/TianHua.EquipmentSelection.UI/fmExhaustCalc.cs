@@ -65,7 +65,7 @@ namespace TianHua.FanSelection.UI
             switch (type)
             {
                 case "空间-净高小于等于6m":
-                    this.Height = 740;
+                    this.Height = 780;
                     break;
                 case "空间-净高大于6m":
                     this.Height = 720;
