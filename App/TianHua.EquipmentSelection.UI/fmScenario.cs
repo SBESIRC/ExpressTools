@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TianHua.FanSelection.Model;
 using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection.UI
@@ -14,7 +15,7 @@ namespace TianHua.FanSelection.UI
     public partial class fmScenario : DevExpress.XtraEditors.XtraForm
     {
         public FanDataModel m_Fan { get; set; }
-        public FanDataModel Oldm_Fan { get; set; }
+        public Dictionary<string, ExhaustCalcModel> ExhaustModels { get; set; }
 
         public string m_ScenarioType { get; set; }
 
@@ -31,44 +32,63 @@ namespace TianHua.FanSelection.UI
         public void InitForm(FanDataModel _FanDataModel)
         {
             var _Json = FuncJson.Serialize(_FanDataModel);
-
             m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
-            Oldm_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
+
+            ExhaustModels = new Dictionary<string, ExhaustCalcModel>()
+            {
+                { "空间-净高小于等于6m", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"} },
+                { "空间-净高大于6m", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}},
+                { "空间-汽车库", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}},
+                { "走道回廊-仅走道或回廊设置排烟", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}},
+                { "走道回廊-房间内和走道或回廊都设置排烟", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}},
+                { "中庭-周围场所设有排烟系统", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}},
+                { "中庭-周围场所不设排烟系统", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}}
+            };
 
             if (!m_Fan.ExhaustModel.IsNull())
             {
                 TxtCalcValue.Text = GetTxtCalcValue();
-                switch (m_Fan.ExhaustModel.ExhaustCalcType)
+                m_ScenarioType = m_Fan.ExhaustModel.ExhaustCalcType;
+                if (m_Fan.ExhaustModel.SpaceHeight.IsNullOrEmptyOrWhiteSpace())
                 {
-                    case "空间-净高小于等于6m":
-                        this.RadLessThan.Checked = true;
-                        break;
-                    case "空间-净高大于6m":
-                        this.RadGreaterThan6.Checked = true;
-                        break;
-                    case "空间-汽车库":
-                        this.RadGarage.Checked = true;
-                        break;
-                    case "走道回廊-仅走道或回廊设置排烟":
-                        this.RadCloister.Checked = true;
-                        break;
-                    case "走道回廊-房间内和走道或回廊都设置排烟":
-                        this.RadCloistersAndRooms.Checked = true;
-                        break;
-                    case "中庭-周围场所设有排烟系统":
-                        this.RadSmokeExtraction.Checked = true;
-                        break;
-                    case "中庭-周围场所不设排烟系统":
-                        this.RadNoSmokeExtraction.Checked = true;
-                        break;
+                    this.RadLessThan.Checked = true;
+                }
+                else
+                {
+                    ExhaustModels[m_ScenarioType] = m_Fan.ExhaustModel;
+                    switch (m_Fan.ExhaustModel.ExhaustCalcType)
+                    {
+                        case "空间-净高小于等于6m":
+                            this.RadLessThan.Checked = true;
+                            break;
+                        case "空间-净高大于6m":
+                            this.RadGreaterThan6.Checked = true;
+                            break;
+                        case "空间-汽车库":
+                            this.RadGarage.Checked = true;
+                            break;
+                        case "走道回廊-仅走道或回廊设置排烟":
+                            this.RadCloister.Checked = true;
+                            break;
+                        case "走道回廊-房间内和走道或回廊都设置排烟":
+                            this.RadCloistersAndRooms.Checked = true;
+                            break;
+                        case "中庭-周围场所设有排烟系统":
+                            this.RadSmokeExtraction.Checked = true;
+                            break;
+                        case "中庭-周围场所不设排烟系统":
+                            this.RadNoSmokeExtraction.Checked = true;
+                            break;
 
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
             }
             else
             {
                 this.RadLessThan.Checked = true;
+                m_ScenarioType = this.RadLessThan.Text;
                 TxtCalcValue.Text = "无";
             }
         }
@@ -76,17 +96,13 @@ namespace TianHua.FanSelection.UI
         private void BtnCalc_Click(object sender, EventArgs e)
         {
             fmExhaustCalc _fmExhaustCalc = new fmExhaustCalc();
-            if (m_Fan.ExhaustModel.IsNull() || m_Fan.ExhaustModel.ExhaustCalcType != m_ScenarioType)
-            {
-                m_Fan.ExhaustModel = new Model.ExhaustCalcModel();
-                m_Fan.ExhaustModel.SpatialTypes = "办公室、学校、客厅、走道";
-            }
+            m_Fan.ExhaustModel = ExhaustModels[m_ScenarioType];
             _fmExhaustCalc.InitForm(m_Fan, m_ScenarioType);
             if (_fmExhaustCalc.ShowDialog() != DialogResult.OK)
             {
-                m_Fan.ExhaustModel = Oldm_Fan.ExhaustModel;
                 return;
             }
+            ExhaustModels[m_ScenarioType] = _fmExhaustCalc.m_Fan.ExhaustModel;
             m_Fan.ExhaustModel = _fmExhaustCalc.m_Fan.ExhaustModel;
             if (!m_Fan.ExhaustModel.IsNull())
             {
@@ -102,7 +118,9 @@ namespace TianHua.FanSelection.UI
         {
             var _Rad = sender as RadioButton;
             if (_Rad == null) { return; }
+            m_Fan.ExhaustModel = ExhaustModels[_Rad.Text];
             m_ScenarioType = _Rad.Text;
+            TxtCalcValue.Text = GetTxtCalcValue();
         }
 
         private string GetTxtCalcValue()
@@ -113,7 +131,7 @@ namespace TianHua.FanSelection.UI
             }
             else
             {
-                return TxtCalcValue.Text = FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MinAirVolume.NullToDouble()));
+                return FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MinAirVolume.NullToDouble()));
             }
         }
     }
