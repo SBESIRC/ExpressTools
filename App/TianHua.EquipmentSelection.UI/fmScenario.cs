@@ -14,8 +14,8 @@ namespace TianHua.FanSelection.UI
 {
     public partial class fmScenario : DevExpress.XtraEditors.XtraForm
     {
-        public FanDataModel m_Fan { get; set; }
-        public Dictionary<string, ExhaustCalcModel> ExhaustModels { get; set; }
+        public FanDataModel Model { get; set; }
+        private Dictionary<string, ExhaustCalcModel> ExhaustModels { get; set; }
 
         public string m_ScenarioType { get; set; }
 
@@ -32,7 +32,7 @@ namespace TianHua.FanSelection.UI
         public void InitForm(FanDataModel _FanDataModel)
         {
             var _Json = FuncJson.Serialize(_FanDataModel);
-            m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
+            Model = FuncJson.Deserialize<FanDataModel>(_Json);
 
             ExhaustModels = new Dictionary<string, ExhaustCalcModel>()
             {
@@ -45,18 +45,18 @@ namespace TianHua.FanSelection.UI
                 { "中庭-周围场所不设排烟系统", new ExhaustCalcModel(){ SpatialTypes = "办公室、学校、客厅、走道"}}
             };
 
-            if (!m_Fan.ExhaustModel.IsNull())
+            if (!Model.ExhaustModel.IsNull())
             {
                 TxtCalcValue.Text = GetTxtCalcValue();
-                m_ScenarioType = m_Fan.ExhaustModel.ExhaustCalcType;
-                if (m_Fan.ExhaustModel.SpaceHeight.IsNullOrEmptyOrWhiteSpace())
+                m_ScenarioType = Model.ExhaustModel.ExhaustCalcType;
+                if (Model.ExhaustModel.SpaceHeight.IsNullOrEmptyOrWhiteSpace())
                 {
                     this.RadLessThan.Checked = true;
                 }
                 else
                 {
-                    ExhaustModels[m_ScenarioType] = m_Fan.ExhaustModel;
-                    switch (m_Fan.ExhaustModel.ExhaustCalcType)
+                    ExhaustModels[m_ScenarioType] = Model.ExhaustModel;
+                    switch (Model.ExhaustModel.ExhaustCalcType)
                     {
                         case "空间-净高小于等于6m":
                             this.RadLessThan.Checked = true;
@@ -96,15 +96,15 @@ namespace TianHua.FanSelection.UI
         private void BtnCalc_Click(object sender, EventArgs e)
         {
             fmExhaustCalc _fmExhaustCalc = new fmExhaustCalc();
-            m_Fan.ExhaustModel = ExhaustModels[m_ScenarioType];
-            _fmExhaustCalc.InitForm(m_Fan, m_ScenarioType);
+            Model.ExhaustModel = ExhaustModels[m_ScenarioType];
+            _fmExhaustCalc.InitForm(Model, m_ScenarioType);
             if (_fmExhaustCalc.ShowDialog() != DialogResult.OK)
             {
                 return;
             }
-            ExhaustModels[m_ScenarioType] = _fmExhaustCalc.m_Fan.ExhaustModel;
-            m_Fan.ExhaustModel = _fmExhaustCalc.m_Fan.ExhaustModel;
-            if (!m_Fan.ExhaustModel.IsNull())
+            ExhaustModels[m_ScenarioType] = _fmExhaustCalc.Model.ExhaustModel;
+            Model.ExhaustModel = _fmExhaustCalc.Model.ExhaustModel;
+            if (!Model.ExhaustModel.IsNull())
             {
                 TxtCalcValue.Text = GetTxtCalcValue();
             }
@@ -118,20 +118,20 @@ namespace TianHua.FanSelection.UI
         {
             var _Rad = sender as RadioButton;
             if (_Rad == null) { return; }
-            m_Fan.ExhaustModel = ExhaustModels[_Rad.Text];
+            Model.ExhaustModel = ExhaustModels[_Rad.Text];
             m_ScenarioType = _Rad.Text;
             TxtCalcValue.Text = GetTxtCalcValue();
         }
 
         private string GetTxtCalcValue()
         {
-            if (m_Fan.ExhaustModel.Final_CalcAirVolum == "无" || m_Fan.ExhaustModel.MaxSmokeExtraction == "无")
+            if (Model.ExhaustModel.Final_CalcAirVolum == "无" || Model.ExhaustModel.MaxSmokeExtraction == "无")
             {
                 return "无";
             }
             else
             {
-                return FuncStr.NullToStr(Math.Max(m_Fan.ExhaustModel.Final_CalcAirVolum.NullToDouble(), m_Fan.ExhaustModel.MinAirVolume.NullToDouble()));
+                return FuncStr.NullToStr(Math.Max(Model.ExhaustModel.Final_CalcAirVolum.NullToDouble(), Model.ExhaustModel.MinAirVolume.NullToDouble()));
             }
         }
     }

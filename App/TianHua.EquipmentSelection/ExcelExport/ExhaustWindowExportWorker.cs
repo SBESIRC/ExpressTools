@@ -19,11 +19,11 @@ namespace TianHua.FanSelection.ExcelExport
             setsheet.SetCellValue("D3", fandatamodel.Name);
             setsheet.SetCellValue("D5", FuncStr.NullToStr(Math.Max(exhaustModel.MinAirVolume.NullToDouble(), exhaustModel.Final_CalcAirVolum.NullToDouble())));
             setsheet.SetCellValue("D6", exhaustModel.Final_CalcAirVolum);
-            setsheet.SetCellValue("D7", FuncStr.NullToStr(Math.Round(fmExhaustUICalculator.GetDtValue(exhaustModel))));
-            setsheet.SetCellValue("D8", FuncStr.NullToStr(Math.Round(fmExhaustUICalculator.GetWindowMpValue(exhaustModel))));
-            setsheet.SetCellValue("D9", FuncStr.NullToStr(Math.Round(fmExhaustUICalculator.GetawValue(exhaustModel))));
+            setsheet.SetCellValue("D7", FuncStr.NullToStr(Math.Round(ExhaustModelCalculator.GetDtValue(exhaustModel))));
+            setsheet.SetCellValue("D8", FuncStr.NullToStr(Math.Round(ExhaustModelCalculator.GetWindowCalcAirVolum(exhaustModel))));
+            setsheet.SetCellValue("D9", FuncStr.NullToStr(Math.Round(ExhaustModelCalculator.GetawValue(exhaustModel))));
             setsheet.SetCellValue("D10", "1");
-            setsheet.SetCellValue("D11", FuncStr.NullToStr(Math.Round(fmExhaustUICalculator.GeTValue(exhaustModel))));
+            setsheet.SetCellValue("D11", FuncStr.NullToStr(Math.Round(ExhaustModelCalculator.GeTValue(exhaustModel))));
             setsheet.SetCellValue("D12", "1.2");
             setsheet.SetCellValue("D13", "293.15");
             setsheet.SetCellValue("D14", FuncStr.NullToStr(Math.Round(0.7 * exhaustModel.HeatReleaseRate.NullToDouble())));

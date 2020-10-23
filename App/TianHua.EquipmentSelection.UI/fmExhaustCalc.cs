@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
-using TianHua.FanSelection.UI.CtlExhaustCalculation;
+using TianHua.AutoCAD.Utility.ExtensionTools;
+using TianHua.FanSelection.Function;
 using TianHua.Publics.BaseCode;
 
 namespace TianHua.FanSelection.UI
 {
     public partial class fmExhaustCalc : DevExpress.XtraEditors.XtraForm
     {
-        public FanDataModel m_Fan { get; set; }
-        public event Action panel2change;
-        public event Action panel1change;
+        public FanDataModel Model { get; set; }
+        private  Action OnVmaxChanged { get; set; }
+        private  Action OnGeneralChanged { get; set; }
+        private HeatReleaseInfoLoader Loader { get; set; }
+
         public fmExhaustCalc()
         {
             InitializeComponent();
@@ -25,44 +22,46 @@ namespace TianHua.FanSelection.UI
         public void InitForm(FanDataModel _FanDataModel, string type)
         {
             var _Json = FuncJson.Serialize(_FanDataModel);
-            m_Fan = FuncJson.Deserialize<FanDataModel>(_Json);
+            Model = FuncJson.Deserialize<FanDataModel>(_Json);
+            Loader = new HeatReleaseInfoLoader();
+            Loader.LoadFromFile(Path.Combine(ThCADCommon.SupportPath(), "火灾达到静态时的热释放速率.json"));
 
-            panel2change += TotalUpdate;
-            panel1change += UpdateVmax;
-            m_Fan.ExhaustModel.ExhaustCalcType = type;
-            InitsidePanel2(type, panel2change);
-            InitsidePanel1(m_Fan.ExhaustModel.PlumeSelection, panel1change);
+            OnGeneralChanged += TotalUpdate;
+            OnVmaxChanged += UpdateVmax;
+            Model.ExhaustModel.ExhaustCalcType = type;
+            InitsidePanel2(type, OnGeneralChanged);
+            InitsidePanel1(Model.ExhaustModel.PlumeSelection, OnVmaxChanged);
             if (type == "空间-净高小于等于6m")
             {
                 this.TxtHRR.Enabled = false;
                 this.ComBoxPlume.Enabled = false;
             }
-            this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
+            this.TxtHRR.Text = ExhaustModelCalculator.GetHeatReleaseRate(Loader, Model.ExhaustModel).ToString();
+            Model.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
-            if (m_Fan.ExhaustModel.PlumeSelection.IsNullOrEmptyOrWhiteSpace())
+            if (Model.ExhaustModel.PlumeSelection.IsNullOrEmptyOrWhiteSpace())
             {
                 this.ComBoxPlume.SelectedIndex = 0;
             }
             else
             {
-                this.ComBoxPlume.Text= m_Fan.ExhaustModel.PlumeSelection;
+                this.ComBoxPlume.Text= Model.ExhaustModel.PlumeSelection;
             }
 
-            this.TxtLength.Text = m_Fan.ExhaustModel.SmokeLength;
-            this.TxtWidth.Text = m_Fan.ExhaustModel.SmokeWidth;
-            this.TxtDiameter.Text = m_Fan.ExhaustModel.SmokeDiameter;
-            this.TxtSmokePosition.Text = m_Fan.ExhaustModel.SmokeFactorValue;
-            if (m_Fan.ExhaustModel.SmokeFactorOption.IsNullOrEmptyOrWhiteSpace())
+            this.TxtLength.Text = Model.ExhaustModel.SmokeLength;
+            this.TxtWidth.Text = Model.ExhaustModel.SmokeWidth;
+            this.TxtDiameter.Text = Model.ExhaustModel.SmokeDiameter;
+            this.TxtSmokePosition.Text = Model.ExhaustModel.SmokeFactorValue;
+            if (Model.ExhaustModel.SmokeFactorOption.IsNullOrEmptyOrWhiteSpace())
             {
                 this.ComBoxWZ.SelectedIndex = 0;
             }
             else
             {
-                this.ComBoxWZ.Text = m_Fan.ExhaustModel.SmokeFactorOption;
+                this.ComBoxWZ.Text = Model.ExhaustModel.SmokeFactorOption;
             }
-            this.TxtSmokeLayerThickness.Text = m_Fan.ExhaustModel.SmokeThickness;
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
+            this.TxtSmokeLayerThickness.Text = Model.ExhaustModel.SmokeThickness;
+            this.TxtVmax.Text = ExhaustModelCalculator.GetMaxSmoke(Model.ExhaustModel);
             switch (type)
             {
                 case "空间-净高小于等于6m":
@@ -117,7 +116,7 @@ namespace TianHua.FanSelection.UI
                 default:
                     break;
             }
-            sidePanelcontrol.InitForm(m_Fan, action);
+            sidePanelcontrol.InitForm(Model, action);
             this.sidePanel2.Controls.Add(sidePanelcontrol);
             sidePanelcontrol.Dock = DockStyle.Fill;
 
@@ -142,10 +141,10 @@ namespace TianHua.FanSelection.UI
                     sidePanelcontrol = new CtlAxisymmetric();
                     break;
             }
-            sidePanelcontrol.InitForm(m_Fan,action);
+            sidePanelcontrol.InitForm(Model,action);
             this.sidePanel1.Controls.Add(sidePanelcontrol);
             sidePanelcontrol.Dock = DockStyle.Fill;
-            if (m_Fan.ExhaustModel.ExhaustCalcType == "空间-净高小于等于6m")
+            if (Model.ExhaustModel.ExhaustCalcType == "空间-净高小于等于6m")
             {
                 sidePanelcontrol.Enabled = false;
             }
@@ -153,7 +152,7 @@ namespace TianHua.FanSelection.UI
 
         private void TxtHRRChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.HeatReleaseRate = TxtHRR.Text;
+            Model.ExhaustModel.HeatReleaseRate = TxtHRR.Text;
         }
 
         private void sidePanel2_Leave(object sender, EventArgs e)
@@ -163,43 +162,43 @@ namespace TianHua.FanSelection.UI
 
         private void PlumeSelectedChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.PlumeSelection = this.ComBoxPlume.Text;
-            InitsidePanel1(this.ComBoxPlume.Text, panel1change);
+            Model.ExhaustModel.PlumeSelection = this.ComBoxPlume.Text;
+            InitsidePanel1(this.ComBoxPlume.Text, OnVmaxChanged);
             TotalUpdate();
         }
 
         private void TxtLengthValueChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SmokeLength = this.TxtLength.Text;
-            m_Fan.ExhaustModel.SmokeDiameter = fmExhaustCalculator.GetSmokeDiameter(m_Fan.ExhaustModel).ToString();
-            this.TxtDiameter.Text = m_Fan.ExhaustModel.SmokeDiameter;
+            Model.ExhaustModel.SmokeLength = this.TxtLength.Text;
+            Model.ExhaustModel.SmokeDiameter = ExhaustModelCalculator.GetSmokeDiameter(Model.ExhaustModel).ToString();
+            this.TxtDiameter.Text = Model.ExhaustModel.SmokeDiameter;
         }
 
         private void TxtWidthValueChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SmokeWidth = this.TxtWidth.Text;
-            m_Fan.ExhaustModel.SmokeDiameter = fmExhaustCalculator.GetSmokeDiameter(m_Fan.ExhaustModel).ToString();
-            this.TxtDiameter.Text = m_Fan.ExhaustModel.SmokeDiameter;
+            Model.ExhaustModel.SmokeWidth = this.TxtWidth.Text;
+            Model.ExhaustModel.SmokeDiameter = ExhaustModelCalculator.GetSmokeDiameter(Model.ExhaustModel).ToString();
+            this.TxtDiameter.Text = Model.ExhaustModel.SmokeDiameter;
         }
 
         private void SmokeFactorOptionSelectChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SmokeFactorOption = this.ComBoxWZ.Text;
-            m_Fan.ExhaustModel.SmokeFactorValue = fmExhaustCalculator.GetSmokeFactor(m_Fan.ExhaustModel).ToString();
-            this.TxtSmokePosition.Text = fmExhaustCalculator.GetSmokeFactor(m_Fan.ExhaustModel).ToString();
+            Model.ExhaustModel.SmokeFactorOption = this.ComBoxWZ.Text;
+            Model.ExhaustModel.SmokeFactorValue = ExhaustModelCalculator.GetSmokeFactor(Model.ExhaustModel).ToString();
+            this.TxtSmokePosition.Text = ExhaustModelCalculator.GetSmokeFactor(Model.ExhaustModel).ToString();
         }
 
         private void SmokeLayerThicknessChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SmokeThickness = this.TxtSmokeLayerThickness.Text;
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
-            m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
+            Model.ExhaustModel.SmokeThickness = this.TxtSmokeLayerThickness.Text;
+            this.TxtVmax.Text = ExhaustModelCalculator.GetMaxSmoke(Model.ExhaustModel);
+            Model.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
 
         private void SmokePositionChanged(object sender, EventArgs e)
         {
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
-            m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
+            this.TxtVmax.Text = ExhaustModelCalculator.GetMaxSmoke(Model.ExhaustModel);
+            Model.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
 
         private void sidePanel1_Leave(object sender, EventArgs e)
@@ -209,22 +208,22 @@ namespace TianHua.FanSelection.UI
 
         private void TotalUpdate()
         {
-            this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
+            this.TxtHRR.Text = ExhaustModelCalculator.GetHeatReleaseRate(Loader, Model.ExhaustModel).ToString();
+            Model.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
             CtlExhaustControlBase sidePanelcontrol = sidePanel1.Controls[0] as CtlExhaustControlBase;
-            sidePanelcontrol.UpdateCalcAirVolum(m_Fan.ExhaustModel);
+            sidePanelcontrol.UpdateCalcAirVolum(Model.ExhaustModel);
 
             UpdateVmax();
         }
 
         private void UpdateVmax()
         {
-            this.TxtHRR.Text = fmExhaustCalculator.GetHeatReleaseRate(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
+            this.TxtHRR.Text = ExhaustModelCalculator.GetHeatReleaseRate(Loader, Model.ExhaustModel).ToString();
+            Model.ExhaustModel.HeatReleaseRate = this.TxtHRR.Text;
 
-            this.TxtVmax.Text = fmExhaustCalculator.GetMaxSmoke(m_Fan.ExhaustModel);
-            m_Fan.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
+            this.TxtVmax.Text = ExhaustModelCalculator.GetMaxSmoke(Model.ExhaustModel);
+            Model.ExhaustModel.MaxSmokeExtraction = this.TxtVmax.Text;
         }
     }
 }

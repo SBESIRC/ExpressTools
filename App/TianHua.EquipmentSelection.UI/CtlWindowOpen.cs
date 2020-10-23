@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TianHua.FanSelection.UI.CtlExhaustCalculation;
 using TianHua.FanSelection.Model;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.FanSelection.UI
 {
     public partial class CtlWindowOpen : CtlExhaustControlBase
     {
-        public FanDataModel m_Fan { get; set; }
-        Action panelchanged;
+        private FanDataModel Model { get; set; }
+        private Action OnMinVolumChanged { get; set; }
 
         public CtlWindowOpen()
         {
@@ -24,41 +16,41 @@ namespace TianHua.FanSelection.UI
 
         public override void InitForm(FanDataModel _FanDataModel,Action action)
         {
-            m_Fan = _FanDataModel;
-            panelchanged = action;
-            this.TxtWindowArea.Text = m_Fan.ExhaustModel.Window_WindowArea;
-            this.TxtWindowHeight.Text = m_Fan.ExhaustModel.Window_WindowHeight;
-            this.TxtSmokeToBottom.Text = m_Fan.ExhaustModel.Window_SmokeBottom;
+            Model = _FanDataModel;
+            OnMinVolumChanged = action;
+            this.TxtWindowArea.Text = Model.ExhaustModel.Window_WindowArea;
+            this.TxtWindowHeight.Text = Model.ExhaustModel.Window_WindowHeight;
+            this.TxtSmokeToBottom.Text = Model.ExhaustModel.Window_SmokeBottom;
         }
 
         private void WindowAreaChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.Window_WindowArea = this.TxtWindowArea.Text;
-            UpdateCalcAirVolum(m_Fan.ExhaustModel);
+            Model.ExhaustModel.Window_WindowArea = this.TxtWindowArea.Text;
+            UpdateCalcAirVolum(Model.ExhaustModel);
         }
 
         private void WindowHeightChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.Window_WindowHeight = this.TxtWindowHeight.Text;
-            UpdateCalcAirVolum(m_Fan.ExhaustModel);
+            Model.ExhaustModel.Window_WindowHeight = this.TxtWindowHeight.Text;
+            UpdateCalcAirVolum(Model.ExhaustModel);
         }
 
         private void SmokeToBottomChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.Window_SmokeBottom = this.TxtSmokeToBottom.Text;
-            UpdateCalcAirVolum(m_Fan.ExhaustModel);
+            Model.ExhaustModel.Window_SmokeBottom = this.TxtSmokeToBottom.Text;
+            UpdateCalcAirVolum(Model.ExhaustModel);
         }
 
         public override void UpdateCalcAirVolum(ExhaustCalcModel model)
         {
-            if (m_Fan == null)
+            if (Model == null)
             {
                 return;
             }
-            this.TxtCalculateVolume.Text = fmExhaustCalculator.GetCalcAirVolum(model);
-            m_Fan.ExhaustModel.Window_CalcAirVolum = this.TxtCalculateVolume.Text;
-            m_Fan.ExhaustModel.Final_CalcAirVolum = m_Fan.ExhaustModel.Window_CalcAirVolum;
-            panelchanged();
+            this.TxtCalculateVolume.Text = ExhaustModelCalculator.GetCalcAirVolum(model);
+            Model.ExhaustModel.Window_CalcAirVolum = this.TxtCalculateVolume.Text;
+            Model.ExhaustModel.Final_CalcAirVolum = Model.ExhaustModel.Window_CalcAirVolum;
+            OnMinVolumChanged();
         }
     }
 }

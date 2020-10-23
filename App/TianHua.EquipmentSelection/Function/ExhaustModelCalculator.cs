@@ -1,16 +1,12 @@
-﻿using DevExpress.XtraEditors;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TianHua.AutoCAD.Utility.ExtensionTools;
-using TianHua.FanSelection.Model;
+using System.Collections.Generic;
 using TianHua.Publics.BaseCode;
-namespace TianHua.FanSelection.UI.CtlExhaustCalculation
+using TianHua.FanSelection.Model;
+
+namespace TianHua.FanSelection.Function
 {
-    public static class fmExhaustCalculator
+    public static class ExhaustModelCalculator
     {
         //计算空间净高小于6的场所最小风量
         public static double GetMinVolumeForLess6(ExhaustCalcModel model)
@@ -21,7 +17,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         }
 
         //计算空间净高大于6的场所最小风量
-        public static double GetMinVolumeForGreater6(ExhaustCalcModel model)
+        public static double GetMinVolumeForGreater6(ExhaustModelLoader loader, ExhaustCalcModel model)
         {
             if (model.SpatialTypes.IsNullOrEmptyOrWhiteSpace() || model.SpaceHeight.IsNullOrEmptyOrWhiteSpace())
             {
@@ -30,33 +26,30 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             List<ExhaustSpaceInfo> largerAndLowerModel = new List<ExhaustSpaceInfo>();
             if (model.SpatialTypes.Contains("办公室"))
             {
-                largerAndLowerModel = FindLargerAndLowerModel(model, "办公室");
+                largerAndLowerModel = FindLargerAndLowerModel(loader, model, "办公室");
                 return 10000 * GetLinearInterpolation(largerAndLowerModel, model.SpaceHeight.NullToDouble());
             }
             else if (model.SpatialTypes.Contains("商店"))
             {
-                largerAndLowerModel = FindLargerAndLowerModel(model, "商店");
+                largerAndLowerModel = FindLargerAndLowerModel(loader, model, "商店");
                 return 10000 * GetLinearInterpolation(largerAndLowerModel, model.SpaceHeight.NullToDouble());
             }
             else if (model.SpatialTypes.Contains("仓库"))
             {
-                largerAndLowerModel = FindLargerAndLowerModel(model, "仓库");
+                largerAndLowerModel = FindLargerAndLowerModel(loader, model, "仓库");
                 return 10000 * GetLinearInterpolation(largerAndLowerModel, model.SpaceHeight.NullToDouble());
             }
             else
             {
-                largerAndLowerModel = FindLargerAndLowerModel(model, "厂房");
+                largerAndLowerModel = FindLargerAndLowerModel(loader, model, "厂房");
                 return 10000 * GetLinearInterpolation(largerAndLowerModel, model.SpaceHeight.NullToDouble());
             }
         }
 
-        public static List<ExhaustSpaceInfo> FindLargerAndLowerModel(ExhaustCalcModel model, string spacetype)
+        public static List<ExhaustSpaceInfo> FindLargerAndLowerModel(ExhaustModelLoader loader, ExhaustCalcModel model, string spacetype)
         {
-            var exhaustSpaceJson = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), "最小排烟量.json"));
-            var exhaustSpaceInfo = FuncJson.Deserialize<List<ExhaustSpaceInfo>>(exhaustSpaceJson);
-
-            var largerNetHeightItems = exhaustSpaceInfo.Where(e => e.SpaceNetHeight >= model.SpaceHeight.NullToDouble() && e.SpaceType.Contains(spacetype) && e.HasSprinkler == model.IsSpray).ToList();
-            var lowerNetHeightItems = exhaustSpaceInfo.Where(e => e.SpaceNetHeight < model.SpaceHeight.NullToDouble() && e.SpaceType.Contains(spacetype) && e.HasSprinkler == model.IsSpray).ToList();
+            var largerNetHeightItems = loader.Spaces.Where(e => e.SpaceNetHeight >= model.SpaceHeight.NullToDouble() && e.SpaceType.Contains(spacetype) && e.HasSprinkler == model.IsSpray).ToList();
+            var lowerNetHeightItems = loader.Spaces.Where(e => e.SpaceNetHeight < model.SpaceHeight.NullToDouble() && e.SpaceType.Contains(spacetype) && e.HasSprinkler == model.IsSpray).ToList();
             if (largerNetHeightItems.Count != 0)
             {
                 if (lowerNetHeightItems.Count != 0)
@@ -136,46 +129,44 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         public static double GetMinVolumeForCtlCloistersRooms(ExhaustCalcModel model)
         {
             double calculatevalue = model.CoveredArea.NullToDouble() * model.UnitVolume.NullToDouble();
-            return Math.Max(calculatevalue,13000);
+            return Math.Max(calculatevalue, 13000);
         }
 
         //计算热释放速率
         //净高小于等于6的场所除外
-        public static double GetHeatReleaseRate(ExhaustCalcModel model)
+        public static double GetHeatReleaseRate(HeatReleaseInfoLoader loader, ExhaustCalcModel model)
         {
             bool hassprinkler = model.IsSpray;
             if (model.SpatialTypes.IsNullOrEmptyOrWhiteSpace())
             {
                 return 0;
             }
-            else if (model.SpaceHeight.NullToDouble() >8)
+            else if (model.SpaceHeight.NullToDouble() > 8)
             {
                 hassprinkler = false;
             }
-            var heatReleaseJson = ReadTxt(Path.Combine(ThCADCommon.SupportPath(), "火灾达到静态时的热释放速率.json"));
-            var heatReleaseModels = FuncJson.Deserialize<List<HeatReleaseInfo>>(heatReleaseJson);
             var heatmodels = new List<HeatReleaseInfo>();
             if (model.SpatialTypes.Contains("办公室"))
             {
-                heatmodels = heatReleaseModels.Where(h => h.BuildType.Contains("办公室") && h.HasSprinkler == hassprinkler).ToList();
+                heatmodels = loader.HeatReleases.Where(h => h.BuildType.Contains("办公室") && h.HasSprinkler == hassprinkler).ToList();
             }
             else if (model.SpatialTypes.Contains("商店"))
             {
-                heatmodels = heatReleaseModels.Where(h => h.BuildType.Contains("商店") && h.HasSprinkler == hassprinkler).ToList();
+                heatmodels = loader.HeatReleases.Where(h => h.BuildType.Contains("商店") && h.HasSprinkler == hassprinkler).ToList();
             }
             else if (model.SpatialTypes.Contains("仓库"))
             {
-                heatmodels = heatReleaseModels.Where(h => h.BuildType.Contains("仓库") && h.HasSprinkler == hassprinkler).ToList();
+                heatmodels = loader.HeatReleases.Where(h => h.BuildType.Contains("仓库") && h.HasSprinkler == hassprinkler).ToList();
             }
             else if (model.SpatialTypes.Contains("车库"))
             {
-                heatmodels = heatReleaseModels.Where(h => h.BuildType.Contains("车库") && h.HasSprinkler == hassprinkler).ToList();
+                heatmodels = loader.HeatReleases.Where(h => h.BuildType.Contains("车库") && h.HasSprinkler == hassprinkler).ToList();
             }
             else
             {
-                heatmodels = heatReleaseModels.Where(h => h.BuildType.Contains("厂房") && h.HasSprinkler == hassprinkler).ToList();
+                heatmodels = loader.HeatReleases.Where(h => h.BuildType.Contains("厂房") && h.HasSprinkler == hassprinkler).ToList();
             }
-            if (heatmodels.IsNull() || heatmodels.Count() == 0)
+            if (heatmodels.Count() == 0)
             {
                 return 0;
             }
@@ -185,7 +176,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
         //计算风口-当量直径
         public static double GetSmokeDiameter(ExhaustCalcModel model)
         {
-            return Math.Round(2 * model.SmokeWidth.NullToDouble() * model.SmokeLength.NullToDouble() / (model.SmokeLength.NullToDouble() + model.SmokeWidth.NullToDouble()) , 0) ;
+            return Math.Round(2 * model.SmokeWidth.NullToDouble() * model.SmokeLength.NullToDouble() / (model.SmokeLength.NullToDouble() + model.SmokeWidth.NullToDouble()), 0);
         }
 
         //计算轴对称型Mp值
@@ -255,7 +246,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             }
             double t = 293.15 + qc / (mp * 1.01);
             double calcairvolum = Math.Round(3600 * mp * t / (1.2 * 293.15), 0);
-            return double.IsNaN(calcairvolum)? "无": calcairvolum.NullToStr();
+            return double.IsNaN(calcairvolum) ? "无" : calcairvolum.NullToStr();
         }
 
         //计算排烟位置系数
@@ -291,7 +282,7 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
                     return "无";
             }
             double maxsmoke = Math.Round(3600 * 4.16 * model.SmokeFactorValue.NullToDouble() * Math.Pow(model.SmokeThickness.NullToDouble(), 2.5) * Math.Pow(dt / 293.15, 0.5));
-            return double.IsNaN(maxsmoke)? "无": maxsmoke.NullToStr();
+            return double.IsNaN(maxsmoke) ? "无" : maxsmoke.NullToStr();
         }
 
         //判断选型系数
@@ -300,21 +291,77 @@ namespace TianHua.FanSelection.UI.CtlExhaustCalculation
             return factor.NullToDouble() < 1.2 ? "1.2" : factor;
         }
 
-        public static string ReadTxt(string _Path)
+        //获取Z值
+        public static double GetZValue(ExhaustCalcModel model)
         {
-            try
+            double hsp = model.SpaceHeight.NullToDouble() < 3 ? 0.5 * model.SpaceHeight.NullToDouble() : model.Axial_HighestHeight.NullToDouble();
+            double hq = 1.6 + 0.1 * hsp;
+            double z = 0;
+            if (model.Axial_HangingWallGround.IsNullOrEmptyOrWhiteSpace())
             {
-                using (StreamReader _StreamReader = File.OpenText(_Path))
-                {
-                    return _StreamReader.ReadToEnd();
-                }
+                z = hq;
             }
-            catch
+            else
             {
-                XtraMessageBox.Show("数据文件读取时发生错误！");
-                return string.Empty;
+                double hdd = model.Axial_HangingWallGround.NullToDouble() - model.Axial_FuelFloor.NullToDouble();
+                z = Math.Max(hdd, hq);
+            }
+            return z;
+        }
 
+        //获取Z1值
+        public static double GetZ1Value(ExhaustCalcModel model)
+        {
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
+            return 0.166 * Math.Pow(qc, 0.4);
+        }
+
+        //Z值是否大于Z1
+        public static bool IfZBiggerThanZ1(ExhaustCalcModel model)
+        {
+            return GetZValue(model) > GetZ1Value(model);
+        }
+
+        //获取Hq值
+        public static double GetHqValue(ExhaustCalcModel model)
+        {
+            double hsp = model.SpaceHeight.NullToDouble() < 3 ? 0.5 * model.SpaceHeight.NullToDouble() : model.Axial_HighestHeight.NullToDouble();
+            return 1.6 + 0.1 * hsp;
+        }
+
+        //计算dt
+        public static double GetDtValue(ExhaustCalcModel model)
+        {
+            double qc = 0.7 * 1000 * model.HeatReleaseRate.NullToDouble();
+            double mp = 0;
+            switch (model.PlumeSelection)
+            {
+                case "轴对称型":
+                    mp = GetAxialCalcAirVolum(model);
+                    break;
+                case "阳台溢出型":
+                    mp = GetOverfloorCalcAirVolum(model);
+                    break;
+                case "窗口型":
+                    mp = GetWindowCalcAirVolum(model);
+                    break;
+                default:
+                    break;
             }
+            return qc / (mp * 1.01);
+        }
+
+        //计算aw值
+        public static double GetawValue(ExhaustCalcModel model)
+        {
+            double aw = 2.4 * Math.Pow(model.Window_WindowArea.NullToDouble(), 0.4) * Math.Pow(model.Window_WindowHeight.NullToDouble(), 0.2) - 2.1 * model.Window_WindowHeight.NullToDouble();
+            return aw;
+        }
+
+        //计算T值
+        public static double GeTValue(ExhaustCalcModel model)
+        {
+            return 293.15 + GetDtValue(model);
         }
 
     }

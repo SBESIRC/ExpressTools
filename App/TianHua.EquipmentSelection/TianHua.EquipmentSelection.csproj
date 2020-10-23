@@ -68,10 +68,13 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Function\ExhaustModelCalculator.cs" />
+    <Compile Include="Function\ExhaustModelLoader.cs" />
     <Compile Include="Function\FanDataModelExtension.cs" />
     <Compile Include="Function\FanParametersComparer.cs" />
     <Compile Include="Function\FanParametersExtension.cs" />
-    <Compile Include="Function\fmExhaustUICalculator.cs" />
+    <Compile Include="Function\HeatReleaseInfoLoader.cs" />
+    <Compile Include="Function\ThModelLoader.cs" />
     <Compile Include="ThFanSelectionCommon.cs" />
     <Compile Include="Function\ThFanSelectionModelPick.cs" />
     <Compile Include="Function\ThFanSelectionModelPicker.cs" />
@@ -135,9 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\向下加一行.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

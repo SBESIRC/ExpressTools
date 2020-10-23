@@ -363,10 +363,10 @@ namespace TianHua.FanSelection.UI
                 {
                     return;
                 }
-                _Fan.ExhaustModel = _fmAirVolumeCalc.m_Fan.ExhaustModel;
-                _Fan.AirVolume = _fmAirVolumeCalc.m_Fan.AirVolume;
-                _Fan.AirCalcFactor = _fmAirVolumeCalc.m_Fan.AirCalcFactor;
-                _Fan.AirCalcValue = _fmAirVolumeCalc.m_Fan.AirCalcValue;
+                _Fan.ExhaustModel = _fmAirVolumeCalc.Model.ExhaustModel;
+                _Fan.AirVolume = _fmAirVolumeCalc.Model.AirVolume;
+                _Fan.AirCalcFactor = _fmAirVolumeCalc.Model.AirCalcFactor;
+                _Fan.AirCalcValue = _fmAirVolumeCalc.Model.AirCalcValue;
 
                 SetFanModel();
                 TreeList.Refresh();

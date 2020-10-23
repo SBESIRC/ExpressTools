@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TianHua.FanSelection.UI.CtlExhaustCalculation;
+using TianHua.FanSelection.Function;
+using System.IO;
+using TianHua.AutoCAD.Utility.ExtensionTools;
 
 namespace TianHua.FanSelection.UI
 {
     public partial class CtlGreaterThan6 : CtlExhaustControlBase
     {
-        FanDataModel m_Fan { get; set; }
-        Action panelchanged;
+        private FanDataModel Model { get; set; }
+        private ExhaustModelLoader Loader { get; set; }
+        private Action OnChanged { get; set; }
 
         public CtlGreaterThan6()
         {
@@ -23,36 +18,37 @@ namespace TianHua.FanSelection.UI
 
         public override void InitForm(FanDataModel _FanDataModel,Action action)
         {
-            m_Fan = _FanDataModel;
-            panelchanged = action;
-            this.RadSpray.SelectedIndex = m_Fan.ExhaustModel.IsSpray ? 0 : 1;
-            this.ComBoxSpatialType.Text = m_Fan.ExhaustModel.SpatialTypes;
-            this.TxtHeight.Text = m_Fan.ExhaustModel.SpaceHeight;
-            this.TxtMinUnitVolume.Text = m_Fan.ExhaustModel.MinAirVolume;
+            Model = _FanDataModel;
+            Loader = new ExhaustModelLoader();
+            Loader.LoadFromFile(Path.Combine(ThCADCommon.SupportPath(), "最小排烟量.json"));
+            OnChanged = action;
+            this.RadSpray.SelectedIndex = Model.ExhaustModel.IsSpray ? 0 : 1;
+            this.ComBoxSpatialType.Text = Model.ExhaustModel.SpatialTypes;
+            this.TxtHeight.Text = Model.ExhaustModel.SpaceHeight;
+            this.TxtMinUnitVolume.Text = Model.ExhaustModel.MinAirVolume;
         }
 
         private void SpatialTypeSelectedChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SpatialTypes = ComBoxSpatialType.Text;
-            TxtMinUnitVolume.Text = fmExhaustCalculator.GetMinVolumeForGreater6(m_Fan.ExhaustModel).ToString();
-            panelchanged();
+            Model.ExhaustModel.SpatialTypes = ComBoxSpatialType.Text;
+            TxtMinUnitVolume.Text = ExhaustModelCalculator.GetMinVolumeForGreater6(Loader, Model.ExhaustModel).ToString();
+            OnChanged();
         }
 
         private void TxtHeightChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SpaceHeight = TxtHeight.Text;
-            this.TxtMinUnitVolume.Text = fmExhaustCalculator.GetMinVolumeForGreater6(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.MinAirVolume = this.TxtMinUnitVolume.Text;
-            panelchanged();
+            Model.ExhaustModel.SpaceHeight = TxtHeight.Text;
+            this.TxtMinUnitVolume.Text = ExhaustModelCalculator.GetMinVolumeForGreater6(Loader, Model.ExhaustModel).ToString();
+            Model.ExhaustModel.MinAirVolume = this.TxtMinUnitVolume.Text;
+            OnChanged();
         }
 
         private void RadSpraySelectedChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.IsSpray = this.RadSpray.SelectedIndex == 0 ? true : false;
-            this.TxtMinUnitVolume.Text = fmExhaustCalculator.GetMinVolumeForGreater6(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.MinAirVolume = this.TxtMinUnitVolume.Text;
-            panelchanged();
+            Model.ExhaustModel.IsSpray = this.RadSpray.SelectedIndex == 0 ? true : false;
+            this.TxtMinUnitVolume.Text = ExhaustModelCalculator.GetMinVolumeForGreater6(Loader, Model.ExhaustModel).ToString();
+            Model.ExhaustModel.MinAirVolume = this.TxtMinUnitVolume.Text;
+            OnChanged();
         }
-
     }
 }

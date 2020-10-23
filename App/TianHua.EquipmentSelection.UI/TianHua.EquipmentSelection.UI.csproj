@@ -88,8 +88,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockCustomCommandMapper.cs" />
-    <Compile Include="CAD\ThFanModelObjectOverrule.cs" />
-    <Compile Include="CAD\ThFanModelOverruleManager.cs" />
     <Compile Include="Command\ThModelBlockCommand.cs" />
     <Compile Include="CtlAxisymmetric.cs">
       <SubType>UserControl</SubType>
@@ -115,7 +113,6 @@
     <Compile Include="CtlCloistersAndRooms.Designer.cs">
       <DependentUpon>CtlCloistersAndRooms.cs</DependentUpon>
     </Compile>
-    <Compile Include="CtlExhaustCalculation\fmExhaustCalculator.cs" />
     <Compile Include="CtlExhaustControlBase.cs">
       <SubType>UserControl</SubType>
     </Compile>

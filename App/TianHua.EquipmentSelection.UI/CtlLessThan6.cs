@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.XtraEditors;
-using TianHua.Publics.BaseCode;
-using TianHua.FanSelection.UI.CtlExhaustCalculation;
+using TianHua.FanSelection.Function;
 
 namespace TianHua.FanSelection.UI
 {
     public partial class CtlLessThan6 : CtlExhaustControlBase
     {
-        FanDataModel m_Fan { get; set; }
-        Action panelchanged;
+        private FanDataModel Model { get; set; }
+        private Action OnMinVolumChanged { get; set; }
 
         public CtlLessThan6()
         {
@@ -24,37 +15,37 @@ namespace TianHua.FanSelection.UI
 
         public override void InitForm(FanDataModel _FanDataModel,Action action)
         {
-            m_Fan = _FanDataModel;
-            panelchanged = action;
-            this.ComBoxSpatialType.Text = m_Fan.ExhaustModel.SpatialTypes;
-            this.TxtHeight.Text = m_Fan.ExhaustModel.SpaceHeight;
-            this.TxtArea.Text = m_Fan.ExhaustModel.CoveredArea;
-            m_Fan.ExhaustModel.UnitVolume = this.TxtUnitVolume.Text;
-            this.TxtMinUnitVolume.Text = m_Fan.ExhaustModel.MinAirVolume;
+            Model = _FanDataModel;
+            OnMinVolumChanged = action;
+            this.ComBoxSpatialType.Text = Model.ExhaustModel.SpatialTypes;
+            this.TxtHeight.Text = Model.ExhaustModel.SpaceHeight;
+            this.TxtArea.Text = Model.ExhaustModel.CoveredArea;
+            Model.ExhaustModel.UnitVolume = this.TxtUnitVolume.Text;
+            this.TxtMinUnitVolume.Text = Model.ExhaustModel.MinAirVolume;
         }
 
         private void SpatialTypeChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SpatialTypes = ComBoxSpatialType.Text;
-            panelchanged();
+            Model.ExhaustModel.SpatialTypes = ComBoxSpatialType.Text;
+            OnMinVolumChanged();
         }
 
         private void TxtHeightChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.SpaceHeight = TxtHeight.Text;
-            panelchanged();
+            Model.ExhaustModel.SpaceHeight = TxtHeight.Text;
+            OnMinVolumChanged();
         }
 
         private void TxtAreaChanged(object sender, EventArgs e)
         {
-            m_Fan.ExhaustModel.CoveredArea = TxtArea.Text;
+            Model.ExhaustModel.CoveredArea = TxtArea.Text;
             UpdateMinAirVolume();
         }
 
         private void UpdateMinAirVolume()
         {
-            TxtMinUnitVolume.Text = fmExhaustCalculator.GetMinVolumeForLess6(m_Fan.ExhaustModel).ToString();
-            m_Fan.ExhaustModel.MinAirVolume = TxtMinUnitVolume.Text;
+            TxtMinUnitVolume.Text = ExhaustModelCalculator.GetMinVolumeForLess6(Model.ExhaustModel).ToString();
+            Model.ExhaustModel.MinAirVolume = TxtMinUnitVolume.Text;
         }
     }
 }
