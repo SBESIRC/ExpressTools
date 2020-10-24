@@ -88,6 +88,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockCustomCommandMapper.cs" />
+    <Compile Include="CAD\ThFanModelObjectOverrule.cs" />
+    <Compile Include="CAD\ThFanModelOverruleManager.cs" />
     <Compile Include="Command\ThModelBlockCommand.cs" />
     <Compile Include="CtlAxisymmetric.cs">
       <SubType>UserControl</SubType>
