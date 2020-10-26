@@ -33,11 +33,6 @@ namespace TianHua.FanSelection.UI
             subview = new ModelValidation(Model);
             CheckPanel.Controls.Add(subview);
 
-            if (model.Count_Floor != 0)
-            {
-                layerCount.Text = model.Count_Floor.ToString();
-            }
-
             switch (model.Load)
             {
                 case StaircaseAirModel.LoadHeight.LoadHeightLow:
@@ -75,6 +70,11 @@ namespace TianHua.FanSelection.UI
                     break;
                 default:
                     break;
+            }
+
+            if (model.Count_Floor != 0)
+            {
+                layerCount.Text = model.Count_Floor.ToString();
             }
 
             if (model.Load== StaircaseAirModel.LoadHeight.LoadHeightLow)
