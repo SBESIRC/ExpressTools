@@ -105,26 +105,6 @@ namespace TianHua.FanSelection.UI
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int ID);
 
-
-        /// <summary>
-        /// 单例
-        /// </summary>
-        private static fmFanSelection SingleFanSelectionDialog;
-        public static fmFanSelection GetInstance()
-        {
-            if (SingleFanSelectionDialog == null)
-            {
-                SingleFanSelectionDialog = new fmFanSelection();
-            }
-            return SingleFanSelectionDialog;
-        }
-
-        public void ReLoad()
-        {
-            SingleFanSelectionDialog = new fmFanSelection();
-        }
-
-
         public void ShowFormByID(string _ID)
         {
             var _FocusFan = m_ListFan.Find(p => p.ID == _ID);
@@ -136,7 +116,6 @@ namespace TianHua.FanSelection.UI
             }
 
         }
-
 
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -359,7 +338,7 @@ namespace TianHua.FanSelection.UI
 
                 _fmAirVolumeCalc.InitForm(_Fan);
 
-              if (_fmAirVolumeCalc.ShowDialog() != DialogResult.OK)
+                if (_fmAirVolumeCalc.ShowDialog() != DialogResult.OK)
                 {
                     return;
                 }
@@ -938,7 +917,7 @@ namespace TianHua.FanSelection.UI
                     SetFugeSelectionStateInfo(parent, _Fan, picker, parentpick, _ListFanParameters);
                     TreeList.RefreshNode(TreeList.FocusedNode);
                 }
-                else if(FuncStr.NullToStr(parent.VentStyle).Contains("后倾离心"))
+                else if (FuncStr.NullToStr(parent.VentStyle).Contains("后倾离心"))
                 {
                     //高速档父项为后倾离心双速
                     if (parent.Control == "双速")
@@ -1027,27 +1006,6 @@ namespace TianHua.FanSelection.UI
             _Fan.FanModelWidth = string.Empty;
             _Fan.FanModelHeight = string.Empty;
             _Fan.FanModelWeight = string.Empty;
-        }
-
-        private void CalcVentQuan(List<int> _ListVentQuan, int _Tmp, string _Sign)
-        {
-            if (_ListVentQuan.Count == 0 || _Sign == string.Empty || _Sign == ",") { _ListVentQuan.Add(_Tmp); return; }
-            var _OldValue = FuncStr.NullToInt(_ListVentQuan.Last());
-            if (_OldValue > _Tmp)
-            {
-                for (int i = _Tmp; i <= _OldValue; i++)
-                {
-                    _ListVentQuan.Add(i);
-                }
-            }
-            else if (_OldValue < _Tmp)
-            {
-                for (int i = _OldValue + 1; i <= _Tmp; i++)
-                {
-                    _ListVentQuan.Add(i);
-                }
-            }
-
         }
 
         private void TreeList_CustomNodeCellEditForEditing(object sender, GetCustomNodeCellEditEventArgs e)
@@ -1348,20 +1306,30 @@ namespace TianHua.FanSelection.UI
             {
                 _FanDataModel.SortScenario = _FanPrefixDict.No;
             }
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "消防排烟兼平时排风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "消防补风兼平时送风")
-            {
-                _FanDataModel.Remark = "消防兼用";
-                _FanDataModel.Use = "消防排烟";
-                _FanDataModel.Control = "双速";
-                AddAuxiliary(_FanDataModel);
-            }
 
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "平时送风兼事故补风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "平时排风兼事故排风")
+            var scenario = FuncStr.NullToStr(ComBoxScene.EditValue);
+            switch (scenario)
             {
-                _FanDataModel.Remark = "事故兼用";
-                _FanDataModel.Use = "事故排风";
-                _FanDataModel.Control = "双速";
-                AddAuxiliary(_FanDataModel);
+                case "消防排烟兼平时排风":
+                case "消防补风兼平时送风":
+                    {
+                        _FanDataModel.Remark = "消防兼用";
+                        _FanDataModel.Use = "消防排烟";
+                        _FanDataModel.Control = "双速";
+                        m_ListFan.Add(_FanDataModel.CreateAuxiliaryModel(scenario));
+                    }
+                    break;
+                case "平时送风兼事故补风":
+                case "平时排风兼事故排风":
+                    {
+                        _FanDataModel.Remark = "事故兼用";
+                        _FanDataModel.Use = "事故排风";
+                        _FanDataModel.Control = "双速";
+                        m_ListFan.Add(_FanDataModel.CreateAuxiliaryModel(scenario));
+                    }
+                    break;
+                default:
+                    break;
             }
 
             if (FuncStr.NullToStr(_FanDataModel.Scenario).Contains("消防"))
@@ -1393,42 +1361,6 @@ namespace TianHua.FanSelection.UI
             TreeList.FocusedNode = TreeList.Nodes.LastNode;
             TreeList.ShowEditor();
         }
-
-        public void AddAuxiliary(FanDataModel _MainFan)
-        {
-
-            FanDataModel _FanDataModel = new FanDataModel();
-            _FanDataModel.ID = Guid.NewGuid().ToString();
-            _FanDataModel.Scenario = FuncStr.NullToStr(ComBoxScene.EditValue);
-            _FanDataModel.PID = _MainFan.ID;
-            _FanDataModel.AirVolume = 0;
-
-            _FanDataModel.InstallSpace = "-";
-            _FanDataModel.InstallFloor = "-";
-            _FanDataModel.VentQuan = 0;
-            _FanDataModel.VentNum = "-";
-
-            _FanDataModel.VentStyle = "-";
-            _FanDataModel.VentConnect = "-";
-            _FanDataModel.VentLev = "-";
-            _FanDataModel.EleLev = "-";
-            _FanDataModel.FanModelName = "-";
-            _FanDataModel.MountType = "-";
-            _FanDataModel.VibrationMode = "-";
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "消防排烟兼平时排风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "消防补风兼平时送风")
-            {
-                _FanDataModel.Name = "平时";
-                _FanDataModel.Use = "平时排风";
-            }
-
-            if (FuncStr.NullToStr(ComBoxScene.EditValue) == "平时送风兼事故补风" || FuncStr.NullToStr(ComBoxScene.EditValue) == "平时排风兼事故排风")
-            {
-                _FanDataModel.Name = "兼用";
-                _FanDataModel.Use = "平时排风";
-            }
-            m_ListFan.Add(_FanDataModel);
-        }
-
 
         private void BtnDle_Click(object sender, EventArgs e)
         {
@@ -2112,8 +2044,8 @@ namespace TianHua.FanSelection.UI
                 if (!p.IsNull())
                 {
                     ExcelExportEngine.Instance.Model = p;
-                    
-                    if (p.FanVolumeModel !=null)
+
+                    if (p.FanVolumeModel != null)
                     {
                         ExcelExportEngine.Instance.RangeCopyOperator = copyOperatorForVolumeModel;
                         ExcelExportEngine.Instance.Sourcebook = excelfile.OpenWorkBook(Path.Combine(ThCADCommon.SupportPath(), "DesignData", "SmokeProofScenario.xlsx"));

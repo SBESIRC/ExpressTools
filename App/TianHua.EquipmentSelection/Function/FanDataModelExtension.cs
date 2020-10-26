@@ -225,5 +225,47 @@ namespace TianHua.FanSelection.Function
             }
             return model.AirVolume;
         }
+
+        public static FanDataModel CreateAuxiliaryModel(this FanDataModel model, string scenario)
+        {
+            FanDataModel _FanDataModel = new FanDataModel();
+            _FanDataModel.ID = Guid.NewGuid().ToString();
+            _FanDataModel.Scenario = scenario;
+            _FanDataModel.PID = model.ID;
+            _FanDataModel.AirVolume = 0;
+
+            _FanDataModel.InstallSpace = "-";
+            _FanDataModel.InstallFloor = "-";
+            _FanDataModel.VentQuan = 0;
+            _FanDataModel.VentNum = "-";
+
+            _FanDataModel.VentStyle = "-";
+            _FanDataModel.VentConnect = "-";
+            _FanDataModel.VentLev = "-";
+            _FanDataModel.EleLev = "-";
+            _FanDataModel.FanModelName = "-";
+            _FanDataModel.MountType = "-";
+            _FanDataModel.VibrationMode = "-";
+            switch(scenario)
+            {
+                case "消防排烟兼平时排风":
+                case "消防补风兼平时送风":
+                    {
+                        _FanDataModel.Name = "平时";
+                        _FanDataModel.Use = "平时排风";
+                    }
+                    break;
+                case "平时送风兼事故补风":
+                case "平时排风兼事故排风":
+                    {
+                        _FanDataModel.Name = "兼用";
+                        _FanDataModel.Use = "平时排风";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return _FanDataModel;
+        }
     }
 }
