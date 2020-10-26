@@ -523,6 +523,15 @@ namespace TianHua.FanSelection.UI
 
         public void SetAxialSelectionStateInfo(FanDataModel parentfanmodel, FanDataModel lowfanmodel, ThFanSelectionAxialModelPicker lowfanpick, ThFanSelectionAxialModelPicker parentpick, List<AxialFanParameters> lowaxialfanparameters)
         {
+            if (lowfanmodel.FanSelectionStateInfo.IsNull())
+            {
+                lowfanmodel.FanSelectionStateInfo = new FanSelectionStateInfo();
+            }
+            else if (parentfanmodel.FanSelectionStateInfo.IsNull())
+            {
+                parentfanmodel.FanSelectionStateInfo = new FanSelectionStateInfo();
+            }
+
             //高速档未选到风机
             if (string.IsNullOrEmpty(parentfanmodel.FanModelCCCF))
             {
@@ -674,6 +683,15 @@ namespace TianHua.FanSelection.UI
 
         public void SetFugeSelectionStateInfo(FanDataModel parentfanmodel, FanDataModel lowfanmodel, ThFanSelectionModelPicker lowfanpick, ThFanSelectionModelPicker parentpick, List<FanParameters> lowfugefanparameters)
         {
+            if (lowfanmodel.FanSelectionStateInfo.IsNull())
+            {
+                lowfanmodel.FanSelectionStateInfo = new FanSelectionStateInfo();
+            }
+            else if (parentfanmodel.FanSelectionStateInfo.IsNull())
+            {
+                parentfanmodel.FanSelectionStateInfo = new FanSelectionStateInfo();
+            }
+
             //高速档未选到风机
             if (string.IsNullOrEmpty(parentfanmodel.FanModelCCCF))
             {
