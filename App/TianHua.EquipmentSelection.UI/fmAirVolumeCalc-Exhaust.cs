@@ -98,7 +98,7 @@ namespace TianHua.FanSelection.UI
         private void UpdateAirVolume()
         {
             int maxcalvalue = FuncStr.NullToInt(Math.Round(Math.Max(this.TxtCalcValue.Text.NullToDouble(), this.TxtEstimatedValue.Text.NullToDouble()) * this.TxtFactor.Text.NullToDouble()));
-            Model.AirVolume = ExhaustModelCalculator.RoundUpToFifty(maxcalvalue);
+            Model.AirVolume = maxcalvalue==0 ? 0 : ExhaustModelCalculator.RoundUpToFifty(maxcalvalue);
             this.TxtAirVolume.Text = Model.AirVolume.NullToStr();
         }
 
