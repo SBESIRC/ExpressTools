@@ -293,24 +293,20 @@ namespace TianHua.FanSelection
         /// </summary>
         public ThFanVolumeModel FanVolumeModel { get; set; }
 
-
-
         /// </summary>        
-	/// 排烟计算
+        /// 排烟计算
         /// </summary>
-
-        public ExhaustCalcModel ExhaustModel { get; set; }        
-	/// <summary>
+        public ExhaustCalcModel ExhaustModel { get; set; }    
+        
+        /// <summary>
         /// 风机选择状态信息
         /// </summary>
         public FanSelectionStateInfo FanSelectionStateInfo { get; set; }
-
 
         /// <summary>
         /// 末端预留风压
         /// </summary>
         public int EndReservedAirPressure { get; set; }
-
 
         /// <summary>
         /// 风量 描述
@@ -331,6 +327,5 @@ namespace TianHua.FanSelection
         /// 是否重复
         /// </summary>
         public bool IsRepetitions { get; set; }
-
     }
 }

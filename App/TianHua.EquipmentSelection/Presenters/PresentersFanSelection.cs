@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TianHua.Publics.BaseCode;
+using System.Collections.Generic;
+using TianHua.FanSelection.Messaging;
 
 namespace TianHua.FanSelection
 {
@@ -16,7 +14,8 @@ namespace TianHua.FanSelection
 
         public override void OnViewEvent()
         {
-
+            ThModelAddMessage.Register(View, View.OnModelAddedHandler);
+            ThModelDeleteMessage.Register(View, View.OnModelDeletedHandler);
         }
 
         public override void OnViewLoaded()
@@ -36,64 +35,11 @@ namespace TianHua.FanSelection
             View.m_ListMotorTempo = GetMotorTempo();
 
             View.m_ListMountType = GetMountType();
-
         }
 
         private List<FanDataModel> InitFan()
         {
-            List<FanDataModel> _List = new List<FanDataModel>();
-
-            //{
-            //    FanDataModel _FanDataModel = new FanDataModel()
-            //    {
-            //        Scenario = EnumScenario.厨房排油烟.ToString(),
-            //        ID = Guid.NewGuid().ToString(),
-            //        PID = "0",
-            //        Name = "地下1层厨房",
-            //        InstallSpace = "",
-            //        InstallFloor = "B1",
-            //        VentNum = "1",
-            //        VentQuan = 0,
-            //        Remark = "",
-            //        AirVolume = 8700,
-            //        WindResis = 358,
-            //        VentStyle = "前倾离心",
-            //        VentConnect = "皮带",
-            //        VentLev = "2级",
-            //        EleLev = "2级",
-            //        MotorTempo = 1450,
-            //        FanModelName = "9A-4/030",
-            //        MountType = "吊装",
-            //    };
-            //    _List.Add(_FanDataModel);
-            //}
-
-            //{
-            //    FanDataModel _FanDataModel = new FanDataModel()
-            //    {
-            //        Scenario = EnumScenario.厨房排油烟.ToString(),
-            //        ID = Guid.NewGuid().ToString(),
-            //        PID = "0",
-            //        Name = "地下2层厨房",
-            //        InstallSpace = "",
-            //        InstallFloor = "F1",
-            //        VentNum = "1",
-            //        VentQuan = 0,
-            //        Remark = "",
-            //        AirVolume = 8700,
-            //        WindResis = 338,
-            //        VentStyle = "前倾离心",
-            //        VentConnect = "皮带",
-            //        VentLev = "1级",
-            //        EleLev = "1级",
-            //        MotorTempo = 1450,
-            //        FanModelName = "9A-4/030",
-            //        MountType = "吊装",
-            //    };
-            //    _List.Add(_FanDataModel);
-            //}
-
-            return _List;
+            return new List<FanDataModel>();
         }
 
         private List<string> InitScenario()

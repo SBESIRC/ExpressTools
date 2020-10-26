@@ -20,6 +20,9 @@ using DevExpress.LookAndFeel;
 using DevExpress.XtraEditors;
 using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
+using TianHua.FanSelection.UI.IO;
+using TianHua.FanSelection.UI.CAD;
+using TianHua.FanSelection.Messaging;
 
 namespace TianHua.FanSelection.UI
 {
@@ -55,6 +58,20 @@ namespace TianHua.FanSelection.UI
         public fmOverView m_fmOverView = fmOverView.GetInstance();
 
         public List<string> m_ListSceneScreening { get; set; }
+        public Action<ThModelAddMessage> OnModelAddedHandler
+        {
+            get
+            {
+                return OnModelAdded;
+            }
+        }
+        public Action<ThModelDeleteMessage> OnModelDeletedHandler
+        {
+            get
+            {
+                return OnModelDeleted;
+            }
+        }
 
         /// <summary>
         /// 风机箱选型
@@ -2354,6 +2371,16 @@ namespace TianHua.FanSelection.UI
         private void TreeList_HiddenEditor(object sender, EventArgs e)
         {
             m_fmOverView.DataSourceChanged(m_ListFan);
+        }
+
+        private void OnModelAdded(ThModelAddMessage message)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnModelDeleted(ThModelDeleteMessage message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

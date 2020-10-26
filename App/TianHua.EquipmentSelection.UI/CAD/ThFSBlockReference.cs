@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public class ThFSBlockReference
     {

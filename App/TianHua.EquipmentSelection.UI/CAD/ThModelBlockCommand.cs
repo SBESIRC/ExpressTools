@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.EditorInput;
 using TianHua.FanSelection.Function;
 
-namespace TianHua.FanSelection.UI.Command
+namespace TianHua.FanSelection.UI.CAD
 {
     public class ThModelBlockCommand : IAcadCommand , IDisposable 
     {

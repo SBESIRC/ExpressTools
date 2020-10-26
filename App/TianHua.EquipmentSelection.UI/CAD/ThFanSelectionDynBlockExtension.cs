@@ -4,7 +4,7 @@ using DotNetARX;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public static class ThFanSelectionDynBlockExtension
     {

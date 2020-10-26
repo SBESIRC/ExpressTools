@@ -8,15 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ThCADCore.NTS;
-using TianHua.AutoCAD.Utility.ExtensionTools;
 using TianHua.FanSelection.Function;
 using TianHua.Publics.BaseCode;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public class DrawHtfcModelsInCAD : DrawModels
     {
@@ -79,7 +76,7 @@ namespace TianHua.FanSelection.UI
                 PromptPointResult pr = Active.Editor.GetPoint("\n请选择绘图坐标原点: ");
                 if (pr.Status != PromptStatus.OK)
                     return;
-                Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector() );
+                Matrix3d displacement = Matrix3d.Displacement(pr.Value.GetAsVector());
 
                 DrawILineString(acadDatabase.Database, HighModels, displacement, "高");
                 if (!LowModels.IsNull() && LowModels.Count != 0)
@@ -113,18 +110,18 @@ namespace TianHua.FanSelection.UI
             }
         }
 
-        public void DrawILineString(Database database,List<ILineString> linestrings, Matrix3d originalmatrix, string geartype)
+        public void DrawILineString(Database database, List<ILineString> linestrings, Matrix3d originalmatrix, string geartype)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
-                Dictionary<string,Polyline> newpolys = new Dictionary<string, Polyline>();
+                Dictionary<string, Polyline> newpolys = new Dictionary<string, Polyline>();
                 foreach (var item in linestrings)
                 {
                     var poly = item.ToDbPolyline();
                     int colorindex = geartype == "高" ? 7 : 1;
                     poly.ColorIndex = colorindex;
                     //ObjectId polyid = acadDatabase.ModelSpace.Add(poly.GetTransformedCopy(originalmatrix));
-                    newpolys.Add(item.UserData.ToString(),poly.GetTransformedCopy(originalmatrix) as Polyline);
+                    newpolys.Add(item.UserData.ToString(), poly.GetTransformedCopy(originalmatrix) as Polyline);
                     //ObjectId polyid = acadDatabase.ModelSpace.Add(poly);
                     //acadDatabase.Element<Polyline>(polyid, true).Hyperlinks.Add(new HyperLink()
                     //{

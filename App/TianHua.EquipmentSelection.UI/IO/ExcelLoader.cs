@@ -3,7 +3,7 @@ using System.IO;
 using System.Data;
 using ExcelDataReader;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.IO
 {
 
     public class ExcelLoader

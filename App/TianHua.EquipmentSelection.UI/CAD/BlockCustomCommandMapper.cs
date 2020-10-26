@@ -1,7 +1,7 @@
 ﻿using Linq2Acad;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public class ThModelBlockCustomCommandMapper : ICustomCommandMapper
     {

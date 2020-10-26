@@ -6,7 +6,7 @@ using TianHua.AutoCAD.Utility.ExtensionTools;
 using GeometryExtensions;
 using Autodesk.AutoCAD.EditorInput;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public static class ThFanSelectionEditorExtension
     {

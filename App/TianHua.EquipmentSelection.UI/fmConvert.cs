@@ -1,16 +1,11 @@
 ﻿using DevExpress.XtraEditors;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using System.IO;
 using TianHua.Publics.BaseCode;
+using TianHua.FanSelection.UI.IO;
 
 namespace TianHua.FanSelection.UI
 {
@@ -136,7 +131,7 @@ namespace TianHua.FanSelection.UI
         private void BtnOK_Click(object sender, EventArgs e)
         {
 
-            if(!CheckFan_Forerake_Single.Checked && !CheckFan_Hypsokinesis_Single.Checked && !CheckFan_Forerake_Double.Checked && !CheckAxialFan_Single.Checked)
+            if (!CheckFan_Forerake_Single.Checked && !CheckFan_Hypsokinesis_Single.Checked && !CheckFan_Forerake_Double.Checked && !CheckAxialFan_Single.Checked)
             {
                 XtraMessageBox.Show("请正确选择需要转换的 .Xlsx 数据!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -146,24 +141,24 @@ namespace TianHua.FanSelection.UI
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Forerake_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-单速.json"), 
-                    Encoding.UTF8, 
+                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-单速.json"),
+                    Encoding.UTF8,
                     _Json);
             }
             if (CheckFan_Forerake_Double.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Forerake_Double);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-双速.json"), 
-                    Encoding.UTF8, 
+                    Path.Combine(Environment.CurrentDirectory, "离心-前倾-双速.json"),
+                    Encoding.UTF8,
                     _Json);
             }
             if (CheckFan_Hypsokinesis_Single.Checked)
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListFan_Hypsokinesis_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, "离心-后倾-单速.json"), 
-                    Encoding.UTF8, 
+                    Path.Combine(Environment.CurrentDirectory, "离心-后倾-单速.json"),
+                    Encoding.UTF8,
                     _Json);
             }
 
@@ -171,8 +166,8 @@ namespace TianHua.FanSelection.UI
             {
                 var _Json = FuncJson.Serialize(m_DataMgr.m_ListAxialFan_Single);
                 m_DataMgr.m_Json.SaveToFile(
-                    Path.Combine(Environment.CurrentDirectory, "轴流-单速.json"), 
-                    Encoding.UTF8, 
+                    Path.Combine(Environment.CurrentDirectory, "轴流-单速.json"),
+                    Encoding.UTF8,
                     _Json);
             }
 

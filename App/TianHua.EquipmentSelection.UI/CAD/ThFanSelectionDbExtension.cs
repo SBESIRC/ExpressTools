@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using TianHua.FanSelection.Function;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public static class ThFanSelectionDbExtension
     {

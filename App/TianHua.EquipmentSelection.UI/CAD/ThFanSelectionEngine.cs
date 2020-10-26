@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using TianHua.FanSelection.Function;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public static class ThFanSelectionEngine
     {

@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.ApplicationServices;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public static class ThFanSelectionDocumentExtension
     {

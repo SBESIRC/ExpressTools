@@ -75,6 +75,8 @@
     <Compile Include="Function\FanParametersExtension.cs" />
     <Compile Include="Function\HeatReleaseInfoLoader.cs" />
     <Compile Include="Function\ThModelLoader.cs" />
+    <Compile Include="Messaging\ThModelAddMessage.cs" />
+    <Compile Include="Messaging\ThModelDeleteMessage.cs" />
     <Compile Include="ThFanSelectionCommon.cs" />
     <Compile Include="Function\ThFanSelectionModelPick.cs" />
     <Compile Include="Function\ThFanSelectionModelPicker.cs" />
@@ -140,6 +142,7 @@
     <None Include="Resources\向下加一行.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Catel.Core" Version="5.12.10" />
     <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

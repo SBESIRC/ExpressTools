@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 using TianHua.Publics.BaseCode;
+using System.Collections.Generic;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.IO
 {
     public class DataManager
     {
@@ -193,7 +191,7 @@ namespace TianHua.FanSelection.UI
                     RealPower = FuncStr.NullToStr(_DataTable.Rows[i]["实际功率"]),
                     FanEfficiency = FuncStr.NullToStr(_DataTable.Rows[i]["风机效率"]),
                     MotorPower = FuncStr.NullToStr(_DataTable.Rows[i]["电机功率"])
-       
+
                 };
 
                 if (_DataTable.Columns.Contains("档位"))

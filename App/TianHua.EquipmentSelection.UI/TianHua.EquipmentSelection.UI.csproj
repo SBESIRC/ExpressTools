@@ -87,10 +87,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockCustomCommandMapper.cs" />
+    <Compile Include="CAD\BlockCustomCommandMapper.cs" />
     <Compile Include="CAD\ThFanModelObjectOverrule.cs" />
     <Compile Include="CAD\ThFanModelOverruleManager.cs" />
-    <Compile Include="Command\ThModelBlockCommand.cs" />
+    <Compile Include="CAD\ThModelBlockCommand.cs" />
     <Compile Include="CtlAxisymmetric.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,11 +151,11 @@
     <Compile Include="CtlWindowOpen.Designer.cs">
       <DependentUpon>CtlWindowOpen.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomCommandMappers.cs" />
-    <Compile Include="DataManager.cs" />
-    <Compile Include="DrawModelsInCAD.cs" />
+    <Compile Include="CAD\CustomCommandMappers.cs" />
+    <Compile Include="IO\DataManager.cs" />
+    <Compile Include="CAD\DrawModelsInCAD.cs" />
     <Compile Include="EquipmentSelectionApp.cs" />
-    <Compile Include="ExcelLoader.cs" />
+    <Compile Include="IO\ExcelLoader.cs" />
     <Compile Include="fmAirVolumeCalc-Exhaust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,8 +234,8 @@
     <Compile Include="fmSceneScreening.Designer.cs">
       <DependentUpon>fmSceneScreening.cs</DependentUpon>
     </Compile>
-    <Compile Include="ICustomCommandMapper.cs" />
-    <Compile Include="JsonExporter.cs" />
+    <Compile Include="CAD\ICustomCommandMapper.cs" />
+    <Compile Include="IO\JsonExporter.cs" />
     <Compile Include="ModelValidation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -288,16 +288,16 @@
     <Compile Include="ThAirVolumeUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ThFanSelectionDbExtension.cs" />
-    <Compile Include="ThFanSelectionDbManager.cs" />
-    <Compile Include="ThFanSelectionDocumentExtension.cs" />
-    <Compile Include="ThFanSelectionDynBlockExtension.cs" />
-    <Compile Include="ThFanSelectionEditorExtension.cs" />
-    <Compile Include="ThFanSelectionEngine.cs" />
-    <Compile Include="ThFanSelectionGeExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDbExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDbManager.cs" />
+    <Compile Include="CAD\ThFanSelectionDocumentExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDynBlockExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionEditorExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionEngine.cs" />
+    <Compile Include="CAD\ThFanSelectionGeExtension.cs" />
     <Compile Include="ThFanSelectionUICommon.cs" />
     <Compile Include="ThFanSelectionUIUtils.cs" />
-    <Compile Include="ThFSBlockReference.cs" />
+    <Compile Include="CAD\ThFSBlockReference.cs" />
     <EmbeddedResource Include="CtlBalconyOverFlow.resx">
       <DependentUpon>CtlBalconyOverFlow.cs</DependentUpon>
     </EmbeddedResource>

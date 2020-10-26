@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.CAD
 {
     public class CustomCommandMappers : Dictionary<Type, ICustomCommandMapper>
     {

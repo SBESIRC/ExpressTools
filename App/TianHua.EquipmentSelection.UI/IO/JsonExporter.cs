@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TianHua.FanSelection.UI
+namespace TianHua.FanSelection.UI.IO
 {
     /// <summary>
     /// 将DataTable对象，转换成JSON string，并保存到文件中
