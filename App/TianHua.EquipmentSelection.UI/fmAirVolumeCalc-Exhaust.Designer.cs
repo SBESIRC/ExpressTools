@@ -129,7 +129,6 @@
             // 
             this.TxtAirVolume.Location = new System.Drawing.Point(78, 107);
             this.TxtAirVolume.Name = "TxtAirVolume";
-            this.TxtAirVolume.Properties.EditValueChanged += new System.EventHandler(this.CalculateAirVolumeChanged);
             this.TxtAirVolume.Size = new System.Drawing.Size(107, 20);
             this.TxtAirVolume.StyleController = this.layoutControl1;
             this.TxtAirVolume.TabIndex = 7;

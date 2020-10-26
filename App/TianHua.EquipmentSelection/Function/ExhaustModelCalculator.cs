@@ -364,6 +364,13 @@ namespace TianHua.FanSelection.Function
             return 293.15 + GetDtValue(model);
         }
 
+        //向上圆整50的风量
+        public static int RoundUpToFifty(int orgvalue)
+        {
+            int remaindernumber = orgvalue % 100;
+            return remaindernumber > 50 ? orgvalue - remaindernumber + 100 : orgvalue - remaindernumber + 50;
+        }
+
         public static string GetTxtCalcValue(ExhaustCalcModel model)
         {
             if (model.Final_CalcAirVolum == "无" || model.MaxSmokeExtraction == "无")

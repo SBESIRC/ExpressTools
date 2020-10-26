@@ -73,10 +73,10 @@ namespace TianHua.FanSelection.UI
        
         }
 
-        private void CalculateAirVolumeChanged(object sender, EventArgs e)
-        {
-            Model.AirVolume = this.TxtAirVolume.Text.NullToInt();
-        }
+        //private void CalculateAirVolumeChanged(object sender, EventArgs e)
+        //{
+        //    Model.AirVolume = this.TxtAirVolume.Text.NullToInt();
+        //}
 
         private void EstimateValueChanged(object sender, EventArgs e)
         {
@@ -97,8 +97,9 @@ namespace TianHua.FanSelection.UI
 
         private void UpdateAirVolume()
         {
-            this.TxtAirVolume.Text = FuncStr.NullToStr(Math.Round(Math.Max(this.TxtCalcValue.Text.NullToDouble(), this.TxtEstimatedValue.Text.NullToDouble()) * this.TxtFactor.Text.NullToDouble()));
-            Model.AirVolume = this.TxtAirVolume.Text.NullToInt();
+            int maxcalvalue = FuncStr.NullToInt(Math.Round(Math.Max(this.TxtCalcValue.Text.NullToDouble(), this.TxtEstimatedValue.Text.NullToDouble()) * this.TxtFactor.Text.NullToDouble()));
+            Model.AirVolume = ExhaustModelCalculator.RoundUpToFifty(maxcalvalue);
+            this.TxtAirVolume.Text = Model.AirVolume.NullToStr();
         }
 
         private void FactorChangedCheck(object sender, KeyEventArgs e)
