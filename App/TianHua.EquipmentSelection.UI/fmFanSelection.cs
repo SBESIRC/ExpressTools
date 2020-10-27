@@ -58,11 +58,11 @@ namespace TianHua.FanSelection.UI
         public fmOverView m_fmOverView = fmOverView.GetInstance();
 
         public List<string> m_ListSceneScreening { get; set; }
-        public Action<ThModelCopyMessage> OnModelAddedHandler
+        public Action<ThModelCopyMessage> OnModelCopiedHandler
         {
             get
             {
-                return OnModelAdded;
+                return OnModelCopied;
             }
         }
         public Action<ThModelDeleteMessage> OnModelDeletedHandler
@@ -2421,7 +2421,7 @@ namespace TianHua.FanSelection.UI
             m_fmOverView.DataSourceChanged(m_ListFan);
         }
 
-        private void OnModelAdded(ThModelCopyMessage message)
+        private void OnModelCopied(ThModelCopyMessage message)
         {
             // TODO: 处理风机块复制事件
         }

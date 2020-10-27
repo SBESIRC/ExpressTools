@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Autodesk.AutoCAD.ApplicationServices;
+using TianHua.FanSelection.Messaging;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.FanSelection.UI.CAD
@@ -15,6 +16,7 @@ namespace TianHua.FanSelection.UI.CAD
             }
             if (form != null && !form.Visible)
             {
+                SubscribeToMessages(form);
                 AcadApp.ShowModelessDialog(form);
             }
         }
@@ -39,7 +41,23 @@ namespace TianHua.FanSelection.UI.CAD
             {
                 form.Hide();
                 HidefmOverView(form);
+                UnSubscribeToMessages(form);
+            }
+        }
 
+        private static void SubscribeToMessages(Form form)
+        {
+            if (form is fmFanSelection fm)
+            {
+                ThModelCopyMessage.Register(fm, fm.OnModelCopiedHandler);
+            }
+        }
+
+        private static void UnSubscribeToMessages(Form form)
+        {
+            if (form is fmFanSelection fm)
+            {
+                ThModelCopyMessage.Unregister(fm, fm.OnModelCopiedHandler);
             }
         }
 

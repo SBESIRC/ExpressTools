@@ -22,16 +22,18 @@ namespace TianHua.FanSelection.UI
 
         public void Initialize()
         {
-            //CreateDbEventHandler();
+            CreateDbEventHandler();
             //SubscribeToOverrules();
             AddDoubleClickHandler();
+            SubscribeToDocumentEvents();
         }
 
         public void Terminate()
         {
-            //DeleteDbEventHandler();
+            DeleteDbEventHandler();
             //UnsubscribeToOverrules();
             RemoveDoubleClickHandler();
+            UnSubscribeToDocumentEvents();
         }
 
         [CommandMethod("TIANHUACAD", "THFJDW", CommandFlags.Modal)]
@@ -122,34 +124,47 @@ namespace TianHua.FanSelection.UI
         private static void AddDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick += Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentActivated += DocumentManager_DocumentActivated;
-            AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
-            AcadApp.DocumentManager.DocumentLockModeChangeVetoed += DocumentManager_DocumentLockModeChangeVetoed;
-            AcadApp.DocumentManager.DocumentToBeDeactivated += DocumentManager_DocumentToBeDeactivated;
-            AcadApp.DocumentManager.DocumentToBeDestroyed += DocumentManager_DocumentToBeDestroyed;
-
-            //Load custom command mappers
             _customCommands = CustomCommandsFactory.CreateDefaultCustomCommandMappers();
         }
 
         private static void RemoveDoubleClickHandler()
         {
             AcadApp.BeginDoubleClick -= Application_BeginDoubleClick;
-            AcadApp.DocumentManager.DocumentActivated -= DocumentManager_DocumentActivated;
-            AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
-            AcadApp.DocumentManager.DocumentLockModeChangeVetoed -= DocumentManager_DocumentLockModeChangeVetoed;
-            AcadApp.DocumentManager.DocumentToBeDeactivated -= DocumentManager_DocumentToBeDeactivated;
-            AcadApp.DocumentManager.DocumentToBeDestroyed -= DocumentManager_DocumentToBeDestroyed;
         }
 
         private static void CreateDbEventHandler()
         {
             dbEventHandler = new ThFanSelectionDbEventHandler();
+            if (Active.Database != null)
+            {
+                // 订阅DB事件
+                //SubscribeToDbEvents(Active.Database);
+            }
         }
 
         private static void DeleteDbEventHandler()
         {
             dbEventHandler = null;
+        }
+
+        private static void SubscribeToDocumentEvents()
+        {
+            AcadApp.DocumentManager.DocumentCreated += DocumentManager_DocumentCreated;
+            AcadApp.DocumentManager.DocumentActivated += DocumentManager_DocumentActivated;
+            AcadApp.DocumentManager.DocumentLockModeChanged += DocumentManager_DocumentLockModeChanged;
+            AcadApp.DocumentManager.DocumentLockModeChangeVetoed += DocumentManager_DocumentLockModeChangeVetoed;
+            AcadApp.DocumentManager.DocumentToBeDeactivated += DocumentManager_DocumentToBeDeactivated;
+            AcadApp.DocumentManager.DocumentToBeDestroyed += DocumentManager_DocumentToBeDestroyed;
+        }
+
+        private static void UnSubscribeToDocumentEvents()
+        {
+            AcadApp.DocumentManager.DocumentCreated -= DocumentManager_DocumentCreated;
+            AcadApp.DocumentManager.DocumentActivated -= DocumentManager_DocumentActivated;
+            AcadApp.DocumentManager.DocumentLockModeChanged -= DocumentManager_DocumentLockModeChanged;
+            AcadApp.DocumentManager.DocumentLockModeChangeVetoed -= DocumentManager_DocumentLockModeChangeVetoed;
+            AcadApp.DocumentManager.DocumentToBeDeactivated -= DocumentManager_DocumentToBeDeactivated;
+            AcadApp.DocumentManager.DocumentToBeDestroyed -= DocumentManager_DocumentToBeDestroyed;
         }
 
         private static void SubscribeToDbEvents(Database db)
@@ -186,9 +201,6 @@ namespace TianHua.FanSelection.UI
                 {
                     e.Document.HideModelSelectionDialog();
                 }
-
-                // 订阅DB事件
-                SubscribeToDbEvents(e.Document.Database);
             }
         }
 
@@ -198,9 +210,15 @@ namespace TianHua.FanSelection.UI
             {
                 e.Document.PushModelSelectionDialogVisible();
                 e.Document.HideModelSelectionDialog();
+            }
+        }
 
-                // 取消订阅DB事件
-                UnSubscribeToDbEvents(e.Document.Database);
+        private static void DocumentManager_DocumentCreated(object sender, DocumentCollectionEventArgs e)
+        {
+            if (e.Document != null)
+            {
+                // 订阅DB事件
+                //SubscribeToDbEvents(e.Document.Database);
             }
         }
 
@@ -209,6 +227,9 @@ namespace TianHua.FanSelection.UI
             if (e.Document != null)
             {
                 e.Document.CloseModelSelectionDialog();
+
+                // 取消订阅DB事件
+                //UnSubscribeToDbEvents(e.Document.Database);
             }
         }
 
