@@ -33,7 +33,9 @@ namespace TianHua.FanSelection.Function
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY] = ThFanSelectionUtils.FirePower(model.PowerType),
 
                 // 备注
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = model.Remark,
+                // 业务需求，暂时忽略备注
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = "",
+                //[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = model.Remark,
 
                 // 安装方式
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] = ThFanSelectionUtils.Mount(model.MountType),
