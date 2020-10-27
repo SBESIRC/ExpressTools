@@ -34,7 +34,7 @@ namespace TianHua.FanSelection.UI
 
         private void fmFanModel_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(488, 480);
+            this.Size = new Size(488, 520);
 
         }
 
@@ -124,7 +124,42 @@ namespace TianHua.FanSelection.UI
                 RGroupPower.Enabled = true;
             }
 
+
+            if (FuncStr.NullToStr(_FanDataModel.FanModelInputMotorPower) != string.Empty)
+            {
+                if(FuncStr.NullToStr(_FanDataModel.FanModelInputMotorPower).Contains("/"))
+                {
+                    var _Split = _FanDataModel.FanModelInputMotorPower.Split('/');
+                    if(_Split.Count() == 2)
+                    {
+                        TxtSingle.Text = FuncStr.NullToStr(_Split[0]);
+                        TxtDouble.Text = FuncStr.NullToStr(_Split[1]);
+                    }
+                }
+                else
+                {
+                    TxtSingle.Text = FuncStr.NullToStr(_FanDataModel.FanModelInputMotorPower);
+                }
+            }
+            else
+            {
+                TxtSingle.Text = string.Empty;
+                TxtDouble.Text = string.Empty;
+            }
+
+            if (_FanDataModel.IsInputMotorPower)
+            {
+                RidInput.Checked = true;
+            }
+            else
+            {
+                RadCalc.Checked = true;
+            }
+
+
             RGroupFanControl_SelectedIndexChanged(null, null);
+
+            RadCalc_CheckedChanged(null, null);
 
             //if (_FanDataModel.Scenario == "平时送风" || _FanDataModel.Scenario == "平时排风")
             //{
@@ -141,6 +176,8 @@ namespace TianHua.FanSelection.UI
             //    }
 
             //}
+
+
 
             if (_FanDataModel.FanSelectionStateInfo != null)
             {
@@ -182,11 +219,21 @@ namespace TianHua.FanSelection.UI
 
             InitSonFan();
 
+
+
             _FanDataModel.AirVolumeDescribe = LabAir.Text;
 
             _FanDataModel.WindResisDescribe = LabPa.Text;
 
-            _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
+            if(_FanDataModel.IsInputMotorPower)
+            {
+                _FanDataModel.FanModelPowerDescribe = _FanDataModel.FanModelInputMotorPower;
+            }
+            else
+            {
+                _FanDataModel.FanModelPowerDescribe = LabMotorPower.Text;
+            }
+       
 
 
         }
@@ -732,6 +779,16 @@ namespace TianHua.FanSelection.UI
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
+
+            if (RidInput.Checked)
+            {
+                m_Fan.FanModelPowerDescribe = m_Fan.FanModelInputMotorPower;
+            }
+            else
+            {
+                m_Fan.FanModelPowerDescribe = LabMotorPower.Text;
+            }
+
             m_Fan.FanModelNum = FuncStr.NullToStr(LabModelNum.Text);
 
             m_Fan.FanModelCCCF = FuncStr.NullToStr(LabCCFC.Text);
@@ -771,11 +828,15 @@ namespace TianHua.FanSelection.UI
             if (FuncStr.NullToStr(RGroupFanControl.EditValue) == "单速")
             {
                 CheckFrequency.Enabled = true;
+                layoutTmp.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
+                layoutDouble.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Never;
             }
             else
             {
                 CheckFrequency.Checked = false;
                 CheckFrequency.Enabled = false;
+                layoutTmp.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always;
+                layoutDouble.Visibility = DevExpress.XtraLayout.Utils.LayoutVisibility.Always;
             }
 
         }
@@ -795,6 +856,50 @@ namespace TianHua.FanSelection.UI
                 XtraMessageBox.Show("数据文件读取时发生错误！");
                 return string.Empty;
 
+            }
+        }
+
+        private void RadCalc_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RadCalc.Checked)
+            {
+                TxtSingle.Enabled = false;
+                TxtDouble.Enabled = false;
+                labTmp.Enabled = false;
+                m_Fan.IsInputMotorPower = false;
+            }
+
+        }
+
+        private void RidInput_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RidInput.Checked)
+            {
+                TxtSingle.Enabled = true;
+                TxtDouble.Enabled = true;
+                labTmp.Enabled = true;
+                m_Fan.IsInputMotorPower = true;
+            }
+        }
+
+        private void TxtSingle_EditValueChanged(object sender, EventArgs e)
+        {
+            if (FuncStr.NullToStr(TxtSingle.Text) != string.Empty)
+                m_Fan.FanModelInputMotorPower = TxtSingle.Text;
+            if (FuncStr.NullToStr(RGroupFanControl.EditValue) == "双速" && FuncStr.NullToStr(TxtDouble.Text) != string.Empty)
+            {
+                m_Fan.FanModelInputMotorPower = TxtSingle.Text + "/" + TxtDouble.Text;
+            }
+
+        }
+
+        private void TxtDouble_EditValueChanged(object sender, EventArgs e)
+        {
+            if (FuncStr.NullToStr(TxtSingle.Text) != string.Empty)
+                m_Fan.FanModelInputMotorPower = TxtSingle.Text;
+            if (FuncStr.NullToStr(RGroupFanControl.EditValue) == "双速" && FuncStr.NullToStr(TxtDouble.Text) != string.Empty)
+            {
+                m_Fan.FanModelInputMotorPower = TxtSingle.Text + "/" + TxtDouble.Text;
             }
         }
     }

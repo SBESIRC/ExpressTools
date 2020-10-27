@@ -414,23 +414,23 @@ namespace TianHua.FanSelection.UI
             var _Fan = TreeList.GetFocusedRow() as FanDataModel;
             if (_Fan == null) { return; }
 
-            if (e.Column.FieldName == "VentNum")
-            {
-                var calculator = new VentSNCalculator(_Fan.VentNum);
-                if (calculator.SerialNumbers.Count > 0)
-                {
-                    _Fan.ListVentQuan = calculator.SerialNumbers;
-                    _Fan.VentQuan = _Fan.ListVentQuan.Count();
-                }
-                else
-                {
-                    _Fan.ListVentQuan = new List<int>() { 1 };
-                    _Fan.VentNum = "1";
-                    _Fan.VentQuan = 1;
-                }
+            //if (e.Column.FieldName == "VentNum")
+            //{
+            //    var calculator = new VentSNCalculator(_Fan.VentNum);
+            //    if (calculator.SerialNumbers.Count > 0)
+            //    {
+            //        _Fan.ListVentQuan = calculator.SerialNumbers;
+            //        _Fan.VentQuan = _Fan.ListVentQuan.Count();
+            //    }
+            //    else
+            //    {
+            //        _Fan.ListVentQuan = new List<int>() { 1 };
+            //        _Fan.VentNum = "1";
+            //        _Fan.VentQuan = 1;
+            //    }
 
 
-            }
+            //}
 
             if (e.Column.FieldName == "AirVolume")
             {
@@ -1959,6 +1959,25 @@ namespace TianHua.FanSelection.UI
                    _ExportFanPara.Height = _FanParameters.Height;
                }
 
+               if (p.Control == "双速")
+               {
+                   var _SonFan = m_ListFan.Find(s => s.PID == p.ID);
+
+                   if (_SonFan != null)
+                   {
+                       _ExportFanPara.CalcAirVolume = FuncStr.NullToStr(p.AirCalcValue) + "/" + FuncStr.NullToStr(_SonFan.AirCalcValue);
+
+                       _ExportFanPara.FanDelivery = FuncStr.NullToStr(p.AirVolume) + "/" + FuncStr.NullToStr(_SonFan.AirVolume);
+
+                       _ExportFanPara.Pa = FuncStr.NullToStr(p.WindResis) + "/" + FuncStr.NullToStr(_SonFan.WindResis);
+
+                       _ExportFanPara.StaticPa = FuncStr.NullToStr((p.DuctResistance + p.Damper) * p.SelectionFactor) + "/" + FuncStr.NullToStr((_SonFan.DuctResistance + _SonFan.Damper) * _SonFan.SelectionFactor);
+
+                   }
+               }
+
+
+
                _List.Add(_ExportFanPara);
            });
             return _List;
@@ -2074,6 +2093,35 @@ namespace TianHua.FanSelection.UI
                 //}
 
                 _Sheet.Cells[i, 24] = p.FanModelPower;
+
+                if (p.Control == "双速")
+                {
+                    var _SonFan = m_ListFan.Find(s => s.PID == p.ID);
+
+                    if (_SonFan != null)
+                    {
+                        i++;
+                        _Sheet.Cells[i, 1] = _SonFan.FanNum;
+                        _Sheet.Cells[i, 2] = "-";
+                        _Sheet.Cells[i, 3] = "-";
+                        _Sheet.Cells[i, 13] = _SonFan.AirCalcValue;
+                        _Sheet.Cells[i, 14] = _SonFan.AirVolume;
+                        _Sheet.Cells[i, 15] = _SonFan.DuctLength;
+
+                        _Sheet.Cells[i, 16] = _SonFan.Friction;
+                        _Sheet.Cells[i, 17] = _SonFan.LocRes;
+
+                        _Sheet.Cells[i, 18] = _SonFan.DuctResistance;
+
+                        _Sheet.Cells[i, 19] = _SonFan.Damper;
+                        _Sheet.Cells[i, 20] = _SonFan.EndReservedAirPressure;
+                        _Sheet.Cells[i, 21] = _SonFan.DynPress;
+
+                        _Sheet.Cells[i, 22] = _SonFan.CalcResistance;
+                        _Sheet.Cells[i, 23] = _SonFan.WindResis;
+                        _Sheet.Cells[i, 24] = _SonFan.FanModelPower;
+                    }
+                }
 
                 var model = p.FanVolumeModel;
                 if (!p.IsNull())
@@ -2275,16 +2323,16 @@ namespace TianHua.FanSelection.UI
             {
                 _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == FuncStr.NullToStr(e.Value) && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
             }
-            if (_FocusedColumn.FieldName == "VentNum")
-            {
-                _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
+            //if (_FocusedColumn.FieldName == "VentNum")
+            //{
+            //    _List = m_ListFan.FindAll(p => p.InstallSpace == _Fan.InstallSpace && p.InstallFloor == _Fan.InstallFloor && p.ID != _Fan.ID && p.Scenario == _Fan.Scenario);
 
-                var _Calculator = new VentSNCalculator(FuncStr.NullToStr(e.Value));
-                if (_Calculator.SerialNumbers.Count > 0)
-                {
-                    _ListVentNum = _Calculator.SerialNumbers;
-                }
-            }
+            //    var _Calculator = new VentSNCalculator(FuncStr.NullToStr(e.Value));
+            //    if (_Calculator.SerialNumbers.Count > 0)
+            //    {
+            //        _ListVentNum = _Calculator.SerialNumbers;
+            //    }
+            //}
 
             if (_List != null && _List.Count > 0)
             {
