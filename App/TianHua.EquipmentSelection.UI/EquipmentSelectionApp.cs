@@ -18,14 +18,19 @@ namespace TianHua.FanSelection.UI
         private static bool _runCustomCommand = false;
         private static ObjectId _selectedEntId = ObjectId.Null;
         private static CustomCommandMappers _customCommands = null;
+        private static ThFanSelectionDbEventHandler dbEventHandler = null;
 
         public void Initialize()
         {
+            //CreateDbEventHandler();
+            //SubscribeToOverrules();
             AddDoubleClickHandler();
         }
 
         public void Terminate()
         {
+            //DeleteDbEventHandler();
+            //UnsubscribeToOverrules();
             RemoveDoubleClickHandler();
         }
 
@@ -137,6 +142,38 @@ namespace TianHua.FanSelection.UI
             AcadApp.DocumentManager.DocumentToBeDestroyed -= DocumentManager_DocumentToBeDestroyed;
         }
 
+        private static void CreateDbEventHandler()
+        {
+            dbEventHandler = new ThFanSelectionDbEventHandler();
+        }
+
+        private static void DeleteDbEventHandler()
+        {
+            dbEventHandler = null;
+        }
+
+        private static void SubscribeToDbEvents(Database db)
+        {
+            db.BeginDeepClone += dbEventHandler.DbEvent_BeginDeepClone_Handler;
+            db.DeepCloneEnded += dbEventHandler.DbEvent_DeepCloneEnded_Handler;
+        }
+
+        private static void UnSubscribeToDbEvents(Database db)
+        {
+            db.BeginDeepClone -= dbEventHandler.DbEvent_BeginDeepClone_Handler;
+            db.DeepCloneEnded -= dbEventHandler.DbEvent_DeepCloneEnded_Handler;
+        }
+
+        private static void SubscribeToOverrules()
+        {
+            ThFanModelOverruleManager.Instance.Register();
+        }
+
+        private static void UnsubscribeToOverrules()
+        {
+            ThFanModelOverruleManager.Instance.UnRegister();
+        }
+
         private static void DocumentManager_DocumentActivated(object sender, DocumentCollectionEventArgs e)
         {
             if (e.Document != null)
@@ -149,6 +186,9 @@ namespace TianHua.FanSelection.UI
                 {
                     e.Document.HideModelSelectionDialog();
                 }
+
+                // 订阅DB事件
+                SubscribeToDbEvents(e.Document.Database);
             }
         }
 
@@ -158,7 +198,9 @@ namespace TianHua.FanSelection.UI
             {
                 e.Document.PushModelSelectionDialogVisible();
                 e.Document.HideModelSelectionDialog();
-                // hide overview UI
+
+                // 取消订阅DB事件
+                UnSubscribeToDbEvents(e.Document.Database);
             }
         }
 

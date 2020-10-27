@@ -2,14 +2,19 @@
 
 namespace TianHua.FanSelection.Messaging
 {
-    public class ThModelDeleteMessage : MessageBase<ThModelDeleteMessage, FanDataModel>
+    public class ThModelDeleteMessageArgs : ThModelMessageArgs
+    {
+        public string Model { get; set; }
+    }
+
+    public class ThModelDeleteMessage : MessageBase<ThModelDeleteMessage, ThModelDeleteMessageArgs>
     {
         public ThModelDeleteMessage()
         {
         }
 
-        public ThModelDeleteMessage(FanDataModel model)
-            : base(model)
+        public ThModelDeleteMessage(ThModelDeleteMessageArgs args)
+            : base(args)
         {
         }
     }

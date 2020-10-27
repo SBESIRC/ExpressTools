@@ -90,6 +90,7 @@
     <Compile Include="CAD\BlockCustomCommandMapper.cs" />
     <Compile Include="CAD\ThFanModelObjectOverrule.cs" />
     <Compile Include="CAD\ThFanModelOverruleManager.cs" />
+    <Compile Include="CAD\ThFanSelectionDbEventHandler.cs" />
     <Compile Include="CAD\ThModelBlockCommand.cs" />
     <Compile Include="CtlAxisymmetric.cs">
       <SubType>UserControl</SubType>

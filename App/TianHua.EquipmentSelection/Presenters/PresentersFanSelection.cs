@@ -14,7 +14,7 @@ namespace TianHua.FanSelection
 
         public override void OnViewEvent()
         {
-            ThModelAddMessage.Register(View, View.OnModelAddedHandler);
+            ThModelCopyMessage.Register(View, View.OnModelAddedHandler);
             ThModelDeleteMessage.Register(View, View.OnModelDeletedHandler);
         }
 

@@ -27,7 +27,7 @@ namespace TianHua.FanSelection
 
         FanDesignDataModel m_FanDesign { get; set; }
 
-        Action<ThModelAddMessage> OnModelAddedHandler { get; }
+        Action<ThModelCopyMessage> OnModelAddedHandler { get; }
         Action<ThModelDeleteMessage> OnModelDeletedHandler { get; }
     }
 }

@@ -157,7 +157,7 @@ namespace TianHua.FanSelection.UI.CAD
                 {
                     // 更新编号
                     int number = dataModel.ListVentQuan[model.i];
-                    model.value.ObjectId.UpdateModelIdentifier(number);
+                    model.value.ObjectId.UpdateModelNumber(number);
 
                     // 更新属性值
                     model.value.ObjectId.ModifyModelAttributes(dataModel.Attributes());

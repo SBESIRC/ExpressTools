@@ -57,7 +57,7 @@ namespace TianHua.FanSelection.UI.CAD
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, valueList);
         }
 
-        public static void UpdateModelIdentifier(this ObjectId obj, int number)
+        public static void UpdateModelNumber(this ObjectId obj, int number)
         {
             var oldValue = obj.GetModelNumber();
             if (oldValue > 0 && (oldValue != number))
@@ -66,6 +66,18 @@ namespace TianHua.FanSelection.UI.CAD
                     ThFanSelectionCommon.RegAppName_FanSelection,
                     DxfCode.ExtendedDataInteger32,
                     oldValue, number);
+            }
+        }
+
+        public static void UpdateModelIdentifier(this ObjectId obj, string identifier)
+        {
+            var oldValue = obj.GetModelIdentifier();
+            if (!string.IsNullOrEmpty(identifier) && (oldValue != identifier))
+            {
+                obj.ModXData(
+                    ThFanSelectionCommon.RegAppName_FanSelection,
+                    DxfCode.ExtendedDataAsciiString,
+                    oldValue, identifier);
             }
         }
 
