@@ -12,14 +12,7 @@ namespace TianHua.FanSelection.UI.CAD
 
         public void DbEvent_BeginDeepCloneTranslation_Handler(object sender, IdMappingEventArgs e)
         {
-            if (e.IdMapping.DeepCloneContext == DeepCloneType.Copy)
-            {
-                Mapping = e.IdMapping;
-            }
-            else
-            {
-                Mapping = new IdMapping();
-            }
+            Mapping = e.IdMapping;
         }
 
         public void DbEvent_DeepCloneEnded_Handler(object sender, EventArgs e)
