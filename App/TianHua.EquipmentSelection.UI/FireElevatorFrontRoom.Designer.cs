@@ -33,6 +33,8 @@
             this.楼层一 = new DevExpress.XtraTab.XtraTabPage();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox1 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit4 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -40,6 +42,8 @@
             this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemTextEdit6 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.repositoryItemTextEdit13 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
+            this.repositoryItemCheckedComboBoxEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit();
             this.楼层二 = new DevExpress.XtraTab.XtraTabPage();
             this.gridControl2 = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -115,6 +119,10 @@
             this.emptySpaceItem1 = new DevExpress.XtraLayout.EmptySpaceItem();
             this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem17 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox2 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repositoryItemComboBox3 = new DevExpress.XtraEditors.Repository.RepositoryItemComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).BeginInit();
@@ -122,10 +130,13 @@
             this.楼层一.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).BeginInit();
             this.楼层二.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
@@ -176,6 +187,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
@@ -245,7 +258,10 @@
             this.repositoryItemTextEdit4,
             this.repositoryItemTextEdit5,
             this.repositoryItemTextEdit6,
-            this.repositoryItemTextEdit1});
+            this.repositoryItemTextEdit1,
+            this.repositoryItemTextEdit13,
+            this.repositoryItemCheckedComboBoxEdit1,
+            this.repositoryItemComboBox1});
             this.gridControl1.Size = new System.Drawing.Size(270, 159);
             this.gridControl1.TabIndex = 20;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -256,6 +272,7 @@
             this.gridView1.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.gridView1.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn1,
             this.gridColumn4,
             this.gridColumn5,
             this.gridColumn6});
@@ -269,6 +286,25 @@
             this.gridView1.OptionsView.ShowIndicator = false;
             this.gridView1.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.DoorInfoChanged);
             // 
+            // gridColumn1
+            // 
+            this.gridColumn1.Caption = "门形式";
+            this.gridColumn1.ColumnEdit = this.repositoryItemComboBox1;
+            this.gridColumn1.FieldName = "Type";
+            this.gridColumn1.Name = "gridColumn1";
+            this.gridColumn1.Visible = true;
+            this.gridColumn1.VisibleIndex = 0;
+            // 
+            // repositoryItemComboBox1
+            // 
+            this.repositoryItemComboBox1.AutoHeight = false;
+            this.repositoryItemComboBox1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox1.Items.AddRange(new object[] {
+            "单扇",
+            "双扇"});
+            this.repositoryItemComboBox1.Name = "repositoryItemComboBox1";
+            // 
             // gridColumn4
             // 
             this.gridColumn4.AppearanceCell.Options.UseTextOptions = true;
@@ -278,7 +314,7 @@
             this.gridColumn4.FieldName = "Width_Door_Q";
             this.gridColumn4.Name = "gridColumn4";
             this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 0;
+            this.gridColumn4.VisibleIndex = 1;
             // 
             // repositoryItemTextEdit4
             // 
@@ -297,7 +333,7 @@
             this.gridColumn5.FieldName = "Height_Door_Q";
             this.gridColumn5.Name = "gridColumn5";
             this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 1;
+            this.gridColumn5.VisibleIndex = 2;
             // 
             // repositoryItemTextEdit5
             // 
@@ -316,7 +352,7 @@
             this.gridColumn6.FieldName = "Count_Door_Q";
             this.gridColumn6.Name = "gridColumn6";
             this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 2;
+            this.gridColumn6.VisibleIndex = 3;
             // 
             // repositoryItemTextEdit6
             // 
@@ -330,11 +366,23 @@
             this.repositoryItemTextEdit1.AutoHeight = false;
             this.repositoryItemTextEdit1.Name = "repositoryItemTextEdit1";
             // 
+            // repositoryItemTextEdit13
+            // 
+            this.repositoryItemTextEdit13.AutoHeight = false;
+            this.repositoryItemTextEdit13.Name = "repositoryItemTextEdit13";
+            // 
+            // repositoryItemCheckedComboBoxEdit1
+            // 
+            this.repositoryItemCheckedComboBoxEdit1.AutoHeight = false;
+            this.repositoryItemCheckedComboBoxEdit1.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemCheckedComboBoxEdit1.Name = "repositoryItemCheckedComboBoxEdit1";
+            // 
             // 楼层二
             // 
             this.楼层二.Controls.Add(this.gridControl2);
             this.楼层二.Name = "楼层二";
-            this.楼层二.Size = new System.Drawing.Size(270, 168);
+            this.楼层二.Size = new System.Drawing.Size(270, 159);
             this.楼层二.Text = "楼层二";
             // 
             // gridControl2
@@ -347,8 +395,9 @@
             this.repositoryItemTextEdit3,
             this.repositoryItemTextEdit7,
             this.repositoryItemTextEdit8,
-            this.repositoryItemTextEdit2});
-            this.gridControl2.Size = new System.Drawing.Size(270, 168);
+            this.repositoryItemTextEdit2,
+            this.repositoryItemComboBox2});
+            this.gridControl2.Size = new System.Drawing.Size(270, 159);
             this.gridControl2.TabIndex = 21;
             this.gridControl2.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -358,6 +407,7 @@
             this.gridView2.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.gridView2.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn2,
             this.gridColumn3,
             this.gridColumn7,
             this.gridColumn8});
@@ -380,7 +430,7 @@
             this.gridColumn3.FieldName = "Width_Door_Q";
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 0;
+            this.gridColumn3.VisibleIndex = 1;
             // 
             // repositoryItemTextEdit3
             // 
@@ -399,7 +449,7 @@
             this.gridColumn7.FieldName = "Height_Door_Q";
             this.gridColumn7.Name = "gridColumn7";
             this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 1;
+            this.gridColumn7.VisibleIndex = 2;
             // 
             // repositoryItemTextEdit7
             // 
@@ -418,7 +468,7 @@
             this.gridColumn8.FieldName = "Count_Door_Q";
             this.gridColumn8.Name = "gridColumn8";
             this.gridColumn8.Visible = true;
-            this.gridColumn8.VisibleIndex = 2;
+            this.gridColumn8.VisibleIndex = 3;
             // 
             // repositoryItemTextEdit8
             // 
@@ -436,7 +486,7 @@
             // 
             this.楼层三.Controls.Add(this.gridControl3);
             this.楼层三.Name = "楼层三";
-            this.楼层三.Size = new System.Drawing.Size(270, 168);
+            this.楼层三.Size = new System.Drawing.Size(270, 159);
             this.楼层三.Text = "楼层三";
             // 
             // gridControl3
@@ -449,8 +499,9 @@
             this.repositoryItemTextEdit10,
             this.repositoryItemTextEdit11,
             this.repositoryItemTextEdit12,
-            this.repositoryItemTextEdit9});
-            this.gridControl3.Size = new System.Drawing.Size(270, 168);
+            this.repositoryItemTextEdit9,
+            this.repositoryItemComboBox3});
+            this.gridControl3.Size = new System.Drawing.Size(270, 159);
             this.gridControl3.TabIndex = 22;
             this.gridControl3.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView3});
@@ -460,6 +511,7 @@
             this.gridView3.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.gridView3.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.gridView3.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.gridColumn9,
             this.gridColumn10,
             this.gridColumn11,
             this.gridColumn12});
@@ -482,7 +534,7 @@
             this.gridColumn10.FieldName = "Width_Door_Q";
             this.gridColumn10.Name = "gridColumn10";
             this.gridColumn10.Visible = true;
-            this.gridColumn10.VisibleIndex = 0;
+            this.gridColumn10.VisibleIndex = 1;
             // 
             // repositoryItemTextEdit10
             // 
@@ -501,7 +553,7 @@
             this.gridColumn11.FieldName = "Height_Door_Q";
             this.gridColumn11.Name = "gridColumn11";
             this.gridColumn11.Visible = true;
-            this.gridColumn11.VisibleIndex = 1;
+            this.gridColumn11.VisibleIndex = 2;
             // 
             // repositoryItemTextEdit11
             // 
@@ -520,7 +572,7 @@
             this.gridColumn12.FieldName = "Count_Door_Q";
             this.gridColumn12.Name = "gridColumn12";
             this.gridColumn12.Visible = true;
-            this.gridColumn12.VisibleIndex = 2;
+            this.gridColumn12.VisibleIndex = 3;
             // 
             // repositoryItemTextEdit12
             // 
@@ -1096,6 +1148,44 @@
             this.layoutControlItem17.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem17.TextVisible = false;
             // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "门形式";
+            this.gridColumn2.ColumnEdit = this.repositoryItemComboBox2;
+            this.gridColumn2.FieldName = "Type";
+            this.gridColumn2.Name = "gridColumn2";
+            this.gridColumn2.Visible = true;
+            this.gridColumn2.VisibleIndex = 0;
+            // 
+            // repositoryItemComboBox2
+            // 
+            this.repositoryItemComboBox2.AutoHeight = false;
+            this.repositoryItemComboBox2.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox2.Items.AddRange(new object[] {
+            "单扇",
+            "双扇"});
+            this.repositoryItemComboBox2.Name = "repositoryItemComboBox2";
+            // 
+            // gridColumn9
+            // 
+            this.gridColumn9.Caption = "门形式";
+            this.gridColumn9.ColumnEdit = this.repositoryItemComboBox3;
+            this.gridColumn9.FieldName = "Type";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.Visible = true;
+            this.gridColumn9.VisibleIndex = 0;
+            // 
+            // repositoryItemComboBox3
+            // 
+            this.repositoryItemComboBox3.AutoHeight = false;
+            this.repositoryItemComboBox3.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repositoryItemComboBox3.Items.AddRange(new object[] {
+            "单扇",
+            "双扇"});
+            this.repositoryItemComboBox3.Name = "repositoryItemComboBox3";
+            // 
             // FireElevatorFrontRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1111,10 +1201,13 @@
             this.楼层一.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckedComboBoxEdit1)).EndInit();
             this.楼层二.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
@@ -1165,6 +1258,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.emptySpaceItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemComboBox3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1258,5 +1353,13 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit11;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn12;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit12;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit13;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox1;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckedComboBoxEdit repositoryItemCheckedComboBoxEdit1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox2;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
+        private DevExpress.XtraEditors.Repository.RepositoryItemComboBox repositoryItemComboBox3;
     }
 }
