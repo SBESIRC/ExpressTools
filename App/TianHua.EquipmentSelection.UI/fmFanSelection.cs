@@ -2428,7 +2428,7 @@ namespace TianHua.FanSelection.UI
 
         private void OnModelDeleted(ThModelDeleteMessage message)
         {
-            throw new NotImplementedException();
+            // TODO: 处理风机块删除事件
         }
     }
 }

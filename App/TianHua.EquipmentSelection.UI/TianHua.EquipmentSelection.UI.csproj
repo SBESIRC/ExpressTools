@@ -155,7 +155,7 @@
     <Compile Include="CAD\CustomCommandMappers.cs" />
     <Compile Include="IO\DataManager.cs" />
     <Compile Include="CAD\DrawModelsInCAD.cs" />
-    <Compile Include="EquipmentSelectionApp.cs" />
+    <Compile Include="ThFanSelectionUIApp.cs" />
     <Compile Include="IO\ExcelLoader.cs" />
     <Compile Include="fmAirVolumeCalc-Exhaust.cs">
       <SubType>Form</SubType>

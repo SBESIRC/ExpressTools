@@ -12,7 +12,7 @@ using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace TianHua.FanSelection.UI
 {
-    public class EquipmentSelectionApp : IExtensionApplication
+    public class ThFanSelectionUIApp : IExtensionApplication
     {
         private static string _customCmd = null;
         private static bool _runCustomCommand = false;
@@ -169,12 +169,14 @@ namespace TianHua.FanSelection.UI
 
         private static void SubscribeToDbEvents(Database db)
         {
+            db.ObjectErased += dbEventHandler.DbEvent_ObjectErased_Handler;
             db.DeepCloneEnded += dbEventHandler.DbEvent_DeepCloneEnded_Handler;
             db.BeginDeepCloneTranslation += dbEventHandler.DbEvent_BeginDeepCloneTranslation_Handler;
         }
 
         private static void UnSubscribeToDbEvents(Database db)
         {
+            db.ObjectErased -= dbEventHandler.DbEvent_ObjectErased_Handler;
             db.DeepCloneEnded -= dbEventHandler.DbEvent_DeepCloneEnded_Handler;
             db.BeginDeepCloneTranslation -= dbEventHandler.DbEvent_BeginDeepCloneTranslation_Handler;
         }
