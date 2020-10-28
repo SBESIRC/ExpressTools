@@ -29,17 +29,20 @@ namespace TianHua.FanSelection.UI
             {
                 Query.ReadOnly = false;
             }
+            bool hasDoubleTypeDoor = Model.FrontRoomDoors2.Values.Any(f => f.Any(d => d.Type.ToString() == "双扇"));
             List<ThResult> results = new List<ThResult>()
             {
                 new ThResult()
                 {
                     Name ="24<h≤50",
-                    Result=model.OverAk>=3.2 ? model.AAAA.ToString()+"-"+model.BBBB.ToString() : (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString()
+                    //Result=model.OverAk>=3.2 ? model.AAAA.ToString()+"-"+model.BBBB.ToString() : (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString()
+                    Result=hasDoubleTypeDoor ? model.AAAA.ToString()+"-"+model.BBBB.ToString() : (0.75*model.AAAA).ToString()+"-"+model.BBBB.ToString()
                 },
                 new ThResult()
                 {
                     Name ="50<h≤100",
-                     Result=model.OverAk>=3.2 ? model.CCCC.ToString()+"-"+model.DDDD.ToString() : (0.75*model.CCCC).ToString()+"-"+(model.DDDD).ToString()
+                    //Result=model.OverAk>=3.2 ? model.CCCC.ToString()+"-"+model.DDDD.ToString() : (0.75*model.CCCC).ToString()+"-"+(model.DDDD).ToString()
+                    Result=hasDoubleTypeDoor ? model.CCCC.ToString()+"-"+model.DDDD.ToString() : (0.75*model.CCCC).ToString()+"-"+(model.DDDD).ToString()
                 },
             };
             gridControl1.DataSource = results;

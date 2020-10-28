@@ -106,7 +106,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 前室门
         /// </summary>
-        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
+        //public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
 
         /// <summary>
         /// 送风阀截面长

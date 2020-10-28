@@ -21,5 +21,7 @@ namespace TianHua.FanSelection.Model
         public virtual double TotalVolume { get; }
 
         public double QueryValue { get; set; }
+
+        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
     }
 }
