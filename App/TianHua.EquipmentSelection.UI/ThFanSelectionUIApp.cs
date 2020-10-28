@@ -108,6 +108,15 @@ namespace TianHua.FanSelection.UI
             }
         }
 
+        [CommandMethod("TIANHUACAD", "THFJINPLACEEDITBLOCK", CommandFlags.NoHistory)]
+        public void ThEquipmentInPlaceEditBlock()
+        {
+            using (var cmd = new ThModelInPlaceEditBlockCommand())
+            {
+                cmd.Execute();
+            }
+        }
+
         private ObjectId GetSelectedEntity()
         {
             PromptSelectionResult res = Active.Editor.GetSelection();
