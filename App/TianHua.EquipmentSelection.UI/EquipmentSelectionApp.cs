@@ -169,14 +169,14 @@ namespace TianHua.FanSelection.UI
 
         private static void SubscribeToDbEvents(Database db)
         {
-            db.BeginDeepClone += dbEventHandler.DbEvent_BeginDeepClone_Handler;
             db.DeepCloneEnded += dbEventHandler.DbEvent_DeepCloneEnded_Handler;
+            db.BeginDeepCloneTranslation += dbEventHandler.DbEvent_BeginDeepCloneTranslation_Handler;
         }
 
         private static void UnSubscribeToDbEvents(Database db)
         {
-            db.BeginDeepClone -= dbEventHandler.DbEvent_BeginDeepClone_Handler;
             db.DeepCloneEnded -= dbEventHandler.DbEvent_DeepCloneEnded_Handler;
+            db.BeginDeepCloneTranslation -= dbEventHandler.DbEvent_BeginDeepCloneTranslation_Handler;
         }
 
         private static void SubscribeToOverrules()

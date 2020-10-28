@@ -10,9 +10,16 @@ namespace TianHua.FanSelection.UI.CAD
     {
         private IdMapping Mapping { get; set; }
 
-        public void DbEvent_BeginDeepClone_Handler(object sender, IdMappingEventArgs e)
+        public void DbEvent_BeginDeepCloneTranslation_Handler(object sender, IdMappingEventArgs e)
         {
-            Mapping = e.IdMapping;
+            if (e.IdMapping.DeepCloneContext == DeepCloneType.Copy)
+            {
+                Mapping = e.IdMapping;
+            }
+            else
+            {
+                Mapping = new IdMapping();
+            }
         }
 
         public void DbEvent_DeepCloneEnded_Handler(object sender, EventArgs e)

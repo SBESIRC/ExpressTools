@@ -19,18 +19,6 @@ namespace TianHua.FanSelection.UI.CAD
             return result;
         }
 
-        public override DBObject WblockClone(DBObject dbObject, RXObject ownerObject, IdMapping idMap, bool isPrimary)
-        {
-            DBObject result = base.WblockClone(dbObject, ownerObject, idMap, isPrimary);
-
-            if (IsModel(dbObject))
-            {
-                UpdateClonedModelIdentifier(dbObject, idMap);
-            }
-
-            return result;
-        }
-
         private bool IsModel(DBObject dbObject)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(dbObject.Database))
