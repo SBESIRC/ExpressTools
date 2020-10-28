@@ -40,5 +40,21 @@ namespace TianHua.FanSelection.UI.CAD
                 }
             }
         }
+
+        public void DbEvent_ObjectErased_Handler(object sender, ObjectErasedEventArgs e)
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var model = e.DBObject.ObjectId.GetModelIdentifier();
+                if (!string.IsNullOrEmpty(model))
+                {
+                    ThModelDeleteMessage.SendWith(new ThModelDeleteMessageArgs()
+                    {
+                        Model = model,
+                        Erased = e.Erased,
+                    });
+                }
+            }
+        }
     }
 }

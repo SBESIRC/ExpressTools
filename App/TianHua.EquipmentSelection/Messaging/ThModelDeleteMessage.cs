@@ -4,6 +4,7 @@ namespace TianHua.FanSelection.Messaging
 {
     public class ThModelDeleteMessageArgs : ThModelMessageArgs
     {
+        public bool Erased { get; set; }
         public string Model { get; set; }
     }
 
