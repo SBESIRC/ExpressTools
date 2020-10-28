@@ -248,6 +248,7 @@
     <Compile Include="FireElevatorFrontRoom.Designer.cs">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
     </Compile>
+    <Compile Include="PipeFittings\ThElbow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EvacuationFront.cs">
       <SubType>UserControl</SubType>

@@ -9,6 +9,7 @@ using Autodesk.AutoCAD.Runtime;
 using TianHua.FanSelection.UI.CAD;
 using TianHua.AutoCAD.Utility.ExtensionTools;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using TianHua.FanSelection.UI.PipeFittings;
 
 namespace TianHua.FanSelection.UI
 {
@@ -27,6 +28,31 @@ namespace TianHua.FanSelection.UI
         public void Terminate()
         {
             RemoveDoubleClickHandler();
+        }
+
+        [CommandMethod("TIANHUACAD", "THDWEB", CommandFlags.Modal)]
+        public void DrawElbow()
+        {
+            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            {
+                var ptresult = Active.Editor.GetPoint("\n选择中心点:");
+                if (ptresult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                var strresult = Active.Editor.GetDouble("\n输入管径:");
+                if (strresult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                var degresult = Active.Editor.GetDouble("\n输入弯头角度:");
+                if (strresult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                ThElbow elbow = new ThElbow(degresult.Value, strresult.Value,ptresult.Value);
+                elbow.DrawElbow();
+            }
         }
 
         [CommandMethod("TIANHUACAD", "THFJDW", CommandFlags.Modal)]
