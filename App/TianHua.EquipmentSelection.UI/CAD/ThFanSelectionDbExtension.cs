@@ -98,6 +98,28 @@ namespace TianHua.FanSelection.UI.CAD
             return (string)values.ElementAt(0).Value;
         }
 
+        public static string GetModelIdentifier(this DBObject dBObject)
+        {
+            var valueList = dBObject.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
+            if (valueList == null)
+            {
+                return string.Empty;
+            }
+
+            var values = valueList.Where(o => o.TypeCode == (int)DxfCode.ExtendedDataAsciiString);
+            if (!values.Any())
+            {
+                return string.Empty;
+            }
+
+            return (string)values.ElementAt(0).Value;
+        }
+
+        private static TypedValueList GetXData(this DBObject dBObject, string regAppName)
+        {
+            return dBObject.GetXDataForApplication(regAppName);
+        }
+
         public static void SetModelXDataFrom(this ObjectId obj, ObjectId other)
         {
             var xdata = other.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
