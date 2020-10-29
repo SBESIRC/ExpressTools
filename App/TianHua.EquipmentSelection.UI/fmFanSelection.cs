@@ -2424,6 +2424,10 @@ namespace TianHua.FanSelection.UI
         private void OnModelCopied(ThModelCopyMessage message)
         {
             // TODO: 处理风机块复制事件
+            // 
+            // 发送CAD命令
+            //var parameters = new Object[] { FuncJson.Serialize(_FanDataModel) };
+            //CommandHandlerBase.ExecuteFromCommandLine(false, "THFJINPLACEEDITBLOCK", parameters);
         }
 
         private void OnModelDeleted(ThModelDeleteMessage message)

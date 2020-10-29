@@ -23,7 +23,7 @@ namespace TianHua.FanSelection.UI
         public void Initialize()
         {
             CreateDbEventHandler();
-            //SubscribeToOverrules();
+            SubscribeToOverrules();
             AddDoubleClickHandler();
             SubscribeToDocumentEvents();
         }
@@ -31,7 +31,7 @@ namespace TianHua.FanSelection.UI
         public void Terminate()
         {
             DeleteDbEventHandler();
-            //UnsubscribeToOverrules();
+            UnsubscribeToOverrules();
             RemoveDoubleClickHandler();
             UnSubscribeToDocumentEvents();
         }
@@ -147,7 +147,7 @@ namespace TianHua.FanSelection.UI
             if (Active.Database != null)
             {
                 // 订阅DB事件
-                //SubscribeToDbEvents(Active.Database);
+                SubscribeToDbEvents(Active.Database);
             }
         }
 
@@ -229,7 +229,7 @@ namespace TianHua.FanSelection.UI
             if (e.Document != null)
             {
                 // 订阅DB事件
-                //SubscribeToDbEvents(e.Document.Database);
+                SubscribeToDbEvents(e.Document.Database);
             }
         }
 
@@ -240,7 +240,7 @@ namespace TianHua.FanSelection.UI
                 e.Document.CloseModelSelectionDialog();
 
                 // 取消订阅DB事件
-                //UnSubscribeToDbEvents(e.Document.Database);
+                UnSubscribeToDbEvents(e.Document.Database);
             }
         }
 
