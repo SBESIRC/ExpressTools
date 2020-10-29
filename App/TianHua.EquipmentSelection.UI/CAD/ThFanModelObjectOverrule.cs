@@ -11,20 +11,12 @@ namespace TianHua.FanSelection.UI.CAD
         {
             DBObject result = base.DeepClone(dbObject, ownerObject, idMap, isPrimary);
 
-            if (IsModel(dbObject))
+            if (dbObject.IsModel())
             {
                 UpdateClonedModelIdentifier(dbObject, idMap);
             }
 
             return result;
-        }
-
-        private bool IsModel(DBObject dbObject)
-        {
-            using (AcadDatabase acadDatabase = AcadDatabase.Use(dbObject.Database))
-            {
-                return !string.IsNullOrEmpty(dbObject.ObjectId.GetModelIdentifier());
-            }
         }
 
         private void UpdateClonedModelIdentifier(DBObject dbObject, IdMapping idMap)

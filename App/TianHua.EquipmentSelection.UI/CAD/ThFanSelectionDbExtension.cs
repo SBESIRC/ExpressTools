@@ -126,6 +126,11 @@ namespace TianHua.FanSelection.UI.CAD
             obj.AddXData(ThFanSelectionCommon.RegAppName_FanSelection, xdata);
         }
 
+        public static bool IsModel(this DBObject dBObject)
+        {
+            return !string.IsNullOrEmpty(dBObject.GetModelIdentifier());
+        }
+
         public static bool IsModel(this ObjectId obj, string identifier)
         {
             var valueList = obj.GetXData(ThFanSelectionCommon.RegAppName_FanSelection);
