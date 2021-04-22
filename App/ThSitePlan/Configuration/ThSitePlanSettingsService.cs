@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AcHelper;
 
 namespace ThSitePlan.Configuration
 {
@@ -20,27 +21,75 @@ namespace ThSitePlan.Configuration
         public static ThSitePlanSettingsService Instance { get { return instance; } }
         //-------------SINGLETON-----------------
 
+        private string m_outPutPath = null;
+
         public string OutputPath
         {
             get
             {
+                if(!string.IsNullOrEmpty(m_outPutPath))
+                {
+                    return m_outPutPath;
+                }
+
+                var filepath = Properties.Settings.Default.FileSavePath;
                 //
-                if (Properties.Settings.Default.FileSavePath.IsNullOrEmpty())
+                if (filepath.IsNullOrEmpty())
                 {
                     string mydoc = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    string filepath = Path.Combine(mydoc, ThSitePlanCommon.ThSitePlan_File_Save_Path);
+                    filepath = Path.Combine(mydoc, ThSitePlanCommon.ThSitePlan_File_Save_Path);
                     Directory.CreateDirectory(filepath);
-                    return filepath;
                 }
-                else
+
+                if(!string.IsNullOrEmpty(Active.DocumentName))
                 {
-                    return Properties.Settings.Default.FileSavePath;
+                    filepath = Path.Combine(filepath, Active.DocumentName);
+                    if(Directory.Exists(filepath))
+                    {
+                        var dirs = Directory.GetDirectories(filepath);
+                        int iter = 1;
+                        foreach(var dir in dirs)
+                        {
+                            var dirName = new DirectoryInfo(dir).Name;
+                            int num = 0;
+                            if(int.TryParse(dirName, out num))
+                            {
+                                if(num >= iter)
+                                {
+                                    iter = num + 1;
+                                }
+                            }
+                        }
+
+                        var newDirName = iter.ToString();
+                        if(iter < 10)
+                        {
+                            newDirName = newDirName.Insert(0, "0");
+                        }
+
+                        filepath = Path.Combine(filepath, newDirName);
+                        Directory.CreateDirectory(filepath);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(filepath);
+                        filepath = Path.Combine(filepath, "01");
+                    }
                 }
+
+                m_outPutPath = filepath;
+
+                return m_outPutPath;
             }
             set
             {
                 Properties.Settings.Default.FileSavePath = value;
             }
+        }
+        
+        public void ResetOutputPath()
+        {
+            m_outPutPath = null;
         }
 
         public double ShadowLengthScale

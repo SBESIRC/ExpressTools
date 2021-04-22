@@ -373,7 +373,7 @@ namespace ThSitePlan.UI
             if (e.Column.FieldName == "PSD_Color")
             {
                 var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
-                var _ColorGeneral = m_ListColorGeneral.Find(p => p.ID == _ID);
+                var _ColorGeneral = m_ListColorGeneral?.Find(p => p.ID == _ID);
                 if (_ColorGeneral == null) { return; }
                 if (_ColorGeneral.Type == "1") { e.DisplayText = string.Empty; }
                 if (_ColorGeneral.Type == "0")
@@ -389,7 +389,7 @@ namespace ThSitePlan.UI
             if (e.Column.FieldName == "PSD_Transparency")
             {
                 var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
-                var _ColorGeneral = m_ListColorGeneral.Find(p => p.ID == _ID);
+                var _ColorGeneral = m_ListColorGeneral?.Find(p => p.ID == _ID);
                 if (_ColorGeneral == null) { return; }
                 //if (_ColorGeneral.Type == "1") { e.DisplayText = string.Empty; }
                 e.DisplayText = _ColorGeneral.PSD_Transparency + "%";
@@ -398,7 +398,7 @@ namespace ThSitePlan.UI
             if (e.Column.FieldName == "CAD_Layer_Value")
             {
                 var _ID = FuncStr.NullToStr(e.Node.GetValue("ID"));
-                var _ColorGeneral = m_ListColorGeneral.Find(p => p.ID == _ID);
+                var _ColorGeneral = m_ListColorGeneral?.Find(p => p.ID == _ID);
                 if (_ColorGeneral == null) { return; }
                 //if (_ColorGeneral.Type == "1") { e.DisplayText = string.Empty; }
                 if (_ColorGeneral.CAD_Layer == null || _ColorGeneral.CAD_Layer.Count == 0) { e.DisplayText = string.Empty; return; }

@@ -11,21 +11,59 @@ using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using ThSitePlan.Engine;
+using ThSitePlan.Log;
 using ThSitePlan.Configuration;
 using ThSitePlan.Photoshop;
 using NFox.Cad.Collections;
 using System.Windows.Forms;
 using AcadApp = Autodesk.AutoCAD.ApplicationServices.Application;
+using System.IO;
+using NLog;
+using NLog.Targets;
+using Exception = System.Exception;
+
+[assembly:ExtensionApplication(typeof(ThSitePlan.UI.ThSitePlanApp))]
+[assembly:CommandClass(typeof(ThSitePlan.UI.ThSitePlanApp))]
 
 namespace ThSitePlan.UI
 {
     public class ThSitePlanApp : IExtensionApplication
     {
+        public static NLog.Logger Logger;
+
         public void Initialize()
         {
             ThSitePlanDocCollectionEventHandler.Instance.Register();
             ThSitePlanDbEventHandler.Instance.SubscribeToDb(Active.Database);
             ThSitePlanDocEventHandler.Instance.SubscribeToDoc(Active.Document);
+
+            var config = new NLog.Config.LoggingConfiguration();
+            
+            // Add temporary file log
+            string temporaryPath = Path.GetTempPath();
+            string dateTimeNow = DateTime.Now.ToString("yyyy-MM-ss-FFF");
+            string logFilePath = Path.Combine(temporaryPath, "ThSitePlan" + dateTimeNow + ".log");
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = logFilePath };
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+
+            // Add AutoCAD editor prompt log
+            MethodCallTarget methodCallTarget = new MethodCallTarget("AutoCAD Editor Prompt Log", AcadLogHandler);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, methodCallTarget);
+
+            NLog.LogManager.Configuration = config;
+
+            Logger = NLog.LogManager.GetCurrentClassLogger();
+    }
+
+        private void AcadLogHandler(LogEventInfo logEventInfo, object[] objects)
+        {
+            //var activeEditor = Active.Editor;
+            //if(activeEditor != null)
+            //{
+            //    activeEditor.WriteMessage(logEventInfo != null ? logEventInfo.ToString() : String.Empty, objects);
+            //    activeEditor.WriteMessage("/n");
+            //    //activeEditor.WriteLine(logEventInfo != null ? logEventInfo.ToString() : String.Empty, objects);
+            //}
         }
 
         public void Terminate()
@@ -35,12 +73,21 @@ namespace ThSitePlan.UI
             ThSitePlanDocEventHandler.Instance.UnsubscribeFromDoc(Active.Document);
         }
 
+        public static void LogException(Exception e, string title)
+        {
+            var message = title + ": \r\n" + e.Message + "\r\n" + e.StackTrace;
+            ThSitePlanApp.Logger.Error(message);
+        }
+
         /// <summary>
         /// 一键生成
         /// </summary>
         [CommandMethod("TIANHUACAD", "THPGE", CommandFlags.Modal)]
         public void ThSitePlanGenerate()
         {
+
+            ThSitePlanApp.Logger.Info("开始运行一键彩总");
+
             Vector3d offset;
             ObjectId originFrame = ObjectId.Null;
             Extents3d originFrameExtents = new Extents3d();
@@ -184,8 +231,11 @@ namespace ThSitePlan.UI
                 }
             }
 
+            // 每次生成操作都重置文件输出路径
+            ThSitePlanSettingsService.Instance.ResetOutputPath();
+
             //显示进度条窗体
-            ThSitePlanConfigService.Instance.Initialize();
+            ThSitePlanConfigService.Instance.Initialize(true);
             ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.UpdateCAD);
             int totalupdatetimes = ThSitePlanConfigService.Instance.Root.GetItemsCount();
             ProgressBarForm pgform = new ProgressBarForm(totalupdatetimes + 36);
@@ -197,29 +247,49 @@ namespace ThSitePlan.UI
             // 这个图框里面的块引用将会被“炸”平成基本图元后处理
             // 解构图集放置区的第一个线框
             var playgroundFrame = frames.First();
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            try
             {
-                acadDatabase.Database.CopyWithMove(originFrame, offset);
-                acadDatabase.Database.ExplodeToOwnerSpace(playgroundFrame.Item1);
-                Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(playgroundFrame.Item1));
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    acadDatabase.Database.CopyWithMove(originFrame, offset);
+                    acadDatabase.Database.ExplodeToOwnerSpace(playgroundFrame.Item1);
+                    Active.Editor.TrimCmd(acadDatabase.Element<Polyline>(playgroundFrame.Item1));
+                }
+                pgform.SetProgressBar("已完成复制流程", "正在执行CAD原始数据处理.....", 1);
+
+                ThSitePlanApp.Logger.Info("已完成复制流程，正在执行CAD原始数据处理");
             }
-            pgform.SetProgressBar("已完成复制流程", "正在执行CAD原始数据处理.....", 1);
+            catch(Exception e)
+            {
+                LogException(e, "复制过程中出现错误");
+                return;
+            }
 
             // CAD原始数据处理流程
             ThSitePlanConfigService.Instance.Initialize();
             ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.UpdateCAD);
-            using (AcadDatabase acadDatabase = AcadDatabase.Active())
+            try
             {
-                ThSitePlanEngine.Instance.Containers = frames;
-                ThSitePlanEngine.Instance.OriginFrame = playgroundFrame.Item1;
-                ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
+                using (AcadDatabase acadDatabase = AcadDatabase.Active())
+                {
+                    ThSitePlanEngine.Instance.Containers = frames;
+                    ThSitePlanEngine.Instance.OriginFrame = playgroundFrame.Item1;
+                    ThSitePlanEngine.Instance.Generators = new List<ThSitePlanGenerator>()
                 {
                     new ThSitePlanFrameNameGenerator(),
                     new ThSitePlanContentGenerator(),
                 };
-                ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+                    ThSitePlanEngine.Instance.Run(acadDatabase.Database, ThSitePlanConfigService.Instance.Root);
+                }
+                pgform.SetProgressBar("已完成CAD数据处理流程", "正在执行CAD衍生数据处理.....", 1);
+
+                ThSitePlanApp.Logger.Info("已完成CAD数据处理流程，正在执行CAD衍生数据处理");
             }
-            pgform.SetProgressBar("已完成CAD数据处理流程", "正在执行CAD衍生数据处理.....", 1);
+            catch(Exception e)
+            {
+                LogException(e, "CAD数据处理过程出现错误");
+                return;
+            }
 
             // 初始化解构区的线框信息
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
@@ -227,103 +297,181 @@ namespace ThSitePlan.UI
                 ThSitePlanDbEngine.Instance.Initialize(acadDatabase.Database);
             }
 
-            // CAD衍生数据处理流程
-            ItemGeneratePreocess(frames,
-                ObjectId.Null,
-                new List<ThSitePlanGenerator>() { new ThSitePlanDerivedContentGenerator() },
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成CAD衍生数据处理流程", "正在执行CAD种树处理.....", 2);
-
-            // CAD种树处理流程
-            ItemGeneratePreocess(frames,
-                ObjectId.Null,
-                new List<ThSitePlanGenerator>() { new ThSitePlanPlantGenerator() },
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成CAD种树处理流程", "正在执行CAD填充处理.....", 2);
-
-            // CAD填充处理流程
-            ItemGeneratePreocess(frames,
-                ObjectId.Null,
-                new List<ThSitePlanGenerator>() { new ThSitePlanBoundaryGenerator() },
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成CAD填充处理流程", "正在执行CAD阴影处理.....", 10);
-
-            // CAD阴影处理流程
-            ItemGeneratePreocess(frames,
-                ObjectId.Null,
-                new List<ThSitePlanGenerator>()
-                { new ThSitePlanShadowContentGenerator(),
-                  new ThSitePlanShadowGenerator()},
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成CAD阴影处理流程", "正在执行图框清理.....", 6);
-
-            // 未识别图框清理流程
-            ItemGeneratePreocess(frames,
-                playgroundFrame.Item1,
-                new List<ThSitePlanGenerator>()
-                { new ThSitePlanUndefineCleanGenerator()},
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成图框清理流程", "正在执行CAD打印.....", 2);
-
-            // CAD打印流程
-            ItemGeneratePreocess(frames,
-                ObjectId.Null,
-                new List<ThSitePlanGenerator>()
-                { new ThSitePlanPDFGenerator()},
-                true,
-                true,
-                true);
-            pgform.SetProgressBar("已完成 CAD打印流程", "正在执行PS处理.....", 5);
-
-            //PS处理流程
-            ThSitePlanConfigService.Instance.Initialize();
-            ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.UpdateCAD);
-            using (var psService = new ThSitePlanPSService())
+            try
             {
-                // 连接PS失败
-                if (psService.ErrorCode != 0)
-                {
-                    AcadApp.ShowAlertDialog(psService.ErrorMessage);
-                    return;
-                }
+                // CAD衍生数据处理流程
+                ItemGeneratePreocess(frames,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>() { new ThSitePlanDerivedContentGenerator() },
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成CAD衍生数据处理流程", "正在执行CAD种树处理.....", 2);
 
-                // 创建空白文档
-                // 因为用A1纸打印，所以PS文档默认为Portrait
-                // 若打印图框为Landscape，则设置PS文档为Landscape
-                double psdocwidth = 41.84;
-                double psdocheight = 59.17;
-                if (originFrameExtents.Width() > originFrameExtents.Height())
-                {
-                    psdocwidth = 59.17;
-                    psdocheight = 41.84;
-                }
-                psService.NewEmptyDocument("MyNewDocument", psdocwidth, psdocheight);
-
-                // PS处理流程
-                ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
-                 {
-                    new ThSitePlanPSDefaultGenerator(psService),
-                 };
-                ThSitePlanPSEngine.Instance.PSRun(
-                    ThSitePlanSettingsService.Instance.OutputPath,
-                    ThSitePlanConfigService.Instance.Root,
-                    pgform.Handle, "progressBar1");
-                pgform.SetProgressBar("已完成PhotoShop生成", "正在保存PS文件.....", 1);
-                // 保存PS生成的文档
-                psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
-                pgform.SetProgressBar("Done !", "Done", 6);
-                pgform.setconfirmbtn();
+                ThSitePlanApp.Logger.Info("已完成CAD衍生数据处理流程，正在执行CAD种树处理");
             }
+            catch(Exception e)
+            {
+                LogException(e, "CAD衍生数据处理错误");
+                return;
+            }
+
+            try
+            {
+                // CAD种树处理流程
+                ItemGeneratePreocess(frames,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>() { new ThSitePlanPlantGenerator() },
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成CAD种树处理流程", "正在执行CAD填充处理.....", 2);
+
+                ThSitePlanApp.Logger.Info("已完成CAD种树处理流程，正在执行CAD填充处理");
+            }
+            catch(Exception e)
+            {
+                LogException(e, "CAD种树过程中出现错误");
+                return;
+            }
+
+            try
+            {
+                // CAD填充处理流程
+                ItemGeneratePreocess(frames,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>() { new ThSitePlanBoundaryGenerator() },
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成CAD填充处理流程", "正在执行CAD阴影处理.....", 10);
+
+                ThSitePlanApp.Logger.Info("已完成CAD填充处理流程，正在执行CAD阴影处理");
+            }
+            catch(Exception e)
+            {
+                LogException(e, "CAD填充过程出现错误");
+                return;
+            }
+
+            try
+            {
+                // CAD阴影处理流程
+                ItemGeneratePreocess(frames,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>()
+                    { new ThSitePlanShadowContentGenerator(),
+                  new ThSitePlanShadowGenerator()},
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成CAD阴影处理流程", "正在执行图框清理.....", 6);
+
+                ThSitePlanApp.Logger.Info("已完成CAD阴影处理流程，正在执行图框清理");
+            }
+            catch (Exception e)
+            {
+                LogException(e, "CAD阴影处理过程中出现错误");
+                return;
+            }
+
+            try
+            {
+                // 未识别图框清理流程
+                ItemGeneratePreocess(frames,
+                    playgroundFrame.Item1,
+                    new List<ThSitePlanGenerator>()
+                    { new ThSitePlanUndefineCleanGenerator()},
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成图框清理流程", "正在执行CAD打印.....", 2);
+
+                ThSitePlanApp.Logger.Info("已完成图框清理流程，正在执行CAD打印");
+            }
+            catch(Exception e)
+            {
+                LogException(e, "未识别图框清理过程出现错误");
+                return;
+            }
+
+            try
+            {
+                // CAD打印流程
+                ItemGeneratePreocess(frames,
+                    ObjectId.Null,
+                    new List<ThSitePlanGenerator>()
+                    { new ThSitePlanPDFGenerator(new ThSitePlanLogger(ThSitePlanApp.Logger))},
+                    true,
+                    true,
+                    true);
+                pgform.SetProgressBar("已完成 CAD打印流程", "正在执行PS处理.....", 5);
+
+                ThSitePlanApp.Logger.Info("已完成 CAD打印流程，正在执行PS处理");
+            }
+            catch(Exception e)
+            {
+                LogException(e, "CAD打印过程中出现错误");
+                return;
+            }
+
+            try
+            {
+                //PS处理流程
+                ThSitePlanConfigService.Instance.Initialize();
+                ThSitePlanConfigService.Instance.EnableAll(UpdateStaus.UpdateCAD);
+                using (var psService = new ThSitePlanPSService())
+                {
+                    // 连接PS失败
+                    if (psService.ErrorCode != 0)
+                    {
+                        AcadApp.ShowAlertDialog(psService.ErrorMessage);
+
+                        ThSitePlanApp.Logger.Error(psService.ErrorMessage);
+
+                        return;
+                    }
+
+                    // 创建空白文档
+                    // 因为用A1纸打印，所以PS文档默认为Portrait
+                    // 若打印图框为Landscape，则设置PS文档为Landscape
+                    double psdocwidth = 41.84;
+                    double psdocheight = 59.17;
+                    if (originFrameExtents.Width() > originFrameExtents.Height())
+                    {
+                        psdocwidth = 59.17;
+                        psdocheight = 41.84;
+                    }
+                    psService.NewEmptyDocument("MyNewDocument", psdocwidth, psdocheight);
+
+                    ThSitePlanApp.Logger.Info("创建新PS文档");
+
+                    // PS处理流程
+                    ThSitePlanPSEngine.Instance.Generators = new List<ThSitePlanPSGenerator>()
+                    {
+                        new ThSitePlanPSDefaultGenerator(psService)
+                    };
+                    ThSitePlanPSEngine.Instance.PSRun(
+                        ThSitePlanSettingsService.Instance.OutputPath,
+                        ThSitePlanConfigService.Instance.Root,
+                        pgform.Handle, "progressBar1");
+                    pgform.SetProgressBar("已完成PhotoShop生成", "正在保存PS文件.....", 1);
+
+                    ThSitePlanApp.Logger.Info("已完成PhotoShop生成，正在保存PS文件");
+
+                    // 保存PS生成的文档
+                    psService.ExportToFile(ThSitePlanSettingsService.Instance.OutputPath);
+                    pgform.SetProgressBar("Done !", "Done", 6);
+                    pgform.setconfirmbtn();
+                }
+            }
+            catch(Exception e)
+            {
+                LogException(e, "PS处理过程中出现错误");
+                return;
+            }
+
+            ThSitePlanApp.Logger.Info("一键彩总结束");
         }
 
         /// <summary>
@@ -498,17 +646,7 @@ namespace ThSitePlan.UI
                 {
                     using (AcadDatabase acadDatabase = AcadDatabase.Active())
                     {
-                        // 创建一个XRecord
-                        ResultBuffer rb = new ResultBuffer(new TypedValue((int)DxfCode.XTextString, dlg.m_ColorGeneralConfig));
-                        Xrecord configrecord = new Xrecord()
-                        {
-                            Data = rb,
-                        };
-
-                        // 将XRecord添加到NOD中
-                        DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, true);
-                        dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
-                        acadDatabase.AddNewlyCreatedDBObject(configrecord);
+                        ThSitePlanConfigService.Instance.WriteConfigIntoDb(dlg.m_ColorGeneralConfig, acadDatabase, true);
                     }
 
                     //记住配置界面的新的设置

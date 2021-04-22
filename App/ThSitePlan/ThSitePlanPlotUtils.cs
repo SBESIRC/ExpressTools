@@ -27,7 +27,11 @@ namespace ThSitePlan
                     Properties.Settings.Default.plotDeviceName, 
                     Properties.Settings.Default.mediaName);
                 psv.RefreshLists(plotSetting);
-                psv.SetCurrentStyleSheet(plotSetting, Properties.Settings.Default.styleSheetName);
+                var styles = psv.GetPlotStyleSheetList();
+                if (styles.Contains(Properties.Settings.Default.styleSheetName))
+                {
+                    psv.SetCurrentStyleSheet(plotSetting, Properties.Settings.Default.styleSheetName);
+                }
 
                 // 自定义打印信息
                 // 设置打印窗口等信息

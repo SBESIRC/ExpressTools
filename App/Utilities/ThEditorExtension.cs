@@ -158,6 +158,11 @@ namespace Autodesk.AutoCAD.EditorInput
 
         public static void ZoomObject(this Editor ed, ObjectId entId)
         {
+            if(entId.IsErased)
+            {
+                return;
+            }
+
             Database db = ed.Document.Database;
             using (Transaction trans = db.TransactionManager.StartTransaction())
             {

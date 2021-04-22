@@ -13,6 +13,7 @@ using AcHelper;
 using DotNetARX;
 using Linq2Acad;
 using Autodesk.AutoCAD.Runtime;
+using ThSitePlan.Log;
 
 namespace ThSitePlan.Engine
 {
@@ -20,6 +21,7 @@ namespace ThSitePlan.Engine
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get ; set ; }
+        public override ILogger Logger { get; set; }
 
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
         {

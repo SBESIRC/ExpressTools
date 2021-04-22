@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
 using AcHelper;
 using Linq2Acad;
+using ThSitePlan.Log;
 
 namespace ThSitePlan.Engine
 {
@@ -16,17 +17,39 @@ namespace ThSitePlan.Engine
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
+        public override ILogger Logger { get; set; }
+
+        public ThSitePlanPDFGenerator(ILogger logger = null)
+        {
+            Logger = logger;
+        }
+
         public override bool Generate(Database database, ThSitePlanConfigItem configItem)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
-                string file = Path.Combine(ThSitePlanSettingsService.Instance.OutputPath,
-                        (string)configItem.Properties["Name"]);
+                var name = (string)configItem.Properties["Name"];
+                string file = Path.Combine(ThSitePlanSettingsService.Instance.OutputPath, name);
                 var frame = acadDatabase.Element<Polyline>(Frame.Item1);
                 Active.Editor.ZoomObject(frame.ObjectId);
                 var extents2d = Active.Editor.ToPlotWindow(frame);
-                ThSitePlanPlotUtils.DoPlot(extents2d, file, IsLandscapFrame(frame));
-                return true;
+                try
+                {
+                    ThSitePlanPlotUtils.DoPlot(extents2d, file, IsLandscapFrame(frame));
+                    if(null != Logger)
+                    {
+                        var msg = "成功打印PDF文件：" + file;
+                        Logger.LogInfo(msg);
+                    }
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    var msg = "打印PDF文件出现问题：" + name;
+                    Logger.LogError(msg);
+                    throw e;
+                }
             }
         }
 

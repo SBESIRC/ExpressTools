@@ -5,6 +5,8 @@ using TianHua.Publics.BaseCode;
 using Autodesk.AutoCAD.DatabaseServices;
 using Linq2Acad;
 using System.Linq;
+using System.IO;
+using AcHelper;
 
 namespace ThSitePlan.Configuration
 {
@@ -205,7 +207,7 @@ namespace ThSitePlan.Configuration
         /// <summary>
         /// 初始化
         /// </summary>
-        public void Initialize()
+        public void Initialize(bool bSave = false)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
@@ -213,23 +215,29 @@ namespace ThSitePlan.Configuration
                 DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
                 if (dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
                 {
-                    InitializeWithDb();
+                    InitializeWithDb(bSave);
                 }
             }
         }
 
-        private void InitializeWithDb()
+        private void InitializeWithDb(bool bSave)
         {
             using (AcadDatabase acadDatabase = AcadDatabase.Active())
             {
-                DBDictionary dbdc = acadDatabase.Element<DBDictionary>(acadDatabase.Database.NamedObjectsDictionaryId, false);
-                ObjectId obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
-                Xrecord bck = acadDatabase.Element<Xrecord>(obj, false);
-                string xrecorddata = bck.Data.AsArray().First().Value.ToString();
-                if (!string.IsNullOrEmpty(xrecorddata))
+                var config = GetConfigFromDb(acadDatabase);
+
+                if (null != config && !string.IsNullOrEmpty(config.Item1))
                 {
-                    RootJsonString = xrecorddata;
-                    InitializeFromString(xrecorddata);
+                    RootJsonString = config.Item1;
+
+                    // Save the configuation in NOD into the output path.
+                    if (bSave)
+                    {
+                        var filePath = Path.Combine(ThSitePlanSettingsService.Instance.OutputPath, Active.DocumentName + ".json");
+                        FuncFile.Write(filePath, RootJsonString);
+                    }
+
+                    InitializeFromString(config.Item1);
                 }
             }
         }
@@ -245,6 +253,64 @@ namespace ThSitePlan.Configuration
         private void InitializeFromString(string orgstring)
         {
             Root = StringToRoot(orgstring);
+        }
+
+        public Tuple<string, bool> GetConfigFromDb(AcadDatabase acadDb)
+        {
+            if (null == acadDb)
+            {
+                return null;
+            }
+
+            var dbdc = acadDb.Element<DBDictionary>(acadDb.Database.NamedObjectsDictionaryId, false);
+            if(!dbdc.Contains(ThSitePlanCommon.Configuration_Xrecord_Name))
+            {
+                return null;
+            }
+
+            var obj = dbdc.GetAt(ThSitePlanCommon.Configuration_Xrecord_Name);
+            if(null == obj)
+            {
+                return null;
+            }
+
+            var bck = acadDb.Element<Xrecord>(obj, false);
+            if(null == bck)
+            {
+                return null;
+            }
+
+            var config = bck.Data.AsArray().First().Value.ToString();
+
+            bool bSyncedFromMaster = false;
+            if (bck.Data.AsArray().Length > 1)
+            {
+                bSyncedFromMaster = Convert.ToBoolean(bck.Data.AsArray()[1].Value);
+            }
+
+            return new Tuple<string, bool>(config, bSyncedFromMaster);
+        }
+
+        public void WriteConfigIntoDb(string config, AcadDatabase acadDb, bool bSynced)
+        {
+            if (string.IsNullOrEmpty(config) || null == acadDb || null == acadDb.Database)
+            {
+                return;
+            }
+
+            // 创建一个XRecord
+            var rb = new ResultBuffer(
+                new TypedValue((int)DxfCode.XTextString, config), 
+                new TypedValue((int)DxfCode.Bool, bSynced));
+            var configrecord = new Xrecord()
+            {
+                Data = rb,
+            };
+
+            // 将XRecord添加到NOD中
+            var dbdc = acadDb.Element<DBDictionary>(acadDb.Database.NamedObjectsDictionaryId, true);
+            dbdc.SetAt(ThSitePlanCommon.Configuration_Xrecord_Name, configrecord);
+            acadDb.AddNewlyCreatedDBObject(configrecord);
         }
 
         public ThSitePlanConfigItemGroup StringToRoot(string orgstring)

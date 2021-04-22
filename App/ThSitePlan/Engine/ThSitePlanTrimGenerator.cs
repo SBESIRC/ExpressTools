@@ -10,6 +10,7 @@ using ThSitePlan.Configuration;
 using Linq2Acad;
 using AcHelper;
 using Autodesk.AutoCAD.EditorInput;
+using ThSitePlan.Log;
 
 namespace ThSitePlan.Engine
 {
@@ -17,6 +18,8 @@ namespace ThSitePlan.Engine
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
+        public override ILogger Logger { get; set; }
+
         private Dictionary<string, ThSitePlanWorker> Workers { get; set; }
 
         public ThSitePlanTrimGenerator()
