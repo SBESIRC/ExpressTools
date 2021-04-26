@@ -102,6 +102,15 @@ namespace ThSitePlan.Properties {
         }
         
         /// <summary>
+        ///   查找类似 [{&quot;CAD_Frame&quot;:&quot;&quot;,&quot;CAD_Layer&quot;:[],&quot;CAD_Layer_Value&quot;:null,&quot;CAD_Script&quot;:&quot;无&quot;,&quot;CAD_ScriptID&quot;:&quot;0&quot;,&quot;DataType&quot;:&quot;0&quot;,&quot;ID&quot;:&quot;0&quot;,&quot;ImgType&quot;:null,&quot;Name&quot;:&quot;未识别对象&quot;,&quot;PID&quot;:&quot;0&quot;,&quot;PSD_Color&quot;:&quot;0, 0, 0&quot;,&quot;PSD_Transparency&quot;:55,&quot;SortID&quot;:0,&quot;Type&quot;:&quot;0&quot;},{&quot;CAD_Frame&quot;:&quot;&quot;,&quot;CAD_Layer&quot;:[{&quot;ID&quot;:&quot;1&quot;,&quot;Name&quot;:&quot;P-NOTE-PLTB&quot;},{&quot;ID&quot;:&quot;2&quot;,&quot;Name&quot;:&quot;P-BUID-NUMB&quot;}],&quot;CAD_Layer_Value&quot;:null,&quot;CAD_Script&quot;:&quot;无&quot;,&quot;CAD_ScriptID&quot;:&quot;0&quot;,&quot;DataType&quot;:&quot;0&quot;,&quot;ID&quot;:&quot;1&quot;,&quot;ImgType&quot;:null,&quot;Name&quot;:&quot;基本文字说明及图例&quot;,&quot;PID&quot;:&quot;1&quot;,&quot;PSD_Color&quot;:&quot;0, 0, 0&quot;,&quot;PSD_Transparency&quot;:70,&quot;SortID&quot;:0,&qu... 的本地化字符串。
+        /// </summary>
+        internal static string 一键彩总配置 {
+            get {
+                return ResourceManager.GetString("一键彩总配置", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap 删除 {

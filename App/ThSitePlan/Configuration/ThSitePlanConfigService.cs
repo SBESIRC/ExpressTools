@@ -244,7 +244,7 @@ namespace ThSitePlan.Configuration
 
         private void InitializeWithResource()
         {
-            string _Txt = FuncStr.NullToStr(Properties.Resources.BasicStyle);
+            string _Txt = FuncStr.NullToStr(Properties.Resources.一键彩总配置);
             RootJsonString = _Txt;
             DefaultJsonString = _Txt;
             InitializeFromString(_Txt);
