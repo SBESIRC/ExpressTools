@@ -40,7 +40,7 @@ namespace ThSitePlan.UI
                 ThSitePlanDocEventHandler.Instance.SubscribeToDoc(e.Document);
                 ThSitePlanDbEventHandler.Instance.SubscribeToDb(e.Document.Database);
 
-                SyncConfigFromMaster(e.Document);
+                //SyncConfigFromMaster(e.Document);
             }
         }
 
