@@ -64,8 +64,9 @@ Task Compile.Resource.R18 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R18 -Depends Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 
+Task Build.Assembly.R18 -Depends Compile.Assembly.R18.Common
 {
+	#
 }
 
 # $buildType build for AutoCAD R19
@@ -111,7 +112,7 @@ Task Compile.Resource.R19 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R19 -Depends Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 
+Task Build.Assembly.R19 -Depends Compile.Assembly.R19.Common
 {
     #
 }
@@ -159,7 +160,7 @@ Task Compile.Resource.R20 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R20 -Depends Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 
+Task Build.Assembly.R20 -Depends Compile.Assembly.R20.Common
 {
     #
 }
@@ -207,7 +208,7 @@ Task Compile.Resource.R22 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R22 -Depends Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 
+Task Build.Assembly.R22 -Depends Compile.Assembly.R22.Common
 {
     #
 }
