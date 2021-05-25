@@ -33,14 +33,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" Guid="{8B4E89D6-A186-4B9A-AD02-F0202E696D39}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" Guid="{E40F785C-465D-4471-A1FF-4D9F1F4015C5}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" Guid="{0D76BB1E-32A8-433C-94DE-E28CB71CE5A0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Debug" Guid="{BC46E5BC-FAA0-4419-B96C-F8354DC65BBD}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThXClip_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" Guid="{5BAB8FAB-8813-4324-B534-D7339AA29A25}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThMirror.dll" />
@@ -82,14 +76,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" Guid="{88763928-E2BF-45C3-A75D-E0CA8DC55B9B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" Guid="{B68A9526-D94A-4300-8BD3-F31125527DD3}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" Guid="{7128C223-81A9-4890-83C7-AAD46AFE88C4}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Debug" Guid="{08102C21-33A8-44DE-B486-CE578DA7685A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThXClip_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" Guid="{4DAF5A44-499A-4496-81DA-FE930A32412E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThMirror.dll" />
@@ -128,14 +116,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" Guid="{9334b1bd-7974-4c92-a193-33e36375d21f}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" Guid="{5894a8bb-0333-4df3-bef6-441080945353}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Debug" Guid="{696b4371-b11e-4202-be37-b79af071921c}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Debug" Guid="{27783523-C772-4711-A29F-46CD396D6BB5}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThXClip_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" Guid="{D52CED0A-25D5-4ED1-B9AE-0B124EA38E9C}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThMirror.dll" />
@@ -174,14 +156,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Debug" Guid="{B20890C1-632C-4AF3-BBAA-6F03C12CE8F0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThPlot_Debug" Guid="{7644D52C-2DE0-4E2E-BFCC-5036B5DD5A6F}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThPlot_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RoomBoundary_Debug" Guid="{4B7DB929-153A-4CB4-9AA3-873C5396772F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RoomBoundary_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThXClip_Debug" Guid="{232AE3C4-05E6-4AFE-84F3-927D4DD00403}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThXClip_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThMirror_Debug" Guid="{EE35EDC6-A2B5-4CED-BCB8-FBD995F4D3B9}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThMirror_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThMirror.dll" />
@@ -224,14 +200,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" Guid="{3AC8A833-3D51-4D30-BF11-FE4D67AD3D9B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" Guid="{A60ABDE2-625D-45EE-A6F2-A11B0797C6F9}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" Guid="{FFCCB34A-0235-4F96-A996-D9137E3ABE02}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Release" Guid="{6E207B75-5809-42CA-8666-4C85C93FB5E1}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Release" Guid="{BD43363E-75A2-481C-B7C6-944B86A3D03F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThMirror.dll" />
@@ -273,14 +243,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" Guid="{057CDDA6-BA3C-421E-985B-A4460CB42BEF}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" Guid="{3679303E-44A2-4F83-BF76-9815AFFEB184}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" Guid="{9FA4D436-A9F4-40F8-BE72-42AE9B4340BF}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Release" Guid="{0B109481-BC5A-4B10-9D79-1C435DE82331}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Release" Guid="{8550F858-A65B-4621-B0E4-32A04B97002E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThMirror.dll" />
@@ -319,14 +283,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" Guid="{d3be03a0-3806-4b6f-b9b4-dae86441a33a}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" Guid="{958f0a56-dc2a-4413-8d82-3e1aafee9ea4}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" Guid="{20d74dc8-8b93-4c1b-bd89-0a66e1468999}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Release" Guid="{01069FF5-70FE-4C69-8982-032B7FC79B6B}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Release" Guid="{DD8161D3-B89B-47FF-9EB3-9724988F3FB1}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThMirror.dll" />
@@ -365,14 +323,8 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" Guid="{FC7EF5F8-8964-4140-A1D0-37CC459F19A6}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThAreaFrameConfig.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThPlot_Release" Guid="{1B3387C8-BCC6-4F26-AA99-D16E72F85CB0}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThPlot_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThPlot.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_RoomBoundary_Release" Guid="{86B9E3A7-07A4-4FBF-8E64-0AA02DC5248C}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_RoomBoundary_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThRoomBoundary.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThXClip_Release" Guid="{C66F339D-EEDB-4C94-BC85-A39CA32F3EB6}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThXClip_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThXClip.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThMirror_Release" Guid="{419F208C-F80D-4AEA-832A-BE5A782C8B56}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThMirror_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThMirror.dll" />
@@ -398,9 +350,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThEssential_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_QuickCmd_Debug" />
@@ -413,9 +363,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEssential_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_QuickCmd_Debug" />
@@ -427,9 +375,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEssential_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_QuickCmd_Debug" />
@@ -441,9 +387,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThResourceLibrary_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThElectricalSysDiagram_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThPlot_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RoomBoundary_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThXClip_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThMirror_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEssential_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_QuickCmd_Debug" />
@@ -457,9 +401,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThElectricalSysDiagram_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DgnLs_Purge_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrameConfig_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThPlot_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RoomBoundary_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThMirror_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThEssential_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_QuickCmd_Release" />
@@ -472,9 +414,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThElectricalSysDiagram_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DgnLs_Purge_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrameConfig_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThPlot_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RoomBoundary_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThMirror_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEssential_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_QuickCmd_Release" />
@@ -486,9 +426,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThResourceLibrary_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThElectricalSysDiagram_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrameConfig_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThPlot_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RoomBoundary_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThMirror_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEssential_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_QuickCmd_Release" />
@@ -500,9 +438,7 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThResourceLibrary_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThElectricalSysDiagram_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrameConfig_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThPlot_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RoomBoundary_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThXClip_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThMirror_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEssential_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_QuickCmd_Release" />

@@ -15,7 +15,6 @@
             <ComponentGroupRef Id="ProductComponentsToolpalette" />
             <ComponentGroupRef Id="ProductComponentsAppWin64" />
             <ComponentGroupRef Id="ProductComponentsAppNative64" />
-            <ComponentGroupRef Id="ProductComponentsAppExternal" />
             <ComponentGroupRef Id="ProductComponentsAppInternal" />
             <ComponentGroupRef Id="ProductComponentsAppSuperBoundary" />
             <ComponentGroupRef Id="ProductComponentsAppLanguage" />

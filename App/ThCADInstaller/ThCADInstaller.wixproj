@@ -23,7 +23,6 @@
   <ItemGroup>
     <Compile Include="App.wxs" />
     <Compile Include="DevExpress.wxs" />
-    <Compile Include="External.wxs" />
     <Compile Include="Internal.wxs" />
     <Compile Include="Language.wxs" />
     <Compile Include="Lisp.wxs" />
