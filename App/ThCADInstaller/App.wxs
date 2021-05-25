@@ -12,9 +12,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ThParking.dll" />
       </Component>
@@ -96,9 +93,6 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" Guid="{08701E02-18F0-4E0E-80E2-F840AA8A8771}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ExtensionTools.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" Guid="{428747DA-1443-437A-BB30-87758C98697C}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThParking.dll" />
@@ -182,9 +176,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" Guid="{ba9018e6-bc88-45f9-beba-60f8019ea738}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" Guid="{bcc5267a-2349-42b3-bf67-17f093fb8f91}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" Guid="{4bf3feb2-70e4-4d67-8faf-ffee3ddd8334}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThParking.dll" />
       </Component>
@@ -264,9 +255,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ExtensionTools_Debug" Guid="{156C5000-2BDC-4BA3-B3AC-DB07D9FBD62B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ExtensionTools_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThCui_Debug" Guid="{80C708F7-FD76-4D73-BEFA-294D7D29889F}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCui_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThParking_Debug" Guid="{A91F593D-20A1-4221-BD21-207D6591B67F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThParking_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThParking.dll" />
       </Component>
@@ -343,9 +331,6 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" Guid="{173117A6-FF4D-4CFA-82E2-FCA3F4AC0DAC}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ExtensionTools.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" Guid="{DA4F2F82-7879-4238-B87B-A4A038863A8A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThCui.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" Guid="{ED56D6C6-5601-480B-AF24-13AE73A8841D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R18_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.Dotfuscated)\ThParking.dll" />
@@ -429,9 +414,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" Guid="{08701E02-18F0-4E0E-80E2-F840AA8A8771}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" Guid="{428747DA-1443-437A-BB30-87758C98697C}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" Guid="{D3EB23DD-EF91-4DC0-98EE-E736A248E5AD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\$(var.Dotfuscated)\ThParking.dll" />
       </Component>
@@ -514,9 +496,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" Guid="{ca10dfe8-0281-47b7-a0f8-c8a5c0a14e5a}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" Guid="{d4e4af73-e8d7-46ab-b183-097de572b975}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" Guid="{f5550fc9-705d-454c-a961-030a6cab77b0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\$(var.Dotfuscated)\ThParking.dll" />
       </Component>
@@ -596,9 +575,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ExtensionTools_Release" Guid="{6F3DCB7F-2AC2-4F1F-8DAC-07A5DEBE3BED}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ExtensionTools_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ExtensionTools.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThCui_Release" Guid="{99700CC9-C291-431D-9D5B-FA9EEAAD40F8}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCui_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThCui.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThParking_Release" Guid="{A9E8C79D-9EE3-4802-83AE-7F3D90EF61FD}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThParking_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\$(var.Dotfuscated)\ThParking.dll" />
       </Component>
@@ -676,7 +652,6 @@
       <?if $(var.Configuration) = Debug ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Debug" />
@@ -703,7 +678,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThEquipmentUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Debug" />
@@ -730,7 +704,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipmentUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_XamlBehaviorsWpf_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrame_Debug" />
@@ -756,7 +729,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipmentUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExtensionTools_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCui_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThParking_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_XamlBehaviorsWpf_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrame_Debug" />
@@ -783,7 +755,6 @@
       <?elseif $(var.Configuration) = Release ?>
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExtensionTools_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThCui_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThParking_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_XamlBehaviorsWpf_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThAreaFrame_Release" />
@@ -810,7 +781,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ThEquipmentUI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExtensionTools_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCui_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThParking_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_XamlBehaviorsWpf_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAreaFrame_Release" />
@@ -837,7 +807,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipmentUI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExtensionTools_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCui_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThParking_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_XamlBehaviorsWpf_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAreaFrame_Release" />
@@ -863,7 +832,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipmentUI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_DotNetARX_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExtensionTools_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCui_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThParking_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_XamlBehaviorsWpf_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAreaFrame_Release" />
