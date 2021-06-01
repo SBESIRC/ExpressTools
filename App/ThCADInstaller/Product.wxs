@@ -26,11 +26,6 @@
         </Feature>
         <UIRef Id="WixUI_Minimal"/>
         <WixVariable Id="WixUILicenseRtf" Value="License_zh-CN.rtf" />
-        <InstallExecuteSequence>
-          <Custom Action="DeleteRoamingSupportFilesR191" After="InstallFinalize"/>
-          <Custom Action="DeleteRoamingSupportFilesR201" After="InstallFinalize"/>
-          <Custom Action="DeleteRoamingSupportFilesR220" After="InstallFinalize"/>
-        </InstallExecuteSequence>
     </Product>
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
