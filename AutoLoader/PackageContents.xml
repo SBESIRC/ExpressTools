@@ -1,52 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationPackage 
-SchemaVersion="1.0"
-AppVersion="2.1.0"
-Name="TIANHUA CAD Express Tools"
-NameChs="天华CAD效率工具" 
-Description="TIANHUA Express Tools for AutoCAD"
-DescriptionChs="天华CAD效率工具是天华AI研究中心自主研发的以提升设计师绘图效率为目标的工具集合，从建筑、结构、电气、暖通、给排水及方案六个方面为设计师提供高效建筑出图的软件解决方案。"
-Author="TIANHUA AI Research Center" 
-AuthorChs="天华AI研究中心"
-Icon="./Contents/Resources/THLOGO.ico"
-ProductCode="{BAC08801-53A2-4453-BFA7-F2F8DEF8BBB0}" 
-UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
+<ApplicationPackage SchemaVersion="1.0" AppVersion="2.1.0" Name="TIANHUA CAD Express Tools" NameChs="天华CAD效率工具" Description="TIANHUA Express Tools for AutoCAD" DescriptionChs="天华CAD效率工具是天华AI研究中心自主研发的以提升设计师绘图效率为目标的工具集合，从建筑、结构、电气、暖通、给排水及方案六个方面为设计师提供高效建筑出图的软件解决方案。" Author="TIANHUA AI Research Center" AuthorChs="天华AI研究中心" Icon="./Contents/Resources/THLOGO.ico" ProductCode="{BAC08801-53A2-4453-BFA7-F2F8DEF8BBB0}" UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD" SupportPathChs="./Contents/Support" />
     <CompanyDetails Name="Tianhua Architectural Design Co., Ltd" Phone="+86 21 64281588" Url="http://www.thape.com/" Email="airdcenter@thape.com.cn" />
     <Components Description="Runtime parts">
-        <ComponentEntry AppName="GeneralLayerLisp"                  ModuleName="./Contents/General-Layer.lsp"       PerDocument="True" />
-        <ComponentEntry AppName="GeneralLayerUtilLisp"              ModuleName="./Contents/MakeLayer.lsp"           PerDocument="True" />
-        <ComponentEntry AppName="GeneralCsvUtilLisp"                ModuleName="./Contents/ReadCSV.lsp"             PerDocument="True" />
-        <ComponentEntry AppName="GeneralLinetypeUtilLisp"           ModuleName="./Contents/LoadLinetypes.lsp"       PerDocument="True" />
-        <ComponentEntry AppName="GeneralListUtilLisp"               ModuleName="./Contents/ListUtil.lsp"            PerDocument="True" />
-        <ComponentEntry AppName="GeneralLayerGroupUtiLisp"          ModuleName="./Contents/MakeLayerGroup.lsp"      PerDocument="True" />
-        <ComponentEntry AppName="GeneralAnnotationLisp"             ModuleName="./Contents/General-Annotation.lsp"  PerDocument="True" />
-        <ComponentEntry AppName="GeneralAuxiliaryLisp"              ModuleName="./Contents/General-Auxiliary.lsp"   PerDocument="True" />
-        <ComponentEntry AppName="StealUtilLisp"                     ModuleName="./Contents/Steal.lsp"               PerDocument="True" />
-        <ComponentEntry AppName="FlattenLisp"                       ModuleName="./Contents/FLATTEN.lsp"             PerDocument="True" />
-        <ComponentEntry AppName="BatchPlotPDFLisp"                  ModuleName="./Contents/BatchPlotPDF.lsp"        PerDocument="True" />
-        <ComponentEntry AppName="BatchPlotDwfLisp"                  ModuleName="./Contents/BatchPlotDWF.lsp"        PerDocument="True" />
-        <ComponentEntry AppName="BatchPlotDwfUtilLisp"              ModuleName="./Contents/BatchPlotUtils.lsp"      PerDocument="True" />
-        <ComponentEntry AppName="VersionModifyLisp"                 ModuleName="./Contents/VersionModify.lsp"       PerDocument="True" />
-        <ComponentEntry AppName="BreakLinesLisp"                    ModuleName="./Contents/BreakLines.lsp"          PerDocument="True" />
-        <ComponentEntry AppName="BreakObjectsUtilsLisp"             ModuleName="./Contents/BreakObjects.lsp"        PerDocument="True" />
-        <ComponentEntry AppName="AutoBlockBreak"                    ModuleName="./Contents/AutoBlockBreak.lsp"      PerDocument="True" />
-    </Components>
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" SupportPathChs="./Contents/Resources/2012" />
-        <ComponentEntry AppName="ThCADCuix2012"                 ModuleName="./Contents/Resources/2012/ThCAD.cuix" />
-    </Components>
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" SupportPathChs="./Contents/Resources/2014" />
-        <ComponentEntry AppName="ThCADCuix2014"                 ModuleName="./Contents/Resources/2014/ThCAD.cuix" />
-    </Components>
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" SupportPathChs="./Contents/Resources/2016" />
-        <ComponentEntry AppName="ThCADCuix2016"                 ModuleName="./Contents/Resources/2016/ThCAD.cuix" />
-    </Components>
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" SupportPathChs="./Contents/Resources/2016" />
-        <ComponentEntry AppName="ThCADCuix2018"                 ModuleName="./Contents/Resources/2018/ThCAD.cuix" />
+        <ComponentEntry AppName="GeneralLayerLisp" ModuleName="./Contents/General-Layer.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralLayerUtilLisp" ModuleName="./Contents/MakeLayer.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralCsvUtilLisp" ModuleName="./Contents/ReadCSV.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralLinetypeUtilLisp" ModuleName="./Contents/LoadLinetypes.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralListUtilLisp" ModuleName="./Contents/ListUtil.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralLayerGroupUtiLisp" ModuleName="./Contents/MakeLayerGroup.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralAnnotationLisp" ModuleName="./Contents/General-Annotation.lsp" PerDocument="True" />
+        <ComponentEntry AppName="GeneralAuxiliaryLisp" ModuleName="./Contents/General-Auxiliary.lsp" PerDocument="True" />
+        <ComponentEntry AppName="StealUtilLisp" ModuleName="./Contents/Steal.lsp" PerDocument="True" />
+        <ComponentEntry AppName="FlattenLisp" ModuleName="./Contents/FLATTEN.lsp" PerDocument="True" />
+        <ComponentEntry AppName="BatchPlotPDFLisp" ModuleName="./Contents/BatchPlotPDF.lsp" PerDocument="True" />
+        <ComponentEntry AppName="BatchPlotDwfLisp" ModuleName="./Contents/BatchPlotDWF.lsp" PerDocument="True" />
+        <ComponentEntry AppName="BatchPlotDwfUtilLisp" ModuleName="./Contents/BatchPlotUtils.lsp" PerDocument="True" />
+        <ComponentEntry AppName="VersionModifyLisp" ModuleName="./Contents/VersionModify.lsp" PerDocument="True" />
+        <ComponentEntry AppName="BreakLinesLisp" ModuleName="./Contents/BreakLines.lsp" PerDocument="True" />
+        <ComponentEntry AppName="BreakObjectsUtilsLisp" ModuleName="./Contents/BreakObjects.lsp" PerDocument="True" />
+        <ComponentEntry AppName="AutoBlockBreak" ModuleName="./Contents/AutoBlockBreak.lsp" PerDocument="True" />
     </Components>
     <!--Assembly App, DgnLsPurge, 2012 version-->
     <Components>
@@ -143,66 +116,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2018/ThParking.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for auto numbering parking lot." AppName="ThParking" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCNU" Global="THCNU" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, CUI, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
-                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLI" Global="THBLI" />
-                <Command Local="THFBK" Global="THFBK" />
-                <Command Local="T20V4" Global="T20V4" />
-                <Command Local="T20V5" Global="T20V5" />
-                <Command Local="THPURGE" Global="THPURGE" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, CUI, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
-                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLI" Global="THBLI" />
-                <Command Local="THFBK" Global="THFBK" />
-                <Command Local="T20V4" Global="T20V4" />
-                <Command Local="T20V5" Global="T20V5" />
-                <Command Local="THPURGE" Global="THPURGE" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, CUI, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
-                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLI" Global="THBLI" />
-                <Command Local="THFBK" Global="THFBK" />
-                <Command Local="T20V4" Global="T20V4" />
-                <Command Local="T20V5" Global="T20V5" />
-                <Command Local="THPURGE" Global="THPURGE" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, CUI, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/ThCui.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for CUI." AppName="ThCui" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCADLOGIN" Global="THCADLOGIN" />
-                <Command Local="THCADLOGOUT" Global="THCADLOGOUT" />
-                <Command Local="THBLI" Global="THBLI" />
-                <Command Local="THFBK" Global="THFBK" />
-                <Command Local="T20V4" Global="T20V4" />
-                <Command Local="T20V5" Global="T20V5" />
-                <Command Local="THPURGE" Global="THPURGE" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -326,82 +239,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
             </Commands>
         </ComponentEntry>
     </Components>
-    <!--Assembly App, ThAutoUpdate, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/ThAutoUpdate.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THENV" Local="THENV" />
-                <Command Global="THVER" Local="THVER" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThAutoUpdate, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/ThAutoUpdate.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THENV" Local="THENV" />
-                <Command Global="THVER" Local="THVER" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThAutoUpdate, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAutoUpdate.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THENV" Local="THENV" />
-                <Command Global="THVER" Local="THVER" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThAutoUpdate, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThAutoUpdate.dll" LoadOnAutoCADStartup="true" LoadOnCommandInvocation="false" AppDescription="Assembly app for auto update." AppName="ThAutoUpdate" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THENV" Local="THENV" />
-                <Command Global="THVER" Local="THVER" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThElectrical, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/ThElectrical.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical cabinet drawing." AppName="ThElectrical" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THLDC" Local="THLDC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThElectrical, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/ThElectrical.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical cabinet drawing." AppName="ThElectrical" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THLDC" Local="THLDC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThElectrical, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThElectrical.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical cabinet drawing." AppName="ThElectrical" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THLDC" Local="THLDC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThElectrical, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/ThElectrical.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for electrical cabinet drawing." AppName="ThElectrical" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THLDC" Local="THLDC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
     <!--Assembly App, ThPlot, 2012 version-->
     <Components>
         <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -435,42 +272,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2018/ThPlot.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for plotting." AppName="ThPlot" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Global="THBPP" Local="THBPP" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSpray, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THSPC" Local="THSPC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSpray, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Spray." AppName="ThSpray" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THSPC" Local="THSPC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSpray, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THSPC" Local="THSPC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSpray, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/ThSpray.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for spray." AppName="ThSpray" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Global="THSPC" Local="THSPC" />
             </Commands>
         </ComponentEntry>
     </Components>
@@ -687,162 +488,6 @@ UpgradeCode="{E8E400E7-CBC3-45A7-A870-988E8BE97ADB}" >
         <ComponentEntry ModuleName="./Contents/Win64/2018/ThColumnInfo.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for column check." AppName="ThColumnInfo" AppType=".NET">
             <Commands GroupName="TIANHUACAD">
                 <Command Local="THCRC" Global="THCRC" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, THWSS, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCalOBB" Global="THCalOBB" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, THWSS, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCalOBB" Global="THCalOBB" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, THWSS, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCalOBB" Global="THCalOBB" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, THWSS, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/THWSS.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for WSS." AppName="THWSS" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THCalOBB" Global="THCalOBB" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSitePlanUI, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/ThSitePlan.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for site plan" AppName="ThSitePlanUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THPGE" Global="THPGE" />
-                <Command Local="THPUD" Global="THPUD" />
-                <Command Local="THPCF" Global="THPCF" />
-                <Command Local="THPOP" Global="THPOP" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSitePlanUI, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/ThSitePlan.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for site plan" AppName="ThSitePlanUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THPGE" Global="THPGE" />
-                <Command Local="THPUD" Global="THPUD" />
-                <Command Local="THPCF" Global="THPCF" />
-                <Command Local="THPOP" Global="THPOP" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSitePlanUI, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/ThSitePlan.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for site plan" AppName="ThSitePlanUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THPGE" Global="THPGE" />
-                <Command Local="THPUD" Global="THPUD" />
-                <Command Local="THPCF" Global="THPCF" />
-                <Command Local="THPOP" Global="THPOP" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, ThSitePlanUI, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/ThSitePlan.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for site plan" AppName="ThSitePlanUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THPGE" Global="THPGE" />
-                <Command Local="THPUD" Global="THPUD" />
-                <Command Local="THPCF" Global="THPCF" />
-                <Command Local="THPOP" Global="THPOP" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-   <!--Assembly App, QuickCmd, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/TianHua.CAD.QuickCmd.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for QuickCmd" AppName="QuickCmd" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THALIAS" Global="THALIAS" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, QuickCmd, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/TianHua.CAD.QuickCmd.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for QuickCmd" AppName="QuickCmd" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THALIAS" Global="THALIAS" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, QuickCmd, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/TianHua.CAD.QuickCmd.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for QuickCmd" AppName="QuickCmd" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THALIAS" Global="THALIAS" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, QuickCmd, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/TianHua.CAD.QuickCmd.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for QuickCmd" AppName="QuickCmd" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THALIAS" Global="THALIAS" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-   <!--Assembly App, FanSelectionUI, 2012 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R18.2" SeriesMax="R18.2" />
-        <ComponentEntry ModuleName="./Contents/Win64/2012/TianHua.FanSelection.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Model Selection" AppName="FanSelectionUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THFJ" Global="THFJ" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, FanSelectionUI, 2014 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R19.0" SeriesMax="R19.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2014/TianHua.FanSelection.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Model Selection" AppName="FanSelectionUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THFJ" Global="THFJ" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, FanSelectionUI, 2016 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R20.1" SeriesMax="R20.1" />
-        <ComponentEntry ModuleName="./Contents/Win64/2016/TianHua.FanSelection.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Model Selection" AppName="FanSelectionUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THFJ" Global="THFJ" />
-            </Commands>
-        </ComponentEntry>
-    </Components>
-    <!--Assembly App, FanSelectionUI, 2018 version-->
-    <Components>
-        <RuntimeRequirements OS="Win64" Platform="AutoCAD" SeriesMin="R22.0" SeriesMax="R22.0" />
-        <ComponentEntry ModuleName="./Contents/Win64/2018/TianHua.FanSelection.UI.dll" LoadOnAutoCADStartup="false" LoadOnCommandInvocation="true" AppDescription="Assembly app for Model Selection" AppName="FanSelectionUI" AppType=".NET">
-            <Commands GroupName="TIANHUACAD">
-                <Command Local="THFJ" Global="THFJ" />
             </Commands>
         </ComponentEntry>
     </Components>
