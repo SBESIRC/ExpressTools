@@ -85,7 +85,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 合计
         /// </summary>
-        public double TotalVolume
+        public override double TotalVolume
         {
             get
             {
@@ -106,7 +106,7 @@ namespace TianHua.FanSelection.Model
         /// <summary>
         /// 前室门
         /// </summary>
-        public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
+        //public Dictionary<string, List<ThEvacuationDoor>> FrontRoomDoors2 { get; set; }
 
         /// <summary>
         /// 送风阀截面长

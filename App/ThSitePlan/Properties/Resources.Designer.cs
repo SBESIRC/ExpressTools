@@ -19,7 +19,7 @@ namespace ThSitePlan.Properties {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -47,8 +47,8 @@ namespace ThSitePlan.Properties {
         }
         
         /// <summary>
-        ///   重写当前线程的 CurrentUICulture 属性
-        ///   重写当前线程的 CurrentUICulture 属性。
+        ///   重写当前线程的 CurrentUICulture 属性，对
+        ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -73,7 +73,7 @@ namespace ThSitePlan.Properties {
         /// <summary>
         ///   查找类似 [
         ///    {
-        ///        &quot;CAD_Frame&quot;: &quot;&quot;,
+        ///        &quot;CAD_Frame&quot;: &quot;未识别对象&quot;,
         ///        &quot;CAD_Layer&quot;: [],
         ///        &quot;CAD_Layer_Value&quot;: null,
         ///        &quot;CAD_Script&quot;: &quot;无&quot;,
@@ -87,18 +87,26 @@ namespace ThSitePlan.Properties {
         ///        &quot;Type&quot;: &quot;0&quot;
         ///    },
         ///    {
-        ///        &quot;CAD_Frame&quot;: &quot;&quot;,
+        ///        &quot;CAD_Frame&quot;: &quot;基本文字说明及图例&quot;,
         ///        &quot;CAD_Layer&quot;: [
         ///            {
         ///                &quot;ID&quot;: &quot;1&quot;,
         ///                &quot;Name&quot;: &quot;P-NOTE-PLTB&quot;
         ///            },
-        ///            {
-        /// [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        ///  [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string BasicStyle {
             get {
                 return ResourceManager.GetString("BasicStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [{&quot;CAD_Frame&quot;:&quot;&quot;,&quot;CAD_Layer&quot;:[],&quot;CAD_Layer_Value&quot;:null,&quot;CAD_Script&quot;:&quot;无&quot;,&quot;CAD_ScriptID&quot;:&quot;0&quot;,&quot;DataType&quot;:&quot;0&quot;,&quot;ID&quot;:&quot;0&quot;,&quot;ImgType&quot;:null,&quot;Name&quot;:&quot;未识别对象&quot;,&quot;PID&quot;:&quot;0&quot;,&quot;PSD_Color&quot;:&quot;0, 0, 0&quot;,&quot;PSD_Transparency&quot;:55,&quot;SortID&quot;:0,&quot;Type&quot;:&quot;0&quot;},{&quot;CAD_Frame&quot;:&quot;&quot;,&quot;CAD_Layer&quot;:[{&quot;ID&quot;:&quot;1&quot;,&quot;Name&quot;:&quot;P-NOTE-PLTB&quot;},{&quot;ID&quot;:&quot;2&quot;,&quot;Name&quot;:&quot;P-BUID-NUMB&quot;}],&quot;CAD_Layer_Value&quot;:null,&quot;CAD_Script&quot;:&quot;无&quot;,&quot;CAD_ScriptID&quot;:&quot;0&quot;,&quot;DataType&quot;:&quot;0&quot;,&quot;ID&quot;:&quot;1&quot;,&quot;ImgType&quot;:null,&quot;Name&quot;:&quot;基本文字说明及图例&quot;,&quot;PID&quot;:&quot;1&quot;,&quot;PSD_Color&quot;:&quot;0, 0, 0&quot;,&quot;PSD_Transparency&quot;:70,&quot;SortID&quot;:0,&qu... 的本地化字符串。
+        /// </summary>
+        internal static string 一键彩总配置 {
+            get {
+                return ResourceManager.GetString("一键彩总配置", resourceCulture);
             }
         }
         
@@ -139,6 +147,46 @@ namespace ThSitePlan.Properties {
             get {
                 object obj = ResourceManager.GetObject("拍平", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [	
+        ///	{
+        ///		&quot;CAD_Frame&quot;: &quot;&quot;,
+        ///		&quot;CAD_Layer&quot;: [],
+        ///		&quot;CAD_Layer_Value&quot;: null,
+        ///		&quot;CAD_Script&quot;: &quot;无&quot;,
+        ///		&quot;CAD_ScriptID&quot;: &quot;0&quot;,
+        ///		&quot;DataType&quot;: &quot;0&quot;,
+        ///		&quot;ID&quot;: &quot;0&quot;,
+        ///		&quot;ImgType&quot;: null,
+        ///		&quot;Name&quot;: &quot;未识别对象&quot;,
+        ///		&quot;PID&quot;: &quot;0&quot;,
+        ///		&quot;PSD_Color&quot;: &quot;0, 0, 0&quot;,
+        ///		&quot;PSD_Transparency&quot;: 55,
+        ///		&quot;SortID&quot;: 0,
+        ///		&quot;Type&quot;: &quot;0&quot;
+        ///	},
+        ///	{
+        ///		&quot;CAD_Frame&quot;: &quot;&quot;,
+        ///		&quot;CAD_Layer&quot;: [
+        ///			{
+        ///				&quot;ID&quot;: &quot;1&quot;,
+        ///				&quot;Name&quot;: &quot;P-NOTE-PLTB&quot;
+        ///			},
+        ///			{
+        ///				&quot;ID&quot;: &quot;2&quot;,
+        ///				&quot;Name&quot;: &quot;P-BUID-NUMB&quot;
+        ///			}
+        ///		],
+        ///		&quot;CAD_Layer_Value&quot;: null,
+        ///		&quot;CAD_Script&quot;: &quot;无&quot;,
+        ///		 [字符串的其余部分被截断]&quot;; 的本地化字符串。
+        /// </summary>
+        internal static string 测试文档01 {
+            get {
+                return ResourceManager.GetString("测试文档01", resourceCulture);
             }
         }
         

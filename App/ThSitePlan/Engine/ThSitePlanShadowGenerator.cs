@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using ThSitePlan.Configuration;
+using ThSitePlan.Log;
 
 namespace ThSitePlan.Engine
 {
@@ -12,6 +13,8 @@ namespace ThSitePlan.Engine
     {
         public override ObjectId OriginFrame { get; set; }
         public override Tuple<ObjectId, Vector3d> Frame { get; set; }
+        public override ILogger Logger { get; set; }
+
         public ThSitePlanShadowGenerator()
         {
         }

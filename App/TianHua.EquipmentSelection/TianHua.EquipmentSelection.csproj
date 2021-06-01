@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <Import Project="..\TIANHUA.CSharp.General.targets" />
+  <Import Project="..\TIANHUA.CSharp.General.net45.targets" />
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -34,12 +34,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\ExhaustCalcModel.cs" />
+    <Compile Include="Entity\ExhaustSpaceInfo.cs" />
     <Compile Include="Entity\FanDataModelBitmap.cs" />
     <Compile Include="Entity\FanDataModelNumber.cs" />
     <Compile Include="Entity\FanSelectionState.cs" />
     <Compile Include="Entity\FireFrontModel.cs" />
     <Compile Include="Entity\FontroomNaturalModel.cs" />
     <Compile Include="Entity\FontroomWindModel.cs" />
+    <Compile Include="Entity\HeatReleaseInfo.cs" />
+    <Compile Include="Entity\IFanModel.cs" />
     <Compile Include="Entity\ModelValidator.cs" />
     <Compile Include="Entity\RefugeFontRoomModel.cs" />
     <Compile Include="Entity\RefugeRoomAndCorridorModel.cs" />
@@ -53,6 +57,10 @@
     <Compile Include="ExcelExport\ExcelExportEngine.cs" />
     <Compile Include="ExcelExport\ExcelExtension.cs" />
     <Compile Include="ExcelExport\ExcelFile.cs" />
+    <Compile Include="ExcelExport\ExcelRangeCopyOperator.cs" />
+    <Compile Include="ExcelExport\ExhaustAxisymmetricExportWorker.cs" />
+    <Compile Include="ExcelExport\ExhaustBalconyExportWorker.cs" />
+    <Compile Include="ExcelExport\ExhaustWindowExportWorker.cs" />
     <Compile Include="ExcelExport\FireFrontExportWorker.cs" />
     <Compile Include="ExcelExport\FontroomNaturalExportWorker.cs" />
     <Compile Include="ExcelExport\FontroomWindExportWorker.cs" />
@@ -60,9 +68,16 @@
     <Compile Include="ExcelExport\RefugeFontRoomExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseAirExportWorker.cs" />
     <Compile Include="ExcelExport\StaircaseNoAirExportWorker.cs" />
+    <Compile Include="Function\ExhaustModelCalculator.cs" />
+    <Compile Include="Function\ExhaustModelLoader.cs" />
     <Compile Include="Function\FanDataModelExtension.cs" />
     <Compile Include="Function\FanParametersComparer.cs" />
     <Compile Include="Function\FanParametersExtension.cs" />
+    <Compile Include="Function\HeatReleaseInfoLoader.cs" />
+    <Compile Include="Function\ThModelLoader.cs" />
+    <Compile Include="Messaging\ThModelCopyMessage.cs" />
+    <Compile Include="Messaging\ThModelDeleteMessage.cs" />
+    <Compile Include="Messaging\ThModelMessageArgs.cs" />
     <Compile Include="ThFanSelectionCommon.cs" />
     <Compile Include="Function\ThFanSelectionModelPick.cs" />
     <Compile Include="Function\ThFanSelectionModelPicker.cs" />
@@ -128,6 +143,7 @@
     <None Include="Resources\向下加一行.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Catel.Core" Version="5.12.10" />
     <PackageReference Include="NetTopologySuite" Version="1.15.3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

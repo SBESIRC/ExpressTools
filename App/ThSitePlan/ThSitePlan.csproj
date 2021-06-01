@@ -55,6 +55,7 @@
     <Compile Include="Engine\ThSitePlanTrimGenerator.cs" />
     <Compile Include="Engine\ThSitePlanUndefineCleanGenerator.cs" />
     <Compile Include="Engine\ThSitePlanWorker.cs" />
+    <Compile Include="Logger\Loggers.cs" />
     <Compile Include="Enum\EnumCADScript.cs" />
     <Compile Include="Function\FuncFile.cs" />
     <Compile Include="Photoshop\ThSitePlanPSEngine.cs" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BasicStyle.json" />
+    <None Include="Resources\测试文档01.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\拍平.png" />
@@ -218,6 +220,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="4.7.9" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

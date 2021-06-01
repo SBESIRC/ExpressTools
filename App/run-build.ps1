@@ -21,15 +21,6 @@ Task Requires.MSBuild {
     Write-Host "Found MSBuild here: $msbuildExe"
 }
 
-Task Requires.Dotfuscator {
-    $script:dotfuscatorCli = resolve-path "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\PreEmptiveSolutions\DotfuscatorCE\dotfuscatorCLI.exe"
-    
-    if ($dotfuscatorCli -ne $null)
-    {
-        Write-Host "Found dotfuscatorCLI here: $dotfuscatorCli"
-    }
-}
-
 # $buildType build for AutoCAD R18
 Task Compile.Assembly.R18.Common -Depends Requires.MSBuild {
     exec {
@@ -73,12 +64,8 @@ Task Compile.Resource.R18 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R18 -Depends Requires.Dotfuscator, Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 {
-    if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
-        exec {
-            & $dotfuscatorCli ".\dotfuscator_config_${buildType}.xml"
-        }    
-    }
+Task Build.Assembly.R18 -Depends Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 
+{
 }
 
 # $buildType build for AutoCAD R19
@@ -124,12 +111,9 @@ Task Compile.Resource.R19 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R19 -Depends Requires.Dotfuscator, Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 {
-    if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
-        exec {
-            & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET40.xml"
-        }    
-    }
+Task Build.Assembly.R19 -Depends Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 
+{
+    #
 }
 
 # $buildType build for AutoCAD R20
@@ -175,12 +159,9 @@ Task Compile.Resource.R20 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R20 -Depends Requires.Dotfuscator, Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 {
-    if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
-        exec {
-            & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET45.xml"
-        }    
-    }
+Task Build.Assembly.R20 -Depends Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 
+{
+    #
 }
 
 # $buildType build for AutoCAD R22
@@ -226,12 +207,9 @@ Task Compile.Resource.R22 -Depends Requires.MSBuild {
     }
 }
 
-Task Dotfuscator.Assembly.R22 -Depends Requires.Dotfuscator, Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 {
-    if (($buildType -eq "Release") -and ($dotfuscatorCli -ne $null)) {
-        exec {
-            & $dotfuscatorCli ".\dotfuscator_config_${buildType}-NET46.xml"
-        }    
-    }
+Task Build.Assembly.R22 -Depends Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 
+{
+    #
 }
 
 Task Requires.BuildType {
@@ -252,7 +230,7 @@ Task Sign {
 
 # temporarily disable code sign
 # $buildType build for ThCADPluginInstaller
-Task Compile.Installer -Depends Requires.BuildType, Dotfuscator.Assembly.R18, Dotfuscator.Assembly.R19, Dotfuscator.Assembly.R20, Dotfuscator.Assembly.R22 {
+Task Compile.Installer -Depends Requires.BuildType, Build.Assembly.R18, Build.Assembly.R19, Build.Assembly.R20, Build.Assembly.R22 {
     if ($buildType -eq $null) {
         throw "No build type specified"
     }

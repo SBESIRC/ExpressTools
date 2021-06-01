@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TianHua.FanSelection.Messaging;
 
 namespace TianHua.FanSelection
 {
@@ -28,5 +26,8 @@ namespace TianHua.FanSelection
         List<FanDesignDataModel> m_ListFanDesign { get; set; }
 
         FanDesignDataModel m_FanDesign { get; set; }
+
+        Action<ThModelCopyMessage> OnModelCopiedHandler { get; }
+        Action<ThModelDeleteMessage> OnModelDeletedHandler { get; }
     }
 }

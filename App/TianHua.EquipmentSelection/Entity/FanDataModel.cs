@@ -174,6 +174,11 @@ namespace TianHua.FanSelection
         public string FanModelMotorPower { get; set; }
 
         /// <summary>
+        /// 电机功率 输入
+        /// </summary>
+        public string FanModelInputMotorPower { get; set; }
+
+        /// <summary>
         /// 噪音
         /// </summary>
         public string FanModelNoise { get; set; }
@@ -293,18 +298,21 @@ namespace TianHua.FanSelection
         /// </summary>
         public ThFanVolumeModel FanVolumeModel { get; set; }
 
-
+        /// </summary>        
+        /// 排烟计算
+        /// </summary>
+        public ExhaustCalcModel ExhaustModel { get; set; }    
+        
+ 
         /// <summary>
         /// 风机选择状态信息
         /// </summary>
         public FanSelectionStateInfo FanSelectionStateInfo { get; set; }
 
-
         /// <summary>
         /// 末端预留风压
         /// </summary>
         public int EndReservedAirPressure { get; set; }
-
 
         /// <summary>
         /// 风量 描述
@@ -317,7 +325,7 @@ namespace TianHua.FanSelection
         public string WindResisDescribe { get; set; }
 
         /// <summary>
-        /// 单位功耗 描述
+        /// 电机功率 描述
         /// </summary>
         public string FanModelPowerDescribe { get; set; }
 
@@ -326,5 +334,11 @@ namespace TianHua.FanSelection
         /// </summary>
         public bool IsRepetitions { get; set; }
 
+        /// <summary>
+        /// 是否手动输入 电机功率
+        /// </summary>
+        public bool IsInputMotorPower { get; set; }
+
+ 
     }
 }

@@ -72,7 +72,7 @@
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(786, 478, 650, 400);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(484, 731);
+            this.layoutControl1.Size = new System.Drawing.Size(484, 804);
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -81,9 +81,9 @@
             this.panelControl3.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl3.Controls.Add(this.simpleButton2);
             this.panelControl3.Controls.Add(this.simpleButton1);
-            this.panelControl3.Location = new System.Drawing.Point(4, 695);
+            this.panelControl3.Location = new System.Drawing.Point(4, 764);
             this.panelControl3.Name = "panelControl3";
-            this.panelControl3.Size = new System.Drawing.Size(476, 32);
+            this.panelControl3.Size = new System.Drawing.Size(476, 36);
             this.panelControl3.TabIndex = 6;
             // 
             // simpleButton2
@@ -107,10 +107,10 @@
             // middlePanel
             // 
             this.middlePanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.middlePanel.Location = new System.Drawing.Point(4, 59);
+            this.middlePanel.Location = new System.Drawing.Point(4, 65);
             this.middlePanel.Margin = new System.Windows.Forms.Padding(2);
             this.middlePanel.Name = "middlePanel";
-            this.middlePanel.Size = new System.Drawing.Size(476, 632);
+            this.middlePanel.Size = new System.Drawing.Size(476, 695);
             this.middlePanel.TabIndex = 5;
             // 
             // panelControl1
@@ -120,7 +120,7 @@
             this.panelControl1.Controls.Add(this.label1);
             this.panelControl1.Location = new System.Drawing.Point(4, 4);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(476, 51);
+            this.panelControl1.Size = new System.Drawing.Size(476, 57);
             this.panelControl1.TabIndex = 4;
             // 
             // layoutControl2
@@ -131,7 +131,7 @@
             this.layoutControl2.Name = "layoutControl2";
             this.layoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(782, 57, 650, 400);
             this.layoutControl2.Root = this.layoutControlGroup2;
-            this.layoutControl2.Size = new System.Drawing.Size(476, 51);
+            this.layoutControl2.Size = new System.Drawing.Size(476, 57);
             this.layoutControl2.TabIndex = 2;
             this.layoutControl2.Text = "layoutControl2";
             // 
@@ -162,7 +162,7 @@
             this.layoutControlItem4});
             this.layoutControlGroup2.Name = "Root";
             this.layoutControlGroup2.Padding = new DevExpress.XtraLayout.Utils.Padding(10, 10, 5, 2);
-            this.layoutControlGroup2.Size = new System.Drawing.Size(476, 51);
+            this.layoutControlGroup2.Size = new System.Drawing.Size(476, 57);
             this.layoutControlGroup2.TextVisible = false;
             // 
             // simpleLabelItem1
@@ -181,7 +181,7 @@
             this.layoutControlItem4.Control = this.comboBox1;
             this.layoutControlItem4.Location = new System.Drawing.Point(0, 18);
             this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(456, 26);
+            this.layoutControlItem4.Size = new System.Drawing.Size(456, 32);
             this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem4.TextVisible = false;
             // 
@@ -204,7 +204,7 @@
             this.layoutControlItem3});
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(2, 2, 2, 2);
-            this.layoutControlGroup1.Size = new System.Drawing.Size(484, 731);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(484, 804);
             this.layoutControlGroup1.TextVisible = false;
             // 
             // layoutControlItem1
@@ -212,26 +212,26 @@
             this.layoutControlItem1.Control = this.panelControl1;
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(480, 55);
+            this.layoutControlItem1.Size = new System.Drawing.Size(480, 61);
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextVisible = false;
             // 
             // layoutControlItem2
             // 
             this.layoutControlItem2.Control = this.middlePanel;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 55);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 61);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(480, 636);
+            this.layoutControlItem2.Size = new System.Drawing.Size(480, 699);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem3
             // 
             this.layoutControlItem3.Control = this.panelControl3;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 691);
+            this.layoutControlItem3.Location = new System.Drawing.Point(0, 760);
             this.layoutControlItem3.MinSize = new System.Drawing.Size(5, 5);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(480, 36);
+            this.layoutControlItem3.Size = new System.Drawing.Size(480, 40);
             this.layoutControlItem3.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
@@ -240,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 731);
+            this.ClientSize = new System.Drawing.Size(484, 804);
             this.Controls.Add(this.layoutControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;

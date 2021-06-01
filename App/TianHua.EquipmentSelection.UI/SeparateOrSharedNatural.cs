@@ -17,7 +17,7 @@ namespace TianHua.FanSelection.UI
     /// </summary>
     public partial class SeparateOrSharedNatural : ThAirVolumeUserControl
     {
-        private UserControl subview;
+        private ModelValidation subview;
         private FontroomNaturalModel Model { get; set; }
         private ModelValidator valid = new ModelValidator();
 
@@ -34,9 +34,9 @@ namespace TianHua.FanSelection.UI
             gridControl2.DataSource = model.FrontRoomDoors2.ElementAt(1).Value;
             gridControl3.DataSource = model.FrontRoomDoors2.ElementAt(2).Value;
 
-            gridControl1.DataSource = model.StairCaseDoors2.ElementAt(0).Value;
-            gridControl2.DataSource = model.StairCaseDoors2.ElementAt(1).Value;
-            gridControl3.DataSource = model.StairCaseDoors2.ElementAt(2).Value;
+            gridControl4.DataSource = model.StairCaseDoors2.ElementAt(0).Value;
+            gridControl5.DataSource = model.StairCaseDoors2.ElementAt(1).Value;
+            gridControl6.DataSource = model.StairCaseDoors2.ElementAt(2).Value;
 
             CheckPanel.Controls.Clear();
             subview = new ModelValidation(Model);
@@ -160,6 +160,7 @@ namespace TianHua.FanSelection.UI
                 CheckPanel.Controls.Add(subview);
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
+            subview.SetFinalValue();
         }
 
         private void AddFont_Click(object sender, EventArgs e)

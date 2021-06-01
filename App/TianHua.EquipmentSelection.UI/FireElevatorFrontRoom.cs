@@ -22,7 +22,7 @@ namespace TianHua.FanSelection.UI
     /// </summary>
     public partial class FireElevatorFrontRoom : ThAirVolumeUserControl
     {
-        private UserControl subview;
+        private ModelValidation subview;
         private FireFrontModel Model { get; set; }
         private ModelValidator valid=new ModelValidator();
         
@@ -159,6 +159,7 @@ namespace TianHua.FanSelection.UI
                 CheckPanel.Controls.Add(subview);
                 CheckPanel.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             }
+            subview.SetFinalValue();
         }
 
         private void Add_Click(object sender, EventArgs e)

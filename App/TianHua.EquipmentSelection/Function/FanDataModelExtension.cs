@@ -33,7 +33,9 @@ namespace TianHua.FanSelection.Function
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FIRE_POWER_SUPPLY] = ThFanSelectionUtils.FirePower(model.PowerType),
 
                 // 备注
-                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = model.Remark,
+                // 业务需求，暂时忽略备注
+                [ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = "",
+                //[ThFanSelectionCommon.BLOCK_ATTRIBUTE_FAN_REMARK] = model.Remark,
 
                 // 安装方式
                 [ThFanSelectionCommon.BLOCK_ATTRIBUTE_MOUNT_TYPE] = ThFanSelectionUtils.Mount(model.MountType),
@@ -215,6 +217,57 @@ namespace TianHua.FanSelection.Function
             }
 
             return false;
+        }
+
+        public static int GetAirVolume(this FanDataModel model)
+        {
+            if (model.Scenario == "消防加压送风")
+            {
+                return model.SplitAirVolume;
+            }
+            return model.AirVolume;
+        }
+
+        public static FanDataModel CreateAuxiliaryModel(this FanDataModel model, string scenario)
+        {
+            FanDataModel _FanDataModel = new FanDataModel();
+            _FanDataModel.ID = Guid.NewGuid().ToString();
+            _FanDataModel.Scenario = scenario;
+            _FanDataModel.PID = model.ID;
+            _FanDataModel.AirVolume = 0;
+
+            _FanDataModel.InstallSpace = "-";
+            _FanDataModel.InstallFloor = "-";
+            _FanDataModel.VentQuan = 0;
+            _FanDataModel.VentNum = "-";
+
+            _FanDataModel.VentStyle = "-";
+            _FanDataModel.VentConnect = "-";
+            _FanDataModel.VentLev = "-";
+            _FanDataModel.EleLev = "-";
+            _FanDataModel.FanModelName = "-";
+            _FanDataModel.MountType = "-";
+            _FanDataModel.VibrationMode = "-";
+            switch(scenario)
+            {
+                case "消防排烟兼平时排风":
+                case "消防补风兼平时送风":
+                    {
+                        _FanDataModel.Name = "平时";
+                        _FanDataModel.Use = "平时排风";
+                    }
+                    break;
+                case "平时送风兼事故补风":
+                case "平时排风兼事故排风":
+                    {
+                        _FanDataModel.Name = "兼用";
+                        _FanDataModel.Use = "平时排风";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return _FanDataModel;
         }
     }
 }

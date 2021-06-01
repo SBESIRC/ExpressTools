@@ -10,8 +10,22 @@ namespace TianHua.FanSelection.ExcelExport
 {
     public abstract class BaseExportWorker
     {
-        public static BaseExportWorker Create(ThFanVolumeModel model)
+        public static BaseExportWorker Create(IFanModel model)
         {
+            if (model is ExhaustCalcModel exm)
+            {
+                switch (exm.PlumeSelection)
+                {
+                    case "轴对称型":
+                        return new ExhaustAxisymmetricExportWorker();
+                    case "阳台溢出型":
+                        return new ExhaustBalconyExportWorker();
+                    case "窗口型":
+                        return new ExhaustWindowExportWorker();
+                    default:
+                        break;
+                }
+            }
             if (model is FireFrontModel fm)
             {
                 foreach (var floor in fm.FrontRoomDoors2)
@@ -112,7 +126,7 @@ namespace TianHua.FanSelection.ExcelExport
             return string.Empty;
         }
 
-        public abstract void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile);
+        public abstract void ExportToExcel(IFanModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelRangeCopyOperator excelfile);
 
         private void CleanZeroItem(Dictionary<string, List<ThEvacuationDoor>> floors)
         {

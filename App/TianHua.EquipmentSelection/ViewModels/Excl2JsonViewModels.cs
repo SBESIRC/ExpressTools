@@ -268,6 +268,50 @@ namespace TianHua.FanSelection
         /// 电机效率
         /// </summary>
         public string MotorEfficiency { get; set; }
+		
+
+        /// <summary>
+        /// 离心II高速
+        /// </summary>
+        public string Centrifuge2HighSpeed { get; set; }
+
+        /// <summary>
+        /// 离心II低速
+        /// </summary>
+        public string Centrifuge2LowSpeed { get; set; }
+
+
+        /// <summary>
+        /// 离心IV高速
+        /// </summary>
+        public string Centrifuge4HighSpeed { get; set; }
+
+        /// <summary>
+        /// 离心IV低速
+        /// </summary>
+        public string Centrifuge4LowSpeed { get; set; }
+
+
+        /// <summary>
+        /// 轴流II高速
+        /// </summary>
+        public string Axial2HighSpeed { get; set; }
+
+        /// <summary>
+        /// 轴流II低速
+        /// </summary>
+        public string Axial2LowSpeed { get; set; }
+
+
+        /// <summary>
+        /// 轴流IV高速
+        /// </summary>
+        public string Axial4HighSpeed { get; set; }
+
+        /// <summary>
+        /// 轴流IV低速
+        /// </summary>
+        public string Axial4LowSpeed { get; set; }
 
     }
 

@@ -29,10 +29,15 @@ namespace ThSitePlan
         }
 
         public static ObjectIdCollection CopyWithMove(this Database database,
-            ObjectIdCollection objs, 
+            ObjectIdCollection objs,
             Matrix3d displacement,
             bool bErase = false)
         {
+            if (objs == null || objs.Count <= 0)
+            {
+                return null;
+            }
+
             using (AcadDatabase acadDatabase = AcadDatabase.Use(database))
             {
                 var clones = new ObjectIdCollection();
@@ -88,12 +93,15 @@ namespace ThSitePlan
                     {
                         var lockedLayers = acdb.Layers.Where(o => o.IsLocked).Select(o => o.ObjectId);
                         ObjectId[] ids = e.AddedObjects.GetObjectIds();
-                        for (int i = 0; i < ids.Length; i++)
+                        if (ids.Length > 0)
                         {
-                            var entity = acdb.Element<Entity>(ids[i]);
-                            if (lockedLayers.Contains(entity.LayerId))
+                            for (int i = 0; i < ids.Length; i++)
                             {
-                                e.Remove(i);
+                                var entity = acdb.Element<Entity>(ids[i]);
+                                if (lockedLayers.Contains(entity.LayerId))
+                                {
+                                    e.Remove(i);
+                                }
                             }
                         }
                     }
@@ -108,9 +116,11 @@ namespace ThSitePlan
                 {
                     // Crossing选择会选择到用来界定选择区域的框线
                     // 这里需要在选择结果中过滤掉框线自己
-                    var objs = new ObjectIdCollection(psr.Value.GetObjectIds()
-                        .Where(o => o != frame).ToArray());
-                    acadDatabase.Database.CopyWithMove(objs, Matrix3d.Displacement(offset));
+                    var filteredIds = psr.Value?.GetObjectIds()?.Where(o => o != frame);
+                    if (filteredIds.Count() > 0)
+                    {
+                        acadDatabase.Database.CopyWithMove(new ObjectIdCollection(filteredIds.ToArray()), Matrix3d.Displacement(offset));
+                    }
                 }
             }
         }

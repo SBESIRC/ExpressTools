@@ -124,6 +124,9 @@
   <data name="_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="一键彩总配置" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\一键彩总配置.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="删除" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\删除.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -135,6 +138,9 @@
   </data>
   <data name="拍平" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\拍平.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="测试文档01" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\测试文档01.json;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="点击_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\点击_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

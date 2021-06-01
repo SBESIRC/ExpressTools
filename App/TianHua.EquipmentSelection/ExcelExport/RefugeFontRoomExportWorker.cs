@@ -10,7 +10,7 @@ namespace TianHua.FanSelection.ExcelExport
 {
     public class RefugeFontRoomExportWorker : BaseExportWorker
     {
-        public override void ExportToExcel(ThFanVolumeModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelFile excelfile)
+        public override void ExportToExcel(IFanModel fanmodel, Worksheet setsheet, Worksheet targetsheet, FanDataModel fandatamodel, ExcelRangeCopyOperator copyoperator)
         {
             RefugeFontRoomModel refugeFontRoomModel = fanmodel as RefugeFontRoomModel;
             setsheet.SetCellValue("D2", fandatamodel.FanNum);
@@ -35,7 +35,7 @@ namespace TianHua.FanSelection.ExcelExport
                     rowNo += 3;
                 }
             }
-            excelfile.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
+            copyoperator.CopyRangeToOtherSheet(setsheet, "A1:D" + (rowNo - 1).ToString(), targetsheet);
         }
     }
 }

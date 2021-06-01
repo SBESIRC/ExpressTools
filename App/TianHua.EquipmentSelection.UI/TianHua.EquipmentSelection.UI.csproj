@@ -32,8 +32,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <Import Project="..\TIANHUA.CSharp.General.targets" />
+  <Import Project="..\TIANHUA.CSharp.General.net45.targets" />
   <ItemGroup>
+    <Reference Include="Accessibility" />
     <Reference Include="DevExpress.BonusSkins.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Charts.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -43,6 +44,7 @@
     <Reference Include="DevExpress.Office.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Printing.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.RichEdit.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Spreadsheet.v17.2.Core, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v17.2.UI, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -56,9 +58,18 @@
     <Reference Include="DevExpress.XtraRichEdit.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraSpreadsheet.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v17.2, Version=17.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -71,21 +82,82 @@
     <Reference Include="TianHua.Publics.BaseCode">
       <HintPath>..\..\Externals\TianHua.Publics\TianHua.Publics.BaseCode.dll</HintPath>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockCustomCommandMapper.cs" />
-    <Compile Include="Command\ThModelBlockCommand.cs" />
+    <Compile Include="CAD\BlockCustomCommandMapper.cs" />
+    <Compile Include="CAD\ThFanModelObjectOverrule.cs" />
+    <Compile Include="CAD\ThFanModelOverruleManager.cs" />
+    <Compile Include="CAD\ThFanSelectionDbEventHandler.cs" />
+    <Compile Include="CAD\ThModelBlockCommand.cs" />
+    <Compile Include="CAD\ThModelInPlaceEditBlockCommand.cs" />
     <Compile Include="CtlAxisymmetric.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CtlAxisymmetric.Designer.cs">
       <DependentUpon>CtlAxisymmetric.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomCommandMappers.cs" />
-    <Compile Include="DataManager.cs" />
-    <Compile Include="DrawModelsInCAD.cs" />
-    <Compile Include="EquipmentSelectionApp.cs" />
-    <Compile Include="ExcelLoader.cs" />
+    <Compile Include="CtlBalconyOverFlow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlBalconyOverFlow.Designer.cs">
+      <DependentUpon>CtlBalconyOverFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlCloister.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlCloister.Designer.cs">
+      <DependentUpon>CtlCloister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlCloistersAndRooms.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlCloistersAndRooms.Designer.cs">
+      <DependentUpon>CtlCloistersAndRooms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlExhaustControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlExhaustControlBase.Designer.cs">
+      <DependentUpon>CtlExhaustControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlGarage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlGarage.Designer.cs">
+      <DependentUpon>CtlGarage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlGreaterThan6.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlGreaterThan6.Designer.cs">
+      <DependentUpon>CtlGreaterThan6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlLessThan6.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlLessThan6.Designer.cs">
+      <DependentUpon>CtlLessThan6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlSmokeExtraction.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlSmokeExtraction.Designer.cs">
+      <DependentUpon>CtlSmokeExtraction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CtlWindowOpen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CtlWindowOpen.Designer.cs">
+      <DependentUpon>CtlWindowOpen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CAD\CustomCommandMappers.cs" />
+    <Compile Include="IO\DataManager.cs" />
+    <Compile Include="CAD\DrawModelsInCAD.cs" />
+    <Compile Include="ThFanSelectionUIApp.cs" />
+    <Compile Include="IO\ExcelLoader.cs" />
     <Compile Include="fmAirVolumeCalc-Exhaust.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,8 +236,8 @@
     <Compile Include="fmSceneScreening.Designer.cs">
       <DependentUpon>fmSceneScreening.cs</DependentUpon>
     </Compile>
-    <Compile Include="ICustomCommandMapper.cs" />
-    <Compile Include="JsonExporter.cs" />
+    <Compile Include="CAD\ICustomCommandMapper.cs" />
+    <Compile Include="IO\JsonExporter.cs" />
     <Compile Include="ModelValidation.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -218,16 +290,40 @@
     <Compile Include="ThAirVolumeUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ThFanSelectionDbExtension.cs" />
-    <Compile Include="ThFanSelectionDbManager.cs" />
-    <Compile Include="ThFanSelectionDocumentExtension.cs" />
-    <Compile Include="ThFanSelectionDynBlockExtension.cs" />
-    <Compile Include="ThFanSelectionEditorExtension.cs" />
-    <Compile Include="ThFanSelectionEngine.cs" />
-    <Compile Include="ThFanSelectionGeExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDbExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDbManager.cs" />
+    <Compile Include="CAD\ThFanSelectionDocumentExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionDynBlockExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionEditorExtension.cs" />
+    <Compile Include="CAD\ThFanSelectionEngine.cs" />
+    <Compile Include="CAD\ThFanSelectionGeExtension.cs" />
     <Compile Include="ThFanSelectionUICommon.cs" />
     <Compile Include="ThFanSelectionUIUtils.cs" />
-    <Compile Include="ThFSBlockReference.cs" />
+    <Compile Include="CAD\ThFSBlockReference.cs" />
+    <EmbeddedResource Include="CtlBalconyOverFlow.resx">
+      <DependentUpon>CtlBalconyOverFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlCloister.resx">
+      <DependentUpon>CtlCloister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlCloistersAndRooms.resx">
+      <DependentUpon>CtlCloistersAndRooms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlGarage.resx">
+      <DependentUpon>CtlGarage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlGreaterThan6.resx">
+      <DependentUpon>CtlGreaterThan6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlLessThan6.resx">
+      <DependentUpon>CtlLessThan6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlSmokeExtraction.resx">
+      <DependentUpon>CtlSmokeExtraction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CtlWindowOpen.resx">
+      <DependentUpon>CtlWindowOpen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FireElevatorFrontRoom.resx">
       <DependentUpon>FireElevatorFrontRoom.cs</DependentUpon>
     </EmbeddedResource>
@@ -436,5 +532,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
