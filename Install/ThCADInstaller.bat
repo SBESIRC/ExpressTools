@@ -1,4 +1,4 @@
-   :: Install ThCADInstaller
- @ECHO OFF
- .\ThCADInstaller.msi /passive
- ECHO ON
+:: Install ThCADInstaller sliently with administrator privilege
+@ECHO OFF
+ThCADInstaller.msi /qn
+ECHO ON
