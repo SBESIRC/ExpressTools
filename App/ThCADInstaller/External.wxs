@@ -3,49 +3,6 @@
   <?include Variable.wxi ?>
   <Fragment>
     <?if $(var.Configuration) = Debug ?>
-    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
-      <?define OutputPath_R18_Debug="bin\Debug" ?>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" Guid="{DC617FC6-718C-42BE-8702-DA28E2FCFE2E}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\PdfiumViewer.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" Guid="{5DC7FBBF-113E-4AE0-A49A-8BC699E35B3F}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\YamlDotNet.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Debug" Guid="{6E5D845A-701F-43BA-8A29-796A0212587A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NLog_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NLog.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Debug" Guid="{5BD4D262-55E6-423F-9704-40FC0E66B5D4}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_SQLite_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\System.Data.SQLite.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Debug" Guid="{B08E1445-28D1-462A-8B46-A622FB1DE526}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Json_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\Newtonsoft.Json.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" Guid="{D51021CB-B3A2-47F7-8CBA-3743B99AD54E}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\RestSharp.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Debug" Guid="{A5699205-EB4D-44AB-9423-0808A5B0C00B}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetTopologySuite.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" Guid="{6983481E-0D61-45EB-827E-BC46D39A0AF9}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\NetTopologySuite.CoordinateSystems.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" Guid="{825B63C4-1C71-4529-BCB3-98C65A3CDD54}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\GeoAPI.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" Guid="{34CEE8F3-3560-4235-854C-8367028CB20A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\GeoAPI.CoordinateSystems.dll" />
-      </Component>
-
-
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Debug" Guid="{07BB85BC-ABA3-40D2-A883-23DFD6522878}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ExcelDataReader.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Debug" Guid="{17D1961C-B1E7-460D-91A6-94EB6780DD8A}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\ExcelDataReader.DataSet.dll" />
-      </Component>
-      
-      
-    </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" Guid="{8D8ABACD-B6EC-4789-BEDE-2522FA7E0B76}" Win64="yes">
@@ -78,14 +35,12 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" Guid="{62813C76-B642-4B75-9ACB-D5DD103E4BE6}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\GeoAPI.CoordinateSystems.dll" />
       </Component>
-
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Debug" Guid="{1017FD4A-7F87-45F8-88F6-1464E06610EC}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ExcelDataReader.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Debug" Guid="{1EAC766A-4E4A-4578-AB2A-13AF41A3BDA5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ExcelDataReader.DataSet.dll" />
       </Component>
-      
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R20">
       <?define OutputPath_R20_Debug="bin\Debug-NET45" ?>
@@ -119,14 +74,12 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" Guid="{849761A6-2AE9-4EF7-9AF3-DAC7FAB48AE2}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\GeoAPI.CoordinateSystems.dll" />
       </Component>
-
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Debug" Guid="{8F8EFA82-4943-4EB1-A81E-971C58746D5E}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ExcelDataReader.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Debug" Guid="{2DEB133C-7965-46D3-9488-78D31B4EF2A8}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ExcelDataReader.DataSet.dll" />
       </Component>
-      
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Debug="bin\Debug-NET46" ?>
@@ -160,55 +113,14 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" Guid="{5A9DD2F3-D349-4C5B-8E9B-A7FF08F3A09B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\GeoAPI.CoordinateSystems.dll" />
       </Component>
-
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_Debug" Guid="{05822245-6BAE-4DDA-8076-62BE5E4F2955}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ExcelDataReader_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ExcelDataReader.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_DataSet_Debug" Guid="{83F6E269-32C6-44C4-BFC5-AD4BF97644E2}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ExcelDataReader_DataSet_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ExcelDataReader.DataSet.dll" />
       </Component>
-
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
-    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18">
-      <?define OutputPath_R18_Release="bin\Release" ?>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" Guid="{4DD66C4F-4434-4485-AE54-1193BCB6D971}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\PdfiumViewer.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" Guid="{5E9E46DB-BC5D-439F-9527-0F750CB948E5}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\YamlDotNet.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Release" Guid="{F9ECA192-BF44-49BA-A881-AB2389B36928}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NLog_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NLog.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Release" Guid="{01B9C3FF-74A7-4368-A375-88C3E499E4E9}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_SQLite_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\System.Data.SQLite.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Release" Guid="{EF8C94F5-B421-44DC-B0EC-FAF749C6DA7D}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Json_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\Newtonsoft.Json.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" Guid="{20424CB6-527E-4317-8EDB-31D39E28D019}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_RestSharp_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\RestSharp.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Release" Guid="{9747D2CF-9B02-4C65-9ABC-C5D5148804BC}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetTopologySuite.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" Guid="{3D146D68-198E-441A-A90D-D79E94727893}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\NetTopologySuite.CoordinateSystems.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" Guid="{0F5AE8C2-2BFB-47DE-80AF-7FF4C3E3D2A7}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\GeoAPI.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" Guid="{61F23EBE-B5E0-4109-9425-476C1F894BBA}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\GeoAPI.CoordinateSystems.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Release" Guid="{0A1F8560-4386-491F-8416-29BF9E1B9534}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ExcelDataReader.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Release" Guid="{086C8C61-FFF6-4CDB-A4AD-353664150437}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\ExcelDataReader.DataSet.dll" />
-      </Component>
-    </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" Guid="{01E3CD30-2384-4CD3-A907-955F108CA7D3}" Win64="yes">
@@ -280,14 +192,12 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" Guid="{BD71744B-403A-426E-AA1F-818158A78F0B}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\GeoAPI.CoordinateSystems.dll" />
       </Component>
-
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Release" Guid="{F1CD1E49-1312-4EF0-8FB1-1004765E42F9}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ExcelDataReader.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Release" Guid="{EEFC6684-D4AC-4A51-A887-1907F8AFC594}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ExcelDataReader.DataSet.dll" />
       </Component>
-
     </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R22">
       <?define OutputPath_R22_Release="bin\Release-NET46" ?>
@@ -333,102 +243,78 @@
   <Fragment>
     <ComponentGroup Id="ProductComponentsAppExternal">
       <?if $(var.Configuration) = Debug ?>
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Debug" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_DataSet_Debug" />
       <?elseif $(var.Configuration) = Release ?>
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_PdfiumViewer_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_PdfiumViewer_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_YamlDotNet_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_YamlDotNet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NLog_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NLog_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_SQLite_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_SQLite_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Json_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Json_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_RestSharp_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_NTS_CS_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_GeoAPI_CS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_NTS_CS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_GeoAPI_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_RestSharp_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_NTS_CS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_GeoAPI_CS_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_PdfiumViewer_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_YamlDotNet_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NLog_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_SQLite_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Json_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_RestSharp_Release" />
+      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_RestSharp_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_NTS_CS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_GeoAPI_CS_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_ExcelDataReader_DataSet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ExcelDataReader_DataSet_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ExcelDataReader_DataSet_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ExcelDataReader_DataSet_Release" />
       <?endif?>
     </ComponentGroup>

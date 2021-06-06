@@ -3,12 +3,6 @@
   <?include Variable.wxi ?>
   <Fragment>
     <?if $(var.Configuration) = Debug ?>
-    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18_Language">
-      <?define OutputPath_R18_Debug="bin\Debug" ?>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" Guid="{749DB047-7F28-465E-A786-2418C89A82C8}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Debug)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
-      </Component>
-    </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Language">
       <?define OutputPath_R19_Debug="bin\Debug-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
@@ -22,12 +16,6 @@
       </Component>
     </DirectoryRef>
     <?elseif $(var.Configuration) = Release ?>
-    <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R18_Language">
-      <?define OutputPath_R18_Release="bin\Release" ?>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" Guid="{9AF97F21-056A-4473-BF35-EF1851A987DA}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R18_Release)\$(var.LanuageIdentifier)\NetSparkle.resources.dll" />
-      </Component>
-    </DirectoryRef>
     <DirectoryRef Id="DIR_Autoloader_Contents_App_Win64_R19_Language">
       <?define OutputPath_R19_Release="bin\Release-NET40" ?>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" Guid="{64750C2D-B1F7-43C6-B269-521D653B02FE}" Win64="yes">
@@ -45,11 +33,9 @@
   <Fragment>
     <ComponentGroup Id="ProductComponentsAppLanguage">
       <?if $(var.Configuration) = Debug ?>
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Debug" />
       <?elseif $(var.Configuration) = Release ?>
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R18_Language_NetSparkle_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Language_NetSparkle_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Language_NetSparkle_Release" />
       <?endif?>
