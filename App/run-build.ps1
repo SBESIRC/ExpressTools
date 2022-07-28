@@ -36,13 +36,6 @@ Task Compile.Assembly.R18.Structure -Depends Requires.MSBuild {
     }
 }
 
-Task Compile.Assembly.R18.SitePlan -Depends Requires.MSBuild {
-    exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration=$buildType /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration=$buildType /t:rebuild
-    }
-}
-
 Task Compile.Assembly.R18.WSS -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\$buildType\",IntermediateOutputPath="..\build\obj\$buildType\" ".\TianHuaCAD.WSS.sln" /p:Configuration=$buildType /t:restore
@@ -64,7 +57,7 @@ Task Compile.Resource.R18 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R18 -Depends Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.SitePlan, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 
+Task Build.Assembly.R18 -Depends Compile.Assembly.R18.Common, Compile.Assembly.R18.Structure, Compile.Assembly.R18.WSS, Compile.Assembly.R18.HAVC, Compile.Resource.R18 
 {
 }
 
@@ -80,13 +73,6 @@ Task Compile.Assembly.R19.Structure -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
-    }
-}
-
-Task Compile.Assembly.R19.SitePlan -Depends Requires.MSBuild {
-    exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET40" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET40\",IntermediateOutputPath="..\build\obj\${buildType}-NET40\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET40" /t:rebuild
     }
 }
 
@@ -111,7 +97,7 @@ Task Compile.Resource.R19 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R19 -Depends Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.SitePlan, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 
+Task Build.Assembly.R19 -Depends Compile.Assembly.R19.Common, Compile.Assembly.R19.Structure, Compile.Assembly.R19.WSS, Compile.Assembly.R19.HAVC, Compile.Resource.R19 
 {
     #
 }
@@ -128,13 +114,6 @@ Task Compile.Assembly.R20.Structure -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
-    }
-}
-
-Task Compile.Assembly.R20.SitePlan -Depends Requires.MSBuild {
-    exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET45" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET45\",IntermediateOutputPath="..\build\obj\${buildType}-NET45\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET45" /t:rebuild
     }
 }
 
@@ -159,7 +138,7 @@ Task Compile.Resource.R20 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R20 -Depends Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.SitePlan, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 
+Task Build.Assembly.R20 -Depends Compile.Assembly.R20.Common, Compile.Assembly.R20.Structure, Compile.Assembly.R20.WSS, Compile.Assembly.R20.HAVC, Compile.Resource.R20 
 {
     #
 }
@@ -176,13 +155,6 @@ Task Compile.Assembly.R22.Structure -Depends Requires.MSBuild {
     exec {
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:restore
         & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.Structure.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
-    }
-}
-
-Task Compile.Assembly.R22.SitePlan -Depends Requires.MSBuild {
-    exec {
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET46" /t:restore
-        & $msbuildExe /verbosity:minimal /property:OutDir="..\build\bin\${buildType}-NET46\",IntermediateOutputPath="..\build\obj\${buildType}-NET46\" ".\TianHuaCAD.SitePlan.sln" /p:Configuration="${buildType}-NET46" /t:rebuild
     }
 }
 
@@ -207,7 +179,7 @@ Task Compile.Resource.R22 -Depends Requires.MSBuild {
     }
 }
 
-Task Build.Assembly.R22 -Depends Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.SitePlan, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 
+Task Build.Assembly.R22 -Depends Compile.Assembly.R22.Common, Compile.Assembly.R22.Structure, Compile.Assembly.R22.WSS, Compile.Assembly.R22.HAVC, Compile.Resource.R22 
 {
     #
 }

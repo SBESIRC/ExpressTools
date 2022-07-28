@@ -25,6 +25,4 @@
   <?define Dotfuscated = "." ?>
   <!-- DevExpress version suffix -->
   <?define DevExpressVersionSuffix = "v17.2" ?>
-  <!-- Super Boundary path -->
-  <?define SuperBoundaryPath = "$(var.ProjectDir)\..\..\Externals\SuperBoundary" ?>
 </Include>
