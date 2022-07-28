@@ -69,15 +69,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Debug" Guid="{16424CE9-8087-4B0D-A5B8-8F82111FAD28}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCADCore_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThCADCore.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" Guid="{547F2FC7-AACA-4863-9418-6EC858FE0140}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" Guid="{FF7136C1-4161-48ED-BD53-AD73F80DA6AE}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R19_Debug)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" Guid="{2F6A316B-2806-45EA-A703-A14DD0EB7C74}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\ThSitePlan.UI.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Debug" Guid="{FBF585A6-BB9E-409D-8154-87DEF3D3260D}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAlias_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Debug)\TianHua.CAD.QuickCmd.dll" />
       </Component>
@@ -151,15 +142,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Debug" Guid="{17E5EDF2-3765-48F4-9367-8BFB13393CB5}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCADCore_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThCADCore.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" Guid="{C273137C-1706-4ABF-AC39-61AE0D766096}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" Guid="{C8E4BE04-9CF6-4B50-BB1F-455B2A255B80}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R20_Debug)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" Guid="{F7763B04-EAE6-45B1-BF41-7D922A639FD0}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\ThSitePlan.UI.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Debug" Guid="{72305733-C5B3-4A51-A503-68B512A9A883}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAlias_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Debug)\TianHua.CAD.QuickCmd.dll" />
       </Component>
@@ -229,15 +211,6 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Debug" Guid="{9A3E83F5-9831-4679-A70A-21E3650B7199}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCADCore_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThCADCore.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" Guid="{C4D27322-3926-4ACA-9CEF-16439C611547}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" Guid="{6D5B7C1B-4DDD-494C-985E-44BBAE28B927}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R22_Debug)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" Guid="{ED468608-CB90-4BC1-B01A-0DD8809CA2F2}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\ThSitePlan.UI.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Debug" Guid="{0AD053BC-A68D-425F-89F8-C98861BA67E0}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAlias_Debug" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Debug)\TianHua.CAD.QuickCmd.dll" />
@@ -316,15 +289,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Release" Guid="{6D011707-A123-4EAD-B47E-9FCC938F6D17}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThCADCore_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThCADCore.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" Guid="{5E7BA034-DA51-4F19-B626-CB8376E90862}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" Guid="{1F911049-C425-4D9E-A10F-674E3175DDC1}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R19_Release)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" Guid="{F6B33512-2DF0-4D84-9C09-21FB269176AD}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\ThSitePlan.UI.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Release" Guid="{016ECBB4-ADEC-442F-9A5A-0D2B7C86D546}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R19_ThAlias_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R19_Release)\TianHua.CAD.QuickCmd.dll" />
       </Component>
@@ -397,15 +361,6 @@
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Release" Guid="{8A5C572B-D4A2-49E4-8B3C-B0D52B8B445F}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThCADCore_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThCADCore.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" Guid="{425D41E9-0A5D-479D-A0C0-462E3A41706B}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" Guid="{59202C7C-C5A9-42CE-8056-511ADE962A1D}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R20_Release)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" Guid="{BFA2E597-FAD3-4968-A2E3-76B98105DD14}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\ThSitePlan.UI.dll" />
       </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Release" Guid="{E7A26700-1670-4012-9272-4B24EB124868}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R20_ThAlias_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R20_Release)\TianHua.CAD.QuickCmd.dll" />
@@ -480,15 +435,6 @@
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Release" Guid="{C2FE326B-D7A8-4E9E-B331-0ECB90B824BB}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThCADCore_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThCADCore.dll" />
       </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" Guid="{0DE09F86-A533-436F-A9EF-34EEDE85FF13}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThSitePlan.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" Guid="{C7738688-9E39-45A4-BC9F-4469C873AF3F}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_Obj_R22_Release)\Interop.Photoshop.dll" />
-      </Component>
-      <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" Guid="{AFB55F16-A167-4792-B0B2-50C2AFC1BDAF}" Win64="yes">
-        <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\ThSitePlan.UI.dll" />
-      </Component>
       <Component Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Release" Guid="{CFE48E02-AFFF-4873-8D03-BD760D12CAD3}" Win64="yes">
         <File Id="FILE_Autoloader_Contents_App_Win64_R22_ThAlias_Release" KeyPath="yes" Source="$(var.OutputRootPath)\$(var.OutputPath_R22_Release)\TianHua.CAD.QuickCmd.dll" />
       </Component>
@@ -525,9 +471,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThWSS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThBeam_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipment_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipmentUI_Debug" />
@@ -551,9 +494,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThWSS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThBeam_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipment_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipmentUI_Debug" />
@@ -577,9 +517,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThWSS_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThBeam_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Debug" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEquipment_Debug" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEquipmentUI_Debug" />
@@ -605,9 +542,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThWSS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThBeam_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThCADCore_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlan_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThSitePlanUI_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipment_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R19_ThEquipmentUI_Release" />
@@ -631,9 +565,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThWSS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThBeam_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThCADCore_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlan_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThSitePlanUI_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipment_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R20_ThEquipmentUI_Release" />
@@ -657,9 +588,6 @@
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThWSS_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThBeam_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThCADCore_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlan_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThSitePlanUI_Release" />
-      <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_Photoshop_Interop_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThAlias_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEquipment_Release" />
       <ComponentRef Id="CMP_Autoloader_Contents_App_Win64_R22_ThEquipmentUI_Release" />  
