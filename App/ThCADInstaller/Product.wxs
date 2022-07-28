@@ -17,7 +17,6 @@
             <ComponentGroupRef Id="ProductComponentsAppNative64" />
             <ComponentGroupRef Id="ProductComponentsAppExternal" />
             <ComponentGroupRef Id="ProductComponentsAppInternal" />
-            <ComponentGroupRef Id="ProductComponentsAppSuperBoundary" />
             <ComponentGroupRef Id="ProductComponentsAppLanguage" />
             <ComponentGroupRef Id="ProductComponentsDevExpress" />
             <ComponentGroupRef Id="ProductComponentsOffice" />
@@ -35,10 +34,6 @@
                         <Directory Id="INSTALLFOLDER" Name="ThCADPlugin.bundle">
                             <Directory Id="DIR_Autoloader_Contents" Name="Contents">
                                 <Directory Id="DIR_Autoloader_Contents_App_Win64" Name="Win64">
-                                    <Directory Id="DIR_Autoloader_Contents_App_Win64_R18" Name="2012">
-                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Native" Name="x64" />
-                                        <Directory Id="DIR_Autoloader_Contents_App_Win64_R18_Language" Name="zh-CN" />
-                                    </Directory>
                                     <Directory Id="DIR_Autoloader_Contents_App_Win64_R19" Name="2014">
                                         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Native" Name="x64" />
                                         <Directory Id="DIR_Autoloader_Contents_App_Win64_R19_Language" Name="zh-CN" />
